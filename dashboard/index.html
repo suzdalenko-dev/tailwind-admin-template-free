@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-50">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML CSS FREE TEMPLATE Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta name="description" content="" />
+    <meta name="author" content="Alexey Suzdalenko" />
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+
+<body class="flex min-h-screen text-gray-800 overflow-x-hidden">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="w-64 bg-white shadow-md p-4 fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform duration-300">
+        <a href="/dashboard" class="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-md">🏠 Dashboard</a>
+        <!-- <a href="#" class="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-md">📋 Simple Item</a>>  -->
+        <nav class="space-y-2" id="menuContainer">
+
+        </nav>
+    </aside>
+
+    <!-- Main content 
+    <input type="text" placeholder="Search..." class="border px-3 py-1 rounded-md w-full max-w-md md:hidden" /> 
+    -->
+    <div id="content" class="flex-1 flex flex-col transition-transform duration-300">
+        <!-- Top bar -->
+        <header class="bg-white shadow pl-4 pr-4 p-2 flex items-center justify-between">
+            <button id="menuButton" onclick="toggleSidebar('userClick')" class="text-xl text-gray-700">☰</button>
+            <div class="text-xl text-gray-700" id="slugTitle"></div>
+            <div class="flex items-center gap-3">
+                <span class="font-medium">Alexey Suzdalenko</span>
+                <img src="https://avatars.githubusercontent.com/u/120424504?v=4" class="w-8 h-8 rounded-full" />
+            </div>
+        </header>
+        <!-- Dashboard content -->
+        <main class="p-4 bg-white" id="htmlContent"></main>
+    </div>
+
+    <!-- JS -->
+    <script>
+     
+    </script>
+    <script src="/assets/js/0.config.js"></script>
+    <script src="/assets/js/1.router.js"></script>
+    <script src="/assets/js/2.menu.js"></script>
+    <script src="/assets/js/3.hamburger.js"></script>
+
+</body>
+
+</html>

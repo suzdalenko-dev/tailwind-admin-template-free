@@ -1,0 +1,83 @@
+   /* Personalización del scroll */
+   #sidebar {
+    overflow-y: auto;
+    /* activa el scroll vertical */
+}
+
+/* Para Chrome, Safari, Edge, Opera */
+#sidebar::-webkit-scrollbar {
+    width: 1px;
+    /* anchura del scrollbar */
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: transparent;
+    /* fondo del scrollbar */
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background-color: #fafafa;
+    /* color azul personalizado */
+    border-radius: 1px;
+    /* bordes redondeados */
+}
+
+/* Para Firefox */
+#sidebar {
+    scrollbar-width: thin;
+    /* scrollbar fino */
+    scrollbar-color: #fafafa transparent;
+    /* scrollbar color y fondo */
+}
+
+body {
+    font-family:  'Outfit', sans-serif, monospace;
+    font-size: 15px;
+    color: black
+}
+.b-top-page{
+    background-color: #E5E5E5;
+    color: black;
+    font-size: 13px;
+    padding: 2px;
+    border-radius: 4px;
+}
+.b-top-page:hover{
+    background-color: #3336FF;
+    color: aliceblue;
+    cursor: pointer;
+}
+input:hover{
+    cursor: pointer;
+}
+.hovered:hover{
+    cursor:pointer;
+}
+ /* Scroll fino en navegadores modernos */
+body {
+    scrollbar-width: thin;              /* Firefox */
+    scrollbar-color: #ccc transparent;  /* Firefox */
+  }
+
+body::-webkit-scrollbar {
+    width: 1px;                         /* Ancho fino para scroll vertical */
+  }
+
+body::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 2px;
+  }
+
+body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+.spanButton{
+    background: rgb(244, 244, 244);
+    padding: 3px;
+}
+td, th, tr{
+    font-size: 11px!important;
+}
+.twcolor{
+    background:#4F46E5; color: white
+}

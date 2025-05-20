@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calendario - Órdenes de Fabricación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans p-6">
+
+  <!-- Navegación -->
+  <div class="max-w-6xl mx-auto mb-4 flex justify-between items-center">
+    <button onclick="cambiarMes(-1)" class="text-xl bg-white px-3 py-1 rounded shadow hover:bg-gray-200">←</button>
+    <h1 id="tituloMes" class="text-2xl font-bold text-center">📅 Calendario</h1>
+    <button onclick="cambiarMes(1)" class="text-xl bg-white px-3 py-1 rounded shadow hover:bg-gray-200">→</button>
+  </div>
+
+  <!-- Calendario -->
+  <div id="calendario" class="grid grid-cols-7 gap-2 text-sm w-full max-w-6xl mx-auto"></div>
+
+  <!-- Pantalla de Detalles de Producción -->
+  <div id="detalleProduccion" class="fixed inset-0 bg-white z-50 overflow-y-auto p-6 hidden">
+    <button onclick="cerrarDetalle()" class="mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded">← Volver</button>
+    <h2 class="text-2xl font-bold mb-6">Detalles de Producción</h2>
+
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-lg font-semibold mb-2">🧾 Materiales Pedidos</h3>
+        <table class="w-full table-auto border border-gray-300 text-sm">
+          <thead><tr class="bg-gray-100"><th>Material</th><th>Cantidad</th><th>Unidad</th></tr></thead>
+          <tbody id="tablaPedidos"></tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-2">🏭 Materiales Producidos</h3>
+        <table class="w-full table-auto border border-gray-300 text-sm">
+          <thead><tr class="bg-gray-100"><th>Producto</th><th>Cantidad</th><th>Unidad</th></tr></thead>
+          <tbody id="tablaProducidos"></tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-2">🔥 Materiales Consumidos</h3>
+        <table class="w-full table-auto border border-gray-300 text-sm">
+          <thead><tr class="bg-gray-100"><th>Insumo</th><th>Cantidad</th><th>Unidad</th></tr></thead>
+          <tbody id="tablaConsumidos"></tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-2">🧱 Partes de Obra</h3>
+        <table class="w-full table-auto border border-gray-300 text-sm">
+          <thead><tr class="bg-gray-100"><th>Área</th><th>Responsable</th><th>Observación</th></tr></thead>
+          <tbody id="tablaPartes"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script>
+    const ordenesFabricacion = [
+      { fecha: '2025-05-03', nombre: 'Lote A - Yogurt', estado: 'En Proceso' },
+      { fecha: '2025-05-07', nombre: 'Lote B - Leche', estado: 'Completado' },
+      { fecha: '2025-05-15', nombre: 'Lote C - Queso', estado: 'Pendiente' },
+      { fecha: '2025-05-15', nombre: 'Lote F - Queso', estado: 'Pendiente' },
+      { fecha: '2025-05-15', nombre: 'Lote D - Crema', estado: 'En Proceso' },
+      { fecha: '2025-05-23', nombre: 'Lote E - Flan', estado: 'Cancelado' }
+    ];
+
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    let fechaActual = new Date();
+
+    function cambiarMes(delta) {
+      fechaActual.setMonth(fechaActual.getMonth() + delta);
+      renderCalendario(ordenesFabricacion, fechaActual.getFullYear(), fechaActual.getMonth());
+    }
+
+    function renderCalendario(ordenes, year, month) {
+      const titulo = document.getElementById('tituloMes');
+      titulo.textContent = `📅 Calendario de Órdenes de Fabricación - ${meses[month]} ${year}`;
+
+      const diasSemana = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+      const calendario = document.getElementById('calendario');
+      calendario.innerHTML = '';
+
+      diasSemana.forEach(dia => {
+        const cell = document.createElement('div');
+        cell.textContent = dia;
+        cell.className = 'font-bold text-center text-gray-700';
+        calendario.appendChild(cell);
+      });
+
+      let primerDia = new Date(year, month, 1).getDay();
+      primerDia = (primerDia === 0) ? 6 : primerDia - 1;
+      const diasEnMes = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < primerDia; i++) {
+        calendario.appendChild(document.createElement('div'));
+      }
+
+      for (let dia = 1; dia <= diasEnMes; dia++) {
+        const fechaStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+        const ordenesDelDia = ordenes.filter(o => o.fecha === fechaStr);
+
+        const cell = document.createElement('div');
+        cell.className = 'border p-2 rounded shadow text-xs h-32 overflow-y-auto bg-white hover:bg-gray-50 transition';
+        cell.innerHTML = `<div class="text-center font-semibold mb-1">${dia}</div>`;
+
+        ordenesDelDia.forEach(ord => {
+          const estadoColor = {
+            'En Proceso': 'bg-yellow-200',
+            'Completado': 'bg-green-200',
+            'Pendiente': 'bg-blue-200',
+            'Cancelado': 'bg-red-200'
+          }[ord.estado] || 'bg-gray-200';
+
+          const item = document.createElement('div');
+          item.className = `p-1 rounded mb-1 ${estadoColor}`;
+          item.innerHTML = `<strong class="cursor-pointer underline text-blue-800" onclick="abrirDetalle('${ord.nombre}')">${ord.nombre}</strong><br><span class="text-gray-700">${ord.estado}</span>`;
+          cell.appendChild(item);
+        });
+
+        calendario.appendChild(cell);
+      }
+    }
+
+    function abrirDetalle(nombreLote) {
+      document.getElementById('detalleProduccion').classList.remove('hidden');
+
+      // Simular datos de ejemplo
+      const pedidos = [
+        ['Papel film', '120', 'm'],
+        ['Caja cartón', '40', 'uds']
+      ];
+      const producidos = [
+        [nombreLote, '500', 'kg']
+      ];
+      const consumidos = [
+        ['Leche cruda', '480', 'L'],
+        ['Azúcar', '30', 'kg']
+      ];
+      const partes = [
+        ['Envasado', 'Carlos M.', 'Todo correcto'],
+        ['Control calidad', 'Laura P.', 'Producto aprobado']
+      ];
+
+      const renderTabla = (id, data) => {
+        const cuerpo = document.getElementById(id);
+        cuerpo.innerHTML = '';
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement('td');
+            td.className = 'border px-2 py-1';
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          cuerpo.appendChild(tr);
+        });
+      };
+
+      renderTabla('tablaPedidos', pedidos);
+      renderTabla('tablaProducidos', producidos);
+      renderTabla('tablaConsumidos', consumidos);
+      renderTabla('tablaPartes', partes);
+    }
+
+    function cerrarDetalle() {
+      document.getElementById('detalleProduccion').classList.add('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      renderCalendario(ordenesFabricacion, fechaActual.getFullYear(), fechaActual.getMonth());
+    });
+  </script>
+
+</body>
+</html>
