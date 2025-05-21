@@ -10,7 +10,7 @@ let ordenesFabricacion = [
     { fecha: '2025-04-10', nombre: 'Lote H - Crema Batida', estado: 'Completado' },
     { fecha: '2025-04-22', nombre: 'Lote I - Postres', estado: 'Cancelado' }
 ];
-
+let miX = [];
 let mesesOF = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 let fechaActualOF = new Date();
 
@@ -107,11 +107,6 @@ function getOfState(x){
 
 function ordenesFabricacionInit() {
     document.title = "ordenesFabricacionInit";
-    document.getElementById('slugTitle').innerHTML = `<span class="b-top-page">1</span>
-                                                    <span class="b-top-page">2</span>
-                                                    <span class="b-top-page">3</span>
-                                                    <span class="b-top-page">4</span>`;
-
     document.getElementById('slugTitle').innerHTML = '';
 
     renderCalendario(ordenesFabricacion, fechaActualOF.getFullYear(), fechaActualOF.getMonth());
@@ -124,8 +119,11 @@ function ordenesFabricacionInit() {
 /* 2. SECOND - SHOW PRODUCTION ORDER DETAIL */
 
 async function showCustomOf(ofId){
-    let miX = await fetch(HTTP_HOST+'calidad/get/of/'+ofId+'/of_trazabilidad/');
-        miX = await miX.json();
+    document.getElementById('slugTitle').innerHTML = `<span class="b-top-page" onclick="createExcel()">📥 Excel </span>`;
+
+    miX = await fetch(HTTP_HOST+'calidad/get/of/'+ofId+'/of_trazabilidad/');
+    miX = await miX.json();
+        console.log(miX)
     let htmlOfsTop = '';
     if(miX.data[0]['OF']){
         miX.data[0]['OF'].map(of => {
@@ -195,7 +193,7 @@ async function showCustomOf(ofId){
    
 
     let ofDetailHtml = `
-        <h2 class="text-xl mb-6">Detalles de Producción ID ${ofId}</h2>
+        <h2 class="text-xl mb-6">Trazabilidad de Producción OF id=${ofId} 
         <div class="space-y-6">
             <div>
                 <h3 class="text-sm mb-2">OF</h3>
@@ -293,4 +291,85 @@ async function showCustomOf(ofId){
 
 
 
-/* 3. SHOW INSPECTION PART */
+/* 3. CREATE EXCEL FUNCTION */
+ 
+
+
+function createExcel() {
+  const raw = miX.data[0];
+  const sheetData = [];
+
+  // Agrega sección con título y tabla
+  function addSection(title, dataArray) {
+    if (sheetData.length > 0) sheetData.push([]); // línea en blanco
+    sheetData.push([title.toUpperCase()]);
+    if (dataArray.length === 0) return;
+    sheetData.push(Object.keys(dataArray[0]));
+    dataArray.forEach(obj => {
+      sheetData.push(Object.values(obj));
+    });
+  }
+
+  // Sección OF
+  const of = raw.OF.map(item => ({
+    "Id": item.ORDEN_DE_FABRICACION,
+    "Fecha Inicio": item.FECHA_INI_FABRI_PREVISTA,
+    "Fecha Entrega": item.FECHA_ENTREGA_PREVISTA,
+    "Código": item.CODIGO_ARTICULO,
+    "Nombre": item.NOMBRE_ARTICULO.trim(),
+    "Cantidad": `${item.CANTIDAD_A_FABRICAR} ${item.CODIGO_PRESENTACION}`,
+    "Estado": item.SITUACION_OF === 'C' ? 'Cerrada' : item.SITUACION_OF
+  }));
+  addSection("OF", of);
+
+  // Sección Materiales pedidos
+  const pedidos = raw.MATERIAL_PEDIDO.map(item => ({
+    "Código": item.CODIGO_COMPONENTE,
+    "Nombre": item.COMPO_DESC_COMERCIAL.trim(),
+    "Cantidad": `${item.CANTIDAD_TECNICA} ${item.CODIGO_PRESENTACION_COMPO}`
+  }));
+  addSection("Materiales pedidos", pedidos);
+
+  // Sección Materiales consumidos
+  const consumidos = raw.MATERIAL_CONSUMIDO.map(item => ({
+    "Fecha creación": item.FECHA_CREACION,
+    "Fecha caducidad": item.FECHA_CADUCIDAD,
+    "Código": item.CODIGO_ARTICULO_CONSUMIDO,
+    "Nombre": item.DESCRIP_CONSUMIDO.trim(),
+    "Lote": item.NUMERO_LOTE_INT_CONSUMIDO,
+    "Cantidad": `${item.CANTIDAD_UNIDAD1} ${item.CODIGO_PRESENTACION}`
+  }));
+  addSection("Materiales consumidos", consumidos);
+
+  // Sección Materiales producidos
+  const producidos = raw.MATERIAL_PRODUCIDO.map(item => ({
+    "Fecha creación": item.FECHA_CREACION,
+    "Fecha caducidad": item.FECHA_CADUCIDAD,
+    "Código": item.CODIGO_ARTICULO,
+    "Nombre": item.DESCRIP_COMERCIAL.trim(),
+    "Lote": item.NUMERO_LOTE_INT,
+    "Cantidad": `${item.CANTIDAD_UNIDAD1} ${item.CODIGO_PRESENTACION}`,
+    "Paleta": item.NUMERO_PALET
+  }));
+  addSection("Materiales producidos", producidos);
+
+  // Sección Parte inspección
+  const inspeccion = raw.PARTE_INSPECCION.map(item => ({
+    "OF id": item.ORDEN_FABRICACION,
+    "Parte": item.NUMERO_PARTE,
+    "Código": item.CODIGO_ARTICULO,
+    "Fecha entrada": item.FECHA_ENTRADA,
+    "Fecha verificación": item.FECHA_VERIFICACION,
+    "Cantidad aceptada": `${item.CANT_ACEPTADA} ${item.CODIGO_PRESENTACION}`,
+    "Cantidad recibida": `${item.CANT_RECIBIDA} ${item.CODIGO_PRESENTACION}`,
+    "Usuario": item.CODIGO_VERIFICADOR
+  }));
+  addSection("Parte inspección", inspeccion);
+
+  // Crear y exportar Excel
+  const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Trazabilidad");
+
+  XLSX.writeFile(workbook, `Trazabilidad_OF_${raw.OF[0].ORDEN_DE_FABRICACION}.xlsx`);
+}
