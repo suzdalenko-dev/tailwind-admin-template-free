@@ -31,7 +31,7 @@ for url in PIB:
         print("Error en la solicitud:", response.status_code)
     i += 1
 
-with open(f"world-bank.api/pib.json", 'w', encoding='utf-8') as f:
+with open(f"storage/world-bank.api/pib.json", 'w', encoding='utf-8') as f:
     json.dump(Out, f, ensure_ascii=False, indent=4)
 
 print(Out[0])
