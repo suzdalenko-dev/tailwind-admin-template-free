@@ -1,2 +1,2 @@
-var HTTP_HOST = window.location.host.includes("127.0.0.1:3000") ? 'http://192.168.1.22/' : window.location.origin+'/';
+var HTTP_HOST = window.location.host.includes("127.0.0.1:3000") ? 'http://127.0.0.1:8000/' : window.location.origin+'/api/';
 

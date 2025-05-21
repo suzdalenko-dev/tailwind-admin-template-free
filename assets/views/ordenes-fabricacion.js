@@ -91,7 +91,7 @@ async function getMonthBounds() {
     lastDayMonth  = formatDateOF(lastDayMonth);
     console.log([firstDayMonth, lastDayMonth])
 
-    let miX = await fetch('http://192.168.1.22/api/miapp/get/of/calendar/ofs_list_calendar/?from='+firstDayMonth+'&to='+lastDayMonth);
+    let miX = await fetch(HTTP_HOST+'calidad/get/of/calendar/ofs_list_calendar/?from='+firstDayMonth+'&to='+lastDayMonth);
         miX = await miX.json();
 
     return miX;
@@ -124,10 +124,11 @@ function ordenesFabricacionInit() {
 /* 2. SECOND - SHOW PRODUCTION ORDER DETAIL */
 
 async function showCustomOf(ofId){
-    let miX = await fetch(HTTP_HOST+'api/zz/of/'+ofId+'/of_detalle/');
+    let miX = await fetch(HTTP_HOST+'calidad/get/of/'+ofId+'/of_trazabilidad/');
         miX = await miX.json();
     let htmlOfsTop = '';
-    miX.data[0]['OF'].map(of => {
+    if(miX.data[0]['OF']){
+        miX.data[0]['OF'].map(of => {
         htmlOfsTop += `<tr><td class="border px-2 py-1 text-center">${of.ORDEN_DE_FABRICACION}</td>
                            <td class="border px-2 py-1 text-center">${String(of.FECHA_INI_FABRI_PREVISTA).slice(0, 10)}</td>
                            <td class="border px-2 py-1 text-center">${String(of.FECHA_INI_FABRI_PREVISTA).slice(0, 10)}</td>
@@ -135,17 +136,22 @@ async function showCustomOf(ofId){
                            <td class="border px-2 py-1 text-center">${of.NOMBRE_ARTICULO}</td>
                            <td class="border px-2 py-1 text-center">${of.CANTIDAD_A_FABRICAR} ${of.CODIGO_PRESENTACION}</td>
                            <td class="border px-2 py-1 text-center">${getOfState(of.SITUACION_OF)}</td></tr>`;
-    });
-
+        });
+    }
+    
     let htmlMP = '';
-    miX.data[0]['MATERIAL_PEDIDO'].map(mp => {
+    if(miX.data[0]['MATERIAL_PEDIDO']){
+        miX.data[0]['MATERIAL_PEDIDO'].map(mp => {
          htmlMP += `<tr><td class="border px-2 py-1 text-center">${mp.CODIGO_COMPONENTE}</td>
                         <td class="border px-2 py-1 text-center">${mp.COMPO_DESC_COMERCIAL}</td>
                         <td class="border px-2 py-1 text-center">${mp.CANTIDAD_TECNICA} ${mp.CODIGO_PRESENTACION}</td></tr>`;
-    });
+        });
+    }
+    
 
     let htmlMC = '';
-    miX.data[0]['MATERIAL_CONSUMIDO'].map(mc => {
+    if(miX.data[0]['MATERIAL_CONSUMIDO']){
+        miX.data[0]['MATERIAL_CONSUMIDO'].map(mc => {
          htmlMC += `<tr><td class="border px-2 py-1 text-center">${String(mc.FECHA_CREACION).slice(0,10)}</td>
                         <td class="border px-2 py-1 text-center">${String(mc.FECHA_CADUCIDAD).slice(0,10)}</td>
                         <td class="border px-2 py-1 text-center">${mc.CODIGO_ARTICULO_CONSUMIDO}</td>
@@ -153,11 +159,14 @@ async function showCustomOf(ofId){
                         <td class="border px-2 py-1 text-center">${mc.NUMERO_LOTE_INT_CONSUMIDO}</td>
                         <td class="border px-2 py-1 text-center">${mc.CANTIDAD_UNIDAD1} ${mc.CODIGO_PRESENTACION}</td>
                     </tr>`;
-    });
+        });
+    }
+    
 
     let htmlMProd = '';
-    miX.data[0]['MATERIAL_PRODUCIDO'].map(mc => {
-         htmlMProd += `<tr><td class="border px-2 py-1 text-center">${String(mc.FECHA_CREACION).slice(0,10)}</td>
+    if(miX.data[0]['MATERIAL_PRODUCIDO']){
+        miX.data[0]['MATERIAL_PRODUCIDO'].map(mc => {
+            htmlMProd += `<tr><td class="border px-2 py-1 text-center">${String(mc.FECHA_CREACION).slice(0,10)}</td>
                         <td class="border px-2 py-1 text-center">${String(mc.FECHA_CADUCIDAD).slice(0,10)}</td>
                         <td class="border px-2 py-1 text-center">${mc.CODIGO_ARTICULO}</td>
                         <td class="border px-2 py-1 text-center">${mc.DESCRIP_COMERCIAL}</td>
@@ -165,10 +174,13 @@ async function showCustomOf(ofId){
                         <td class="border px-2 py-1 text-center">${mc.CANTIDAD_UNIDAD1} ${mc.CODIGO_PRESENTACION}</td>
                         <td class="border px-2 py-1 text-center">${mc.NUMERO_PALET}</td>
                     </tr>`;
-    });
+        });
+    }
+    
 
     let htmlPI = '';
-    miX.data[0]['PARTE_INSPECCION'].map(piA => {
+    if(miX.data[0]['PARTE_INSPECCION']){
+         miX.data[0]['PARTE_INSPECCION'].map(piA => {
          htmlPI += `<tr><td class="border px-2 py-1 text-center">${piA.ORDEN_FABRICACION}</td>
                         <td class="border px-2 py-1 text-center">${piA.NUMERO_PARTE}</td>
                         <td class="border px-2 py-1 text-center">${piA.CODIGO_ARTICULO}</td>
@@ -178,7 +190,9 @@ async function showCustomOf(ofId){
                         <td class="border px-2 py-1 text-center">${piA.CANT_RECIBIDA} ${piA.CODIGO_PRESENTACION}</td>
                         <td class="border px-2 py-1 text-center">${piA.CODIGO_VERIFICADOR}</td>
                     </tr>`;
-    });
+        });
+    }
+   
 
     let ofDetailHtml = `
         <h2 class="text-xl mb-6">Detalles de Producción ID ${ofId}</h2>
@@ -276,8 +290,6 @@ async function showCustomOf(ofId){
     
 }
 
-
-showCustomOf(381)
 
 
 

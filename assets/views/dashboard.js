@@ -19,7 +19,7 @@ function PlusYear(){
 }
 
 async function FetchDataFromGPDGraf(){
-    return fetch('/world-bank.api/pib.json').then(r => r.json()).then(r => {
+    return fetch('/storage/world-bank.api/pib.json').then(r => r.json()).then(r => {
         return r;
     }).catch(e => {
         alert(e);
