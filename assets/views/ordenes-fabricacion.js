@@ -1,16 +1,5 @@
-let ordenesFabricacion = [
-    { fecha: '2025-05-03', nombre: 'Lote A - Yogurt', estado: 'En Proceso' },
-    { fecha: '2025-05-07', nombre: 'Lote B - Leche', estado: 'Completado' },
-    { fecha: '2025-05-15', nombre: 'Lote C - Queso', estado: 'Pendiente' },
-    { fecha: '2025-05-15', nombre: 'Lote F - Queso', estado: 'Pendiente' },
-    { fecha: '2025-05-15', nombre: 'Lote D - Crema', estado: 'En Proceso' },
-    { fecha: '2025-05-23', nombre: 'Lote E - Flan', estado: 'Cancelado' },
-    { fecha: '2025-06-05', nombre: 'Lote F - Yogurt Frutado', estado: 'Pendiente' },
-    { fecha: '2025-06-18', nombre: 'Lote G - Leche Descremada', estado: 'En Proceso' },
-    { fecha: '2025-04-10', nombre: 'Lote H - Crema Batida', estado: 'Completado' },
-    { fecha: '2025-04-22', nombre: 'Lote I - Postres', estado: 'Cancelado' }
-];
-let miX = [];
+let ordenesFabricacion = [];
+let trazData = [];
 let mesesOF = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 let fechaActualOF = new Date();
 
@@ -91,10 +80,10 @@ async function getMonthBounds() {
     lastDayMonth  = formatDateOF(lastDayMonth);
     console.log([firstDayMonth, lastDayMonth])
 
-    let miX = await fetch(HTTP_HOST+'calidad/get/of/calendar/ofs_list_calendar/?from='+firstDayMonth+'&to='+lastDayMonth);
-        miX = await miX.json();
+    let calendarData = await fetch(HTTP_HOST+'calidad/get/of/calendar/ofs_list_calendar/?from='+firstDayMonth+'&to='+lastDayMonth);
+        calendarData = await calendarData.json();
 
-    return miX;
+    return calendarData;
 }
 
 function getOfState(x){
@@ -121,12 +110,12 @@ function ordenesFabricacionInit() {
 async function showCustomOf(ofId){
     document.getElementById('slugTitle').innerHTML = `<span class="b-top-page" onclick="createExcel()">📥 Excel </span>`;
 
-    miX = await fetch(HTTP_HOST+'calidad/get/of/'+ofId+'/of_trazabilidad/');
-    miX = await miX.json();
-        console.log(miX)
+    trazData = await fetch(HTTP_HOST+'calidad/get/of/'+ofId+'/of_trazabilidad/');
+    trazData = await trazData.json();
+        console.log(trazData)
     let htmlOfsTop = '';
-    if(miX.data[0]['OF']){
-        miX.data[0]['OF'].map(of => {
+    if(trazData.data[0]['OF']){
+        trazData.data[0]['OF'].map(of => {
         htmlOfsTop += `<tr><td class="border px-2 py-1 text-center">${of.ORDEN_DE_FABRICACION}</td>
                            <td class="border px-2 py-1 text-center">${String(of.FECHA_INI_FABRI_PREVISTA).slice(0, 10)}</td>
                            <td class="border px-2 py-1 text-center">${String(of.FECHA_INI_FABRI_PREVISTA).slice(0, 10)}</td>
@@ -138,8 +127,8 @@ async function showCustomOf(ofId){
     }
     
     let htmlMP = '';
-    if(miX.data[0]['MATERIAL_PEDIDO']){
-        miX.data[0]['MATERIAL_PEDIDO'].map(mp => {
+    if(trazData.data[0]['MATERIAL_PEDIDO']){
+        trazData.data[0]['MATERIAL_PEDIDO'].map(mp => {
          htmlMP += `<tr><td class="border px-2 py-1 text-center">${mp.CODIGO_COMPONENTE}</td>
                         <td class="border px-2 py-1 text-center">${mp.COMPO_DESC_COMERCIAL}</td>
                         <td class="border px-2 py-1 text-center">${mp.CANTIDAD_TECNICA} ${mp.CODIGO_PRESENTACION}</td></tr>`;
@@ -148,8 +137,8 @@ async function showCustomOf(ofId){
     
 
     let htmlMC = '';
-    if(miX.data[0]['MATERIAL_CONSUMIDO']){
-        miX.data[0]['MATERIAL_CONSUMIDO'].map(mc => {
+    if(trazData.data[0]['MATERIAL_CONSUMIDO']){
+        trazData.data[0]['MATERIAL_CONSUMIDO'].map(mc => {
          htmlMC += `<tr><td class="border px-2 py-1 text-center">${String(mc.FECHA_CREACION).slice(0,10)}</td>
                         <td class="border px-2 py-1 text-center">${String(mc.FECHA_CADUCIDAD).slice(0,10)}</td>
                         <td class="border px-2 py-1 text-center">${mc.CODIGO_ARTICULO_CONSUMIDO}</td>
@@ -162,8 +151,8 @@ async function showCustomOf(ofId){
     
 
     let htmlMProd = '';
-    if(miX.data[0]['MATERIAL_PRODUCIDO']){
-        miX.data[0]['MATERIAL_PRODUCIDO'].map(mc => {
+    if(trazData.data[0]['MATERIAL_PRODUCIDO']){
+        trazData.data[0]['MATERIAL_PRODUCIDO'].map(mc => {
             htmlMProd += `<tr><td class="border px-2 py-1 text-center">${String(mc.FECHA_CREACION).slice(0,10)}</td>
                         <td class="border px-2 py-1 text-center">${String(mc.FECHA_CADUCIDAD).slice(0,10)}</td>
                         <td class="border px-2 py-1 text-center">${mc.CODIGO_ARTICULO}</td>
@@ -177,8 +166,8 @@ async function showCustomOf(ofId){
     
 
     let htmlPI = '';
-    if(miX.data[0]['PARTE_INSPECCION']){
-         miX.data[0]['PARTE_INSPECCION'].map(piA => {
+    if(trazData.data[0]['PARTE_INSPECCION']){
+         trazData.data[0]['PARTE_INSPECCION'].map(piA => {
          htmlPI += `<tr><td class="border px-2 py-1 text-center">${piA.ORDEN_FABRICACION}</td>
                         <td class="border px-2 py-1 text-center">${piA.NUMERO_PARTE}</td>
                         <td class="border px-2 py-1 text-center">${piA.CODIGO_ARTICULO}</td>
@@ -296,7 +285,7 @@ async function showCustomOf(ofId){
 
 
 function createExcel() {
-  const raw = miX.data[0];
+  const raw = trazData.data[0];
   const sheetData = [];
 
   // Agrega sección con título y tabla
