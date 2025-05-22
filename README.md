@@ -3,7 +3,6 @@ Para permitir que las aplicaciones de Zzircon accedan a información de producci
 
 A continuación, se detallan los endpoints disponibles:
 
-
 1. Órdenes de Fabricación en Uso
     Obtiene un listado de las órdenes de fabricación (OF) activas y actualmente seleccionadas.
 
@@ -42,3 +41,9 @@ A continuación, se detallan los endpoints disponibles:
     (Requiere el número de paleta, por ejemplo: 000015612 http://192.168.1.30/api/zzircon/palet/000015612/info_recipiente/)
 
     Ejemplo de respuesta: Ver archivo info_recipiente.json
+
+
+Desde punto menu > "Manten. ordenes fabricacion"
+"OFs: Necesitamos recuperar las OFs planificadas y las OFs en producción" no existen OF planificadas solo hay: ABIERTA, CERRADA, ANULADA y RETENIDA.
+
+Ten en cuenta que necesitamos capturar el número de palets creados y pdtes. para cada una de estos embalajes por lo que necesitamos el detalle. ?¿?¿
