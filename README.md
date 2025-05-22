@@ -47,3 +47,10 @@ Desde punto menu > "Manten. ordenes fabricacion"
 "OFs: Necesitamos recuperar las OFs planificadas y las OFs en producción" no existen OF planificadas solo hay: ABIERTA, CERRADA, ANULADA y RETENIDA.
 
 Ten en cuenta que necesitamos capturar el número de palets creados y pdtes. para cada una de estos embalajes por lo que necesitamos el detalle. ?¿?¿
+
+
+?¿?¿
+    Modo de conservación	Vida útil	Consumir preferentemente antes del fin de
+    Condiciones de conservación	Mantener a -18 °C. Una vez descongelado no volver a congelar    
+    Método de empleo	Descongelar en el frigorifico y cocinar al gusto.
+    Consumir antes de	24 horas
