@@ -1,0 +1,21 @@
+{
+  "status": 200,
+  "message": "ok",
+  "data": [
+    {
+      "CODIGO_ALMACEN": "00",
+      "D_CODIGO_ALMACEN": "CARTES",
+      "TIPO_SITUACION": "DISPG",
+      "NUMERO_LOTE_INT": "025",
+      "NUMERO_PALET": "000015612",
+      "PRESENTACION": "KG",
+      "FECHA_CREACION": "19/05/2025",
+      "FECHA_CADUCIDAD": "28/02/2027",
+      "BLOQUEO_INVENT": "N",
+      "NOMBRE_ARTICULO": "GAMBA PEL 10/30 6x1 FROXA",
+      "CODIGO_ARTICULO": "40000",
+      "CANTIDAD": "702.0",
+      "UBICACION": "00302330"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "status": 200,
+  "message": "ok",
+  "data": [
+    {
+      "NUMERO_PALET": "000000096",
+      "ORDEN_DE_FABRICACION": "8",
+      "CODIGO_ARTICULO": "40196",
+      "DESCRIP_COMERCIAL": "VARITAS MERLUZA EMP 12x300  ",
+      "FECHA_MOVIM": "2025-01-31 15:06:41"
+    }
+  ]
+}

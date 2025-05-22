@@ -1,159 +1,44 @@
-<img  src="https://suzdalenko-dev.github.io/HTML-CSS-ADMIN-TEMPLATE/assets/img/0.png" alt="HTML admin template beatiful white" width="100%" heigth="333px" />
-<img  src="https://suzdalenko-dev.github.io/HTML-CSS-ADMIN-TEMPLATE/assets/img/1.png" alt="HTML admin template beatiful white"  width="100%" heigth="333px" />
+Acceso a Datos de Producción desde Zzircon
+Para permitir que las aplicaciones de Zzircon accedan a información de producción, se ha desarrollado un servicio web (API) que permite consultar datos del sistema ERP LIBRA mediante peticiones GET. Las respuestas se devuelven en formato JSON estructurado, facilitando su integración y uso en los sistemas cliente.
+
+A continuación, se detallan los endpoints disponibles:
 
 
-LoadFile "C:/Python312/python312.dll"
-LoadModule wsgi_module "C:/Python312/Lib/site-packages/mod_wsgi/server/mod_wsgi.cp312-win_amd64.pyd"
-WSGIPythonHome "C:/Python312"
+1. Órdenes de Fabricación en Uso
+    Obtiene un listado de las órdenes de fabricación (OF) activas y actualmente seleccionadas.
 
-<VirtualHost *:80>
-    ServerName desarrollo.local
+    Endpoint:
+    http://192.168.1.30/api/zzircon/of/0/ofs_en_uso/
+    (No requiere parámetros)
 
-    # Directorio raíz para peticiones que no van a Django
-    DocumentRoot "C:/Apache24/htdocs"
-
-    # Django servirá solo lo que va a /api
-    WSGIScriptAlias /api "C:/suzdalenko/miapp/miapp/wsgi.py"
-    WSGIApplicationGroup %{GLOBAL}
-
-    <Directory "C:/Apache24/htdocs">
-        Require all granted
-    </Directory>
-
-    <Directory "C:/suzdalenko/miapp/miapp">
-        <Files wsgi.py>
-            Require all granted
-        </Files>
-    </Directory>
-
-    ErrorLog logs/django_error.log
-    CustomLog logs/django_access.log combined
-</VirtualHost>
-
-which python3
-### para ubuntu
-
-<img  src="https://suzdalenko-dev.github.io/HTML-CSS-ADMIN-TEMPLATE/assets/img/3.png" alt="HTML admin template beatiful white"  width="100%" heigth="333px" />
-
-sudo apt update
-sudo apt install apache2 libapache2-mod-wsgi-py3 python3 -y
-/etc/apache2/sites-available/django.conf
-
-<VirtualHost *:80>
-    ServerAdmin webmaster@localhost
-    ServerName localhost
-
-    # Archivos estáticos (sitio clásico)
-    DocumentRoot /var/www/html
-    <Directory /var/www/html>
-        Options Indexes FollowSymLinks
-        AllowOverride None
-        Require all granted
-    </Directory>
-
-    # Archivos estáticos de Django (si usas collectstatic)
-    Alias /static /var/www/backend/static
-    <Directory /var/www/backend/static>
-        Require all granted
-    </Directory>
-
-    # Django a través de mod_wsgi
-    WSGIDaemonProcess backend python-path=/var/www/backend
-    WSGIProcessGroup backend
-    WSGIApplicationGroup %{GLOBAL}
-    WSGIScriptAlias /api /var/www/backend/backend/wsgi.py
-
-    <Directory /var/www/backend/backend>
-        <Files wsgi.py>
-            Require all granted
-        </Files>
-    </Directory>
-
-    ErrorLog ${APACHE_LOG_DIR}/django_backend_error.log
-    CustomLog ${APACHE_LOG_DIR}/django_backend_access.log combined
-</VirtualHost>
-
-sudo a2ensite django.conf
-sudo systemctl reload apache2
-
-sudo chown -R www-data:www-data /var/www/backend
-sudo chmod -R 775 /var/www/backend
-
-sudo tail -f /var/log/apache2/error.log
-
-### postrgreSQL
-
-sudo apt update
-
-sudo apt install postgresql postgresql-contrib -y
-
-sudo -i -u postgres
-psql
-
--- Crear usuario 'alexey' con contraseña
-
-CREATE USER alexey WITH PASSWORD 'asafd343f3';
-
--- Crear una base de datos (ejemplo: databaseName)
-
-CREATE DATABASE databaseName WITH OWNER alexey;
-
--- Darle privilegios completos sobre esa base de datos
-
-GRANT ALL PRIVILEGES ON DATABASE databaseName TO alexey;
-
-\q   -- Para salir
-
-sudo systemctl restart postgresql
-
-sudo apt install python3-psycopg2
-
-DATABASES = {
-
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql',
-
-        'NAME': 'databaseName',
-
-        'USER': 'alexey',
-
-        'PASSWORD': '2342c3423c4',
-
-        'HOST': 'localhost',
-
-        'PORT': '5432',
-    }
-}
+    Ejemplo de respuesta: Ver archivo ofs_en_uso.json
 
 
-País	Código	URL Ejemplo PIB
-Unidos	US	https://api.worldbank.org/v2/country/US/indicator/NY.GDP.MKTP.CD?format=json
-China	CN	https://api.worldbank.org/v2/country/CN/indicator/NY.GDP.MKTP.CD?format=json
-Japón	JP	https://api.worldbank.org/v2/country/JP/indicator/NY.GDP.MKTP.CD?format=json
-España	ES	https://api.worldbank.org/v2/country/ES/indicator/NY.GDP.MKTP.CD?format=json
+2. Detalle de una Orden de Fabricación
+    Consulta detallada de una OF específica, incluyendo información de cabecera, artículos pedidos, consumidos, producidos y datos de la ficha del artículo.
+
+    Endpoint:
+    http://192.168.1.30/api/zzircon/of/{id}/of_detalle/     
+    (Requiere el ID de la OF, por ejemplo: 381 http://192.168.1.30/api/zzircon/of/381/of_detalle/) 
+
+    Ejemplo de respuesta: Ver archivo of_detalle.json
 
 
-🔗 URL de la API para obtener datos por país
-Puedes realizar solicitudes GET a la API del Banco Mundial para obtener los datos de este indicador en formato JSON. A continuación, se muestran las URLs para algunos países:​
+3. Orden de Fabricación Asociada a una Paleta
+    Devuelve la información de la OF a la que está asignada una paleta determinada. Equivale al informe "OF de palet" en Producción Movilidad.
 
-Estados Unidos (US):
+    Endpoint:
+    http://192.168.1.30/api/zzircon/palet/{numero_paleta}/of_de_palet/
+    (Requiere el número de paleta, por ejemplo: 000000096 http://192.168.1.30/api/zzircon/palet/000000096/of_de_palet/)
 
-https://api.worldbank.org/v2/country/US/indicator/NY.ADJ.NNTY.CD?format=json
-China (CN):
+    Ejemplo de respuesta: Ver archivo of_de_palet.json
 
-https://api.worldbank.org/v2/country/CN/indicator/NY.ADJ.NNTY.CD?format=json
-Japón (JP):
 
-https://api.worldbank.org/v2/country/JP/indicator/NY.ADJ.NNTY.CD?format=json
-España (ES):
+4. Información de un Recipiente (Paleta)
+    Proporciona los datos de un recipiente/paleta, equivalente al informe "Info. recipiente" del sistema de Radiofrecuencia.
 
-https://api.worldbank.org/v2/country/ES/indicator/NY.ADJ.NNTY.CD?format=json
+    Endpoint:
+    http://192.168.1.30/api/zzircon/palet/{numero_paleta}/info_recipiente/
+    (Requiere el número de paleta, por ejemplo: 000015612 http://192.168.1.30/api/zzircon/palet/000015612/info_recipiente/)
 
-Estas URLs te proporcionarán los datos históricos del Ingreso Nacional Neto Ajustado para cada país en formato JSON, que puedes utilizar para análisis y visualizaciones.
-
-<img  src="https://suzdalenko-dev.github.io/HTML-CSS-ADMIN-TEMPLATE/assets/img/4.png" alt="HTML admin template Tailwind"  width="100%" heigth="333px" />
-
-Calendario de Órdenes Fabricación
-
-<img  src="https://suzdalenko-dev.github.io/HTML-CSS-ADMIN-TEMPLATE/assets/img/5.png" alt="Calendario de Órdenes Fabricación"  width="100%" heigth="333px" />
+    Ejemplo de respuesta: Ver archivo info_recipiente.json
