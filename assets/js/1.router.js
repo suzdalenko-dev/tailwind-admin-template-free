@@ -11,12 +11,12 @@ function loadView(viewName) {
         .then(res => res.text())
         .then(html => {
            
-            viewContainer.innerHTML = html;
-
+            let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);
+            if(oldHtmlPageContent) viewContainer.innerHTML = oldHtmlPageContent;
+            else viewContainer.innerHTML = html;
+            
             if(String(html).includes('found') || String(html).includes('edited') || String(html).includes('deleted')){
-                setTimeout(() => {
-                    window.location = '/dashboard';
-                }, 1100);
+                setTimeout(() => { window.location = '/dashboard'; }, 2200);
             }
 
             // Carga el JS asociado (una sola vez)
@@ -63,3 +63,21 @@ function parseHashRoute() {
 }
 
 initRouter();
+
+
+  function setDefaulContentToLocalStorage(){
+        let currentView = parseHashRoute();
+        if(currentView && currentView.view){
+            let htmlOldContent = document.getElementById('htmlContent');
+            if(htmlOldContent){
+                htmlOldContent = document.getElementById('htmlContent').getHTML();
+                if(htmlOldContent) window.localStorage.setItem(currentView.view, JSON.stringify(htmlOldContent))
+            }
+        }   
+    }
+
+     function getDefaultContenFromLocalStorage(viewName){
+        let oldHtmlPageContent = window.localStorage.getItem(viewName) || null;
+        if(oldHtmlPageContent && JSON.parse(oldHtmlPageContent)) return JSON.parse(oldHtmlPageContent);
+        return null;
+    }

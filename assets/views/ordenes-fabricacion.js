@@ -78,7 +78,6 @@ async function getMonthBounds() {
     };
     firstDayMonth = formatDateOF(firstDayMonth);
     lastDayMonth  = formatDateOF(lastDayMonth);
-    console.log([firstDayMonth, lastDayMonth])
 
     let calendarData = await fetch(HTTP_HOST+'calidad/get/of/calendar/ofs_list_calendar/?from='+firstDayMonth+'&to='+lastDayMonth);
         calendarData = await calendarData.json();
