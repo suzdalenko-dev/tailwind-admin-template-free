@@ -71,7 +71,7 @@ let menuData = [
         submenu: [
             { title: 'Ruta', icon: '🗘️', submenu: null }
         ]
-    }, */
+    },
     { title: 'Producción', icon: '🏭', roles: ['salaproduccion'], submenu: [
             { title: 'Fabrica', icon: '📦', submenu: [
                     { title: 'Órdenes Fabricación', icon: '🥫' },
@@ -80,6 +80,14 @@ let menuData = [
             { title: 'Precios', icon: '💲', submenu: [
                     { title: 'Proyección', icon: '📈', submenu: null },
                     { title: 'Artículos', icon: '🛒', submenu: null },
+                ]
+            }
+        ]
+    } 
+    */
+    { title: 'Calidad', icon: '🧪', roles: ['calidad'], submenu: [
+            { title: 'Informes', icon: '📋', submenu: [
+                    { title: 'Trazabilidad OFs', icon: '🔗' },
                 ]
             }
         ]

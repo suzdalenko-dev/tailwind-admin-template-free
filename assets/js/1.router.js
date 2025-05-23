@@ -10,7 +10,14 @@ function loadView(viewName) {
     fetch(`/assets/views/${viewName}.html`)
         .then(res => res.text())
         .then(html => {
+           
             viewContainer.innerHTML = html;
+
+            if(String(html).includes('found') || String(html).includes('edited') || String(html).includes('deleted')){
+                setTimeout(() => {
+                    window.location = '/dashboard';
+                }, 1100);
+            }
 
             // Carga el JS asociado (una sola vez)
             let scriptPath = `/assets/views/${viewName}.js`;
@@ -32,7 +39,9 @@ function loadView(viewName) {
                     console.error(`Init function not found for ${viewName} ${toCamelCase(viewName)}`);
                 }
             }
-        });
+        }).catch( e => {
+            viewContainer.innerHTML = '1. Error '+ e;
+        })
 }
 
 
