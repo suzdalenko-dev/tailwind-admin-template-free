@@ -184,7 +184,7 @@ async function showCustomOf(ofId){
    
 
     let ofDetailHtml = `
-        <h2 class="text-xl mb-6">Trazabilidad de Producción OF id=${ofId} 
+        <h2 class="text-xl mb-6">Trazabilidad de Producción OF id=${ofId}</h2>
         <div class="space-y-6">
             <div>
                 <h3 class="text-sm mb-2">OF</h3>

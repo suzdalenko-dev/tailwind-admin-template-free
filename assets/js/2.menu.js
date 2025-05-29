@@ -2,120 +2,19 @@
 // Descripción: Script de menú dinámico + guarda estado abierto/cerrado en localStorage
 
 let menuData = [
-    /*
-    {
-        title: 'Administración',
-        icon: '📁',
-        roles: ['admin', 'gerente'],
-        submenu: [
-            { title: 'Gestión Usuarios', icon: '👥', submenu: [
-                { title: 'Crear Usuario', icon: '➕', submenu: null, view: 'crear-usuario' },
-                { title: 'Lista de Usuarios', icon: '📃', submenu: null, view: 'lista-usuarios' }
-            ]},
-            { title: 'Informes Generales', icon: '📈', submenu: [
-                { title: 'Resumen Mensual', icon: '🗓️', submenu: null }
-            ]}
-        ]
-    },
-    {
-        title: 'Calidad',
-        icon: '✅',
-        roles: ['calidad'],
-        submenu: [
-            { title: 'Reportes Calidad', icon: '📑', submenu: null },
-            { title: 'Verificación', icon: '✔️', submenu: [
-                { title: 'Muestras Aleatorias', icon: '🎯', submenu: null }
-            ]}
-        ]
-    },
-    {
-        title: 'Compras',
-        icon: '👒',
-        roles: ['compras'],
-        submenu: [
-            { title: 'Nueva Orden', icon: '📝', submenu: null },
-            { title: 'Proveedores', icon: '🏷️', submenu: [
-                { title: 'Alta Proveedor', icon: '➕', submenu: null },
-                { title: 'Lista Proveedores', icon: '📃', submenu: null }
-            ]}
-        ]
-    },
-    {
-        title: 'Finanzas',
-        icon: '💰',
-        roles: ['finanzas'],
-        submenu: [
-            { title: 'Pagos', icon: '💳', submenu: [
-                { title: 'Cuentas a Cobrar', icon: '📥', submenu: null },
-                { title: 'Cuentas a Pagar', icon: '📤', submenu: null }
-            ]},
-            { title: 'Resumen Financiero', icon: '📊', submenu: null }
-        ]
-    },
-    {
-        title: 'Laboratorio',
-        icon: '🔬',
-        roles: ['laboratorio'],
-        submenu: [
-            { title: 'Análisis', icon: '🧪', submenu: [
-                { title: 'Microbiología', icon: '🦠', submenu: null },
-                { title: 'Química', icon: '⚗️', submenu: null }
-            ]},
-            { title: 'Informes', icon: '📋', submenu: null }
-        ]
-    },
-    {
-        title: 'Logística',
-        icon: '🚚',
-        roles: ['logistica'],
-        submenu: [
-            { title: 'Ruta', icon: '🗘️', submenu: null }
-        ]
-    },
-    { title: 'Producción', icon: '🏭', roles: ['salaproduccion'], submenu: [
-            { title: 'Fabrica', icon: '📦', submenu: [
-                    { title: 'Órdenes Fabricación', icon: '🥫' },
-                ]
-            },
-            { title: 'Precios', icon: '💲', submenu: [
-                    { title: 'Proyección', icon: '📈', submenu: null },
-                    { title: 'Artículos', icon: '🛒', submenu: null },
-                ]
-            }
-        ]
-    } 
-    */
     { title: 'Calidad', icon: '🧪', roles: ['calidad'], submenu: [
             { title: 'Informes', icon: '📋', submenu: [
                     { title: 'Trazabilidad OFs', icon: '🔗' },
                 ]
             }
         ]
-    } 
-    /*
-    {
-        title: 'Taller',
-        icon: '🚰',
-        roles: ['taller'],
-        submenu: [
-            { title: 'Control Equipos', icon: '🔍', submenu: null },
-            { title: 'Mantenimiento', icon: '🔧', submenu: null }
-        ]
     },
-    {
-        title: 'Ventas',
-        icon: '💼',
-        roles: ['ventas'],
-        submenu: [
-            { title: 'Historial Ventas', icon: '📜', submenu: null },
-            { title: 'Nueva Venta', icon: '➕', submenu: [
-                    { title: 'Cliente Existente', icon: '👤', submenu: null },
-                    { title: 'Cliente Nuevo', icon: '🆕', submenu: null }
-                ]
-            }
+    { title: 'Finanzas', icon: '💰', roles: ['finanzas'], submenu: [
+            { title: 'Informes', icon: '📋', submenu: [
+                { title: 'Expedientes', icon: '💵', submenu: null },
+            ]},
         ]
     }
-    */
 ];
 
 // Variables

@@ -14,6 +14,8 @@ function loadView(viewName) {
             let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);
             if(oldHtmlPageContent) viewContainer.innerHTML = oldHtmlPageContent;
             else viewContainer.innerHTML = html;
+
+            // viewContainer.innerHTML = html;
             
             if(String(html).includes('found') || String(html).includes('edited') || String(html).includes('deleted')){
                 setTimeout(() => { window.location = '/dashboard'; }, 2200);

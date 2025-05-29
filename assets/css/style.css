@@ -76,7 +76,7 @@ body::-webkit-scrollbar-track {
     padding: 3px;
 }
 td, th, tr{
-    font-size: 11px!important;
+    font-size: 13px!important;
 }
 .twcolor{
     background:#4F46E5; color: white
