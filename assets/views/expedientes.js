@@ -189,9 +189,6 @@ function createExcelExpedientes() {
                 factura.precio_dolar_mensual?.GN1 || ""
             ]);
         }
-
-        // Línea en blanco entre expedientes
-        rows.push([]);
     });
 
     const worksheet = XLSX.utils.aoa_to_sheet(rows);
