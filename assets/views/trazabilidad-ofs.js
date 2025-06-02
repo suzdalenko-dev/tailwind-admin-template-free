@@ -133,7 +133,7 @@ async function showCustomOf(ofId){
         trazData.data[0]['MATERIAL_PEDIDO'].map(mp => {
          htmlMP += `<tr><td class="border px-2 py-1 text-center">${mp.CODIGO_COMPONENTE}</td>
                         <td class="border px-2 py-1 text-center">${mp.COMPO_DESC_COMERCIAL}</td>
-                        <td class="border px-2 py-1 text-center">${mp.CANTIDAD_TECNICA} ${mp.CODIGO_PRESENTACION}</td></tr>`;
+                        <td class="border px-2 py-1 text-center">${mp.CANTIDAD_TECNICA} ${mp.CODIGO_PRESENTACION_COMPO}</td></tr>`;
         });
     }
     
