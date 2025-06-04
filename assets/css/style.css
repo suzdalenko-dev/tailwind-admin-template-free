@@ -101,3 +101,6 @@ td, th, tr{
 .bgred{
     background-color: red;
 }
+.taleft{
+    text-align: left!important;
+}

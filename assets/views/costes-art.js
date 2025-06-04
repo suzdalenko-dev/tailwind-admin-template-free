@@ -4,6 +4,7 @@ function costesArtInit(){
     document.getElementById('slugTitle').innerHTML = `
         <span class="b-top-page" onclick="addExcelArt()">➕ Añadir artículo </span>
         <span class="b-top-page" onclick="createExcelArtConst()">📥 Excel </span>
+        <span class="b-top-page" onclick="recalculateTable()">🔃 Recaclular </span>
         `;
     document.getElementById('tituloArticleCosts').innerHTML = 'Proyección de costes de artículos';
 
@@ -20,7 +21,9 @@ async function renderArtTable(){
     lines.data.map(x => {
         tBody += `<tr>
             <td class="border px-2 py-1 text-center howerA" onclick="openArticleDetail(${x.article_code})" >${x.article_code}</td>
-            <td class="border px-2 py-1 text-center howerA" onclick="openArticleDetail(${x.article_code})" >${x.article_name}</td>
+            <td class="border px-2 py-1 text-center howerA taleft" onclick="openArticleDetail(${x.article_code})" >${x.article_name}</td>
+            <td class="border px-2 py-1 text-center">${toFL(x.precio_padre_act)}</td>
+            <td class="border px-2 py-1 text-center">${toFL(x.inicio_coste_act)}</td>
             <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.rendimiento)}" onkeydown="inputNewValue('rendimiento', event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center">${toFL(x.precio_materia_prima)}</td>
             <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.precio_aceite)}" onkeydown="inputNewValue('precio_aceite', event, ${x.id})" /></td>
@@ -43,6 +46,8 @@ async function renderArtTable(){
                 <tr class="twcolor">
                     <th>Código</th>
                     <th>Descripcion</th>
+                    <th>€/Kg act.</th>
+                    <th>€/kg fm</th>
                     <th>Rend.</th>
                     <th>Mat. prima</th>
                     <th>Aceite</th>
@@ -207,4 +212,27 @@ function createExcelArtConst() {
     const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}__${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}}`;
     const filename = `costes_${timestamp}.xlsx`;
     XLSX.writeFile(workbook, filename);
+}
+
+
+function recalculateTable(){
+    document.getElementById('slugTitle').innerHTML = `<span class="b-top-page" onclick="addExcelArt()">➕ Añadir artículo </span><span class="b-top-page" onclick="createExcelArtConst()">📥 Excel </span>`;
+    let titulo = document.getElementById('tituloArticleCosts');
+    let dotCount = 0;
+   
+    if (titulo) {
+        setInterval(() => { dotCount = (dotCount + 1) % 4; let dots = '.'.repeat(dotCount); titulo.innerHTML = `Recalculando${dots}`;}, 500);
+    }
+
+    fetch(HTTP_HOST+'/produccion/get/0/0/recalculate_price_projections/').then(r => r.json()).then(r => {
+        if(r && r.data){
+            showM('Recalculado');
+            if(tituloArticleCosts) tituloArticleCosts.innerHTML = 'Proyección de costes de artículos';
+            setTimeout(() => {window.location.reload();}, 3000);
+        } else {
+           showM('e16 Error');
+        }
+    }).catch(e =>{
+        showM('e15 '+e, 'error');
+    })
 }

@@ -14,7 +14,8 @@ function detalleArticuloCostesInit(){
                 let articleCodeId = document.getElementById('articleCodeId')
                 if(articleCodeId) document.getElementById('articleCodeId').value = PARENT_ARTICLE;
                 let descripcionCodeId = document.getElementById('descripcionCodeId')
-                if(descripcionCodeId) document.getElementById('descripcionCodeId').value = artHead.article_name
+                if(descripcionCodeId) document.getElementById('descripcionCodeId').value = artHead.article_name;
+                showDetailCode();
         } else {
             showM('e6 '+'Error', 'error artHead');
            
@@ -32,6 +33,8 @@ function detalleArticuloCostesInit(){
     }).catch(e => {
         showM('e8 '+e, 'error');
     });
+
+    
 }
 
 
@@ -209,4 +212,76 @@ function deleteArticleCosts(){
     }
 }
 
+function syntaxHighlight(json) {
+  if (typeof json !== "string") {
+    json = JSON.stringify(json, null, 2);
+  }
+  json = json
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 
+  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(?=:))/g, '<span class="key">$1</span>')  // Keys
+    .replace(/(:\s*)"(.*?)"/g, '$1<span class="string">"$2"</span>')                                  // Strings
+    .replace(/(:\s*)(\d+(?:\.\d+)?)/g, '$1<span class="number">$2</span>')                             // Numbers
+    .replace(/(:\s*)(true|false)/g, '$1<span class="boolean">$2</span>')                               // Booleans
+    .replace(/(:\s*)null/g, '$1<span class="null">null</span>');                                       // Nulls
+}
+
+function showDetailCode(){
+    fetch(HTTP_HOST+'produccion/get/0/0/recalculate_price_projections/?code='+PARENT_ARTICLE).then(response => response.json()).then(data => {
+        if (Array.isArray(data?.data)) {
+            data.data.forEach(articulo => {
+              if (Array.isArray(articulo.lineas)) {
+                articulo.lineas.forEach(linea => {
+                  if (Array.isArray(linea.rango)) {
+                    linea.rango.forEach(rango => {
+                      rango.consumo = ["ver info_suma_consumo"];
+                    });
+                  }
+                });
+              }
+            });
+          }
+    showDetailsDesglose(data.data);
+    let html = syntaxHighlight(data.data[0]);
+    document.getElementById("jsonContainer").innerHTML = html;
+  }); 
+}
+
+function showDetailsDesglose(data){
+    let desglosePrecios = document.getElementById('desglosePrecios');
+    let tContent = '';
+    let parent_art_data = data[0];
+    let grupos_ingredientes_padre = parent_art_data.lineas;
+
+    grupos_ingredientes_padre.forEach(line => {
+        let consisteAlternativos = line.consiste_de_alternativos;
+        let resAlter = line.resumen_alternativos;
+
+        tContent += `<tr class="border-t">
+                        <td class="px-2 py-2">`;
+                        consisteAlternativos.forEach(alterna => { tContent += `Código: ${alterna[0].erp} Stock: ${alterna[0].stock} Precio: ${alterna[0].precio} <br>` });     
+
+        tContent += `</td>
+                    <td>Precio: ${resAlter.precio_kg}</td>
+                    <td>Porcentaje parte: ${resAlter.parte_proporcional}</td>
+                </tr>`;
+    });
+
+    desglosePrecios.innerHTML = tContent;
+
+    console.log(parent_art_data.precio_padre_act)
+
+    document.getElementById('currentPrice').value = parent_art_data.precio_padre_act
+}
+
+/*
+
+ <tr class="border-t">
+                        <td class="px-2 py-1">302452401 precio: 1.687 kg: 0.000</td>
+                        <td class="px-2 py-1">precio: 1.842</td>
+                        <td class="px-2 py-1">parte: 0.737</td>
+                    </tr>
+
+*/

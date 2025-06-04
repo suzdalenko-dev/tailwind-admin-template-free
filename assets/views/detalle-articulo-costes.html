@@ -5,37 +5,86 @@
             <h2 class="text-lg font-semibold">Detalle de los costes de artículo</h2>
             <div>
                 <label class="block text-sm font-medium">Código artículo</label>
-                <input class="w-full border px-2 py-1 rounded" value="" disabled id="articleCodeId" />
+                <input class="w-full border px-2 py-1 rounded"  disabled id="articleCodeId" />
             </div>
             <div>
                 <label class="block text-sm font-medium">Descripción</label>
-                <input class="w-full border px-2 py-1 rounded" value="" id="descripcionCodeId" disabled />
+                <input class="w-full border px-2 py-1 rounded" id="descripcionCodeId" disabled />
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Precio actual €/kg </label>
+                <input class="w-full border px-2 py-1 rounded" id="currentPrice" disabled />
             </div>
             <br>
             <ul class="suggestions" id="suggestionsList2"></ul>
         </div>
-
-
-        <!-- Columna derecha: ocupa 8 de 12 -->
         <div class="col-span-12 md:col-span-8 space-y-4 border border-gray-300 p-4 shadow-sm">
             <h2 class="text-lg font-semibold" id="perSpan"></h2>
             <div id="listadoLineas">
-               
+
             </div>
-            <button class="text-white px-2 mt-4 rounded twcolor" onclick="addNewLineFuncion()">+ Nuevo ingrediente</button>
+            <button class="text-white px-2 mt-4 rounded twcolor" onclick="addNewLineFuncion()">+ Nuevo
+                ingrediente</button>
         </div>
     </div>
-    <div>
-        <button class="text-white px-2 mt-4 rounded bgred" onclick="deleteArticleCosts()">🗑️ Quitar el artículo de la tabla de costes</button>
+
+
+        <!-- Sección: Desglose actual -->
+        <div class="border border-gray-300 p-4 shadow-sm">
+            <h2 class="text-lg font-semibold mb-4">Desglose de precios (actual - en este mismo instante)</h2>
+            <table class="w-full table-auto border text-sm">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-2 py-1 text-left">Ingredientes</th>
+                        <th class="px-2 py-1 text-left">Resumen</th>
+                        <th class="px-2 py-1 text-left">%</th>
+                    </tr>
+                </thead>
+                <tbody id="desglosePrecios">
+                   
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Sección: JSON futura -->
+        <div class="border border-gray-300 p-4 shadow-sm bg-gray-50">
+            <h2 class="text-lg font-semibold mb-4">Desglose de cálculo de precios en el futuro</h2>
+            <pre id="jsonContainer" class="json-vscode"></pre>
+
+        </div>
+</div>
+
+<div class="p-4 space-y-8">
+   
+        <div>
+            <button class="text-white px-2 mt-4 rounded bgred" onclick="deleteArticleCosts()">🗑️ Quitar el artículo de
+                la tabla de costes</button>
+        </div>
+
     </div>
+</div>
 
-
-
-
-    <style>
-        li:hover {
-            cursor: pointer;
-            background-color: #344D7D;
-            color: white;
-        }
-    </style>
+<style>
+    li:hover {
+        cursor: pointer;
+        background-color: #344D7D;
+        color: white;
+    }
+    .json-vscode {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  font-family: Consolas, monospace;
+  font-size: 0.875rem;
+  padding: 1rem;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+.json-vscode .key { color: #9cdcfe; }
+.json-vscode .string { color: #ce9178; }
+.json-vscode .number { color: #b5cea8; }
+.json-vscode .boolean { color: #569cd6; }
+.json-vscode .null { color: #569cd6; }
+</style>
