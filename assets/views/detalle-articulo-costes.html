@@ -1,0 +1,41 @@
+<div class="p-4 space-y-8">
+    <div class="grid grid-cols-12 gap-4">
+        <!-- Columna izquierda: ocupa 4 de 12 -->
+        <div class="col-span-12 md:col-span-4 space-y-2 border border-gray-300 p-4 shadow-sm">
+            <h2 class="text-lg font-semibold">Detalle de los costes de artículo</h2>
+            <div>
+                <label class="block text-sm font-medium">Código artículo</label>
+                <input class="w-full border px-2 py-1 rounded" value="" disabled id="articleCodeId" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Descripción</label>
+                <input class="w-full border px-2 py-1 rounded" value="" id="descripcionCodeId" disabled />
+            </div>
+            <br>
+            <ul class="suggestions" id="suggestionsList2"></ul>
+        </div>
+
+
+        <!-- Columna derecha: ocupa 8 de 12 -->
+        <div class="col-span-12 md:col-span-8 space-y-4 border border-gray-300 p-4 shadow-sm">
+            <h2 class="text-lg font-semibold" id="perSpan"></h2>
+            <div id="listadoLineas">
+               
+            </div>
+            <button class="text-white px-2 mt-4 rounded twcolor" onclick="addNewLineFuncion()">+ Nuevo ingrediente</button>
+        </div>
+    </div>
+    <div>
+        <button class="text-white px-2 mt-4 rounded bgred" onclick="deleteArticleCosts()">🗑️ Quitar el artículo de la tabla de costes</button>
+    </div>
+
+
+
+
+    <style>
+        li:hover {
+            cursor: pointer;
+            background-color: #344D7D;
+            color: white;
+        }
+    </style>

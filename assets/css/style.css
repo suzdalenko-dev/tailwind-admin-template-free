@@ -81,3 +81,23 @@ td, th, tr{
 .twcolor{
     background:#4F46E5; color: white
 }
+*{
+    margin: 0; padding: 0;
+     font-family: Consolas, sans-serif;
+      font-size: 13px; font-weight: 500; 
+}
+.b-top-page{
+    margin-left: 11px;
+}
+.howerA{
+    cursor: pointer;
+}
+.marg_left{
+    margin-left: 111px;
+}
+.input_alt_desc{
+    width: 333px;
+}
+.bgred{
+    background-color: red;
+}

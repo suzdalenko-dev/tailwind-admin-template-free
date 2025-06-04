@@ -4,7 +4,7 @@ async function loadData(custom_route) {
     let result = await response.json();
     return result;
   } catch (error) {
-     showM(error, 'error')
+     showM('e0 '+ error, 'error')
   }
 }
 
@@ -23,5 +23,5 @@ function toLN(str) {
 }
 
 function toFL(x){
-    return parseFloat(x).toFixed(2);
+    return parseFloat(x).toFixed(3);
 }

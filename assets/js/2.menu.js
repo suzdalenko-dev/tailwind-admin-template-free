@@ -14,6 +14,12 @@ let menuData = [
                 { title: 'Expedientes', icon: '💵', submenu: null },
             ]},
         ]
+    },
+    { title: 'Producción', icon: ':🏭', roles: ['produccion'], submenu: [
+            { title: 'Informes', icon: '📋', submenu: [
+                { title: 'Costes art.', icon: '🧮', submenu: null },
+            ]},
+        ]
     }
 ];
 

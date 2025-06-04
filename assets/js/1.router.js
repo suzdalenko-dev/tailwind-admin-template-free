@@ -11,12 +11,14 @@ function loadView(viewName) {
         .then(res => res.text())
         .then(html => {
            
-            let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);
-            if(oldHtmlPageContent) viewContainer.innerHTML = oldHtmlPageContent;
-            else viewContainer.innerHTML = html;
+            if(viewName != 'detalle-articulo-costes'){
+                let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);
+                if(oldHtmlPageContent) viewContainer.innerHTML = oldHtmlPageContent;
+                else viewContainer.innerHTML = html;
+            } else {
+                viewContainer.innerHTML = html;
+            }
 
-            // viewContainer.innerHTML = html;
-            
             if(String(html).includes('found') || String(html).includes('edited') || String(html).includes('deleted')){
                 setTimeout(() => { window.location = '/dashboard'; }, 2200);
             }
@@ -42,7 +44,7 @@ function loadView(viewName) {
                 }
             }
         }).catch( e => {
-            viewContainer.innerHTML = '1. Error '+ e;
+            viewContainer.innerHTML = 'e1. Error '+ e;
         })
 }
 
