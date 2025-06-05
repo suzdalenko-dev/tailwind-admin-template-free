@@ -6,6 +6,7 @@ function detalleArticuloCostesInit(){
 
     let artCode = parseHashRoute();
     artCode = artCode.params.codigo;
+    document.title = 'Detalle artículo costes: ' + artCode;
 
     fetch(HTTP_HOST+'produccion/get/0/0/get_datail_art_cost/?code='+artCode).then(r => r.json()).then(r => {
         if(r && r.data && r.data.artHead && r.data.artHead[0]){
@@ -256,32 +257,34 @@ function showDetailsDesglose(data){
     let grupos_ingredientes_padre = parent_art_data.lineas;
 
     grupos_ingredientes_padre.forEach(line => {
+        let linePercentage = line.percentage;
+        console.log(linePercentage);
+
         let consisteAlternativos = line.consiste_de_alternativos;
         let resAlter = line.resumen_alternativos;
 
         tContent += `<tr class="border-t">
                         <td class="px-2 py-2">`;
-                        consisteAlternativos.forEach(alterna => { tContent += `Código: ${alterna[0].erp} Stock: ${alterna[0].stock} Precio: ${alterna[0].precio} <br>` });     
+                        consisteAlternativos.forEach(alterna => { tContent += `Código: ${alterna[0].erp} Stock: ${alterna[0].stock} Precio: ${toFL(alterna[0].precio)} <br>` });     
 
         tContent += `</td>
-                    <td>Precio: ${resAlter.precio_kg}</td>
-                    <td>Porcentaje parte: ${resAlter.parte_proporcional}</td>
+                    <td>Precio: ${toFL(resAlter.precio_kg)} x ${linePercentage} %</td>
+                    <td>Porcentaje parte: ${toFL(resAlter.parte_proporcional)}</td>
                 </tr>`;
     });
 
     desglosePrecios.innerHTML = tContent;
 
-    console.log(parent_art_data.precio_padre_act)
+    let costes_fecha = parent_art_data.costes_fecha;
+    if(costes_fecha){
+        costes_fecha = costes_fecha[0];
+        if(costes_fecha){
+            costes_fecha = costes_fecha.inicio_coste_act;
+            document.getElementById('currentEndMont').value = toFL(costes_fecha);
+        }
+    }
 
-    document.getElementById('currentPrice').value = parent_art_data.precio_padre_act
+
+    document.getElementById('currentPrice').value = toFL(parent_art_data.precio_padre_act);
 }
 
-/*
-
- <tr class="border-t">
-                        <td class="px-2 py-1">302452401 precio: 1.687 kg: 0.000</td>
-                        <td class="px-2 py-1">precio: 1.842</td>
-                        <td class="px-2 py-1">parte: 0.737</td>
-                    </tr>
-
-*/

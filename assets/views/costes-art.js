@@ -12,6 +12,7 @@ function costesArtInit(){
     document.getElementById('addNewArticleForm').style.display = 'none';
 
     initArticleAddFormData();
+    document.title = 'Costes de artículos';
 }
 
 async function renderArtTable(){
@@ -152,8 +153,9 @@ function initArticleAddFormData(){
 
 function openArticleDetail(artCode){
     let url = '/dashboard/#detalle-articulo-costes?codigo='+artCode;
-    window.location.href = url;
-    loadView('detalle-articulo-costes');
+    // window.location.href = url;
+    // loadView('detalle-articulo-costes');
+    window.open(url, '_blank');
 }
 
 
@@ -224,7 +226,7 @@ function recalculateTable(){
         setInterval(() => { dotCount = (dotCount + 1) % 4; let dots = '.'.repeat(dotCount); titulo.innerHTML = `Recalculando${dots}`;}, 500);
     }
 
-    fetch(HTTP_HOST+'/produccion/get/0/0/recalculate_price_projections/').then(r => r.json()).then(r => {
+    fetch(HTTP_HOST+'produccion/get/0/0/recalculate_price_projections/').then(r => r.json()).then(r => {
         if(r && r.data){
             showM('Recalculado');
             if(tituloArticleCosts) tituloArticleCosts.innerHTML = 'Proyección de costes de artículos';
