@@ -51,6 +51,7 @@ function showInfoTable(datas){
         console.log(x)
     });
     document.getElementById('blockTable').innerHTML = html;
+    setDefaulContentToLocalStorage();
 }
 
 function createExcelBl(){
