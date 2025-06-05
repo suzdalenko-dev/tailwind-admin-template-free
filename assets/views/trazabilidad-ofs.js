@@ -97,7 +97,7 @@ function getOfState(x){
 }
 
 function trazabilidadOfsInit() {
-    document.title = "trazabilidadOfsInit";
+    document.title = "Calendario OFs";
     document.getElementById('slugTitle').innerHTML = '';
 
     renderCalendario(ordenesFabricacion, fechaActualOF.getFullYear(), fechaActualOF.getMonth());

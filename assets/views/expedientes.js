@@ -3,7 +3,7 @@ var excelData = []
 function expedientesInit() {
     renderCalendarioExpedientes(CURRENT_YEAR);
 
-    document.title = "cambiosEnExpedientesInit";
+    document.title = "Expedientes importación";
     document.getElementById('slugTitle').innerHTML = '<span class="b-top-page" onclick="renderCalendarioExpedientes(1)">📥 Excel</span>';
 }
 

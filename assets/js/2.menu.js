@@ -5,6 +5,7 @@ let menuData = [
     { title: 'Calidad', icon: '🧪', roles: ['calidad'], submenu: [
             { title: 'Informes', icon: '📋', submenu: [
                     { title: 'Trazabilidad OFs', icon: '🔗' },
+                    { title: 'Bloqueos', icon: '🔒' },
                 ]
             }
         ]
