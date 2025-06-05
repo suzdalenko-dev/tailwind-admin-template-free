@@ -184,13 +184,14 @@ function createExcelArtConst() {
         months.push(`${month}/${year}`);
     }
 
-    const header = ["Código", "Descripción", "Rend.", "Mat. prima", "Aceite", "Servicio","Aditivo", "MOD", "Embalaje", "Amort.", "MOI", ...months];
+    let header = ["Código", "Descripción", "€/Kg act.", "€/kg fm", "Rend.", "Mat. prima", "Aceite", "Servicio","Aditivo", "MOD", "Embalaje", "Amort.", "MOI", ...months];
 
-    // Crear las filas de datos
     const rows = excel_all_lines.map(item => [
         item.article_code,
         item.article_name.trim(),
-        item.rendimiento ?? "",
+        toFL(item.precio_padre_act) ?? "",
+        toFL(item.inicio_coste_act) ?? "",
+        toFL(item.rendimiento) ?? "",
         toFL(item.precio_materia_prima) ?? "",
         item.precio_aceite ?? "",
         item.precio_servicios ?? "",
