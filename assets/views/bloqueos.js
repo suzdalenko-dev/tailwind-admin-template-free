@@ -41,11 +41,12 @@ function showInfoTable(datas){
     datas.map(x => {
         html +=  `<tr>
             <td class="taleft border px-2 py-1 text-center">${x.ALMACEN} ${x.D_ALMACEN}</td>
-            <td class="taleft border px-2 py-1 text-center">${x.CODIGO_ARTICULO} ${x.DESCRIPCION_ARTICULO_MIRROR}</td>
-            <td class="taleft border px-2 py-1 text-center">${x.NUMERO_LOTE_INT}</td>
-            <td class="taleft border px-2 py-1 text-center">${x.CANTIDAD_CON} ${x.UNIDAD_CODIGO1}</td>
             <td class="taleft border px-2 py-1 text-center">${x.TIPO_SITUACION}</td>
-            <td class="taleft border px-2 py-1 text-center">${x.D_CODIGO_PROVEEDOR} ${x.D_ALMACEN}</td>
+            <td class="taleft border px-2 py-1 text-center">${x.LOTE}</td>
+            <td class="taleft border px-2 py-1 text-center">${x.NUMERO_LOTE_INT}</td> 
+            <td class="taleft border px-2 py-1 text-center">${x.CODIGO_ARTICULO} ${x.DESCRIPCION_ARTICULO_MIRROR}</td>
+            <td class="taleft border px-2 py-1 text-center">${x.CANTIDAD_CON}</td>
+            <td class="taleft border px-2 py-1 text-center">${x.CANTIDAD_EXP}</td>
             <td class="taleft border px-2 py-1 text-center">${x.resultCom && x.resultCom[0] || ''}</td>
         </tr>`;
         console.log(x)
@@ -64,11 +65,12 @@ function createExcelBl(){
         const comentarios = x.resultCom?.join('\n') || '';
         return {
             "Almacén": `${x.ALMACEN} ${x.D_ALMACEN}`,
-            "Artículo": `${x.CODIGO_ARTICULO} ${x.DESCRIPCION_ARTICULO_MIRROR}`,
-            "Lote": x.NUMERO_LOTE_INT,
-            "Cantidad": `${x.CANTIDAD_CON} ${x.UNIDAD_CODIGO1}`,
-            "Tipo": x.TIPO_SITUACION,
-            "Proveedor": `${x.D_CODIGO_PROVEEDOR} ${x.D_ALMACEN}`,
+            "Situación": `${x.TIPO_SITUACION}`,
+            "Cód._Entrada": x.LOTE,
+            "Lote": `${x.NUMERO_LOTE_INT}`,
+            "Descripción": `${x.CODIGO_ARTICULO} ${x.DESCRIPCION_ARTICULO_MIRROR}`,
+            "Palet": `${x.CANTIDAD_CON}`,
+            "Kg": `${x.CANTIDAD_EXP}`,
             "Observaciones": comentarios
         };
     });

@@ -96,7 +96,7 @@ function getOfState(x){
     return 'None';
 }
 
-function trazabilidadOfsInit() {
+function trazabilidadInit() {
     document.title = "Calendario OFs";
     document.getElementById('slugTitle').innerHTML = '';
 
