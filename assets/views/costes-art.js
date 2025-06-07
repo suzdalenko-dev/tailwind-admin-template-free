@@ -211,7 +211,7 @@ function changeSearchedArticle(event){
     window.localStorage.setItem('buscar_articulo', inputValue);
     paintTableFilteredData()
 }
-function paintTableFilteredData(){ 
+function paintTableFilteredData(){
     let filteredArray = [];
     if (searchArticleValue) { filteredArray = excel_all_lines.filter(x => String(x.article_code).includes(searchArticleValue) || String(x.article_name).toLowerCase().includes(searchArticleValue.toLowerCase()));
     } else { filteredArray = excel_all_lines; }
@@ -264,7 +264,7 @@ function paintTableFilteredData(){
             <tbody>${tBody}</tbody>
         </table>
     </div>`;
-
-
     document.getElementById('costes_art_content').innerHTML = tableCosts;
+    
+    getNextMonthsCosts();
 }
