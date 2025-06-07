@@ -104,3 +104,52 @@ td, th, tr{
 .taleft{
     text-align: left!important;
 }
+.topLeft {
+    border-top-left-radius: 4px;
+}
+.topRight {
+    border-top-right-radius: 4px;
+}
+table{
+    border: none;
+}
+li:hover{
+    cursor: pointer;
+    background-color: #4F46E5; color: white;
+}
+.styled-table-ca thead th {
+        background-color: #4F46E5; 
+        color: white;
+}
+.styled-table-ca {
+    width: 100%;
+    border-collapse: collapse;
+}
+.styled-table-ca th, .styled-table-ca td {
+    padding: 1px 4px;
+}
+.styled-table-ca tbody tr:hover {
+    background-color: rgb(197, 255, 197)!important;
+}
+.styled-table-ca tbody tr:nth-of-type(even) {
+    background-color: rgb(238, 251, 238);
+}
+.input-ca{
+    width: 71px; border: 1px solid rgb(215, 215, 215); outline: none; background-color: white;
+    text-align: center; border-radius: 4px;
+}
+.input-ca:focus{
+    border: 1px solid #4F46E5;
+}
+#articleCodeId, #descripcionCodeId{
+    text-align: left;
+}
+#articleCodeId{
+    background-color: rgb(235, 235, 235);
+}
+.bgadmin{
+    background-color: #4f46e5;
+}
+.input-ca-ba{
+    width: 322px;
+}

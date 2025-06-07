@@ -191,13 +191,13 @@ async function showCustomOf(ofId){
                 <table class="w-full table-auto border border-gray-300 text-sm ">
                     <thead>
                         <tr class="twcolor">
-                            <th>Id</th>
+                            <th class="topLeft">Id</th>
                             <th>Fecha Inicio</th>
                             <th>Fecha Entrega</th>
                             <th>Código</th>
                             <th>Nombre</th>
                             <th>Cantidad</th>
-                            <th>Estado</th>
+                            <th class="topRight">Estado</th>
                         </tr>
                     </thead>
                     <tbody>${htmlOfsTop}</tbody>
@@ -209,9 +209,9 @@ async function showCustomOf(ofId){
                 <table class="w-full table-auto border border-gray-300 text-sm">
                     <thead>
                         <tr class="twcolor">
-                            <th>Código</th>
+                            <th class="topLeft">Código</th>
                             <th>Nombre</th>
-                            <th>Cantidad</th>
+                            <th class="topRight">Cantidad</th>
                         </tr>
                     </thead>
                     <tbody>${htmlMP}</tbody>
@@ -223,12 +223,12 @@ async function showCustomOf(ofId){
                 <table class="w-full table-auto border border-gray-300 text-sm">
                     <thead>
                         <tr class="twcolor">
-                            <th>Fecha creación</th>
+                            <th class="topLeft">Fecha creación</th>
                             <th>Fecha caducidad</th>
                             <th>Código</th>
                             <th>Nombre</th>
                             <th>Lote</th>
-                            <th>Cantidad</th>
+                            <th class="topRight">Cantidad</th>
                         </tr>
                     </thead>
                     <tbody>${htmlMC}</tbody>
@@ -240,13 +240,13 @@ async function showCustomOf(ofId){
                 <table class="w-full table-auto border border-gray-300 text-sm">
                     <thead>
                         <tr class="twcolor">
-                            <th>Fecha creación</th>
+                            <th class="topLeft">Fecha creación</th>
                             <th>Fecha caducidad</th>
                             <th>Código</th>
                             <th>Nombre</th>
                             <th>Lote</th>
                             <th>Cantidad</th>
-                            <th>Paleta</th>
+                            <th class="topRight">Paleta</th>
                         </tr>
                     </thead>
                     <tbody>${htmlMProd}</tbody>
@@ -258,14 +258,14 @@ async function showCustomOf(ofId){
                 <table class="w-full table-auto border border-gray-300 text-sm">
                     <thead>
                         <tr class="twcolor">
-                            <th>OF id</th>
+                            <th class="topLeft">OF id</th>
                             <th>Parte</th>
                             <th>Código</th>
                             <th>Fecha entrada</th>
                             <th>Fecha verificacion</th>
                             <th>Cantidad aceptada</th>
                             <th>Cantidad recibida</th>
-                            <th>Usuario</th>
+                            <th class="topRight">Usuario</th>
                         </tr>
                     </thead>
                     <tbody>${htmlPI}</tbody>

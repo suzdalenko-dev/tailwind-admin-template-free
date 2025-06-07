@@ -22,6 +22,10 @@ function toLN(str) {
     return parseFloat(clean).toFixed(2);
 }
 
+function toFL2(x){
+    return parseFloat(x).toFixed(2);
+}
+
 function toFL(x){
     return parseFloat(x).toFixed(3);
 }

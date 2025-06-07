@@ -1,4 +1,5 @@
-let excel_all_lines = []
+let searchArticleValue = '';
+let excel_all_lines    = [];
 
 function costesArtInit(){
     document.getElementById('slugTitle').innerHTML = `
@@ -7,6 +8,7 @@ function costesArtInit(){
         <span class="b-top-page" onclick="recalculateTable()">🔃 Recaclular </span>
         `;
     document.getElementById('tituloArticleCosts').innerHTML = 'Proyección de costes de artículos';
+    initSearchArticle();
 
     renderArtTable();
     document.getElementById('addNewArticleForm').style.display = 'none';
@@ -16,70 +18,25 @@ function costesArtInit(){
 }
 
 async function renderArtTable(){
-    let tBody = '';
     let lines = await loadData('produccion/get/0/0/get_all_excel_editables_lines/');
     excel_all_lines = lines.data;
-    lines.data.map(x => {
-        tBody += `<tr>
-            <td class="border px-2 py-1 text-center howerA" onclick="openArticleDetail(${x.article_code})" >${x.article_code}</td>
-            <td class="border px-2 py-1 text-center howerA taleft" onclick="openArticleDetail(${x.article_code})" >${x.article_name}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.precio_padre_act)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.inicio_coste_act)}</td>
-            <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.rendimiento)}" onkeydown="inputNewValue('rendimiento', event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center">${toFL(x.precio_materia_prima)}</td>
-            <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.precio_aceite)}" onkeydown="inputNewValue('precio_aceite', event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.precio_servicios)}"  onkeydown="inputNewValue('precio_servicios', event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.aditivos)}" onkeydown="inputNewValue('aditivos', event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.mod)}" onkeydown="inputNewValue('mod', event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.embalajes)}" onkeydown="inputNewValue('embalajes', event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.amort_maq)}" onkeydown="inputNewValue('amort_maq', event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center"><input type="number" value="${toFL(x.moi)}" onkeydown="inputNewValue('moi', event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_act)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas1)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas2)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas3)}</td>
-        </tr>`;
-    })
-
-    let tableCosts = `<div class="table-container">
-        <table class="styled-table">
-            <thead>
-                <tr class="twcolor">
-                    <th>Código</th>
-                    <th>Descripcion</th>
-                    <th>€/Kg act.</th>
-                    <th>€/kg fm</th>
-                    <th>Rend.</th>
-                    <th>Mat. prima</th>
-                    <th>Aceite</th>
-                    <th>Servicio</th>
-                    <th>Aditivo</th>
-                    <th>MOD</th>
-                    <th>Embalaje</th>
-                    <th>Amort.</th>
-                    <th>MOI</th>
-                    <th id="date0">Fin mes</th>
-                    <th id="date1">+1</th>
-                    <th id="date2">+2</th>
-                    <th id="date3">+3</th>    
-                </tr>
-            </thead>
-            <tbody>${tBody}</tbody>
-        </table>
-    </div>`;
-
-
-    document.getElementById('costes_art_content').innerHTML = tableCosts;
+    
+    paintTableFilteredData();
     getNextMonthsCosts();
     setDefaulContentToLocalStorage();
 }
 
-function inputNewValue(field, event, lineId){
-    if (event.key === 'Enter') {
-        let formData = new FormData();
-            formData.append('id', lineId);
-            formData.append('value', event.target.value);
-            formData.append('field', field);
+function inputNewValue(event, lineId){
+    if (event.key == 'Enter') {
+        let formData         = new FormData();                                                formData.append('id', lineId);
+        let rendimiento      = document.getElementById('rendimiento'+lineId).value || 0;      formData.append('rendimiento', rendimiento);
+        let precio_aceite    = document.getElementById('precio_aceite'+lineId).value || 0;    formData.append('precio_aceite', precio_aceite);
+        let precio_servicios = document.getElementById('precio_servicios'+lineId).value || 0; formData.append('precio_servicios', precio_servicios);
+        let aditivos         = document.getElementById('aditivos'+lineId).value || 0;         formData.append('aditivos', aditivos);
+        let mod              = document.getElementById('mod'+lineId).value || 0;              formData.append('mod', mod);
+        let embalajes        = document.getElementById('embalajes'+lineId).value || 0;        formData.append('embalajes', embalajes);
+        let amort_maq        = document.getElementById('amort_maq'+lineId).value || 0;        formData.append('amort_maq', amort_maq);
+        let moi              = document.getElementById('moi'+lineId).value || 0;              formData.append('moi', moi);
         updateExcelLine(formData);
     }
 }
@@ -161,7 +118,6 @@ function openArticleDetail(artCode){
 
 function getNextMonthsCosts(){
     let today = new Date();
-
     for (let i = 0; i < 4; i++) {
         let date  = new Date(today.getFullYear(), today.getMonth() + i, 1);
         let month = String(date.getMonth() + 1).padStart(2, '0'); 
@@ -212,7 +168,7 @@ function createExcelArtConst() {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Costes");
 
     const now = new Date();
-    const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}__${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}}`;
+    const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}__${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}`;
     const filename = `costes_${timestamp}.xlsx`;
     XLSX.writeFile(workbook, filename);
 }
@@ -238,4 +194,77 @@ function recalculateTable(){
     }).catch(e =>{
         showM('e15 '+e, 'error');
     })
+}
+function cleanArticleSearch(){
+    searchArticleValue = '';
+    document.getElementById('searchArticleInput').value = searchArticleValue;
+    window.localStorage.setItem('buscar_articulo', '');
+    paintTableFilteredData();
+}
+function initSearchArticle(){
+    searchArticleValue = window.localStorage.getItem('buscar_articulo') || '';
+    document.getElementById('searchArticleInput').value = searchArticleValue;
+}
+function changeSearchedArticle(event){
+    let inputValue = document.getElementById('searchArticleInput').value.trim();
+    searchArticleValue = inputValue;
+    window.localStorage.setItem('buscar_articulo', inputValue);
+    paintTableFilteredData()
+}
+function paintTableFilteredData(){ 
+    let filteredArray = [];
+    if (searchArticleValue) { filteredArray = excel_all_lines.filter(x => String(x.article_code).includes(searchArticleValue) || String(x.article_name).toLowerCase().includes(searchArticleValue.toLowerCase()));
+    } else { filteredArray = excel_all_lines; }
+    let tBody = '';
+    filteredArray.map(x => {
+        tBody += `<tr>
+            <td class="border px-2 py-1 text-center howerA" onclick="openArticleDetail(${x.article_code})" >${x.article_code}</td>
+            <td class="border px-2 py-1 text-center howerA taleft" onclick="openArticleDetail(${x.article_code})" >${x.article_name}</td>
+            <td class="border px-2 py-1 text-center">${toFL(x.precio_padre_act)}</td>
+            <td class="border px-2 py-1 text-center">${toFL(x.inicio_coste_act)}</td>
+            <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.rendimiento)}"      id="rendimiento${x.id}"      onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center">${toFL(x.precio_materia_prima)}</td>
+            <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.precio_aceite)}"    id="precio_aceite${x.id}"    onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.precio_servicios)}" id="precio_servicios${x.id}" onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.aditivos)}"         id="aditivos${x.id}"         onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.mod)}"              id="mod${x.id}"              onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.embalajes)}"        id="embalajes${x.id}"        onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.amort_maq)}"        id="amort_maq${x.id}"        onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.moi)}"              id="moi${x.id}"              onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_act)}</td>
+            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas1)}</td>
+            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas2)}</td>
+            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas3)}</td>
+        </tr>`;
+    })
+
+    let tableCosts = `<div class="table-container">
+        <table class="styled-table-ca">
+            <thead>
+                <tr>
+                    <th class="topLeft">Código</th>
+                    <th>Descripcion</th>
+                    <th>€/Kg act.</th>
+                    <th>€/kg fm</th>
+                    <th>Rend.</th>
+                    <th>Mat. prima</th>
+                    <th>Aceite</th>
+                    <th>Servicio</th>
+                    <th>Aditivo</th>
+                    <th>MOD</th>
+                    <th>Embalaje</th>
+                    <th>Amort.</th>
+                    <th>MOI</th>
+                    <th id="date0">Fin mes</th>
+                    <th id="date1">+1</th>
+                    <th id="date2">+2</th>
+                    <th id="date3" class="topRight">+3</th>    
+                </tr>
+            </thead>
+            <tbody>${tBody}</tbody>
+        </table>
+    </div>`;
+
+
+    document.getElementById('costes_art_content').innerHTML = tableCosts;
 }

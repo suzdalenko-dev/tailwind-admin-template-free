@@ -13,67 +13,22 @@
       <div class="mt-4">
         <ul class="suggestions" id="suggestionsList"></ul>
       </div>
-      <button class="bg-blue-700 text-white px-2  mt-4 rounded hover:bg-blue-800" onclick="saveNewAricleFunc()">Guardar</button>
+      <button class="text-white px-2  mt-4 rounded bgadmin" onclick="saveNewAricleFunc()">Guardar</button>
     </div>
   </div>
+  <br><br><br>
 </div>
 
 
 <div class="w-full mx-auto mb-4 flex justify-between items-center">
-    <span></span>
+    <span>
+      <input type="text" value="" class="input-ca input-ca-ba" placeholder="Buscar artículo.." id="searchArticleInput" oninput="changeSearchedArticle(event)">
+      <span  class="b-top-page" onclick="cleanArticleSearch()"> 🧹 </span>
+    </span>
     <h1 id="tituloArticleCosts" class="text-xl text-center"></h1>
-    <span></span>
+    <span> </span> <span> </span> <span> </span>
 </div>
-<div id="costes_art_content" class="flex flex-col gap-2 text-sm w-full">
-    <div class="bg-white p-2 border">Contenido aquí</div>
+<div id="costes_art_content" class="flex flex-col gap-2 text-sm w-full rounded-md">
+    <div class="bg-white p-2 border ">Contenido aquí</div>
 </div>
 
-
-<style>
-    .styled-table thead th {
-            background-color: #4F46E5; /* Fondo verde para el encabezado */
-            color: white; /* Texto blanco */
-    }
-    .icon_white{
-        color: white;
-        width: 55px!important;
-        height: 55px!important;
-    }
-    .icon_white:hover{
-        cursor: pointer;
-    }
-
-    tr{
-        text-align: center!important;
-    }
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .styled-table th, .styled-table td {
-        padding: 1px 4px;
-    }
-    .styled-table tbody tr:hover {
-        background-color: rgb(197, 255, 197)!important;
-    }
-    .styled-table tbody tr:nth-of-type(even) {
-        background-color: rgb(238, 251, 238);       /* #f9f9f9 */
-    }
-    input{
-        width: 71px; border: 1px solid rgb(215, 215, 215); outline: none; background-color: white;
-        text-align: center;
-    }
-    input:focus{
-        border: 1px solid #4F46E5;
-    }
-    .td_hover:hover{
-        cursor: pointer;
-    }
-    #articleCodeId, #descripcionCodeId{
-        text-align: left;
-    }
-    li:hover{
-        cursor: pointer;
-        background-color: #4F46E5; color: white;
-    }
-</style>

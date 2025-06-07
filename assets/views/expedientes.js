@@ -74,7 +74,7 @@ async function renderCalendarioExpedientes(x) {
             <table class="w-full table-auto border border-gray-300 text-sm">
                 <thead>
                     <tr class="twcolor">
-                        <th>Expediente</th>
+                        <th class="topLeft">Expediente</th>
                         <th>Proveedor</th>
                         <th>Fecha expediente</th>
                         <th>Valor cambio</th>
@@ -85,7 +85,7 @@ async function renderCalendarioExpedientes(x) {
                         <th>Cambio factura</th>
                         <th>Importe €</th>
                         <th>Cambio dia</th>
-                        <th>Cambio mes</th>    
+                        <th class="topRight">Cambio mes</th>    
                     </tr>
                 </thead>
                 <tbody>${tableContent}</tbody>
