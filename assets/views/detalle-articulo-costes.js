@@ -1,4 +1,5 @@
-let PARENT_ARTICLE = 0
+let PARENT_ARTICLE = 0;
+let DC_DATA        = [];
 
 
 function detalleArticuloCostesInit(){
@@ -10,6 +11,7 @@ function detalleArticuloCostesInit(){
 
     fetch(HTTP_HOST+'produccion/get/0/0/get_datail_art_cost/?code='+artCode).then(r => r.json()).then(r => {
         if(r && r.data && r.data.artHead && r.data.artHead[0]){
+            DC_DATA = r.data;
             let artHead = r.data.artHead[0];
                 PARENT_ARTICLE = artHead.article_code;
                 let articleCodeId = document.getElementById('articleCodeId')
@@ -34,8 +36,6 @@ function detalleArticuloCostesInit(){
     }).catch(e => {
         showM('e8 '+e, 'error');
     });
-
-    
 }
 
 
@@ -68,9 +68,7 @@ function writeIgnredients(artLines){
                         <div id="insertInputAlt_${x.id}"></div>
                         ${htmlAlternative}
                         <br><hr /><br>`;
-
     });
-
     listadoLineas.innerHTML = htmlContent;
     let perSpan = document.getElementById('perSpan');
     if(perSpan) perSpan.innerHTML = `Insertar ingredientes y porcentajes ${sumPercentage} %`;
@@ -84,7 +82,6 @@ function addNewLineFuncion(){
                         </div><br>`
     newDiv.innerHTML = lineNewHtml;
     let listadoLineas = document.getElementById('listadoLineas');
-
     listadoLineas.appendChild(newDiv)
 }
 
@@ -284,7 +281,5 @@ function showDetailsDesglose(data){
         }
     }
 
-
     document.getElementById('currentPrice').value = toFL(parent_art_data.precio_padre_act);
 }
-

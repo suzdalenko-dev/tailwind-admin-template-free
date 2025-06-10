@@ -29,3 +29,29 @@ function toFL2(x){
 function toFL(x){
     return parseFloat(x).toFixed(3);
 }
+
+
+
+function obtenerFechasFuturas() {
+  const hoy = new Date();
+  const fechas = [];
+
+  function formatearFecha(fecha) {
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const año = fecha.getFullYear();
+    return `${dia}/${mes}/${año}`;
+  }
+
+  fechas.push(formatearFecha(hoy));
+
+  for (let i = 0; i < 4; i++) {
+    const fecha = new Date(hoy.getFullYear(), hoy.getMonth() + i + 1, 0);
+    fechas.push(formatearFecha(fecha));
+  }
+
+  return fechas;
+}
+
+
+

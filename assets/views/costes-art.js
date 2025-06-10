@@ -15,6 +15,7 @@ function costesArtInit(){
 
     initArticleAddFormData();
     document.title = 'Costes de artículos';
+
 }
 
 async function renderArtTable(){
