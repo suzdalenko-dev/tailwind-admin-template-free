@@ -15,7 +15,7 @@ function costesArtInit(){
 
     initArticleAddFormData();
     document.title = 'Costes de artículos';
-
+    changeFocus();
 }
 
 async function renderArtTable(){
@@ -274,4 +274,17 @@ function paintTableFilteredData(){
     document.getElementById('costes_art_content').innerHTML = tableCosts;
     
     getNextMonthsCosts();
+}
+
+
+function changeFocus(){
+    window.addEventListener("focus", () => {
+        console.log("🔵 La ventana volvió a tener foco");
+        renderArtTable();
+    });
+
+    window.addEventListener("blur", () => {
+        console.log("⚪ La ventana perdió el foco");
+        setTimeout(() => { renderArtTable(); }, 3000);
+    });
 }
