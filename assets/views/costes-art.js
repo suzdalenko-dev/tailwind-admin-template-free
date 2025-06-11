@@ -190,7 +190,7 @@ function recalculateTable(){
             setTimeout(() => {renderArtTable();}, 3000);
             if(r && r.data && r.data[0] && r.data[0].expediente_sin_precios){
                 let textArray =   r.data[0].expediente_sin_precios.join(' ,');
-                showM('OJO hay expedientes sin gastos imputados (precio desconocido). Num: '+textArray, 'warning');
+                showM('OJO hay expedientes sin gastos imputados (precio desconocido). Núm: '+textArray, 'warning');
             } else {
                 showM('Recalculado');
             }
