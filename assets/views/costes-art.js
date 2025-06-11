@@ -186,12 +186,18 @@ function recalculateTable(){
 
     fetch(HTTP_HOST+'produccion/get/0/0/recalculate_price_projections/').then(r => r.json()).then(r => {
         if(r && r.data){
-            showM('Recalculado');
             if(tituloArticleCosts) tituloArticleCosts.innerHTML = 'Proyección de costes de artículos';
-            setTimeout(() => {window.location.reload();}, 3000);
+            setTimeout(() => {renderArtTable();}, 3000);
+            if(r && r.data && r.data[0] && r.data[0].expediente_sin_precios){
+                let textArray =   r.data[0].expediente_sin_precios.join(' ,');
+                showM('OJO hay expedientes sin gastos imputados (precio desconocido). Num: '+textArray, 'warning');
+            } else {
+                showM('Recalculado');
+            }
         } else {
            showM('e16 Error');
         }
+        setTimeout( () => { window.location.reload(); }, 11000);
     }).catch(e =>{
         showM('e15 '+e, 'error');
     })

@@ -228,6 +228,11 @@ function syntaxHighlight(json) {
 
 function showDetailCode(){
     fetch(HTTP_HOST+'produccion/get/0/0/recalculate_price_projections/?code='+PARENT_ARTICLE).then(response => response.json()).then(data => {
+        if(data && data.data && data.data[0] && data.data[0].expediente_sin_precios){
+            let textArray =   data.data[0].expediente_sin_precios.join(' ,');
+            showM('OJO hay expedientes sin gastos imputados (precio desconocido). Num: '+textArray, 'warning');
+        }
+
         if (Array.isArray(data?.data)) {
             data.data.forEach(articulo => {
               if (Array.isArray(articulo.lineas)) {
