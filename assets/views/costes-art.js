@@ -263,7 +263,7 @@ function paintTableFilteredData(){
                     <th>Embalaje</th>
                     <th>Amort.</th>
                     <th>MOI</th>
-                    <th>€/Kg Act. C/G</th>
+                    <th>€/Kg C/G Act.</th>
                     <th id="date0">Fin mes</th>
                     <th id="date1">+1</th>
                     <th id="date2">+2</th>
