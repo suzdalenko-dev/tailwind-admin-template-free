@@ -238,6 +238,7 @@ function paintTableFilteredData(){
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.embalajes)}"        id="embalajes${x.id}"        onkeydown="inputNewValue(event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.amort_maq)}"        id="amort_maq${x.id}"        onkeydown="inputNewValue(event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.moi)}"              id="moi${x.id}"              onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center">${toFL(x.precio_padre_mas_gastos)}</td>
             <td class="border px-2 py-1 text-center">${toFL(x.final_coste_act)}</td>
             <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas1)}</td>
             <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas2)}</td>
@@ -251,10 +252,10 @@ function paintTableFilteredData(){
                 <tr>
                     <th class="topLeft">Código</th>
                     <th>Descripcion</th>
-                    <th>€/Kg act.</th>
-                    <th>€/kg fm</th>
+                    <th>€/Kg Act.</th>
+                    <th>€/kg F/M</th>
                     <th>Rend.</th>
-                    <th>Mat. prima</th>
+                    <th>M/Prima Act.</th>
                     <th>Aceite</th>
                     <th>Servicio</th>
                     <th>Aditivo</th>
@@ -262,6 +263,7 @@ function paintTableFilteredData(){
                     <th>Embalaje</th>
                     <th>Amort.</th>
                     <th>MOI</th>
+                    <th>€/Kg Act. C/G</th>
                     <th id="date0">Fin mes</th>
                     <th id="date1">+1</th>
                     <th id="date2">+2</th>

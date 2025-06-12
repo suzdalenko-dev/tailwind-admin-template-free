@@ -10,11 +10,13 @@ function detalleGrupoEquivalenteInit(){
 }
 
 async function saveNewQuivalente(code, name){
-     let formData = new FormData();
-         formData.append('id', PARENT_ID_EQ)
-         formData.append('code', code);
-         formData.append('name', name);
-    // await saveData(, formData)
+    let formData = new FormData();
+        formData.append('id', PARENT_ID_EQ)
+        formData.append('code', code);
+        formData.append('name', name);
+    await saveData('produccion/save_item_equiv/0/0/create_update_equivalents/ ', formData);
+    getDataPageEq();
+    document.getElementById('suggestionsList2').innerHTML = '';
 }
 
 async function getListArticles(){
@@ -48,10 +50,10 @@ function addNewArticuleGr(){
     let newDiv = document.createElement('div');
     let lineNewHtml = `<div class="flex items-center gap-2">
                             <input type="text" placeholder="Descripción nuevo equivalente" value="" class="border px-2 py-1 rounded w-2/4" oninput="changeLineQuival(event)" />
-                        </div><br>`
+                    </div><br>`
     newDiv.innerHTML = lineNewHtml;
-    let listadoLineas = document.getElementById('listadoLineas');
-    listadoLineas.appendChild(newDiv)
+    let listadoLinEquiv = document.getElementById('listadoLinEquiv');
+    listadoLinEquiv.appendChild(newDiv)
 }
 
 async function nameGroupPress(event){
@@ -71,5 +73,27 @@ async function getDataPageEq(){
     let eQData = await loadData(`produccion/get_one/0/${PARENT_ID_EQ}/create_update_equivalents/`);
     eQData = eQData.data;
     document.getElementById('nameGroupId').value = eQData.article_name;
-    console.log(eQData)
+
+    let listadoLinEquiv = document.getElementById('listadoLinEquiv')
+    let htmlAlternative = '';
+    let alternative     = JSON.parse(eQData.alternative);
+    console.log(alternative)
+
+    if(alternative && alternative.length > 0){
+        alternative.map(x => {
+            htmlAlternative += `<div>Código: ${x.code}, Descripción:  ${x.name} <span class="howerA" onclick="deleteItemEquiv(${PARENT_ID_EQ}, ${x.code})">🗑️</span></div>`;
+        });
+        htmlAlternative += '<br>';
+    }
+    listadoLinEquiv.innerHTML = htmlAlternative;
+}
+
+async function deleteItemEquiv(id, code){
+    let confirmA = confirm('¿Eliminar artículo?');
+    if(!confirmA) return; 
+    let formData = new FormData();
+        formData.append('id', id);
+        formData.append('code', code);
+    await deleteData('produccion/delete_item/0/0/create_update_equivalents/', formData)
+    getDataPageEq();
 }

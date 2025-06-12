@@ -1,7 +1,7 @@
 async function loadData(custom_route) {
   try {
     let response = await fetch(HTTP_HOST+custom_route);
-    let result = await response.json();
+    let result   = await response.json();
     return result;
   } catch (error) {
      showM('e0 '+ error, 'error')
@@ -11,10 +11,20 @@ async function loadData(custom_route) {
 async function saveData(custom_route, formData) {
   try {
     let response = await fetch(HTTP_HOST+custom_route, {method:'POST', body:formData});
-    let result = await response.json();
+    let result   = await response.json();
     return result;
   } catch (error) {
      showM('e00 '+ error, 'error')
+  }
+}
+
+async function deleteData(custom_route, formData) {
+  try {
+    let response = await fetch(HTTP_HOST+custom_route, {method:'POST', body:formData});
+    let result   = await response.json();
+    return result;
+  } catch (error) {
+     showM('e01 '+ error, 'error')
   }
 }
 

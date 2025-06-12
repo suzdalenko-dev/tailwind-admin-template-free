@@ -260,8 +260,6 @@ function showDetailsDesglose(data){
 
     grupos_ingredientes_padre.forEach(line => {
         let linePercentage = line.percentage;
-        console.log(linePercentage);
-
         let consisteAlternativos = line.consiste_de_alternativos;
         let resAlter = line.resumen_alternativos;
 
