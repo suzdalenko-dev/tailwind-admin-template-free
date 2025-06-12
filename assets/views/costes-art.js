@@ -188,7 +188,7 @@ function recalculateTable(){
         if(r && r.data){
             if(tituloArticleCosts) tituloArticleCosts.innerHTML = 'Proyección de costes de artículos';
             setTimeout(() => {renderArtTable();}, 3000);
-            if(r && r.data && r.data[0] && r.data[0].expediente_sin_precios){
+            if(r && r.data && r.data[0] && r.data[0].expediente_sin_precios && r.data[0].expediente_sin_precios.length > 0){
                 let textArray =   r.data[0].expediente_sin_precios.join(' ,');
                 showM('OJO hay expedientes sin gastos imputados (precio desconocido). Núm: '+textArray, 'warning');
             } else {
