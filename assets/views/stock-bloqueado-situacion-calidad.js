@@ -1,6 +1,6 @@
 let listBloqueos = [];
 
-function bloqueosInit(){
+function stockBloqueadoSituacionCalidadInit(){
     document.title = 'Informe de bloqueos';
     document.getElementById('slugTitle').innerHTML = `<span class="b-top-page" onclick="createExcelBl()">📥 Excel </span>`;
     getInforTable();
@@ -45,13 +45,12 @@ function showInfoTable(datas){
             <td class="taleft border px-2 py-1 text-center">${x.LOTE}</td>
             <td class="taleft border px-2 py-1 text-center">${x.NUMERO_LOTE_INT}</td> 
             <td class="taleft border px-2 py-1 text-center">${x.CODIGO_ARTICULO} ${x.DESCRIPCION_ARTICULO_MIRROR}</td>
-            <td class="taleft border px-2 py-1 text-center">${x.CANTIDAD_CON}</td>
-            <td class="taleft border px-2 py-1 text-center">${x.CANTIDAD_EXP}</td>
+            <td class="taleft border px-2 py-1 text-center">${fEur0(x.CANTIDAD_CON)}</td>
+            <td class="taleft border px-2 py-1 text-center">${fEur0(x.CANTIDAD_EXP)}</td>
             <td class="taleft border px-2 py-1 text-center">${x.resultCom && x.resultCom[0] || ''}</td>
         </tr>`;
-        console.log(x)
     });
-    document.getElementById('blockTable').innerHTML = html;
+    if(document.getElementById('blockTable')) document.getElementById('blockTable').innerHTML = html;
     setDefaulContentToLocalStorage();
 }
 

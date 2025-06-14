@@ -21,5 +21,3 @@ function toggleSidebar(userClick) {
 }
 
 toggleSidebar(null);
-
-console.log(window.localStorage)

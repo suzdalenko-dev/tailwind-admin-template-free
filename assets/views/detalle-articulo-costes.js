@@ -69,7 +69,7 @@ function writeIgnredients(artLines){
                         ${htmlAlternative}
                         <br><hr /><br>`;
     });
-    listadoLineas.innerHTML = htmlContent;
+    if(listadoLineas) listadoLineas.innerHTML = htmlContent;
     let perSpan = document.getElementById('perSpan');
     if(perSpan) perSpan.innerHTML = `Insertar ingredientes y porcentajes ${sumPercentage} %`;
 }
@@ -80,7 +80,7 @@ function addNewLineFuncion(){
     let lineNewHtml = `<div class="flex items-center gap-2">
                             <input type="text" placeholder="Descripción nuevo ingrediente" value="" class="border px-2 py-1 rounded w-2/4" oninput="changeLineImp(event, 0, 0)" />
                         </div><br>`
-    newDiv.innerHTML = lineNewHtml;
+    if(newDiv) newDiv.innerHTML = lineNewHtml;
     let listadoLineas = document.getElementById('listadoLineas');
     listadoLineas.appendChild(newDiv)
 }
@@ -273,7 +273,7 @@ function showDetailsDesglose(data){
                 </tr>`;
     });
 
-    desglosePrecios.innerHTML = tContent;
+    if(desglosePrecios) desglosePrecios.innerHTML = tContent;
 
     let costes_fecha = parent_art_data.costes_fecha;
     if(costes_fecha){

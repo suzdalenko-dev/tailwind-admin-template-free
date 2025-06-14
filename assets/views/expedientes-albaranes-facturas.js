@@ -1,6 +1,6 @@
 var excelData = []
 
-function expedientesInit() {
+function expedientesAlbaranesFacturasInit() {
     renderCalendarioExpedientes(CURRENT_YEAR);
 
     document.title = "Expedientes importación";
@@ -92,7 +92,7 @@ async function renderCalendarioExpedientes(x) {
             </table>
         </div>`;
 
-    document.getElementById('expedientes_content').innerHTML = htmlTable;
+    if(document.getElementById('expedientes_content')) document.getElementById('expedientes_content').innerHTML = htmlTable;
 
     if(x == 1){ createExcelExpedientes(); }
 

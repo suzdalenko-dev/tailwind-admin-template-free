@@ -1,7 +1,7 @@
 let searchArticleValue = '';
 let excel_all_lines    = [];
 
-function costesArtInit(){
+function proyeccionCostesConContenedorInit(){
     document.getElementById('slugTitle').innerHTML = `
         <span class="b-top-page" onclick="addExcelArt()">➕ Añadir artículo </span>
         <span class="b-top-page" onclick="createExcelArtConst()">📥 Excel </span>
@@ -228,10 +228,10 @@ function paintTableFilteredData(){
         tBody += `<tr>
             <td class="border px-2 py-1 text-center howerA" onclick="openArticleDetail(${x.article_code})" >${x.article_code}</td>
             <td class="border px-2 py-1 text-center howerA taleft" onclick="openArticleDetail(${x.article_code})" >${x.article_name}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.precio_padre_act)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.inicio_coste_act)}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.precio_padre_act)}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.inicio_coste_act)}</td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.rendimiento)}"      id="rendimiento${x.id}"      onkeydown="inputNewValue(event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center">${toFL(x.precio_materia_prima)}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.precio_materia_prima)}</td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.precio_aceite)}"    id="precio_aceite${x.id}"    onkeydown="inputNewValue(event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.precio_servicios)}" id="precio_servicios${x.id}" onkeydown="inputNewValue(event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.aditivos)}"         id="aditivos${x.id}"         onkeydown="inputNewValue(event, ${x.id})" /></td>
@@ -239,11 +239,11 @@ function paintTableFilteredData(){
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.embalajes)}"        id="embalajes${x.id}"        onkeydown="inputNewValue(event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.amort_maq)}"        id="amort_maq${x.id}"        onkeydown="inputNewValue(event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.moi)}"              id="moi${x.id}"              onkeydown="inputNewValue(event, ${x.id})" /></td>
-            <td class="border px-2 py-1 text-center">${toFL(x.precio_padre_mas_gastos)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_act)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas1)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas2)}</td>
-            <td class="border px-2 py-1 text-center">${toFL(x.final_coste_mas3)}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.precio_padre_mas_gastos)}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.final_coste_act)}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.final_coste_mas1)}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.final_coste_mas2)}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.final_coste_mas3)}</td>
         </tr>`;
     })
 
@@ -274,20 +274,20 @@ function paintTableFilteredData(){
             <tbody>${tBody}</tbody>
         </table>
     </div>`;
-    document.getElementById('costes_art_content').innerHTML = tableCosts;
+    if(document.getElementById('costes_art_content')) document.getElementById('costes_art_content').innerHTML = tableCosts;
     
     getNextMonthsCosts();
 }
 
 
 function changeFocus(){
-    window.addEventListener("focus", () => {
-        console.log("🔵 La ventana volvió a tener foco");
-        renderArtTable();
-    });
+    // window.addEventListener("focus", () => {
+    //     console.log("🔵 La ventana volvió a tener foco");
+    //     renderArtTable();
+    // });
 
-    window.addEventListener("blur", () => {
-        console.log("⚪ La ventana perdió el foco");
-        setTimeout(() => { renderArtTable(); }, 3000);
-    });
+    // window.addEventListener("blur", () => {
+    //     console.log("⚪ La ventana perdió el foco");
+    //     setTimeout(() => { renderArtTable(); }, 3000);
+    // });
 }

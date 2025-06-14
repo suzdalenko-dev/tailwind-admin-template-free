@@ -11,8 +11,8 @@ function loadView(viewName) {
         .then(res => res.text())
         .then(html => {
            
-            if(viewName != 'detalle-articulo-costes'){
-                let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);
+            if(viewName != 'detalle-articulo-costes' && viewContainer){
+                let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);                
                 if(oldHtmlPageContent) viewContainer.innerHTML = oldHtmlPageContent;
                 else viewContainer.innerHTML = html;
             } else {

@@ -271,7 +271,7 @@ async function showCustomOf(ofId){
         </div>`;
 
 
-    document.getElementById('htmlContent').innerHTML = ofDetailHtml;
+    if(document.getElementById('htmlContent')) document.getElementById('htmlContent').innerHTML = ofDetailHtml;
 
     
 }

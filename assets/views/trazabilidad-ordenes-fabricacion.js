@@ -96,7 +96,7 @@ function getOfState(x){
     return 'None';
 }
 
-function trazabilidadInit() {
+function trazabilidadOrdenesFabricacionInit() {
     document.title = "Calendario OFs";
     document.getElementById('slugTitle').innerHTML = '';
 
@@ -123,7 +123,7 @@ async function showCustomOf(ofId){
                            <td class="border px-2 py-1 text-center">${String(of.FECHA_INI_FABRI_PREVISTA).slice(0, 10)}</td>
                            <td class="border px-2 py-1 text-center">${of.CODIGO_ARTICULO}</td>
                            <td class="border px-2 py-1 text-center">${of.NOMBRE_ARTICULO}</td>
-                           <td class="border px-2 py-1 text-center">${of.CANTIDAD_A_FABRICAR} ${of.CODIGO_PRESENTACION}</td>
+                           <td class="border px-2 py-1 text-center">${fEur0(of.CANTIDAD_A_FABRICAR)} ${of.CODIGO_PRESENTACION}</td>
                            <td class="border px-2 py-1 text-center">${getOfState(of.SITUACION_OF)}</td></tr>`;
         });
     }
@@ -133,7 +133,7 @@ async function showCustomOf(ofId){
         trazData.data[0]['MATERIAL_PEDIDO'].map(mp => {
          htmlMP += `<tr><td class="border px-2 py-1 text-center">${mp.CODIGO_COMPONENTE}</td>
                         <td class="border px-2 py-1 text-center">${mp.COMPO_DESC_COMERCIAL}</td>
-                        <td class="border px-2 py-1 text-center">${mp.CANTIDAD_TECNICA} ${mp.CODIGO_PRESENTACION_COMPO}</td></tr>`;
+                        <td class="border px-2 py-1 text-center">${fEur0(mp.CANTIDAD_TECNICA)} ${mp.CODIGO_PRESENTACION_COMPO}</td></tr>`;
         });
     }
     
@@ -146,7 +146,7 @@ async function showCustomOf(ofId){
                         <td class="border px-2 py-1 text-center">${mc.CODIGO_ARTICULO_CONSUMIDO}</td>
                         <td class="border px-2 py-1 text-center">${mc.DESCRIP_CONSUMIDO}</td>
                         <td class="border px-2 py-1 text-center">${mc.NUMERO_LOTE_INT_CONSUMIDO}</td>
-                        <td class="border px-2 py-1 text-center">${mc.CANTIDAD_UNIDAD1} ${mc.CODIGO_PRESENTACION}</td>
+                        <td class="border px-2 py-1 text-center">${fEur0(mc.CANTIDAD_UNIDAD1)} ${mc.CODIGO_PRESENTACION}</td>
                     </tr>`;
         });
     }
@@ -160,7 +160,7 @@ async function showCustomOf(ofId){
                         <td class="border px-2 py-1 text-center">${mc.CODIGO_ARTICULO}</td>
                         <td class="border px-2 py-1 text-center">${mc.DESCRIP_COMERCIAL}</td>
                         <td class="border px-2 py-1 text-center">${mc.NUMERO_LOTE_INT}</td>
-                        <td class="border px-2 py-1 text-center">${mc.CANTIDAD_UNIDAD1} ${mc.CODIGO_PRESENTACION}</td>
+                        <td class="border px-2 py-1 text-center">${fEur0(mc.CANTIDAD_UNIDAD1)} ${mc.CODIGO_PRESENTACION}</td>
                         <td class="border px-2 py-1 text-center">${mc.NUMERO_PALET}</td>
                     </tr>`;
         });
@@ -175,8 +175,8 @@ async function showCustomOf(ofId){
                         <td class="border px-2 py-1 text-center">${piA.CODIGO_ARTICULO}</td>
                         <td class="border px-2 py-1 text-center">${piA.FECHA_ENTRADA}</td>
                         <td class="border px-2 py-1 text-center">${piA.FECHA_VERIFICACION}</td>
-                        <td class="border px-2 py-1 text-center">${piA.CANT_ACEPTADA} ${piA.CODIGO_PRESENTACION}</td>
-                        <td class="border px-2 py-1 text-center">${piA.CANT_RECIBIDA} ${piA.CODIGO_PRESENTACION}</td>
+                        <td class="border px-2 py-1 text-center">${fEur0(piA.CANT_ACEPTADA)} ${piA.CODIGO_PRESENTACION}</td>
+                        <td class="border px-2 py-1 text-center">${fEur0(piA.CANT_RECIBIDA)} ${piA.CODIGO_PRESENTACION}</td>
                         <td class="border px-2 py-1 text-center">${piA.CODIGO_VERIFICADOR}</td>
                     </tr>`;
         });
@@ -273,7 +273,7 @@ async function showCustomOf(ofId){
             </div>
         </div>`;
 
-    document.getElementById('htmlContent').innerHTML = ofDetailHtml;
+    if(document.getElementById('htmlContent')) document.getElementById('htmlContent').innerHTML = ofDetailHtml;
 }
 
 

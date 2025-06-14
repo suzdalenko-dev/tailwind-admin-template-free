@@ -43,6 +43,10 @@ function toLN(str) {
     return parseFloat(clean).toFixed(2);
 }
 
+function toFL0(x){
+    return parseFloat(x).toFixed(0);
+}
+
 function toFL2(x){
     return parseFloat(x).toFixed(2);
 }
@@ -50,6 +54,35 @@ function toFL2(x){
 function toFL(x){
     return parseFloat(x).toFixed(3);
 }
+
+function fEurEntero(num) {
+  if (!num) return "0";
+  let entero = Math.trunc(num).toString(); // Elimina parte decimal
+  return entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function fEE(num) {
+  if (!num) return "0";
+  let entero = Math.trunc(num).toString(); // Elimina parte decimal
+  return entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+
+function fEur0(numero) {
+  const partes = numero.toString().split(".");
+  const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const decimal = partes[1] || "000";
+  return `${entero},${decimal}`;
+}
+
+function fEur000(num) {
+  if (!num) return "0,00";
+  let [entero, decimal = ""] = num.toString().split(".");
+  entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  decimal = decimal.substring(0, 3);
+  return decimal ? `${entero},${decimal}` : `${entero},00`;
+}
+
 
 
 
@@ -76,3 +109,28 @@ function obtenerFechasFuturas() {
 
 
 
+function setTopDates4(){
+    let today = new Date();
+    for (let i = 0; i < 4; i++) {
+      let year = today.getFullYear();
+      let month = today.getMonth() + i;
+      let lastDay = new Date(year, month + 1, 0);
+      let formatted = ('0' + (lastDay.getMonth() + 1)).slice(-2) + '/25';
+      let element = document.getElementById(`topDate${i}`);
+      if (element) {
+        element.textContent = formatted;
+      }
+    }
+}
+
+
+window.onerror = function (message, source, lineno, colno, error) {
+  console.log("🔴 Error detectado:");
+  console.log("Mensaje:", message);
+  console.log("Fuente:", source);
+  console.log("Línea:", lineno);
+  console.log("Columna:", colno);
+  console.log("Objeto Error:", error);
+  localStorage.clear();
+  return false;
+};

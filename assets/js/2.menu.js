@@ -4,22 +4,22 @@
 let menuData = [
     { title: 'Calidad', icon: '🧪', roles: ['calidad'], submenu: [
             { title: 'Informes', icon: '📋', submenu: [
-                    { title: 'Trazabilidad', icon: '🔗' },
-                    { title: 'Bloqueos', icon: '🔒' },
+                    { title: 'Trazabilidad', icon: '🔗', view: 'trazabilidad-ordenes-fabricacion' },
+                    { title: 'Bloqueos', icon: '🔒', view: 'stock-bloqueado-situacion-calidad' },
                 ]
             }
         ]
     },
     { title: 'Finanzas', icon: '💰', roles: ['finanzas'], submenu: [
             { title: 'Informes', icon: '📋', submenu: [
-                { title: 'Expedientes', icon: '💵', submenu: null },
+                { title: 'Expedientes', icon: '💵', submenu: null, view: 'expedientes-albaranes-facturas' },
             ]},
         ]
     },
     { title: 'Producción', icon: ':🏭', roles: ['produccion'], submenu: [
             { title: 'Informes', icon: '📋', submenu: [
-                { title: 'Costes art.', icon: '🧮', submenu: null },
-                { title: 'Equivalentes', icon: '♻️', submenu: null },
+                { title: 'Costes art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor'},
+                { title: 'Equiv. C/C', icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor'},
             ]},
         ]
     }
@@ -74,7 +74,7 @@ function generateSubmenu(items, parentId = '', parentAccess = true) {
     items.forEach(item => {
         const submenuId = `${parentId}-${slugify(item.title)}`;
         const hasSubmenu = item.submenu && item.submenu.length > 0;
-        const view = item.view || slugify(item.title);
+        const view = item.view;
 
         let access = parentAccess;
         if (parentId === 'menu') { access = hasAccess(item.roles); }

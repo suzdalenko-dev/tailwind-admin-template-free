@@ -153,10 +153,10 @@ li:hover{
 .input-ca-ba{
     width: 322px;
 }
-
-
-
-  #chart_div_dc {
-        width: 100%;
-        height: 222px;
-      }
+#chart_div_dc {
+    width: 100%;
+    height: 222px;
+}
+.small-letter{
+    font-size: 11px;
+}

@@ -16,7 +16,7 @@ async function saveNewQuivalente(code, name){
         formData.append('name', name);
     await saveData('produccion/save_item_equiv/0/0/create_update_equivalents/ ', formData);
     getDataPageEq();
-    document.getElementById('suggestionsList2').innerHTML = '';
+    if(document.getElementById('suggestionsList2')) document.getElementById('suggestionsList2').innerHTML = '';
 }
 
 async function getListArticles(){
@@ -51,9 +51,9 @@ function addNewArticuleGr(){
     let lineNewHtml = `<div class="flex items-center gap-2">
                             <input type="text" placeholder="Descripción nuevo equivalente" value="" class="border px-2 py-1 rounded w-2/4" oninput="changeLineQuival(event)" />
                     </div><br>`
-    newDiv.innerHTML = lineNewHtml;
+    if(newDiv) newDiv.innerHTML = lineNewHtml;
     let listadoLinEquiv = document.getElementById('listadoLinEquiv');
-    listadoLinEquiv.appendChild(newDiv)
+    if(listadoLinEquiv) listadoLinEquiv.appendChild(newDiv)
 }
 
 async function nameGroupPress(event){
@@ -85,7 +85,7 @@ async function getDataPageEq(){
         });
         htmlAlternative += '<br>';
     }
-    listadoLinEquiv.innerHTML = htmlAlternative;
+    if(listadoLinEquiv) listadoLinEquiv.innerHTML = htmlAlternative;
 }
 
 async function deleteItemEquiv(id, code){
