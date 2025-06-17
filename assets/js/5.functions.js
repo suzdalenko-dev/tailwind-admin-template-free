@@ -131,22 +131,22 @@ window.onerror = function (message, source, lineno, colno, error) {
   console.log("Línea:", lineno);
   console.log("Columna:", colno);
   console.log("Objeto Error:", error);
-  localStorage.clear();
+  // localStorage.clear();
   return false;
 };
 
 
-function userDontLogin(x){
+function userDontLogin(userRole){
   let KEYS = { 
     sarakey: '1475369*'
   }
-  let currentKey = window.localStorage.getItem('user_value');
-  if(x == 'produccion' && currentKey == KEYS.sarakey){
-      return false;
+  let currentKeyX = window.localStorage.getItem('user_value');
+  if(userRole == 'produccion' && currentKeyX == KEYS.sarakey){
+    return false;
   }  
 
   let userInsertKey = prompt('¿Contraseña?');
-  if(x == 'produccion' && userInsertKey == KEYS.sarakey){
+  if(userRole == 'produccion' && userInsertKey == KEYS.sarakey){
     window.localStorage.setItem('user_value', userInsertKey);
     return false;
   }

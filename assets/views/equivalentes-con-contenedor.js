@@ -41,7 +41,7 @@ function paintTables() {
         </tr>`;
     });
     let html = `<div class="table-container scrollable-table">
-                    <table class="styled-table-ca scrollable-table">
+                    <table class="styled-table-ca scrollable-table stycky-table">
                         <thead>
                           <tr>
                             <th class="topLeft">Equivalente</th>
@@ -91,7 +91,7 @@ function paintStructure(strData){
         newName = x.name;
     });
     let html = `<div class="table-container scrollable-table">
-                   <table class="styled-table-ca scrollable-table">
+                   <table class="styled-table-ca scrollable-table stycky-table">
                        <thead>
                          <tr>
                            <th class="topLeft">Nombre</th>
