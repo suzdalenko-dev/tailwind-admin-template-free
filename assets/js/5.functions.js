@@ -146,7 +146,8 @@ function userDontLogin(userRole){
   }  
 
   let userInsertKey = prompt('¿Contraseña?');
-  if(userRole == 'produccion' && userInsertKey == KEYS.sarakey && userInsertKey){
+  if(!userInsertKey) return false;
+  if(userRole == 'produccion' && userInsertKey == KEYS.sarakey){
     window.localStorage.setItem('user_value', userInsertKey);
     return false;
   }
