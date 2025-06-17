@@ -13,6 +13,7 @@ function equivalentesConContenedorInit() {
 
 
 function openEquivalent(pageId){
+    if(userDontLogin('produccion')) return;
     let url = '/dashboard/#detalle-grupo-equivalente?id='+pageId;
     window.open(url, '_blank');
 }
@@ -123,6 +124,7 @@ async function getAllListsEquivalents() {
 }
 
 async function saveNewAGroupFunc() {
+    if(userDontLogin('produccion')) return;
     let groupName = document.getElementById('descripGroupEquv').value;
     let formData = new FormData();
     formData.append('group_name', groupName);
@@ -131,6 +133,7 @@ async function saveNewAGroupFunc() {
 }
 
 function addEquibArt() {
+    if(userDontLogin('produccion')) return;
     document.getElementById('addNewEquivForm').style.display = 'block';
 }
 

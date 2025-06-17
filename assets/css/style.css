@@ -160,3 +160,10 @@ li:hover{
 .small-letter{
     font-size: 11px;
 }
+
+
+.stycky-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}

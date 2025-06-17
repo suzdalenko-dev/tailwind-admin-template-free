@@ -76,6 +76,7 @@ function writeIgnredients(artLines){
 
 
 function addNewLineFuncion(){
+    if(userDontLogin('produccion')) return;
     let newDiv = document.createElement('div');
     let lineNewHtml = `<div class="flex items-center gap-2">
                             <input type="text" placeholder="Descripción nuevo ingrediente" value="" class="border px-2 py-1 rounded w-2/4" oninput="changeLineImp(event, 0, 0)" />
@@ -123,6 +124,7 @@ function saveNewIngredient(code, name){
 
 
 function deleteArtCostsLine(x){
+    if(userDontLogin('produccion')) return;
     let confDel = confirm('¿Eliminar?')
     if (confDel){
         fetch(HTTP_HOST+'produccion/get/0/0/delete_ingrediente_line/?id='+x).then(r => r.json()).then(r => {
@@ -135,6 +137,7 @@ function deleteArtCostsLine(x){
 
 
 function addAlternativeArtCosts(x){
+    if(userDontLogin('produccion')) return;
     let divInputAlt = document.getElementById('insertInputAlt_'+x)
     divInputAlt.innerHTML = `<input type="text" placeholder="Descripcion" class=" border px-2 py-1 rounded mt-2 input_alt_desc" oninput="addAlternativeArticle(event, ${x})" />`;
  
@@ -199,6 +202,7 @@ function deleteAltItem(id, code){
 }
 
 function deleteArticleCosts(){
+    if(userDontLogin('produccion')) return;
     let confirmA = confirm('¿Quitar el artículo de la tabla de costes?');
     if (confirmA) {
          fetch(HTTP_HOST+'/produccion/put/0/0/delete_article_costs_all/?code='+PARENT_ARTICLE).then(r => r.json()).then(r => {

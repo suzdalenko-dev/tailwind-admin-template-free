@@ -47,6 +47,7 @@ function changeLineQuival(event){
 }
 
 function addNewArticuleGr(){
+    if(userDontLogin('produccion')) return;
     let newDiv = document.createElement('div');
     let lineNewHtml = `<div class="flex items-center gap-2">
                             <input type="text" placeholder="Descripción nuevo equivalente" value="" class="border px-2 py-1 rounded w-2/4" oninput="changeLineQuival(event)" />
@@ -89,6 +90,7 @@ async function getDataPageEq(){
 }
 
 async function deleteItemEquiv(id, code){
+    if(userDontLogin('produccion')) return;
     let confirmA = confirm('¿Eliminar artículo?');
     if(!confirmA) return; 
     let formData = new FormData();

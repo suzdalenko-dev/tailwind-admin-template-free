@@ -51,11 +51,13 @@ function updateExcelLine(formData){
 }
 
 function addExcelArt(){
+    if(userDontLogin('produccion')) return;
     document.getElementById('addNewArticleForm').style.display = 'block';
 }
 
 
 function saveNewAricleFunc(){
+    if(userDontLogin('produccion')) return;
     let articleCodeId = document.getElementById('articleCodeId').value;
     let descripcionCodeId = document.getElementById('descripcionCodeId').value;
     if (articleCodeId && descripcionCodeId){
@@ -110,6 +112,7 @@ function initArticleAddFormData(){
 
 
 function openArticleDetail(artCode){
+    if(userDontLogin('produccion')) return;
     let url = '/dashboard/#detalle-articulo-costes?codigo='+artCode;
     // window.location.href = url;
     // loadView('detalle-articulo-costes');
@@ -248,7 +251,7 @@ function paintTableFilteredData(){
     })
 
     let tableCosts = `<div class="table-container">
-        <table class="styled-table-ca">
+        <table class="styled-table-ca stycky-table">
             <thead>
                 <tr>
                     <th class="topLeft">Código</th>

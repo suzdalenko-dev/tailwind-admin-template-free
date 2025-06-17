@@ -134,3 +134,24 @@ window.onerror = function (message, source, lineno, colno, error) {
   localStorage.clear();
   return false;
 };
+
+
+function userDontLogin(x){
+  let KEYS = { 
+    sarakey: '1475369*'
+  }
+  let currentKey = window.localStorage.getItem('user_value');
+  if(x == 'produccion' && currentKey == KEYS.sarakey){
+      return false;
+  }  
+
+  let userInsertKey = prompt('¿Contraseña?');
+  if(x == 'produccion' && userInsertKey == KEYS.sarakey){
+    window.localStorage.setItem('user_value', userInsertKey);
+    return false;
+  }
+    
+  
+  alert('Contraseña incorrecta')
+  return true;
+}
