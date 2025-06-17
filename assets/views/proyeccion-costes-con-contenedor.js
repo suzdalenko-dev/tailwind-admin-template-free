@@ -28,6 +28,7 @@ async function renderArtTable(){
 }
 
 function inputNewValue(event, lineId){
+    if(userDontLogin('produccion')) return;
     if (event.key == 'Enter') {
         let formData         = new FormData();                                                formData.append('id', lineId);
         let rendimiento      = document.getElementById('rendimiento'+lineId).value || 0;      formData.append('rendimiento', rendimiento);
