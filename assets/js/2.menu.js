@@ -28,7 +28,7 @@ let menuData = [
 
 // Variables
 
-let currentUserRoles = window.localStorage.role.split(';').filter(r => r);  console.log(currentUserRoles)
+let currentUserRoles = window.localStorage.role.split(';').filter(r => r);
 let openMenus = {}; // se carga después
 
 // Utils

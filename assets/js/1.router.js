@@ -9,8 +9,8 @@ function initRouter() {
 
 function loadView(viewName) {
     /* hay permisos por vista y permiso por punto en el menu */
-    if(!window.localStorage.getItem('permissions').includes("*")){
-        if(!window.localStorage.getItem('permissions').includes(viewName) && viewName != 'dashboard'){
+    if(!String(window.localStorage.getItem('permissions')).includes("*")){
+        if(!String(window.localStorage.getItem('permissions')).includes(viewName) && viewName != 'dashboard'){
             alert('No hay permisos para ver esta vista', 'waring');
             window.location.href = '/dashboard';
         }
