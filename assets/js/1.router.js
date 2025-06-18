@@ -8,12 +8,20 @@ function initRouter() {
 }
 
 function loadView(viewName) {
+    /* hay permisos por vista y permiso por punto en el menu */
+    if(!window.localStorage.getItem('permissions').includes("*")){
+        if(!window.localStorage.getItem('permissions').includes(viewName) && viewName != 'dashboard'){
+            alert('No hay permisos para ver esta vista', 'waring');
+            window.location.href = '/dashboard';
+        }
+    }
+    
 
     let viewContainer = document.getElementById('htmlContent');
 
     fetch(`/assets/views/${viewName}.html`)
         .then(res => res.text())
-        .then(html => {       
+        .then(html => {
             if(viewName != 'detalle-articulo-costes' && viewContainer && clickedMenu != 0){
                 let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);                
                 if(oldHtmlPageContent) viewContainer.innerHTML = oldHtmlPageContent;
@@ -52,7 +60,31 @@ function loadView(viewName) {
             }
         }).catch( e => {
             viewContainer.innerHTML = 'e1. Error '+ e;
-        })
+        });
+    
+    let username = window.localStorage.getItem('username');
+    let password = window.localStorage.getItem('password');
+    fetch(HTTP_HOST+'froxa/login/?action=login&username='+username+'&password='+password).then(r => r.json()).then(r => {
+        if(r && r.data && r.data.id > 0){
+            window.localStorage.setItem('role', r.data.role);
+            window.localStorage.setItem('permissions', r.data.permissions);
+        } else {
+            showM('Credenciales incorrectos', 'warning');
+            setTimeout(() => { window.location.href = '/'; }, 3000);
+            deleteContent();
+        }
+    }).catch(e => { 
+        showM('e34 '+e, 'error');
+        setTimeout(() => { window.location.href = '/'; }, 3000);
+        deleteContent();
+    });
+}
+
+
+function deleteContent(){
+    setInterval(() => {
+        document.getElementById('htmlContent').innerHTML = '';
+    }, 1000);
 }
 
 

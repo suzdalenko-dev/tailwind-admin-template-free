@@ -1,6 +1,7 @@
 // File: assets/js/0.menu.js
 // Descripción: Script de menú dinámico + guarda estado abierto/cerrado en localStorage
 
+
 let menuData = [
     { title: 'Calidad', icon: '🧪', roles: ['calidad'], submenu: [
             { title: 'Informes', icon: '📋', submenu: [
@@ -26,8 +27,8 @@ let menuData = [
 ];
 
 // Variables
-let rolesDB = "gerente;ventas;laboratorio;salaproduccion";
-let currentUserRoles = rolesDB.split(';').filter(r => r);
+
+let currentUserRoles = window.localStorage.role.split(';').filter(r => r);  console.log(currentUserRoles)
 let openMenus = {}; // se carga después
 
 // Utils
@@ -41,7 +42,7 @@ function slugify(text) {
 
 function hasAccess(roles) {
     if (!roles || roles.length === 0) return true;
-    if (currentUserRoles.includes('admin') || currentUserRoles.includes('gerente')) return true;
+    if (currentUserRoles.includes('*')) return true;
     return currentUserRoles.some(role => roles.includes(role));
 }
 

@@ -138,7 +138,7 @@ window.onerror = function (message, source, lineno, colno, error) {
 
 function userDontLogin(userRole){
   let KEYS = { 
-    sarakey: '1475369*'
+    sarakey: '1475369*',
   }
   let currentKeyX = window.localStorage.getItem('user_value');
   if(userRole == 'produccion' && currentKeyX == KEYS.sarakey){
@@ -151,7 +151,6 @@ function userDontLogin(userRole){
     window.localStorage.setItem('user_value', userInsertKey);
     return false;
   }
-    
   
   alert('Contraseña incorrecta')
   return true;
