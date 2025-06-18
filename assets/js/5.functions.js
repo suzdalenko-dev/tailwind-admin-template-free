@@ -140,7 +140,7 @@ function userDontLogin(userRole){
   let KEYS = { 
     sarakey: '1475369*',
   }
-  let currentKeyX = window.localStorage.getItem('user_value');
+  let currentKeyX = window.localStorage.getItem('password');
   if(userRole == 'produccion' && currentKeyX == KEYS.sarakey){
     return false;
   }  
@@ -148,7 +148,7 @@ function userDontLogin(userRole){
   let userInsertKey = prompt('¿Contraseña?');
   if(!userInsertKey) return true;
   if(userRole == 'produccion' && userInsertKey == KEYS.sarakey){
-    window.localStorage.setItem('user_value', userInsertKey);
+    window.localStorage.setItem('password', userInsertKey);
     return false;
   }
   
