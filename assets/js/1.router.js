@@ -1,3 +1,6 @@
+let oldVuewName = false;
+let clickedMenu = 1;
+
 function initRouter() {
     let pageRoute = parseHashRoute();   
     if (pageRoute.view) { loadView(pageRoute.view); }
@@ -5,19 +8,25 @@ function initRouter() {
 }
 
 function loadView(viewName) {
+
     let viewContainer = document.getElementById('htmlContent');
+
+    console.log(clickedMenu)
 
     fetch(`/assets/views/${viewName}.html`)
         .then(res => res.text())
-        .then(html => {
-           
-            if(viewName != 'detalle-articulo-costes' && viewContainer){
+        .then(html => {       
+            if(viewName != 'detalle-articulo-costes' && viewContainer && clickedMenu != 0){
                 let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);                
                 if(oldHtmlPageContent) viewContainer.innerHTML = oldHtmlPageContent;
                 else viewContainer.innerHTML = html;
             } else {
                 viewContainer.innerHTML = html;
             }
+            if(oldVuewName == viewName){ clickedMenu++; } else { clickedMenu = 1; }
+            if(clickedMenu > 3){ clickedMenu = 0;}
+            oldVuewName = viewName;
+  
 
             if(String(html).includes('found') || String(html).includes('edited') || String(html).includes('deleted')){
                 setTimeout(() => { window.location = '/dashboard'; }, 2200);
@@ -69,19 +78,19 @@ function parseHashRoute() {
 initRouter();
 
 
-  function setDefaulContentToLocalStorage(){
+  function setDefaulContentToLocalStorage(){    
         let currentView = parseHashRoute();
         if(currentView && currentView.view){
             let htmlOldContent = document.getElementById('htmlContent');
             if(htmlOldContent){
                 htmlOldContent = document.getElementById('htmlContent').getHTML();
-                if(htmlOldContent) window.localStorage.setItem(currentView.view, JSON.stringify(htmlOldContent))
+                if(htmlOldContent) window.localStorage.setItem(currentView.view, JSON.stringify(htmlOldContent));   console.log('set DEFAULT CONTENT')
             }
         }   
     }
 
-     function getDefaultContenFromLocalStorage(viewName){
+     function getDefaultContenFromLocalStorage(viewName){                       
         let oldHtmlPageContent = window.localStorage.getItem(viewName) || null;
-        if(oldHtmlPageContent && JSON.parse(oldHtmlPageContent)) return JSON.parse(oldHtmlPageContent);
+        if(oldHtmlPageContent && JSON.parse(oldHtmlPageContent)) return JSON.parse(oldHtmlPageContent);              console.log('GET DEFAULT CONTENT')    
         return null;
     }
