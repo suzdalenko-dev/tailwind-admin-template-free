@@ -145,12 +145,12 @@ function userDontLogin(userRole){
     return false;
   }  
 
-  let userInsertKey = prompt('¿Contraseña?');
-  if(!userInsertKey) return true;
-  if(userRole == 'produccion' && userInsertKey == KEYS.sarakey){
-    window.localStorage.setItem('password', userInsertKey);
-    return false;
-  }
+//  let userInsertKey = prompt('¿Contraseña?');
+//  if(!userInsertKey) return true;
+//  if(userRole == 'produccion' && userInsertKey == KEYS.sarakey){
+//    window.localStorage.setItem('password', userInsertKey);
+//    return false;
+//  }
   
   alert('Contraseña incorrecta')
   return true;
