@@ -137,21 +137,11 @@ window.onerror = function (message, source, lineno, colno, error) {
 
 
 function userDontLogin(userRole){
-  let KEYS = { 
-    sarakey: '1475369*',
-  }
   let currentKeyX = window.localStorage.getItem('password');
-  if(userRole == 'produccion' && currentKeyX == KEYS.sarakey){
+  if(userRole == 'produccion' && currentKeyX == '123654*'){
     return false;
   }  
 
-//  let userInsertKey = prompt('¿Contraseña?');
-//  if(!userInsertKey) return true;
-//  if(userRole == 'produccion' && userInsertKey == KEYS.sarakey){
-//    window.localStorage.setItem('password', userInsertKey);
-//    return false;
-//  }
-  
   alert('Contraseña incorrecta')
   return true;
 }
