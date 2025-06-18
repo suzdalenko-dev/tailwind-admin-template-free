@@ -113,7 +113,6 @@ function initArticleAddFormData(){
 
 
 function openArticleDetail(artCode){
-    if(userDontLogin('produccion')) return;
     let url = '/dashboard/#detalle-articulo-costes?codigo='+artCode;
     // window.location.href = url;
     // loadView('detalle-articulo-costes');

@@ -13,7 +13,6 @@ function equivalentesConContenedorInit() {
 
 
 function openEquivalent(pageId){
-    if(userDontLogin('produccion')) return;
     let url = '/dashboard/#detalle-grupo-equivalente?id='+pageId;
     window.open(url, '_blank');
 }

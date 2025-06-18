@@ -58,6 +58,7 @@ function addNewArticuleGr(){
 }
 
 async function nameGroupPress(event){
+    if(userDontLogin('produccion')) return;
     if (event.key === "Enter") {
         let groupName = event.target.value.trim();
         let formData = new FormData();

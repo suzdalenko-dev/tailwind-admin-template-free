@@ -180,6 +180,7 @@ function saveIngredienteAlternativeArt(lineCostsId, code, name){
 }
 
 function changeLinePorcent(event, lineId){
+    if(userDontLogin('produccion')) return;
     if (event.key === 'Enter') {
         let perValue = event.target.value;
         fetch(HTTP_HOST+'produccion/put/0/0/line_costs_update_percentage/?line_id='+lineId+'&value='+perValue).then(r => r.json()).then(r => {

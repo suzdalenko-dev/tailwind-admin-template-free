@@ -11,8 +11,6 @@ function loadView(viewName) {
 
     let viewContainer = document.getElementById('htmlContent');
 
-    console.log(clickedMenu)
-
     fetch(`/assets/views/${viewName}.html`)
         .then(res => res.text())
         .then(html => {       

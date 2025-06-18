@@ -52,6 +52,17 @@
     <script src="/assets/js/4.notifications.js"></script>
     <script src="/assets/js/5.functions.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script>
+        const originalFetch = window.fetch;
+        window.fetch = function(resource, config) {
+            if (typeof resource === 'string' && resource.endsWith('.js')) {
+                const url = new URL(resource, location.origin);
+                url.searchParams.set('time', Date.now());
+                return originalFetch(url.toString(), config);
+            }
+            return originalFetch(resource, config);
+        };
+    </script>
 </body>
 
 </html>
