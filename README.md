@@ -1,11 +1,19 @@
 suzdalenkoalexey
-svoboda2019
+s9
 
 imagedeveloper
-svoboda2019A.
+sA.
 
 simplefactura2024@gmail.com
-svoboda2019A.
+sA.
 
-<img width="100%" heigth="777px" alt="dashborad tailwind-admin-template-free" src="https://raw.githubusercontent.com/suzdalenko-dev/tailwind-admin-template-free/refs/heads/main/assets/img/0.png" />
-<br>
+
+194 FRESA fresa
+339 LIMON
+346 TURRON
+348 MANDARINA
+340 VAINILLA vainilla
+
+007 HELADOS -> 014 HELADOS -> 409 DULCE DE LECHE
+
+familia helados subfamilia helado
