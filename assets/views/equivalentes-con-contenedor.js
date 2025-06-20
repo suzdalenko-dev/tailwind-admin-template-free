@@ -118,7 +118,7 @@ async function getAllListsEquivalents() {
     listEquivalents = listEquivalents.data;
     paintTables();
     
-    let structureData = await loadData('/produccion/get_structure/0/0/create_update_equivalents/');
+    let structureData = await loadData('produccion/get_structure/0/0/create_update_equivalents/');
     paintStructure(structureData.data)
 }
 
