@@ -107,12 +107,15 @@ function paintStructure(strData){
                        <tbody>${tBody}</tbody>
                    </table>
                </div>`;
-    if(tableStructureA) { tableStructureA.innerHTML = html; setDefaulContentToLocalStorage(); }
+    if(tableStructureA) { 
+        tableStructureA.innerHTML = html; 
+        setDefaulContentToLocalStorage(); 
+    }
 }
 
 async function getAllListsEquivalents() {
     /* recalculate costs structure TABLES EquivalentsHead AND DetalleEntradasEquivCC */
-    await loadData('produccion/get/0/0/recalculate_equiv_with_contaner/');
+    // await loadData('produccion/get/0/0/recalculate_equiv_with_contaner/');
 
     listEquivalents = await loadData('produccion/get/0/0/create_update_equivalents/');
     listEquivalents = listEquivalents.data;

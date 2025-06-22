@@ -136,12 +136,13 @@ window.onerror = function (message, source, lineno, colno, error) {
 };
 
 
-function userDontLogin(userRole){
-  let currentKeyX = window.localStorage.getItem('password');
-  if(userRole == 'produccion' && currentKeyX == '123654*'){
+function userDontLogin(){
+  let userPass   = window.localStorage.getItem('password');
+  let actionPass = window.localStorage.getItem('action_pass');
+  if(userPass && actionPass && userPass == actionPass){
     return false;
   }  
 
-  alert('Contraseña incorrecta')
+  showM('Faltan permisos de edición', 'warning');
   return true;
 }

@@ -23,7 +23,7 @@ function loadView(viewName) {
         .then(res => res.text())
         .then(html => {
             if(viewName != 'detalle-articulo-costes' && viewContainer && clickedMenu != 0){
-                let oldHtmlPageContent = getDefaultContenFromLocalStorage(viewName);                
+                let oldHtmlPageContent =  getDefaultContenFromLocalStorage(viewName);                
                 if(oldHtmlPageContent) viewContainer.innerHTML = oldHtmlPageContent;
                 else viewContainer.innerHTML = html;
             } else {
@@ -68,6 +68,7 @@ function loadView(viewName) {
         if(r && r.data && r.data.id > 0){
             window.localStorage.setItem('role', r.data.role);
             window.localStorage.setItem('permissions', r.data.permissions);
+            window.localStorage.setItem('action_pass', r.data.action_pass);
         } else {
             showM('Credenciales incorrectos', 'warning');
             setTimeout(() => { window.location.href = '/'; }, 3000);
@@ -108,19 +109,39 @@ function parseHashRoute() {
 initRouter();
 
 
-  function setDefaulContentToLocalStorage(){    
-        let currentView = parseHashRoute();
-        if(currentView && currentView.view){
-            let htmlOldContent = document.getElementById('htmlContent');
-            if(htmlOldContent){
-                htmlOldContent = document.getElementById('htmlContent').getHTML();
-                if(htmlOldContent) window.localStorage.setItem(currentView.view, JSON.stringify(htmlOldContent));   console.log('set DEFAULT CONTENT')
-            }
-        }   
-    }
+// Abrir o crear la base de datos IndexedDB
+function openDB() {
+  return new Promise((resolve, reject) => {
+    let request = indexedDB.open("htmlContentDB", 1); // nombre y versión
 
-     function getDefaultContenFromLocalStorage(viewName){                       
-        let oldHtmlPageContent = window.localStorage.getItem(viewName) || null;
-        if(oldHtmlPageContent && JSON.parse(oldHtmlPageContent)) return JSON.parse(oldHtmlPageContent);              console.log('GET DEFAULT CONTENT')    
-        return null;
-    }
+    request.onupgradeneeded = (event) => {
+      let db = event.target.result;
+
+      // Se ejecuta solo al CREAR o CAMBIAR VERSIÓN de la base de datos
+      if (!db.objectStoreNames.contains("htmlPages")) {
+        db.createObjectStore("htmlPages", { keyPath: "viewName" }); // "tabla" con clave primaria
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = (event) => reject("IndexedDB error: " + event.target.error);
+  });
+}
+
+
+// Guardar contenido HTML en IndexedDB
+function setDefaulContentToLocalStorage() {
+   
+}
+
+// Leer y pintar contenido HTML desde IndexedDB
+function getDefaultContenFromLocalStorage(viewName) {
+    openDB().then((db) => {
+       console.log(db)    
+    });
+
+
+
+
+}
+

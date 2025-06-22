@@ -207,8 +207,8 @@ function deleteArticleCosts(){
     let confirmA = confirm('¿Quitar el artículo de la tabla de costes?');
     if (confirmA) {
          fetch(HTTP_HOST+'/produccion/put/0/0/delete_article_costs_all/?code='+PARENT_ARTICLE).then(r => r.json()).then(r => {
-            window.location.href = '/dashboard/#costes-art';
-            loadView('costes-art');
+            window.location.href = '/dashboard/#proyeccion-costes-con-contenedor';
+            loadView('proyeccion-costes-con-contenedor');
         }).catch(e => {
             showM('e14 '+e, 'error');
         });

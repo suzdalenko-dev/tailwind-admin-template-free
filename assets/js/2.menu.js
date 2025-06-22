@@ -21,6 +21,7 @@ let menuData = [
             { title: 'Informes', icon: '📋', submenu: [
                 { title: 'Costes art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor'},
                 { title: 'Equiv. C/C', icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor'},
+                { title: 'Entradas', icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock'},
             ]},
         ]
     }

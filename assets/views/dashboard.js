@@ -1,6 +1,4 @@
-let froxaStaticSalies = [
-    {key: 2017, value: 31.9}, {key: 2018, value: 28.5}, {key: 2019, value: 30.5}, {key: 2020, value: 22.3}, {key: 2021, value: 32.2}, {key: 2022, value: 43.4}, {key: 2023, value: 47.0}, {key: 2024, value: 45.0}
-]
+let froxaStaticSalies = [{key: 2017, value: 31.9}, {key: 2018, value: 28.5}, {key: 2019, value: 30.5}, {key: 2020, value: 22.3}, {key: 2021, value: 32.2}, {key: 2022, value: 43.4}, {key: 2023, value: 47.0}, {key: 2024, value: 45.0}]
 let YearSaved = parseInt(window.localStorage.getItem('year_saved')) || new Date().getFullYear() - 22;
 if(YearSaved > 2099) YearSaved = 2099;
 if(YearSaved < 1900) YearSaved = 1900;
@@ -50,7 +48,7 @@ async function dashboardInit(){
             
         });
         let chartItem = {
-            label: country.name,
+            label: 'España',
             data: valueChart,
             fill: false,
             borderColor: Colors[i],
@@ -69,7 +67,7 @@ async function dashboardInit(){
     Years.map(itemYear => {
         froxaStaticSalies.map(statistic => {
             if(itemYear == statistic.key) {
-                lineFroxaStatistic.push(statistic.value / 40);
+                lineFroxaStatistic.push(statistic.value / 30);
                 flag = true;
             }
         });
