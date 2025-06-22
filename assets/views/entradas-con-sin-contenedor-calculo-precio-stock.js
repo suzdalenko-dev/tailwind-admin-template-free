@@ -18,12 +18,20 @@ function cleanArticleArr(){
     window.localStorage.setItem('buscar_llegadas', '');
     paintArrivalTable();
 }
+// function changeSearchedArribals(event){
+//     let inputValue = document.getElementById('searchArticleArr').value.trim();
+//     arrivalSearched = inputValue;
+//     window.localStorage.setItem('buscar_llegadas', inputValue); console.log()
+//     paintArrivalTable();
+// }
 function changeSearchedArribals(event){
     let inputValue = document.getElementById('searchArticleArr').value.trim();
     arrivalSearched = inputValue;
-    window.localStorage.setItem('buscar_llegadas', inputValue); console.log()
-    paintArrivalTable();
+    window.localStorage.setItem('buscar_llegadas', inputValue);
+    if ('requestIdleCallback' in window) { requestIdleCallback(() => paintArrivalTable());
+    } else { setTimeout(() => paintArrivalTable(), 0); }
 }
+
 
 async function getInsertDataTable(){
     let arrivals = await loadData('produccion/get/0/0/embarcado_get_all/');
