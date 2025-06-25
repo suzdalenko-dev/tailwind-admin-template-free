@@ -199,7 +199,7 @@ function recalculateTable(){
                 showM('Recalculado');
             }
         } else {
-           showM('e16 Error');
+           showM('e16', 'error');
         }
         setTimeout( () => { window.location.reload(); }, 11000);
     }).catch(e =>{
