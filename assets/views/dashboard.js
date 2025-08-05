@@ -2,7 +2,7 @@ let froxaStaticSalies = [{key: 2017, value: 31.9}, {key: 2018, value: 28.5}, {ke
 let YearSaved = parseInt(window.localStorage.getItem('year_saved')) || new Date().getFullYear() - 22;
 if(YearSaved > 2099) YearSaved = 2099;
 if(YearSaved < 1900) YearSaved = 1900;
-let chartLine2 = null; // 🚀 Variable global para guardar el gráfico
+let chartLine2 = null;
 let chartLine3 = null;
 
 function MinusYear(){
@@ -32,6 +32,7 @@ async function dashboardInit(){
     let OnlySpain  = []
     let Colors = [ 'blue', 'green', 'orange', 'red', 'cyan', 'pink',  'purple',        'lime',        'magenta',     'teal',        'indigo',      'violet',      'gold',        'silver',      'brown',       'coral',       'turquoise',   'crimson',     'navy',        'chartreuse',  'deeppink'     ];
     let i = 0;
+
     GPD.map(country => {
         let countryData = country.data.reverse();
         let valueChart  = []
@@ -45,8 +46,8 @@ async function dashboardInit(){
                 valueChart.push(coinValue)
                 if(!Years.includes(currentYear)) Years.push(currentYear)
             }
-            
         });
+        
         let chartItem = {
             label: 'España',
             data: valueChart,
@@ -89,7 +90,9 @@ async function dashboardInit(){
 
     // 🔥 Destruir el gráfico anterior si existe
     if (chartLine2 !== null) { chartLine2.destroy(); }
-    if (chartLine3 !== null) { chartLine3.destroy(); }      console.log(DataChart[0])
+    if (chartLine3 !== null) { chartLine3.destroy(); }      
+    
+    console.log(DataChart)
     
     chartLine2 = new Chart(document.getElementById('lineChart2'), {
         type: 'line',

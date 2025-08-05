@@ -144,11 +144,12 @@ function createExcelArtConst() {
         months.push(`${month}/${year}`);
     }
 
-    let header = ["Código", "Descripción", "€/Kg Act.", "€/kg F/M", "Rend.", "M/Prima Act.", "Aceite", "Servicio","Aditivo", "MOD", "Embalaje", "Amort.", "MOI", "€/Kg C/G Act.", ...months];
+    let header = ["Código", "Descripción", "Precio Estándar", "€/Kg Act.", "€/kg F/M", "Rend.", "M/Prima Act.", "Aceite", "Servicio","Aditivo", "MOD", "Embalaje", "Amort.", "MOI", "€/Kg C/G Act.", ...months];
 
     const rows = excel_all_lines.map(item => [
         item.article_code,
         item.article_name.trim(),
+        toFL(item.precio_estandar) ?? "",
         toFL(item.precio_padre_act) ?? "",
         toFL(item.inicio_coste_act) ?? "",
         toFL(item.rendimiento) ?? "",
@@ -231,6 +232,7 @@ function paintTableFilteredData(){
         tBody += `<tr>
             <td class="border px-2 py-1 text-center howerA" onclick="openArticleDetail(${x.article_code})" >${x.article_code}</td>
             <td class="border px-2 py-1 text-center howerA taleft" onclick="openArticleDetail(${x.article_code})" >${x.article_name}</td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.precio_estandar)}</td>
             <td class="border px-2 py-1 text-center">${fEur000(x.precio_padre_act)}</td>
             <td class="border px-2 py-1 text-center">${fEur000(x.inicio_coste_act)}</td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.rendimiento)}"      id="rendimiento${x.id}"      onkeydown="inputNewValue(event, ${x.id})" /></td>
@@ -256,6 +258,7 @@ function paintTableFilteredData(){
                 <tr>
                     <th class="topLeft">Código</th>
                     <th>Descripcion</th>
+                    <th>Estándar</th>
                     <th>€/Kg Act.</th>
                     <th>€/kg F/M</th>
                     <th>Rend.</th>
