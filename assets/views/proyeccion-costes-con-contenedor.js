@@ -144,7 +144,7 @@ function createExcelArtConst() {
         months.push(`${month}/${year}`);
     }
 
-    let header = ["Código", "Descripción", "Precio Estándar", "€/Kg Act.", "€/kg F/M", "Rend.", "M/Prima Act.", "Aceite", "Servicio","Aditivo", "MOD", "Embalaje", "Amort.", "MOI", "€/Kg C/G Act.", ...months];
+    let header = ["Código", "Descripción", "Estándar €/Kg", "€/Kg Act.", "€/kg F/M", "Rend.", "M/Prima Act.", "Aceite", "Servicio","Aditivo", "MOD", "Embalaje", "Amort.", "MOI", "€/Kg C/G Act.", ...months];
 
     const rows = excel_all_lines.map(item => [
         item.article_code,
@@ -258,7 +258,7 @@ function paintTableFilteredData(){
                 <tr>
                     <th class="topLeft">Código</th>
                     <th>Descripcion</th>
-                    <th>Estándar</th>
+                    <th>Estándar €/Kg</th>
                     <th>€/Kg Act.</th>
                     <th>€/kg F/M</th>
                     <th>Rend.</th>

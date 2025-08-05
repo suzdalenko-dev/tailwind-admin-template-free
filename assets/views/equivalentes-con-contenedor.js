@@ -52,7 +52,7 @@ function paintTables() {
                             <th colspan="2" id="topDate2"></th>
                             <th colspan="2" id="topDate3" class="topRight"></th>
                           </tr>
-                          <tr><th></th><th>Estándar</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th></tr>
+                          <tr><th></th><th>Estándar €/Kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th></tr>
                         </thead>
                         <tbody>${tableHtml}</tbody>
                     </table>
