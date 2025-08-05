@@ -23,6 +23,8 @@ function paintTables() {
     listEquivalents.map(x => {
         tableHtml += `<tr>
             <th class="border px-2 py-1 taleft howerA" onclick="openEquivalent(${x.id})">${x.article_name}</th>
+            <th class="border px-2 py-1 text-center">${fEur000(x.precio_estandar_equival)}</th>
+
             <th class="border px-2 py-1 text-center">${fEE(x.kg_act)}</th>
             <th class="border px-2 py-1 text-center">${fEur000(x.price_act)}</th>
 
@@ -44,13 +46,13 @@ function paintTables() {
                         <thead>
                           <tr>
                             <th class="topLeft">Equivalente</th>
-                            <th colspan="2">Estado Actual</th>
+                            <th colspan="3">Estado Actual</th>
                             <th colspan="2" id="topDate0"></th>
                             <th colspan="2" id="topDate1"></th>
                             <th colspan="2" id="topDate2"></th>
                             <th colspan="2" id="topDate3" class="topRight"></th>
                           </tr>
-                          <tr><th></th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th></tr>
+                          <tr><th></th><th>Estándar</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th><th>Kg</th><th>€/kg</th></tr>
                         </thead>
                         <tbody>${tableHtml}</tbody>
                     </table>
