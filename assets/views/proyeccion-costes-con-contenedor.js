@@ -244,6 +244,7 @@ function paintTableFilteredData(){
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.embalajes)}"        id="embalajes${x.id}"        onkeydown="inputNewValue(event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.amort_maq)}"        id="amort_maq${x.id}"        onkeydown="inputNewValue(event, ${x.id})" /></td>
             <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${toFL2(x.moi)}"              id="moi${x.id}"              onkeydown="inputNewValue(event, ${x.id})" /></td>
+            <td class="border px-2 py-1 text-center">${fEur000(x.precio_estandar_con_gastos)}</td>
             <td class="border px-2 py-1 text-center">${fEur000(x.precio_padre_mas_gastos)}</td>
             <td class="border px-2 py-1 text-center">${fEur000(x.final_coste_act)}</td>
             <td class="border px-2 py-1 text-center">${fEur000(x.final_coste_mas1)}</td>
@@ -270,6 +271,7 @@ function paintTableFilteredData(){
                     <th>Embalaje</th>
                     <th>Amort.</th>
                     <th>MOI</th>
+                    <th style="background:#005e00; color:white;">Estándar €/Kg C/G</th>
                     <th>€/Kg C/G Act.</th>
                     <th id="date0">Fin mes</th>
                     <th id="date1">+1</th>
