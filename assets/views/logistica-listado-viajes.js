@@ -38,6 +38,7 @@ function getListTravels(travelId){
                                     <td class="border px-2 py-1 text-center"></td>
                                     <td class="border px-2 py-1 text-center"></td>
                                     <td class="border px-2 py-1 text-letf"></td>
+                                    <td class="border px-2 py-1 text-letf"></td>
                                 </tr>`;
                 if(x && x.res && x.res.length > 0){
                     let listClients = x.res;
@@ -50,6 +51,7 @@ function getListTravels(travelId){
                                             <td class="border px-2 py-1 text-center"></td>
                                             <td class="border px-2 py-1 text-center"></td>
                                             <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
                                             <td class="border px-2 py-1 text-letf"></td>
                                         </tr>`;
                         if(client && client.detail && client.detail.length > 0){
@@ -66,6 +68,7 @@ function getListTravels(travelId){
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.UNIDADES_SERVIDAS}</td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.PRESENTACION_PEDIDO}</td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.UNI_SERALM}</td>
+                                                <td class="border px-2 py-1 text-letf">${orderUniq.CAJAS_CALCULADAS}</td>
                                             </tr>`;
                                         console.log(orderUniq)
                                     });
