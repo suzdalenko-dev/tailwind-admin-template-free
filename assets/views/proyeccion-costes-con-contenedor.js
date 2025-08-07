@@ -114,8 +114,6 @@ function initArticleAddFormData(){
 
 function openArticleDetail(artCode){
     let url = '/dashboard/#detalle-articulo-costes?codigo='+artCode;
-    // window.location.href = url;
-    // loadView('detalle-articulo-costes');
     window.open(url, '_blank');
 }
 
@@ -144,7 +142,7 @@ function createExcelArtConst() {
         months.push(`${month}/${year}`);
     }
 
-    let header = ["Código", "Descripción", "Estándar €/Kg", "€/Kg Act.", "€/kg F/M", "Rend.", "M/Prima Act.", "Aceite", "Servicio","Aditivo", "MOD", "Embalaje", "Amort.", "MOI", "€/Kg C/G Act.", ...months];
+    let header = ["Código", "Descripción", "Estándar €/Kg", "€/Kg Act.", "€/kg F/M", "Rend.", "M/Prima Act.", "Aceite", "Servicio","Aditivo", "MOD", "Embalaje", "Amort.", "MOI", "Estándar €/Kg C/G", "€/Kg C/G Act.", ...months];
 
     const rows = excel_all_lines.map(item => [
         item.article_code,
@@ -161,6 +159,7 @@ function createExcelArtConst() {
         item.embalajes ?? "",
         item.amort_maq ?? "",
         item.moi ?? "",
+        toFL(item.precio_estandar_con_gastos) ?? "",
         toFL(item.precio_padre_mas_gastos) ?? "",
         toFL(item.final_coste_act) ?? "",
         toFL(item.final_coste_mas1) ?? "",

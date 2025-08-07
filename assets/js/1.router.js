@@ -32,7 +32,7 @@ function loadView(viewName) {
                 script.src = scriptPath;
                 script.onload = () => {
                     let initFunction = window[`${toCamelCase(viewName)}`];
-                    if (initFunction) initFunction();
+                    if (initFunction)  initFunction();
                     else {
                         console.error(`Init function not found for ${viewName} ${toCamelCase(viewName)}`);
                     }

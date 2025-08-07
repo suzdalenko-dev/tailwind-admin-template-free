@@ -24,6 +24,12 @@ let menuData = [
                 { title: 'Entradas', icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock'},
             ]},
         ]
+    },
+    { title: 'Logística', icon: '🚚', roles: ['logistica'], submenu: [
+            { title: 'Informes', icon: '📋', submenu: [
+                { title: 'Cargas', icon: '🗺️', submenu: null , view: 'logistica-listado-cargas'},
+            ]},
+        ]
     }
 ];
 

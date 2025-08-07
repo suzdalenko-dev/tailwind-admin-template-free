@@ -146,3 +146,8 @@ function userDontLogin(){
   showM('Faltan permisos de edición', 'warning');
   return true;
 }
+
+function formatDateToEuropean(dateStr) {
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year}`;
+}
