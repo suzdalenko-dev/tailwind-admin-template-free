@@ -4,7 +4,8 @@ var trackIdVD  = 0;
 function logisticaViajeDetalleInit(){
     let slugTitle = document.getElementById('slugTitle');
     if(slugTitle){
-        slugTitle.innerHTML = '';
+        slugTitle.innerHTML = `<a href="/dashboard/#logistica-listado-cargas"><span class="b-top-page">🗺️ Listado Cargas </span></a>
+        <span class="b-top-page" onclick="createCustomTravel()">📥 Excel </span>`;
     }
 
     let hashDate = parseHashRoute();
@@ -85,4 +86,63 @@ function getCustomTravelDetail(){
     }).catch(e => {
         showM('eC '+e, 'error');
     });
+}
+
+
+function createCustomTravel() {
+    fetch(HTTP_HOST + `logistica/get/${trackIdVD}/${travelIdVD}/get_all_of_route/`)
+        .then(r => r.json())
+        .then(r => {
+            if (!r || !r.data || r.data.length === 0) {
+                showM('No hay datos para exportar', 'warning');
+                return;
+            }
+
+            const listTravel = r.data;
+            const rows = [
+                ["Nombre camión", "Cliente", "Pedido", "Albarán", "Artículo", "Cantidad", "Presentación", "Kg"]
+            ];
+
+            listTravel.forEach(camion => {
+                const nombreCamion = `${camion.__camion}. ${camion.__nombre__camion}`;
+                if (camion.res?.length) {
+                    camion.res.forEach(cliente => {
+                        const nombreCliente = cliente.name;
+                        if (cliente.detail?.length) {
+                            cliente.detail.forEach(ordenes => {
+                                ordenes.forEach(order => {
+                                    rows.push([
+                                        nombreCamion,
+                                        nombreCliente,
+                                        order.ID_PEDIDO,
+                                        order.ID_ALBARAN,
+                                        `${order.ARTICULO} ${order.DESCRIPCION_ARTICULO}`,
+                                        order.UNIDADES_SERVIDAS,
+                                        order.PRESENTACION_PEDIDO,
+                                        order.UNI_SERALM
+                                    ]);
+                                });
+                            });
+                        } else {
+                            rows.push([nombreCamion, nombreCliente, "", "", "", "", "", ""]);
+                        }
+                    });
+                } else {
+                    rows.push([nombreCamion, "", "", "", "", "", "", ""]);
+                }
+            });
+
+            const worksheet = XLSX.utils.aoa_to_sheet(rows);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "ViajeDetalle");
+
+            const now = new Date();
+            const timestamp = now.toISOString().slice(0, 16).replace("T", "_").replace(":", "-");
+            const filename = `viaje_detalle_${travelIdVD}_${timestamp}.xlsx`;
+
+            XLSX.writeFile(workbook, filename);
+        })
+        .catch(e => {
+            showM('❌ Error al generar Excel: ' + e, 'error');
+        });
 }

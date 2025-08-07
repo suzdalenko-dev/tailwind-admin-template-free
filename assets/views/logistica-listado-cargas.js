@@ -1,7 +1,7 @@
 function logisticaListadoCargasInit(){
     let slugTitle = document.getElementById('slugTitle');
     if(slugTitle){
-        slugTitle.innerHTML = '';
+         slugTitle.innerHTML = '';
     }
 
     document.title = 'Listado cargas';
@@ -43,4 +43,8 @@ function getLastLoads(){
     }).catch(e => {
         showM('eZ '+e, 'error');
     })
+}
+
+function createCustomTravel(){
+
 }
