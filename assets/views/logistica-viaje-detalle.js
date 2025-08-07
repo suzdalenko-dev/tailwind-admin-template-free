@@ -102,7 +102,7 @@ function createCustomTravel() {
 
             const listTravel = r.data;
             const rows = [
-                ["Nombre camión", "Cliente", "Pedido", "Albarán", "Artículo", "Cantidad", "Presentación", "Kg"]
+                ["Nombre camión", "Cliente", "Pedido", "Albarán", "Artículo", "Cantidad", "Presentación", "Kg", "Cajas Calc."]
             ];
 
             listTravel.forEach(camion => {
@@ -121,7 +121,8 @@ function createCustomTravel() {
                                         `${order.ARTICULO} ${order.DESCRIPCION_ARTICULO}`,
                                         order.UNIDADES_SERVIDAS,
                                         order.PRESENTACION_PEDIDO,
-                                        order.UNI_SERALM
+                                        order.UNI_SERALM,
+                                        formatToOneDecimal(order.CAJAS_CALCULADAS)
                                     ]);
                                 });
                             });
