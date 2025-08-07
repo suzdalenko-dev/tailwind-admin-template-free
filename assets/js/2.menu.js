@@ -109,7 +109,7 @@ function generateSubmenu(items, parentId = '', parentAccess = true) {
                 </div>`;
         } else {
             html += `
-                <a href="#${view}" onclick="loadView('${view}')" 
+                <a href="#${view}" 
                    class="block py-1 px-2 hover:bg-gray-100 rounded-md ml-6 flex items-center gap-2">
                     <span class="text-indigo-500">${item.icon}</span>
                     <span class="text-black">${item.title}</span>
@@ -118,6 +118,8 @@ function generateSubmenu(items, parentId = '', parentAccess = true) {
     });
     return html;
 }
+
+// <a href="#${view}"  onclick="loadView('${view}')"
 
 // 🚀 Renderizar menú
 function renderMenu() {

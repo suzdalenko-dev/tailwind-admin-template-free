@@ -101,5 +101,7 @@ function setDefaulContentToLocalStorage (){
 }
 
 
-
+window.addEventListener("hashchange", () => {
+    initRouter();  // this will re-parse the new hash and call loadView
+});
 
