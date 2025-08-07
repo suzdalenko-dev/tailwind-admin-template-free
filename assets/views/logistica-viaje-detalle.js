@@ -149,3 +149,10 @@ function createCustomTravel() {
             showM('❌ Error al generar Excel: ' + e, 'error');
         });
 }
+
+
+/*
+ <div class="table-container">
+        <table class="styled-table-ca stycky-table">
+
+*/

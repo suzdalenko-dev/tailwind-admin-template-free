@@ -134,6 +134,19 @@ li:hover{
 .styled-table-ca tbody tr:nth-of-type(even) {
     background-color: rgb(238, 251, 238);
 }
+
+.styled-table-fh thead th {
+        background-color: #4F46E5; 
+        color: white;
+}
+.styled-table-fh {
+    width: 100%;
+    border-collapse: collapse;
+}
+.styled-table-fh th, .styled-table-fh td {
+    padding: 1px 4px;
+}
+
 .input-ca{
     width: 71px; border: 1px solid rgb(215, 215, 215); outline: none; background-color: white;
     text-align: center; border-radius: 4px;
