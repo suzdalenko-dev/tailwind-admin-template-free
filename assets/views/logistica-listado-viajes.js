@@ -68,7 +68,7 @@ function getListTravels(travelId){
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.UNIDADES_SERVIDAS}</td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.PRESENTACION_PEDIDO}</td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.UNI_SERALM}</td>
-                                                <td class="border px-2 py-1 text-letf">${orderUniq.CAJAS_CALCULADAS}</td>
+                                                <td class="border px-2 py-1 text-letf">${formatToOneDecimal(orderUniq.CAJAS_CALCULADAS)}</td>
                                             </tr>`;
                                         console.log(orderUniq)
                                     });
