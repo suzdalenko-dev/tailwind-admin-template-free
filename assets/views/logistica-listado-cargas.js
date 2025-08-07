@@ -4,6 +4,7 @@ function logisticaListadoCargasInit(){
         slugTitle.innerHTML = '';
     }
 
+    document.title = 'Listado cargas';
     getLastLoads();
 }
 
