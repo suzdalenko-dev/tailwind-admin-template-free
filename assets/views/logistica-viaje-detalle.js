@@ -14,10 +14,10 @@ function logisticaViajeDetalleInit(){
 
     getCustomTravelDetail();
 
-    console.log(trackIdVD)
 }
 
 function getCustomTravelDetail(){
+    let REAL_SITUATION = []
     fetch(HTTP_HOST+`logistica/get/${trackIdVD}/${travelIdVD}/get_all_of_route/`).then(r => r.json()).then(r => {
         let htmlTravel = '';
         if(r && r.data && r.data.length > 0){
@@ -28,6 +28,9 @@ function getCustomTravelDetail(){
                     let pageTitle = document.getElementById('pageTitle');
                     if(pageTitle){
                         pageTitle.innerHTML = 'Listado de pedidos en la carga ('+travelIdVD+') camíon '+x.__nombre__camion;
+                    }
+                    if(x && x.click_situation && x.click_situation.length > 0){
+                        REAL_SITUATION = x.click_situation;
                     }
                 }
 
@@ -61,10 +64,18 @@ function getCustomTravelDetail(){
                             orders.map(orderDetail => {
                                 if(orderDetail && orderDetail.length > 0){
                                     orderDetail.map(orderUniq => {
-                                        htmlTravel += `<tr>
+                                        let colorGreenLine = '';
+                                        if(REAL_SITUATION && REAL_SITUATION.length > 0){
+                                            REAL_SITUATION.map(rs => {
+                                                if(orderUniq.ID_PEDIDO == rs.order_id && orderUniq.ARTICULO == rs.article_id && trackIdVD == rs.track_id && rs.state == 'clicked'){
+                                                    colorGreenLine = `style="background:green;color:white;"`;
+                                                }
+                                            });
+                                        }
+                                        htmlTravel += `<tr ${colorGreenLine}>
                                                 <td class="border px-2 py-1 text-center"></td>
                                                 <td class="border px-2 py-1 text-letf"></td>
-                                                <td class="border px-2 py-1 text-letf">${orderUniq.ID_PEDIDO}</td>
+                                                <td class="border px-2 py-1 text-letf hovered" onclick="paintToGreen(${travelIdVD}, ${trackIdVD}, '${orderUniq.ID_PEDIDO}', ${orderUniq.ARTICULO})"><b>${orderUniq.ID_PEDIDO}</b></td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.ID_ALBARAN}</td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.ARTICULO} ${orderUniq.DESCRIPCION_ARTICULO}</td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.UNIDADES_SERVIDAS}</td>
@@ -88,6 +99,7 @@ function getCustomTravelDetail(){
     }).catch(e => {
         showM('eC '+e, 'error');
     });
+   
 }
 
 
@@ -151,8 +163,10 @@ function createCustomTravel() {
 }
 
 
-/*
- <div class="table-container">
-        <table class="styled-table-ca stycky-table">
-
-*/
+function paintToGreen(loadId, truckId, orderId, articleId){
+    fetch(HTTP_HOST+`logistica/put/0/0/click_actions/?load_id=${loadId}&track_id=${truckId}&order_id=${orderId}&article_id=${articleId}`).then(r => r.json()).then(r => {
+        getCustomTravelDetail();
+    }).catch(e => {
+        showM('ev'+e, 'error');
+    })
+}

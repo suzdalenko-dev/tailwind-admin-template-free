@@ -24,11 +24,18 @@ function logisticaListadoViajesInit(){
 }
 
 function getListTravels(travelId){
+    let REAL_SITUATION = []
     fetch(HTTP_HOST+`logistica/get/0/${travelId}/get_all_of_route/`).then(r => r.json()).then(r => {
         let htmlTravel = '';
         if(r && r.data && r.data.length > 0){
             let listTravel = r.data;
+            let i = 0;
             listTravel.map(x => {
+                 if(i == 0){
+                    if(x && x.click_situation && x.click_situation.length > 0){
+                        REAL_SITUATION = x.click_situation;
+                    }
+                 }
                 htmlTravel += `<tr>
                                     <td class="border px-2 py-1 text-letf">${x.__camion}. ${x.__nombre__camion}</td>
                                     <td class="border px-2 py-1 text-center"></td>
@@ -59,10 +66,18 @@ function getListTravels(travelId){
                             orders.map(orderDetail => {
                                 if(orderDetail && orderDetail.length > 0){
                                     orderDetail.map(orderUniq => {
-                                        htmlTravel += `<tr>
+                                        let colorGreenLine = '';
+                                        if(REAL_SITUATION && REAL_SITUATION.length > 0){
+                                            REAL_SITUATION.map(rs => {
+                                                if(orderUniq.ID_PEDIDO == rs.order_id && orderUniq.ARTICULO == rs.article_id && x.__camion == rs.track_id && rs.state == 'clicked'){
+                                                    colorGreenLine = `style="background:green;color:white;"`;
+                                                }
+                                            });
+                                        }
+                                        htmlTravel += `<tr ${colorGreenLine}>
                                                 <td class="border px-2 py-1 text-center"></td>
                                                 <td class="border px-2 py-1 text-letf"></td>
-                                                <td class="border px-2 py-1 text-letf">${orderUniq.ID_PEDIDO}</td>
+                                                <td class="border px-2 py-1 text-letf hovered" onclick="paintToGreen2(${travelId}, ${x.__camion}, '${orderUniq.ID_PEDIDO}', ${orderUniq.ARTICULO})"><b>${orderUniq.ID_PEDIDO}</b></td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.ID_ALBARAN}</td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.ARTICULO} ${orderUniq.DESCRIPCION_ARTICULO}</td>
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.UNIDADES_SERVIDAS}</td>
@@ -70,14 +85,14 @@ function getListTravels(travelId){
                                                 <td class="border px-2 py-1 text-letf">${orderUniq.UNI_SERALM}</td>
                                                 <td class="border px-2 py-1 text-letf">${formatToOneDecimal(orderUniq.CAJAS_CALCULADAS)}</td>
                                             </tr>`;
-                                        console.log(orderUniq)
+                                        
                                     });
                                 }
                             });
                         }
                     });
                 }
-                
+                i++;
             });
         }
         let blockTravel = document.getElementById('blockTravel');
@@ -150,4 +165,12 @@ function createAllTravels() {
         .catch(e => {
             showM('Error al generar Excel: ' + e, 'error');
         });
+}
+
+function paintToGreen2(loadId, truckId, orderId, articleId){
+    fetch(HTTP_HOST+`logistica/put/0/0/click_actions/?load_id=${loadId}&track_id=${truckId}&order_id=${orderId}&article_id=${articleId}`).then(r => r.json()).then(r => {
+        getListTravels(travelId);
+    }).catch(e => {
+        showM('ev'+e, 'error');
+    })
 }
