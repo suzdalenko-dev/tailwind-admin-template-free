@@ -23,6 +23,9 @@ function getCustomTravelDetail(){
         if(r && r.data && r.data.length > 0){
             let listTravel = r.data;
             let i = 0;
+
+            console.log(listTravel)
+
             listTravel.map(x => {
                 if(i == 0){
                     let pageTitle = document.getElementById('pageTitle');
