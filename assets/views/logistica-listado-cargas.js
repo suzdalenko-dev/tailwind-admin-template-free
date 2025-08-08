@@ -60,4 +60,4 @@ function getLastLoads(){
 }
 
 
-setInterval(() => { getLastLoads(); }, 111000)
+setInterval(() => { getLastLoads(); }, 111000);
