@@ -59,6 +59,5 @@ function getLastLoads(){
     })
 }
 
-function createCustomTravel(){
 
-}
+setInterval(() => { getLastLoads(); }, 60000)
