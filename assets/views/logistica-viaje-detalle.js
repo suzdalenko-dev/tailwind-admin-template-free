@@ -101,8 +101,6 @@ function getCustomLoadTruckDetail(){
 }
 
 
-
-
 function orderClicked1(loadId, orderId, articleId){
     fetch(HTTP_HOST+`logistica/put/${loadId}/0/order_clicked/?order_id=${orderId}&article_id=${articleId}`).then(r => r.json()).then(r => {
         getCustomLoadTruckDetail();
@@ -121,4 +119,71 @@ function pressToInputPalets1(event, load_idLVD, truckId, clientIdX){
             showM('ev'+e, 'error');
         });
     }
+}
+
+
+function createCustomTravel() {
+  fetch(HTTP_HOST + `logistica/get/${load_idLVD}/${truck_idLVD}/load_truck_details/`)
+    .then(r => r.json())
+    .then(r => {
+      if (!r || !r.data || r.data.length === 0) {
+        showM('No hay datos para exportar', 'error');
+        return;
+      }
+
+      const excelRows = [];
+
+      // Cabecera
+      excelRows.push([
+        "Cliente", "Pedido", "Artículo", "Cantidad",
+        "Pres.", "Kg", "Caj. Calc.", "Pal. Orient.", "Pal. Input"
+      ]);
+
+      // Recorrer data
+      r.data.forEach(truck => {
+        if (truck.client_lines && truck.client_lines.length > 0) {
+          truck.client_lines.forEach(client => {
+            const inputsPalets = (client.lines && client.lines.length > 0 && client.lines[0].input_palets) 
+              ? client.lines[0].input_palets 
+              : "";
+
+            // Fila cliente
+            excelRows.push([
+              client.cli, "", "", "", "", "", "", client.sum_pal, inputsPalets
+            ]);
+
+            // Filas de artículos
+            if (client.lines && client.lines.length > 0) {
+              client.lines.forEach(order => {
+                const articles = JSON.parse(order.articles);
+                articles.forEach(art => {
+                  excelRows.push([
+                    "", order.order_id, art.DESCRIPCION_ARTICULO,
+                    art.UNIDADES_SERVIDAS, art.PRESENTACION_PEDIDO,
+                    art.UNI_SERALM, formatToOneDecimal(art.CAJAS_CALCULADAS),
+                    "", ""
+                  ]);
+                });
+              });
+            }
+          });
+        }
+      });
+
+      // Crear hoja y libro
+      const ws = XLSX.utils.aoa_to_sheet(excelRows);
+      ws['!cols'] = [
+        { wch: 35 }, { wch: 15 }, { wch: 50 }, { wch: 10 },
+        { wch: 8 }, { wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 12 }
+      ];
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Pedidos");
+
+      const fileName = `viaje_${load_idLVD}_camion_${truck_idLVD}.xlsx`;
+      XLSX.writeFile(wb, fileName);
+    })
+    .catch(e => {
+      showM('Error exportando: ' + e, 'error');
+    });
 }

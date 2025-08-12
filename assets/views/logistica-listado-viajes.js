@@ -123,9 +123,6 @@ function getLoadData(){
 }
 
 
-
-
-
 function orderClicked0(loadId, orderId, articleId){
     fetch(HTTP_HOST+`logistica/put/${loadId}/0/order_clicked/?order_id=${orderId}&article_id=${articleId}`).then(r => r.json()).then(r => {
         getLoadData();
@@ -144,4 +141,80 @@ function pressToInputPalets11(event, load_idLVD, truckId, clientIdX){
             showM('ev'+e, 'error');
         });
     }
+}
+
+
+function createAllTravels() {
+  fetch(HTTP_HOST + `logistica/get/${load_idLLV}/0/load_truck_details/`)
+    .then(r => r.json())
+    .then(r => {
+      if (!r || !r.data || r.data.length === 0) {
+        showM('No hay datos para exportar', 'error');
+        return;
+      }
+
+      const excelRows = [];
+
+      // Cabecera
+      excelRows.push([
+        "Nombre camión", "Cliente", "Pedido", "Artículo",
+        "Cantidad", "Pres.", "Kg", "Caj. Calc.",
+        "Pal. Orient.", "Pal. Input"
+      ]);
+
+      // Recorrer datos y llenar filas
+      r.data.forEach(truck => {
+        // Fila del camión
+        excelRows.push([truck.truck_name, "", "", "", "", "", "", "", "", ""]);
+
+        if (truck.client_lines && truck.client_lines.length > 0) {
+          truck.client_lines.forEach(client => {
+            let inputsPalets = "";
+            if (client.lines && client.lines.length > 0 && client.lines[0].input_palets) {
+              inputsPalets = client.lines[0].input_palets;
+            }
+
+            // Fila del cliente
+            excelRows.push([
+              "", client.cli, "", "", "", "", "", "",
+              client.sum_pal, inputsPalets
+            ]);
+
+            // Filas de artículos
+            if (client.lines && client.lines.length > 0) {
+              client.lines.forEach(order => {
+                const articles = JSON.parse(order.articles);
+                articles.forEach(art => {
+                  excelRows.push([
+                    "", "", order.order_id, art.DESCRIPCION_ARTICULO,
+                    art.UNIDADES_SERVIDAS, art.PRESENTACION_PEDIDO,
+                    art.UNI_SERALM, formatToOneDecimal(art.CAJAS_CALCULADAS),
+                    "", ""
+                  ]);
+                });
+              });
+            }
+          });
+        }
+      });
+
+      // Crear hoja y libro
+      const ws = XLSX.utils.aoa_to_sheet(excelRows);
+      ws['!cols'] = [
+        { wch: 25 }, { wch: 35 }, { wch: 15 }, { wch: 50 },
+        { wch: 10 }, { wch: 8 }, { wch: 10 }, { wch: 10 },
+        { wch: 12 }, { wch: 12 }
+      ];
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Viajes");
+
+      const fecha = load_dateLLV ? formatDateToEuropean(load_dateLLV).replace(/\//g, '-') : '';
+      const fileName = `viajes_carga_${load_idLLV}${fecha ? '_' + fecha : ''}.xlsx`;
+
+      XLSX.writeFile(wb, fileName);
+    })
+    .catch(e => {
+      showM('Error exportando: ' + e, 'error');
+    });
 }
