@@ -1,5 +1,5 @@
-var travelId = 0;
-var dateVal  = '';
+var load_idLLV = 0;
+var load_dateLLV = '';
 
 function logisticaListadoViajesInit(){
     let slugTitle = document.getElementById('slugTitle');
@@ -12,165 +12,136 @@ function logisticaListadoViajesInit(){
 
     let hashDate = parseHashRoute();
     
-    if(hashDate && hashDate.params && hashDate.params.travelId){ travelId = hashDate.params.travelId; }
-    if(hashDate && hashDate.params && hashDate.params.date){ dateVal = hashDate.params.date; }
 
-    let pageTitleD = document.getElementById('pageTitleD');
+    if(hashDate && hashDate.params && hashDate.params.load_id){ load_idLLV = hashDate.params.load_id; }
+    if(hashDate && hashDate.params && hashDate.params.load_date){ load_dateLLV = hashDate.params.load_date; }
+
     if(pageTitleD){
-        pageTitleD.innerHTML = 'Listado de viajes para la carga ('+travelId+') fecha '+formatDateToEuropean(dateVal);
+        pageTitleD.innerHTML = 'Listado de viajes para la carga ('+load_idLLV+') fecha '+formatDateToEuropean(load_dateLLV);
     }
 
-    getListTravels(travelId);
+    getLoadData();
 }
 
-function getListTravels(travelId){
-    let REAL_SITUATION = []
-    fetch(HTTP_HOST+`logistica/get/0/${travelId}/get_all_of_route/`).then(r => r.json()).then(r => {
-        let htmlTravel = '';
+function getLoadData(){
+    fetch(HTTP_HOST+`logistica/get/${load_idLLV}/0/load_truck_details/`).then(r => r.json()).then(r => {
+        let html = '';
+        let i = 0;
+        let colorGreen = ''
+        let json_data = null;
+        let click_info = null;
+        let clientId   = 0;
+        let truckId    = 0;
+        let inputsPalets = ''
         if(r && r.data && r.data.length > 0){
-            let listTravel = r.data;
-            let i = 0;
-            listTravel.map(x => {
-                 if(i == 0){
-                    if(x && x.click_situation && x.click_situation.length > 0){
-                        REAL_SITUATION = x.click_situation;
+            r.data.map(x => {
+                if(x && x.data && x.data.length > 0 && i == 0){
+                    console.log(x.data[0])
+                    let pageTitle = document.getElementById('pageTitle');
+                    if(pageTitle){
+                        pageTitle.innerHTML = `Listado de pedidos en la carga (${load_idLVD}) camíon ${x.data[0].truck_id}. ${x.data[0].truck_name}`;
                     }
-                 }
-                htmlTravel += `<tr>
-                                    <td class="border px-2 py-1 text-letf">${x.__camion}. ${x.__nombre__camion}</td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-letf"></td>
-                                    <td class="border px-2 py-1 text-letf"></td>
-                                </tr>`;
-                if(x && x.res && x.res.length > 0){
-                    let listClients = x.res;
-                    listClients.map(client => {
-                        htmlTravel += `<tr>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-letf">${client.name}</td>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-letf"></td>
-                                            <td class="border px-2 py-1 text-letf"></td>
-                                        </tr>`;
-                        if(client && client.detail && client.detail.length > 0){
-                            let orders = client.detail;
-                            orders.map(orderDetail => {
-                                if(orderDetail && orderDetail.length > 0){
-                                    orderDetail.map(orderUniq => {
-                                        let colorGreenLine = '';
-                                        if(REAL_SITUATION && REAL_SITUATION.length > 0){
-                                            REAL_SITUATION.map(rs => {
-                                                if(orderUniq.ID_PEDIDO == rs.order_id && orderUniq.ARTICULO == rs.article_id && x.__camion == rs.track_id && rs.state == 'clicked'){
-                                                    colorGreenLine = `style="background:green;color:white;"`;
+                }
+                html += `<tr>
+                            <td class="border px-2 py-1 text-letf">${x.truck_name}</td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-letf"></td>
+                            <td class="border px-2 py-1 text-letf"></td>
+                        </tr>`;
+                i++;
+                 if(x && x.client_lines && x.client_lines.length > 0){
+                    x.client_lines.map(y => { 
+                        clientId = 0;
+                        truckId  = 0;
+                        if(y && y.lines && y.lines.length > 0 && y.lines[0] && y.lines[0].client_id && y.lines[0].truck_id){
+                            clientId = y.lines[0].client_id;
+                            truckId  = y.lines[0].truck_id;
+                        }
+                        inputsPalets = '';
+                        if(y && y.lines && y.lines.length > 0 && y.lines[0] && y.lines[0].input_palets){
+                            inputsPalets = y.lines[0].input_palets;
+                        }
+                        html += `<tr>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-letf">${y.cli}</td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-letf"></td>
+                            <td class="border px-2 py-1 text-center">${y.sum_pal}</td>
+                            <td class="border px-2 py-1 text-center"><input value="${inputsPalets}" class="input_pal" type="number" onkeydown="pressToInputPalets11(event, ${load_idLLV}, ${truckId}, '${clientId}')"></td>
+                        </tr>`;
+                        if(y && y.lines && y.lines.length > 0){
+                            y.lines.map(z => {
+                                json_data  = JSON.parse(z.articles);
+                                if(json_data && json_data.length > 0){
+                                    click_info = z && z.click_info ? JSON.parse(z.click_info): null;
+                                    json_data.map(js => {
+                                        colorGreen = '';
+                                        if(click_info && click_info.length > 0){
+                                            click_info.map(v => {
+                                                if(v.code == js.ARTICULO && v.value == 1){
+                                                    colorGreen = 'class="class_green" style="color:white;"'
                                                 }
-                                            });
+                                            })
                                         }
-                                        htmlTravel += `<tr ${colorGreenLine}>
-                                                <td class="border px-2 py-1 text-center"></td>
-                                                <td class="border px-2 py-1 text-letf"></td>
-                                                <td class="border px-2 py-1 text-letf hovered" onclick="paintToGreen2(${travelId}, ${x.__camion}, '${orderUniq.ID_PEDIDO}', ${orderUniq.ARTICULO})"><b>${orderUniq.ID_PEDIDO}</b></td>
-                                                <td class="border px-2 py-1 text-letf">${orderUniq.ID_ALBARAN}</td>
-                                                <td class="border px-2 py-1 text-letf">${orderUniq.ARTICULO} ${orderUniq.DESCRIPCION_ARTICULO}</td>
-                                                <td class="border px-2 py-1 text-letf">${orderUniq.UNIDADES_SERVIDAS}</td>
-                                                <td class="border px-2 py-1 text-letf">${orderUniq.PRESENTACION_PEDIDO}</td>
-                                                <td class="border px-2 py-1 text-letf">${orderUniq.UNI_SERALM}</td>
-                                                <td class="border px-2 py-1 text-letf">${formatToOneDecimal(orderUniq.CAJAS_CALCULADAS)}</td>
-                                            </tr>`;
-                                        
+                                        html += `<tr ${colorGreen}>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-center hovered" onclick="orderClicked0(${load_idLLV}, '${z.order_id}', ${js.ARTICULO})">${z.order_id}</td>
+                                            <td class="border px-2 py-1 text-left">${js.DESCRIPCION_ARTICULO}</td>
+                                            <td class="border px-2 py-1 text-center">${js.UNIDADES_SERVIDAS}</td>
+                                            <td class="border px-2 py-1 text-center">${js.PRESENTACION_PEDIDO}</td>
+                                            <td class="border px-2 py-1 text-center">${js.UNI_SERALM}</td>
+                                            <td class="border px-2 py-1 text-letf">${formatToOneDecimal(js.CAJAS_CALCULADAS)}</td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                        </tr>`
                                     });
                                 }
                             });
                         }
                     });
                 }
-                i++;
             });
         }
-        let blockTravel = document.getElementById('blockTravel');
-        if(blockTravel){
-            blockTravel.innerHTML = htmlTravel;
+        let loadData = document.getElementById('loadData');
+        if(loadData){
+            loadData.innerHTML = html;
         }
     }).catch(e => {
-        showM('eX '+e, 'error');
+        showM('eC '+e, 'error');
     });
 }
 
 
-setInterval(() => { getListTravels(travelId); }, 1320000);
 
 
-function createAllTravels() {
-    fetch(HTTP_HOST + `logistica/get/0/${travelId}/get_all_of_route/`)
-        .then(r => r.json())
-        .then(r => {
-            if (!r || !r.data || r.data.length === 0) {
-                showM('No hay datos para exportar', 'warning');
-                return;
-            }
 
-            const listTravel = r.data;
-            const rows = [
-                ["Nombre camión", "Cliente", "Pedido", "Albarán", "Artículo", "Cantidad", "Presentación", "Kg", "Cajas Calc."]
-            ];
-
-            listTravel.forEach(camion => {
-                const nombreCamion = `${camion.__camion}. ${camion.__nombre__camion}`;
-                if (camion.res?.length) {
-                    camion.res.forEach(cliente => {
-                        const nombreCliente = cliente.name;
-                        if (cliente.detail?.length) {
-                            cliente.detail.forEach(ordenes => {
-                                ordenes.forEach(order => {
-                                    rows.push([
-                                        nombreCamion,
-                                        nombreCliente,
-                                        order.ID_PEDIDO,
-                                        order.ID_ALBARAN,
-                                        `${order.ARTICULO} ${order.DESCRIPCION_ARTICULO}`,
-                                        order.UNIDADES_SERVIDAS,
-                                        order.PRESENTACION_PEDIDO,
-                                        order.UNI_SERALM,
-                                        formatToOneDecimal(order.CAJAS_CALCULADAS)
-                                    ]);
-                                });
-                            });
-                        } else {
-                            rows.push([nombreCamion, nombreCliente, "", "", "", "", "", ""]);
-                        }
-                    });
-                } else {
-                    rows.push([nombreCamion, "", "", "", "", "", "", ""]);
-                }
-            });
-
-            const worksheet = XLSX.utils.aoa_to_sheet(rows);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Carga-'+travelId+' fecha-'+dateVal);
-
-            const now = new Date();
-            const timestamp = now.toISOString().slice(0, 16).replace("T", "_").replace(":", "-");
-            const filename = `listado_viajes_${timestamp}.xlsx`;
-
-            XLSX.writeFile(workbook, filename);
-        })
-        .catch(e => {
-            showM('Error al generar Excel: ' + e, 'error');
-        });
-}
-
-function paintToGreen2(loadId, truckId, orderId, articleId){
-    fetch(HTTP_HOST+`logistica/put/0/0/click_actions/?load_id=${loadId}&track_id=${truckId}&order_id=${orderId}&article_id=${articleId}`).then(r => r.json()).then(r => {
-        getListTravels(travelId);
+function orderClicked0(loadId, orderId, articleId){
+    fetch(HTTP_HOST+`logistica/put/${loadId}/0/order_clicked/?order_id=${orderId}&article_id=${articleId}`).then(r => r.json()).then(r => {
+        getLoadData();
     }).catch(e => {
         showM('ev'+e, 'error');
     })
+}
+
+
+function pressToInputPalets11(event, load_idLVD, truckId, clientIdX){
+    if (event.key === 'Enter' || event.keyCode === 13) {
+        let numPal = event.target.value;
+        fetch(HTTP_HOST+`logistica/put/${load_idLVD}/${truckId}/change_palets/?client_id=${clientIdX}&num_pal=${numPal}`).then(r => r.json()).then(r => {
+            getLoadData();
+        }).catch(e => {
+            showM('ev'+e, 'error');
+        });
+    }
 }

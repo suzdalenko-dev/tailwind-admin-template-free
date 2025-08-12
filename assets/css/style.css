@@ -186,3 +186,13 @@ li:hover{
 b{
     font-weight: 900;
 }
+.class_green{
+    background-color: rgb(1, 97, 1);
+    color:white;
+}
+.input_pal{
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #4f46e5!important;
+    text-align: center!important;
+}

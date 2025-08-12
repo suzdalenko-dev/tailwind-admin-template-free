@@ -148,7 +148,8 @@ function userDontLogin(){
 }
 
 function formatDateToEuropean(dateStr) {
-    const [year, month, day] = dateStr.split("-");
+    [year, month, day] = ["", "", ""]
+    dateStr && dateStr.split("-").length == 3 ? [year, month, day] = dateStr.split("-"): 10 / 2 
     return `${day}/${month}/${year}`;
 }
 

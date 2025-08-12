@@ -1,3 +1,4 @@
+var lastLoadIdZXC = 0;
 function logisticaListadoCargasInit(){
     let slugTitle = document.getElementById('slugTitle');
     if(slugTitle){
@@ -5,59 +6,52 @@ function logisticaListadoCargasInit(){
     }
 
     document.title = 'Listado cargas';
-    getLastLoads();
+    geRefreshGemaRoutes();
 }
 
-function getLastLoads(){
-    fetch(HTTP_HOST+'logistica/get/0/0/get_belin_routes/').then(r => r.json()).then(r => {
+function geRefreshGemaRoutes(){
+    fetch(HTTP_HOST+'logistica/get/0/0/get_and_refresh_gema_routes/').then(r => r.json()).then(r => {
         let htmlLoadContent = '';
+        let i = 0;
         if(r && r.data && r.data.length > 0){
             let listLoads        = r.data;
-            let TRAVEL_SITUATION = []
             listLoads.map(x => {
-                if(x && x.travel_situation && x.travel_situation.length > 0){
-                    TRAVEL_SITUATION = x.travel_situation;
-                } else {
-                    TRAVEL_SITUATION = [];
-                }
                 htmlLoadContent += `<tr>
-                                        <td class="border px-2 py-1 text-center"><a href="#logistica-listado-viajes?travelId=${x.id}&date=${x.__fecha}"><b class="color_blue">${x.id}</b></a></td>
+                                        <td class="border px-2 py-1 text-center"><a href="#logistica-listado-viajes?load_id=${x.load_id}&load_date=${x.load_date}"><b class="color_blue">${x.load_id}</b></a></td>
                                         <td class="border px-2 py-1 text-center"></td>
-                                        <td class="border px-2 py-1 text-center">${x.__semana}</td>
-                                        <td class="border px-2 py-1 text-center">${formatDateToEuropean(x.__fecha)}</td>
-                                        <td class="border px-2 py-1 text-center">${x.__entregapaletas}</td>
+                                        <td class="border px-2 py-1 text-center">${x.load_week}</td>
+                                        <td class="border px-2 py-1 text-center">${(formatDateToEuropean(x.load_date))}</td>
+                                        <td class="border px-2 py-1 text-center"></td>
+                                        <td class="border px-2 py-1 text-center"></td>
                                     </tr>`;
                 if(x && x.travel_names && x.travel_names.length > 0){
-                    let listTravels = x.travel_names;
-                    listTravels.map(travelX => {
-                        let colorGreenLine = '';
-                        if(TRAVEL_SITUATION && TRAVEL_SITUATION.length > 0){
-                            TRAVEL_SITUATION.map(situation => {
-                                if(x.id == situation.load_id && travelX.__camion == situation.track_id && situation.number_all_order == situation.number_clicked_order && situation.number_clicked_order > 0){
-                                    colorGreenLine = `style="background:green;color:white;"`;
-                                }
-                            });
+                    let colorGreenLine = '';
+                    x.travel_names.map(y => {
+                        colorGreenLine = '';
+                        if(y.clicked == 1){
+                            colorGreenLine = `class="class_green" style="color:white;"`;
                         }
                         htmlLoadContent += `<tr ${colorGreenLine}>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-left"><a href="#logistica-viaje-detalle?travelId=${x.id}&truck=${travelX.__camion}"><b class="color_blue" ${colorGreenLine}>${travelX.__camion}. ${travelX.__nombre__camion}</b></a></td>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-center"></td>
-                                        </tr>`;
-                    })
-                    
+                                                <td class="border px-2 py-1 text-center"></td>
+                                                <td class="border px-2 py-1 text-left"><a href="#logistica-viaje-detalle?load_id=${x.load_id}&truck_id=${y.truck_id}"><b class="color_blue" ${colorGreenLine}>${y.truck_id}. ${y.truck_name}</b></a></td>
+                                                <td class="border px-2 py-1 text-center"></td>
+                                                <td class="border px-2 py-1 text-center"></td>
+                                                <td class="border px-2 py-1 text-center">${y.palets}</td>
+                                                <td class="border px-2 py-1 text-center">${y.sum_input_pal}</td>
+                                            </tr>`;
+                    });
                 }
             });
+            console.log(listLoads)
         }
-        let blockLogistics = document.getElementById('blockLogistics');
-        if(blockLogistics){
-            blockLogistics.innerHTML = htmlLoadContent;
+        let list22Loads = document.getElementById('list22Loads');
+        if(list22Loads){
+            list22Loads.innerHTML = htmlLoadContent;
         }
     }).catch(e => {
-        showM('eZ '+e, 'error');
-    })
+        showM('eB '+e, 'error');
+    });
 }
 
 
-setInterval(() => { getLastLoads(); }, 111000);
+setInterval(() => { geRefreshGemaRoutes(); }, 333000);
