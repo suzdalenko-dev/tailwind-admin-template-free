@@ -146,6 +146,9 @@ function orderClicked0(loadId, orderId, articleId){
 
 
 function pressToInputPalets11(event, load_idLVD, truckId, clientIdX){
+  alert(event.key)
+  alert(event.keyCode)
+  
     if (event.key === 'Enter' || event.keyCode === 13) {
         let numPal = event.target.value;
         fetch(HTTP_HOST+`logistica/put/${load_idLVD}/${truckId}/change_palets/?client_id=${clientIdX}&num_pal=${numPal}`).then(r => r.json()).then(r => {
