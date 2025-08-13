@@ -106,6 +106,19 @@ function getLoadData(){
                                             <td class="border px-2 py-1 text-letf"></td>
                                         </tr>`
                                     });
+                                } else {
+                                    html += `<tr ${colorGreen}>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-center hovered">${z.order_id}</td>
+                                            <td class="border px-2 py-1 text-left"></td>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                        </tr>`
                                 }
                             });
                         }
@@ -144,6 +157,7 @@ function pressToInputPalets11(event, load_idLVD, truckId, clientIdX){
 }
 
 
+
 function createAllTravels() {
   fetch(HTTP_HOST + `logistica/get/${load_idLLV}/0/load_truck_details/`)
     .then(r => r.json())
@@ -170,28 +184,41 @@ function createAllTravels() {
         if (truck.client_lines && truck.client_lines.length > 0) {
           truck.client_lines.forEach(client => {
             let inputsPalets = "";
-            if (client.lines && client.lines.length > 0 && client.lines[0].input_palets) {
+            if (client.lines && client.lines.length > 0 && client.lines[0] && client.lines[0].input_palets) {
               inputsPalets = client.lines[0].input_palets;
             }
 
             // Fila del cliente
             excelRows.push([
-              "", client.cli, "", "", "", "", "", "",
-              client.sum_pal, inputsPalets
+              "", client.cli || "", "", "", "", "", "", "",
+              client.sum_pal || "", inputsPalets || ""
             ]);
 
-            // Filas de artículos
+            // Filas de artículos / pedidos (incluye el caso ELSE cuando no hay artículos)
             if (client.lines && client.lines.length > 0) {
               client.lines.forEach(order => {
-                const articles = JSON.parse(order.articles);
-                articles.forEach(art => {
+                let articles = [];
+                try {
+                  articles = order.articles ? JSON.parse(order.articles) : [];
+                } catch (e) {
+                  articles = [];
+                }
+
+                if (articles && articles.length > 0) {
+                  articles.forEach(art => {
+                    excelRows.push([
+                      "", "", order.order_id || "", art.DESCRIPCION_ARTICULO || "",
+                      art.UNIDADES_SERVIDAS || "", art.PRESENTACION_PEDIDO || "",
+                      art.UNI_SERALM || "", formatToOneDecimal(art.CAJAS_CALCULADAS || 0),
+                      "", ""
+                    ]);
+                  });
+                } else {
+                  // Caso sin artículos (equivalente al else del getLoadData())
                   excelRows.push([
-                    "", "", order.order_id, art.DESCRIPCION_ARTICULO,
-                    art.UNIDADES_SERVIDAS, art.PRESENTACION_PEDIDO,
-                    art.UNI_SERALM, formatToOneDecimal(art.CAJAS_CALCULADAS),
-                    "", ""
+                    "", "", order.order_id || "", "", "", "", "", "", "", ""
                   ]);
-                });
+                }
               });
             }
           });

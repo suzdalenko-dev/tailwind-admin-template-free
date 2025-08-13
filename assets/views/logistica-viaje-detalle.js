@@ -83,6 +83,19 @@ function getCustomLoadTruckDetail(){
                                         <td class="border px-2 py-1 text-letf"></td>
                                     </tr>`
                                     });
+                                } else {
+                                    html += `<tr ${colorGreen}>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-center hovered">${z.order_id}</td>
+                                            <td class="border px-2 py-1 text-left"></td>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
+                                        </tr>`
                                 }
                             })
                         }
@@ -149,21 +162,34 @@ function createCustomTravel() {
 
             // Fila cliente
             excelRows.push([
-              client.cli, "", "", "", "", "", "", client.sum_pal, inputsPalets
+              client.cli || "", "", "", "", "", "", "", client.sum_pal || "", inputsPalets || ""
             ]);
 
-            // Filas de artículos
+            // Filas de artículos o pedidos vacíos
             if (client.lines && client.lines.length > 0) {
               client.lines.forEach(order => {
-                const articles = JSON.parse(order.articles);
-                articles.forEach(art => {
+                let articles = [];
+                try {
+                  articles = order.articles ? JSON.parse(order.articles) : [];
+                } catch (e) {
+                  articles = [];
+                }
+
+                if (articles && articles.length > 0) {
+                  articles.forEach(art => {
+                    excelRows.push([
+                      "", order.order_id || "", art.DESCRIPCION_ARTICULO || "",
+                      art.UNIDADES_SERVIDAS || "", art.PRESENTACION_PEDIDO || "",
+                      art.UNI_SERALM || "", formatToOneDecimal(art.CAJAS_CALCULADAS || 0),
+                      "", ""
+                    ]);
+                  });
+                } else {
+                  // Caso sin artículos → fila con solo el pedido
                   excelRows.push([
-                    "", order.order_id, art.DESCRIPCION_ARTICULO,
-                    art.UNIDADES_SERVIDAS, art.PRESENTACION_PEDIDO,
-                    art.UNI_SERALM, formatToOneDecimal(art.CAJAS_CALCULADAS),
-                    "", ""
+                    "", order.order_id || "", "", "", "", "", "", "", ""
                   ]);
-                });
+                }
               });
             }
           });
