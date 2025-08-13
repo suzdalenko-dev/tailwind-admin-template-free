@@ -78,7 +78,7 @@ function getLoadData(){
                             <td class="border px-2 py-1 text-letf"></td>
                             <td class="border px-2 py-1 text-center">${y.sum_pal}</td>
                             <td class="border px-2 py-1 text-center">
-                              <input value="${inputsPalets}" class="input_pal" type="text" onkeydown="pressToInputPalets11(event, ${load_idLLV}, ${truckId}, '${clientId}')">
+                              <input value="${inputsPalets}" class="input_pal" type="text" onkeydown="pressToInputPalets11(event, ${load_idLLV}, ${truckId}, '${clientId}')">💾
                             </td>
                         </tr>`;
                         if(y && y.lines && y.lines.length > 0){
@@ -150,12 +150,7 @@ function orderClicked0(loadId, orderId, articleId){
 function pressToInputPalets11(event, load_idLVD, truckId, clientIdX){
     if (event.key == 'Enter' || event.keyCode == 13 || event.keyCode == 229) {
         let numPal = event.target.value;
-            console.log(numPal)
-        let permitidos = ["0","1","2","3","4","5","6","7","8","9",".",","];
-            numPal = numPal.split('').filter(c => permitidos.includes(c)).join('');
-        
-            console.log(numPal)
-          
+
         fetch(HTTP_HOST+`logistica/put/${load_idLVD}/${truckId}/change_palets/?client_id=${clientIdX}&num_pal=${numPal}`).then(r => r.json()).then(r => {
             getLoadData();
         }).catch(e => {
