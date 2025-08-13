@@ -81,7 +81,7 @@ function getLoadData(){
                             <td class="border px-2 py-1 text-letf"></td>
                             <td class="border px-2 py-1 text-center">${y.sum_pal}</td>
                             <td class="border px-2 py-1 text-center"><input value="${inputsPalets}" class="input_pal" type="number" id="input${inputId}"></td>
-                            <td class="border px-2 py-1 text-center"><span onclick="savedPressed0(${load_idLLV}, ${truckId}, '${clientId}', ${inputId})">💾</span></td>
+                            <td class="border px-2 py-1 text-center hovered"><span onclick="savedPressed0(${load_idLLV}, ${truckId}, '${clientId}', ${inputId})">💾</span></td>
                         </tr>`;
                         if(y && y.lines && y.lines.length > 0){
                             y.lines.map(z => {
