@@ -145,7 +145,7 @@ function getLoadData(){
 function savedPressed0(load_idLVD, truckId, clientIdX, inputId){
   let inputEl = document.getElementById('input'+inputId);
   if(inputEl){
-    let numPal = inputEl.value;
+    let numPal = inputEl.value || 0;
 
     fetch(HTTP_HOST+`logistica/put/${load_idLVD}/${truckId}/change_palets/?client_id=${clientIdX}&num_pal=${numPal}`).then(r => r.json()).then(r => {
         getLoadData();
