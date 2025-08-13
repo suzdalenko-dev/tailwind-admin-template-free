@@ -25,6 +25,7 @@ function logisticaListadoViajesInit(){
 
 function getLoadData(){
     fetch(HTTP_HOST+`logistica/get/${load_idLLV}/0/load_truck_details/`).then(r => r.json()).then(r => {
+        let inputId = 0;
         let html = '';
         let i = 0;
         let colorGreen = ''
@@ -53,10 +54,12 @@ function getLoadData(){
                             <td class="border px-2 py-1 text-center"></td>
                             <td class="border px-2 py-1 text-letf"></td>
                             <td class="border px-2 py-1 text-letf"></td>
+                            <td class="border px-2 py-1 text-letf"></td>
                         </tr>`;
                 i++;
                  if(x && x.client_lines && x.client_lines.length > 0){
                     x.client_lines.map(y => { 
+                        inputId++;
                         clientId = 0;
                         truckId  = 0;
                         if(y && y.lines && y.lines.length > 0 && y.lines[0] && y.lines[0].client_id && y.lines[0].truck_id){
@@ -68,7 +71,7 @@ function getLoadData(){
                             inputsPalets = y.lines[0].input_palets;
                         }
                         html += `<tr>
-                            <td class="border px-2 py-1 text-center"></td>
+                            <td class="border px-2 py-1 text-center hovered"></td>
                             <td class="border px-2 py-1 text-letf">${y.cli}</td>
                             <td class="border px-2 py-1 text-center"></td>
                             <td class="border px-2 py-1 text-center"></td>
@@ -77,9 +80,8 @@ function getLoadData(){
                             <td class="border px-2 py-1 text-center"></td>
                             <td class="border px-2 py-1 text-letf"></td>
                             <td class="border px-2 py-1 text-center">${y.sum_pal}</td>
-                            <td class="border px-2 py-1 text-center">
-                              <input value="${inputsPalets}" class="input_pal" type="text" onkeydown="pressToInputPalets11(event, ${load_idLLV}, ${truckId}, '${clientId}')">💾
-                            </td>
+                            <td class="border px-2 py-1 text-center"><input value="${inputsPalets}" class="input_pal" type="number" id="input${inputId}"></td>
+                            <td class="border px-2 py-1 text-center"><span onclick="savedPressed0(${load_idLLV}, ${truckId}, '${clientId}', ${inputId})">💾</span></td>
                         </tr>`;
                         if(y && y.lines && y.lines.length > 0){
                             y.lines.map(z => {
@@ -106,6 +108,7 @@ function getLoadData(){
                                             <td class="border px-2 py-1 text-letf">${formatToOneDecimal(js.CAJAS_CALCULADAS)}</td>
                                             <td class="border px-2 py-1 text-letf"></td>
                                             <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
                                         </tr>`
                                     });
                                 } else {
@@ -117,6 +120,7 @@ function getLoadData(){
                                             <td class="border px-2 py-1 text-center"></td>
                                             <td class="border px-2 py-1 text-center"></td>
                                             <td class="border px-2 py-1 text-center"></td>
+                                            <td class="border px-2 py-1 text-letf"></td>
                                             <td class="border px-2 py-1 text-letf"></td>
                                             <td class="border px-2 py-1 text-letf"></td>
                                             <td class="border px-2 py-1 text-letf"></td>
@@ -138,6 +142,20 @@ function getLoadData(){
 }
 
 
+function savedPressed0(load_idLVD, truckId, clientIdX, inputId){
+  let inputEl = document.getElementById('input'+inputId);
+  if(inputEl){
+    let numPal = inputEl.value;
+
+    fetch(HTTP_HOST+`logistica/put/${load_idLVD}/${truckId}/change_palets/?client_id=${clientIdX}&num_pal=${numPal}`).then(r => r.json()).then(r => {
+        getLoadData();
+    }).catch(e => {
+        showM('ev'+e, 'error');
+    });
+  }
+}
+
+
 function orderClicked0(loadId, orderId, articleId){
     fetch(HTTP_HOST+`logistica/put/${loadId}/0/order_clicked/?order_id=${orderId}&article_id=${articleId}`).then(r => r.json()).then(r => {
         getLoadData();
@@ -145,20 +163,6 @@ function orderClicked0(loadId, orderId, articleId){
         showM('ev'+e, 'error');
     })
 }
-
-
-function pressToInputPalets11(event, load_idLVD, truckId, clientIdX){
-    if (event.key == 'Enter' || event.keyCode == 13 || event.keyCode == 229) {
-        let numPal = event.target.value;
-
-        fetch(HTTP_HOST+`logistica/put/${load_idLVD}/${truckId}/change_palets/?client_id=${clientIdX}&num_pal=${numPal}`).then(r => r.json()).then(r => {
-            getLoadData();
-        }).catch(e => {
-            showM('ev'+e, 'error');
-        });
-    }
-}
-
 
 
 function createAllTravels() {

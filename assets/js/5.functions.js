@@ -156,3 +156,8 @@ function formatDateToEuropean(dateStr) {
 function formatToOneDecimal(value) {
     return Number.parseFloat(value).toFixed(1);
 }
+
+
+        
+  
+

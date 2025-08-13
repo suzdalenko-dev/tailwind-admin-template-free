@@ -18,6 +18,7 @@ function logisticaViajeDetalleInit(){
 
 function getCustomLoadTruckDetail(){
     fetch(HTTP_HOST+`logistica/get/${load_idLVD}/${truck_idLVD}/load_truck_details/`).then(r => r.json()).then(r => {
+        let inputId = 0;
         let html = '';
         let i = 0;
         let colorGreen = ''
@@ -36,6 +37,7 @@ function getCustomLoadTruckDetail(){
                 }
                 if(x && x.client_lines && x.client_lines.length > 0){
                     x.client_lines.map(y => {
+                        inputId++;
                         clientId = 0;
                         truckId  = 0;
                         if(y && y.lines && y.lines.length > 0 && y.lines[0] && y.lines[0].client_id && y.lines[0].truck_id){
@@ -55,7 +57,8 @@ function getCustomLoadTruckDetail(){
                             <td class="border px-2 py-1 text-center"></td>
                             <td class="border px-2 py-1 text-letf"></td>
                             <td class="border px-2 py-1 text-center">${y.sum_pal}</td>
-                            <td class="border px-2 py-1 text-center"><input value="${inputsPalets}" class="input_pal" type="number" onkeydown="pressToInputPalets1(event, ${load_idLVD}, ${truckId}, '${clientId}')"></td>
+                            <td class="border px-2 py-1 text-center"><input value="${inputsPalets}" class="input_pal" type="number" id="input${inputId}"></td>
+                            <td class="border px-2 py-1 text-center"><span onclick="savedPressed2(${load_idLVD}, ${truckId}, '${clientId}', ${inputId})">💾</span></td>
                         </tr>`;
                         if(y && y.lines && y.lines.length > 0){
                             y.lines.map(z => {
@@ -81,6 +84,7 @@ function getCustomLoadTruckDetail(){
                                         <td class="border px-2 py-1 text-letf">${formatToOneDecimal(js.CAJAS_CALCULADAS)}</td>
                                         <td class="border px-2 py-1 text-letf"></td>
                                         <td class="border px-2 py-1 text-letf"></td>
+                                         <td class="border px-2 py-1 text-center"></td>
                                     </tr>`
                                     });
                                 } else {
@@ -95,6 +99,7 @@ function getCustomLoadTruckDetail(){
                                             <td class="border px-2 py-1 text-letf"></td>
                                             <td class="border px-2 py-1 text-letf"></td>
                                             <td class="border px-2 py-1 text-letf"></td>
+                                            <td class="border px-2 py-1 text-center"></td>
                                         </tr>`
                                 }
                             })
@@ -123,15 +128,17 @@ function orderClicked1(loadId, orderId, articleId){
 }
 
 
-function pressToInputPalets1(event, load_idLVD, truckId, clientIdX){
-    if (event.key == 'Enter' || event.keyCode == 13 || event.keyCode == 229) {
-        let numPal = event.target.value;
-        fetch(HTTP_HOST+`logistica/put/${load_idLVD}/${truckId}/change_palets/?client_id=${clientIdX}&num_pal=${numPal}`).then(r => r.json()).then(r => {
-            getCustomLoadTruckDetail();
-        }).catch(e => {
-            showM('ev'+e, 'error');
-        });
-    }
+function savedPressed2(load_idLVD, truckId, clientIdX, inputId){
+  let inputEl = document.getElementById('input'+inputId);
+  if(inputEl){
+    let numPal = inputEl.value;
+
+    fetch(HTTP_HOST+`logistica/put/${load_idLVD}/${truckId}/change_palets/?client_id=${clientIdX}&num_pal=${numPal}`).then(r => r.json()).then(r => {
+        getCustomLoadTruckDetail();
+    }).catch(e => {
+        showM('ev'+e, 'error');
+    });
+  }
 }
 
 
