@@ -60,6 +60,7 @@ function getCustomLoadTruckDetail(){
                             <td class="border px-2 py-1 text-center"><input value="${inputsPalets}" class="input_pal" type="number" id="input${inputId}"></td>
                             <td class="border px-2 py-1 text-center hovered"><span onclick="savedPressed2(${load_idLVD}, ${truckId}, '${clientId}', ${inputId})">💾</span></td>
                         </tr>`;
+                        colorGreen = '';
                         if(y && y.lines && y.lines.length > 0){
                             y.lines.map(z => {
                                 json_data =  JSON.parse(z.articles);
@@ -77,10 +78,10 @@ function getCustomLoadTruckDetail(){
                                         html += `<tr ${colorGreen}>
                                         <td class="border px-2 py-1 text-letf"></td>
                                         <td class="border px-2 py-1 text-center hovered" onclick="orderClicked1(${load_idLVD}, '${z.order_id}', ${js.ARTICULO})">${z.order_id}</td>
-                                        <td class="border px-2 py-1 text-left">${js.DESCRIPCION_ARTICULO}</td>
-                                        <td class="border px-2 py-1 text-center">${js.UNIDADES_SERVIDAS}</td>
-                                        <td class="border px-2 py-1 text-center">${js.PRESENTACION_PEDIDO}</td>
-                                        <td class="border px-2 py-1 text-center">${js.UNI_SERALM}</td>
+                                        <td class="border px-2 py-1 text-left">${js.DESCRIPCION_ARTICULO || ' '}</td>
+                                        <td class="border px-2 py-1 text-center">${js.UNIDADES_SERVIDAS || ' '}</td>
+                                        <td class="border px-2 py-1 text-center">${js.PRESENTACION_PEDIDO || ' '}</td>
+                                        <td class="border px-2 py-1 text-center">${js.UNI_SERALM || ' '}</td>
                                         <td class="border px-2 py-1 text-letf">${formatToOneDecimal(js.CAJAS_CALCULADAS)}</td>
                                         <td class="border px-2 py-1 text-letf"></td>
                                         <td class="border px-2 py-1 text-letf"></td>
@@ -88,9 +89,9 @@ function getCustomLoadTruckDetail(){
                                     </tr>`
                                     });
                                 } else {
-                                    html += `<tr ${colorGreen}>
+                                    colorGreen = '';
+                                    html += `<tr>
                                             <td class="border px-2 py-1 text-center"></td>
-                                            <td class="border px-2 py-1 text-letf"></td>
                                             <td class="border px-2 py-1 text-center hovered">${z.order_id}</td>
                                             <td class="border px-2 py-1 text-left"></td>
                                             <td class="border px-2 py-1 text-center"></td>

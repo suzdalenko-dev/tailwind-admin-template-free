@@ -154,8 +154,9 @@ function formatDateToEuropean(dateStr) {
 }
 
 function formatToOneDecimal(value) {
-    return Number.parseFloat(value).toFixed(1);
-}
+    if(value) return Number.parseFloat(value).toFixed(1);
+    else return ' ';
+  }
 
 
         
