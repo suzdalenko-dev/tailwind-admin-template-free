@@ -55,6 +55,10 @@ function toFL(x){
     return parseFloat(x).toFixed(3);
 }
 
+function toFL5(x){
+    return parseFloat(x).toFixed(5);
+}
+
 function fEurEntero(num) {
   if (!num) return "0";
   let entero = Math.trunc(num).toString(); // Elimina parte decimal
@@ -77,12 +81,20 @@ function fEur0(numero) {
 
 function fEur000(num) {
   if (!num) return "0,00";
+  if(num == 'None') return " "
   let [entero, decimal = ""] = num.toString().split(".");
   entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   decimal = decimal.substring(0, 3);
   return decimal ? `${entero},${decimal}` : `${entero},00`;
 }
 
+function fEur0000(num) {
+  if (!num) return "0,00";
+  let [entero, decimal = ""] = num.toString().split(".");
+  entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  decimal = decimal.substring(0, 4);
+  return decimal ? `${entero},${decimal}` : `${entero},00`;
+}
 
 
 
@@ -156,9 +168,49 @@ function formatDateToEuropean(dateStr) {
 function formatToOneDecimal(value) {
     if(value) return Number.parseFloat(value).toFixed(1);
     else return ' ';
-  }
+}
 
-
-        
+function fLDate(x){
+  if(x){
+     let first10 = String(x).trim().slice(0, 10);
+     let l = first10.split('-'); 
+     return `${l[2]}/${l[1]}/${l[0]}`;
+  } 
+  return '';
+}
   
+function replaceEntr(x){
+  if(x){
+    x = x.replaceAll('ENTRADAS', '').trim();
+    return x;
+  }
+  return ''
+}
 
+function addMonthsFunc(months) {
+  let now = new Date();
+  now.setMonth(now.getMonth() + months);
+  let formatted = now.toISOString().slice(0, 10);
+  return formatted;
+}
+
+function notNone(x){
+  if(x == 'None' || !x) return '';
+  else return String(x).trim();
+}
+
+
+function getCurrentDateTime() {
+  const now = new Date();
+
+  const pad = n => String(n).padStart(2, '0');
+
+  const HH = pad(now.getHours());
+  const ii = pad(now.getMinutes());
+  const ss = pad(now.getSeconds());   // segundos
+  const DD = pad(now.getDate());
+  const MM = pad(now.getMonth() + 1); // meses empiezan en 0
+  const YYYY = now.getFullYear();
+
+  return `${HH}:${ii}:${ss} ${DD}/${MM}/${YYYY}`;
+}

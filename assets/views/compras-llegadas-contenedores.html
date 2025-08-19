@@ -1,0 +1,37 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span>
+      <input type="text" value="" class="input-ca input-ca-ba" placeholder="Buscar.." id="searchInputL" oninput="changeSearchedInput(event)">
+      <span  class="b-top-page" onclick="clickBroom()"> 🧹 </span>
+    </span>
+    <span>Desde <input type="date" id="firstDataInput" onchange="firstDateChange(event)"></span>
+    <h1 class="text-xl text-center">Llegadas pendientes de contenedores entre fechas</h1>
+    <span>Hasta <input type="date" id="secondDataInput" onchange="secondDateChange(event)"></span>
+    <span></span><span></span><span></span><span></span>
+</div>
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table class="w-ful styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">Código</th>
+                    <th>Artículo</th>
+                    <th>C.Ban</th>
+                    <th>Cont</th>
+                    <th>Kg</th>
+                    <th>Precio</th>
+                    <th>Importe</th>
+                    <th>Cambio</th>
+                    <th>Coste c/g</th>
+                    <th>Origen</th>
+                    <th>Llegada</th>
+                    <th>Puerto</th>
+                    <th>Proveedor</th>
+                    <th>Cont.Prov</th>
+                    <th>Contr</th>
+                    <th class="topRight">Exp</th>
+                </tr>
+            </thead>
+            <tbody id="tableNormal"></tbody>
+        </table>
+    </div>
+</div>
