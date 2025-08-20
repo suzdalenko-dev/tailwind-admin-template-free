@@ -382,7 +382,7 @@ function createPDFArrivals() {
     'Kg',
     'Precio',
     'Cambio',
-    'Precio C/G',
+    'Coste c/g',
     'Doc.',
     'Origen',
     'Embarque',
