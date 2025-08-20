@@ -32,7 +32,7 @@ let menuData = [
         ]
     },
     { title: 'Compras', icon: '🛍️', roles: ['compras'], submenu: [
-            { title: 'Informes', icon: '📊', submenu: [
+            { title: 'Informes', icon: '📋', submenu: [
                 { title: 'Llegadas pendientes', icon:  '🚢', submenu: null , view: 'compras-llegadas-contenedores'},
             ]},
         ]

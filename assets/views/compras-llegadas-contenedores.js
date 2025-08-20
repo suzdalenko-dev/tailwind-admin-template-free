@@ -108,7 +108,7 @@ function show2Tables() {
     // Filas
     filtered.forEach(y => {
       html += `<tr>
-        <td class="border px-2 py-1 text-left">${y.ARTICULO ?? ''} ${(y.DESCRIP_COMERCIAL || '').slice(0, 33)}</td>
+        <td class="border px-2 py-1 text-left" title="${notNone(y.OBSERVACIONES)}">${y.ARTICULO ?? ''} ${(y.DESCRIP_COMERCIAL || '').slice(0, 33)}</td>
         <td class="border px-2 py-1 text-center">${y.CONTENEDOR ?? ''}</td>
         <td class="border px-2 py-1 text-center">${fEurEntero(y.CANTIDAD1)}</td>
         <td class="border px-2 py-1 text-center">${fEur000(y.PRECIO)}</td>
