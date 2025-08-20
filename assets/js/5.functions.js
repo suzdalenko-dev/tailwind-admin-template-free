@@ -181,7 +181,7 @@ function fLDate(x){
   
 function replaceEntr(x){
   if(x){
-    x = x.replaceAll('ENTRADAS', '').trim();
+    x = x.replaceAll('None', '').trim();
     return x;
   }
   return ''
@@ -202,15 +202,21 @@ function notNone(x){
 
 function getCurrentDateTime() {
   const now = new Date();
-
   const pad = n => String(n).padStart(2, '0');
-
   const HH = pad(now.getHours());
   const ii = pad(now.getMinutes());
   const ss = pad(now.getSeconds());   // segundos
   const DD = pad(now.getDate());
   const MM = pad(now.getMonth() + 1); // meses empiezan en 0
   const YYYY = now.getFullYear();
-
   return `${HH}:${ii}:${ss} ${DD}/${MM}/${YYYY}`;
+}
+
+function getTodayDate(){
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const formatted = `${yyyy}-${mm}-${dd}`;
+  return formatted;
 }
