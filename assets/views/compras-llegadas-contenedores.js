@@ -185,20 +185,20 @@ function createExcelAllArrivals() {
 
   // Cabecera EXACTA a la tabla principal
   const HEAD = [
-    'ARTÍCULO / DESCRIPCIÓN',
-    'CONTENEDOR',
-    'CANTIDAD',
-    'PRECIO',
-    'VALOR CAMBIO',
-    'PRECIO CON GASTOS',
-    'DOC. X CONTENEDOR',
-    'LUGAR EMBARQUE',
-    'FECHA EMBARQUE',
-    'FECHA PREV. LLEGADA',
-    'LUGAR DESEMBARQUE',
-    'PROVEEDOR (HOJA 0..22)',
-    'DESCRIPC. EXPEDIENTE',
-    'EXPEDIENTE-HOJA'
+    'Artículo',
+    'Cont.',
+    'Kg',
+    'Precio',
+    'Cambio',
+    'Coste c/g',
+    'Doc.',
+    'Origen',
+    'Embarque',
+    'Llegada',
+    'Puerto',
+    'Proveedor',
+    'Cont.Prov.',
+    'Exp.'
   ];
 
   const AOA = [HEAD];
@@ -321,6 +321,7 @@ function createPDFArrivals() {
   };
   const fmt0 = v => { const n = parseNum(v); return isFinite(n) ? n.toLocaleString('es-ES',{maximumFractionDigits:0}) : ''; };
   const fmt2 = v => { const n = parseNum(v); return isFinite(n) ? n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) : ''; };
+  const fmt3 = v => { const n = parseNum(v); return isFinite(n) ? n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:3}) : ''; };
   const fmt4 = v => { const n = parseNum(v); return isFinite(n) ? n.toLocaleString('es-ES',{minimumFractionDigits:4,maximumFractionDigits:4}) : ''; };
   const toDateStr = v => {
     const s = nn(v); if (!s) return '';
@@ -406,9 +407,9 @@ function createPDFArrivals() {
         col1,
         nn(String(y.CONTENEDOR || '').trim()),
         fmt0(y.CANTIDAD1),
-        fmt2(y.PRECIO),
+        fmt3(y.PRECIO),
         fmt4(y.VALOR_CAMBIO),
-        fmt2(y.PRECIO_CON_GASTOS),
+        fmt3(y.PRECIO_CON_GASTOS),
         notNone(y.DOCUMENTACION_X_CONTENEDOR),
         replaceEntr(y.LUGAR_EMBARQUE),
         toDateStr(y.FECHA_EMBARQUE),
