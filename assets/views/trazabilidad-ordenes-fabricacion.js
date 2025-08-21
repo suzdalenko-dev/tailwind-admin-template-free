@@ -110,7 +110,11 @@ function trazabilidadOrdenesFabricacionInit() {
 /* 2. SECOND - SHOW PRODUCTION ORDER DETAIL */
 
 async function showCustomOf(ofId){
-    document.getElementById('slugTitle').innerHTML = `<span class="b-top-page" onclick="createExcel()">📥 Excel </span>`;
+    document.getElementById('slugTitle').innerHTML = `
+        <span class="b-top-page" onclick="realoadPage()">🔗 Trazabilidad </a></span>
+        <span class="b-top-page" onclick="createExcel()">📥 Excel </span>
+        
+        `;
 
     trazData = await fetch(HTTP_HOST+'calidad/get/of/'+ofId+'/of_trazabilidad/');
     trazData = await trazData.json();
@@ -277,6 +281,9 @@ async function showCustomOf(ofId){
 }
 
 
+function realoadPage(){
+    location.reload();
+}
 
 /* 3. CREATE EXCEL FUNCTION */
  
