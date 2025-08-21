@@ -8,7 +8,7 @@ function loadView(viewName) {
     /* hay permisos por vista y permiso por punto en el menu */
     if(!String(window.localStorage.getItem('permissions')).includes("*")){
         if(!String(window.localStorage.getItem('permissions')).includes(viewName) && viewName != 'dashboard'){
-            alert('No hay permisos para ver esta vista', 'waring');
+            alert('No hay permisos para ver esta vista');
             window.location.href = '/dashboard';
         }
     }
