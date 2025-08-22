@@ -33,6 +33,8 @@ let menuData = [
       ]},
       { title: 'Power Bi', icon: '🟡', submenu: [
         { title: 'Consumo producción', icon: '📈', submenu: null , view: 'power-bi-rotativo-salida-elaboracion', roles: ['compras'] },
+        { title: 'Inventario', icon: '🏷️', submenu: null , view: 'power-bi-inventario', roles: ['compras'] },
+        { title: 'Prevision entradas', icon: '📅', submenu: null , view: 'power-bi-prevision-entradas', roles: ['compras'] },
       ]},
   ]},
 ];
