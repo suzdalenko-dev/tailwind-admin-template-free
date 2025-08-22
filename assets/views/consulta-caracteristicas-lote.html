@@ -1,0 +1,54 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span></span>
+    <span>
+        <h1 id="tituloArticleCosts" class="text-xl text-center">Consulta Caracteristicas de lotes</h1>
+    </span>
+    <span></span>
+</div>
+
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end">
+    <div class="flex flex-col">
+        Paleta <input type="text" value="" class="input-ca input-ca-ccl" placeholder="Buscar paleta.." id="searchPaletInputCCL" oninput="changePaletCCL(event)">
+    </div>
+    <div class="flex flex-col">
+        Artículo <input type="text" value="" class="input-ca input-ca-ccl" placeholder="Buscar artículo.." id="searchArticleInputCCL" oninput="changeArticleCCL(event)">
+    </div>
+    <div class="flex flex-col">
+        <span>
+            <span class="b-top-page" onclick="searchInputCCl()" style="width: 77px;">🔎 Buscar</span>
+            <span class="b-top-page" onclick="cleanCCL()" style="width: 22px;"> 🧹 </span>
+        </span>
+    </div>
+    <div class="flex flex-col"></div>
+    <div class="flex flex-col"></div>
+</div>
+<br>
+<div id="costes_art_content" class="flex flex-col gap-2 text-sm w-full rounded-md">
+    <div class="table-container">
+        <table class="w-ful styled-table-fh stycky-table">
+            <thead>
+                <tr>
+                    <th class="topLeft">Palet</th>
+                    <th>Artículo</th>
+                    <th>Lote int</th>
+                    <th>Método de producción</th>
+                    <th>FAO</th>
+                    <th>Arte de pesca</th>
+                    <th>Origen</th>
+                    <!-- <th>5</th>
+                    <th>6</th> 
+                    <th>Código / Especie</th>
+                    <th>8</th>
+                    <th>9</th> -->
+                    <th class="topRight">Código / Especie</th>
+                </tr>
+            </thead>
+            <tbody id="palArtBody">
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</main>

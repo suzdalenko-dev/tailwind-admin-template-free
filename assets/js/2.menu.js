@@ -7,6 +7,7 @@ let menuData = [
       { title: 'Informes', icon: '📋', submenu: [
           { title: 'Trazabilidad', icon: '🔗', view: 'trazabilidad-ordenes-fabricacion', roles: ['calidad;fabrica;'] },
           { title: 'Bloqueos', icon: '🔒', view: 'stock-bloqueado-situacion-calidad', roles: ['calidad;'] },
+          { title: 'Consulta pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;'] },
       ] }
   ] },
   { title: 'Finanzas', icon: '💰', roles: ['finanzas'], submenu: [
