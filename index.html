@@ -55,7 +55,7 @@
       }
     }
     function loginApp(){
-      let username = document.getElementById('email').value.trim()
+      let username = document.getElementById('email').value.trim().toLowerCase()
       let password = document.getElementById('password').value.trim()
       fetch(HTTP_HOST+'froxa/login/?action=login&username='+username+'&password='+password).then(r => r.json()).then(r => {  console.log(r)
           if(r && r.data && r.data.id > 0){
