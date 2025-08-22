@@ -30,12 +30,14 @@ let menuData = [
   { title: 'Compras', icon: '🛍️', roles: ['compras'], submenu: [
       { title: 'Informes', icon: '📋', submenu: [
         { title: 'Llegadas pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras'] },
-      ]},
-      { title: 'Power Bi', icon: '🟡', submenu: [
-        { title: 'Consumo producción', icon: '📈', submenu: null , view: 'power-bi-rotativo-salida-elaboracion', roles: ['compras'] },
-        { title: 'Inventario', icon: '🏷️', submenu: null , view: 'power-bi-inventario', roles: ['compras'] },
-        { title: 'Prevision entradas', icon: '📅', submenu: null , view: 'power-bi-prevision-entradas', roles: ['compras'] },
-      ]},
+      ]}
+  ]},
+  { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;'], submenu: [
+     { title: 'Principal', icon: '📋', submenu: [
+        { title: 'Consumo producción', icon: '📈', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['powerbi0'] },
+        { title: 'Inventario', icon: '🏷️', submenu: null , view: 'power-bi?name=inventario', roles: ['powerbi0'] },
+        { title: 'Prevision entradas', icon: '📅', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['powerbi0'] },
+     ]},
   ]},
 ];
 

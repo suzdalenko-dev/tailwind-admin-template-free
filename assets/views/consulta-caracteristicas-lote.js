@@ -172,7 +172,7 @@ function createExcelCCL() {
 function createPDFCCL() {
   try {
     if (!Array.isArray(allCCL) || allCCL.length === 0) {
-      (typeof showM === 'function' ? showM('No hay datos para exportar', 'warn') : alert('No hay datos para exportar'));
+      (typeof showM === 'function' ? showM('No hay datos para exportar', 'warning') : alert('No hay datos para exportar'));
       return;
     }
 
