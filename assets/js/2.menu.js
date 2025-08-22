@@ -31,6 +31,9 @@ let menuData = [
       { title: 'Informes', icon: '📋', submenu: [
         { title: 'Llegadas pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras'] },
       ]},
+      { title: 'Power Bi', icon: '📋', submenu: [
+        { title: 'Consumo producción', icon: '📋', submenu: null , view: 'power-bi-rotativo-salida-elaboracion', roles: ['compras'] },
+      ]},
   ]},
 ];
 
