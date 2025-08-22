@@ -63,8 +63,8 @@ function getDataCCL(){
                             <td class="border px-2 py-1 text-left">${notNone(x.D_VALOR_ALFA_2)}</td>
                             <td class="border px-2 py-1 text-left">${notNone(x.VALOR_ALFA_3)} ${notNone(x.D_VALOR_ALFA_3)}</td>
                             <td class="border px-2 py-1 text-left">${notNone(x.VALOR_ALFA_4)} ${notNone(x.D_VALOR_ALFA_4)}</td>
-                           
                             <td class="border px-2 py-1 text-left">${notNone(x.VALOR_ALFA_7)} ${notNone(x.D_VALOR_ALFA_7)}</td>
+                            <td class="border px-2 py-1 text-center">${formatLongDate(x.FECHA_CONGELACION)}</td>
                         </tr>`;
             });
             document.getElementById('palArtBody').innerHTML = html;
@@ -110,7 +110,8 @@ function createExcelCCL() {
       'FAO',
       'Arte de pesca',
       'Origen',
-      'Código / Especie'
+      'Código / Especie',
+      'Fecha congelación'
     ];
 
     // Datos
@@ -123,7 +124,8 @@ function createExcelCCL() {
       safe(x.D_VALOR_ALFA_2),
       join2(x.VALOR_ALFA_3, x.D_VALOR_ALFA_3),
       join2(x.VALOR_ALFA_4, x.D_VALOR_ALFA_4),
-      join2(x.VALOR_ALFA_7, x.D_VALOR_ALFA_7)
+      join2(x.VALOR_ALFA_7, x.D_VALOR_ALFA_7),
+      formatLongDate(x.FECHA_CONGELACION)
     ]));
 
     // Montar workbook/worksheet
@@ -201,7 +203,8 @@ function createPDFCCL() {
       'FAO',
       'Arte de pesca',
       'Origen',
-      'Código / Especie'
+      'Código / Especie',
+      'Fecha congelación'
     ]];
 
     const body = allCCL.map(x => ([
@@ -212,7 +215,8 @@ function createPDFCCL() {
       safe(x.D_VALOR_ALFA_2),
       join2(x.VALOR_ALFA_3, x.D_VALOR_ALFA_3),
       join2(x.VALOR_ALFA_4, x.D_VALOR_ALFA_4),
-      join2(x.VALOR_ALFA_7, x.D_VALOR_ALFA_7)
+      join2(x.VALOR_ALFA_7, x.D_VALOR_ALFA_7),
+      formatLongDate(x.FECHA_CONGELACION)
     ]));
 
     // Cabecera y pie en cada página
@@ -222,16 +226,16 @@ function createPDFCCL() {
       body,
       startY: marginTop,
       margin: { left: marginL, right: marginR, top: marginTop, bottom: marginBot },
-      styles: { fontSize: 7, textColor: [0, 0, 0], cellPadding: 3, overflow: 'linebreak', valign: 'top' },
+      styles: { fontSize: 7, textColor: [0, 0, 0], cellPadding: 2, overflow: 'linebreak', valign: 'top' },
       headStyles: { fillColor: [79, 70, 229], textColor: [255, 255, 255], halign: 'center' }, // cabecera fondo claro + texto negro
       alternateRowStyles: { fillColor: [245, 245, 245] },
       columnStyles: {
-        0: { cellWidth: 65 },
+        0: { cellWidth: 55 },
         1: { cellWidth: 121 },
-        2: { cellWidth: 54 },
+        2: { cellWidth: 44 },
         3: { cellWidth: 121 },
-        4: { cellWidth: 111 },
-        5: { cellWidth: 121 },
+        4: { cellWidth: 101 },
+        5: { cellWidth: 101 },
         6: { cellWidth: 90 },
         7: { cellWidth: 131 }
       },

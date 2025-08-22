@@ -220,3 +220,12 @@ function getTodayDate(){
   const formatted = `${yyyy}-${mm}-${dd}`;
   return formatted;
 }
+
+
+function formatLongDate(x) {
+  if (!x || !x.includes("-")) return "";
+  const parts = x.substring(0, 10).split("-");
+  if (parts.length !== 3) return "";
+  const [year, month, day] = parts;
+  return `${day}/${month}/${year}`;
+}
