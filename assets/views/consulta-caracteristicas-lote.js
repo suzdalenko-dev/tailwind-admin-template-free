@@ -102,7 +102,7 @@ function createExcelCCL() {
 
     // Cabeceras (mismo orden que pintas en la tabla)
     const header = [
-      'Palet',
+      'Paleta',
       'Artículo',
       'Descripción artículo',
       'Lote int',
@@ -194,7 +194,7 @@ function createPDFCCL() {
 
     // Datos de tabla (mismo orden que la vista)
     const head = [[
-      'Palet',
+      'Paleta',
       'Artículo',
       'Lote int',
       'Método de producción',
