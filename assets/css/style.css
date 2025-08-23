@@ -204,7 +204,7 @@ b{
 
 * {
   scrollbar-width: thin;                     /* fino */
-  scrollbar-color: #4F46E5 transparent;      /* color del thumb y fondo */
+  scrollbar-color: #463fd5 transparent;      /* color del thumb y fondo */
 }
 
 /* WebKit (Chrome, Safari, Edge) */
@@ -218,10 +218,10 @@ b{
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #4F46E5; /* color del thumb */
+  background-color: #463fd5; /* color del thumb */
   border-radius: 9999px;     /* redondeado */
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: #051268; /* tono un poco más oscuro al pasar el mouse */
+  background-color: #463fd5; /* tono un poco más oscuro al pasar el mouse */
 }
