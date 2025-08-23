@@ -33,10 +33,10 @@ let menuData = [
       ]}
   ]},
   { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;'], submenu: [
-     { title: 'Principal', icon: '📋', submenu: [
-        { title: 'Consumo producción', icon: '📈', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['powerbi0'] },
-        { title: 'Inventario', icon: '🏷️', submenu: null , view: 'power-bi?name=inventario', roles: ['powerbi0'] },
-        { title: 'Prevision entradas', icon: '📅', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['powerbi0'] },
+     { title: 'General', icon: '📋', submenu: [
+        { title: 'Consumo producción', icon: '📈', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['powerbi1'] },
+        { title: 'Inventario', icon: '🏷️', submenu: null , view: 'power-bi?name=inventario', roles: ['powerbi2'] },
+        { title: 'Prevision entradas', icon: '📅', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['powerbi3'] },
      ]},
   ]},
 ];

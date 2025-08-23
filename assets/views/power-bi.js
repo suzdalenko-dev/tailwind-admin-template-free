@@ -1,4 +1,5 @@
 function powerBiInit(){
+    document.getElementById('slugTitle').innerHTML = '';
     let powerBiName = parseHashRoute();
     powerBiName     = powerBiName.params.name || 'None';
     document.title = powerBiName;
@@ -18,6 +19,8 @@ function getReportPBI(powerBiName){
         if(r && r.data && r.data.res){
             let powerBiFrame = document.getElementById('powerBiFrame');
             powerBiFrame.src = r.data.res;
+            let h = (window.visualViewport && window.visualViewport.height) ? Math.floor(window.visualViewport.height) : Math.floor(window.innerHeight);
+            powerBiFrame.style.height = (h - 70) + 'px';
         } else {
             showM('No hay suficientes permisos', 'warning');
         }
