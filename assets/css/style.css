@@ -225,3 +225,7 @@ b{
 *::-webkit-scrollbar-thumb:hover {
   background-color: #463fd5; /* tono un poco más oscuro al pasar el mouse */
 }
+
+.expanded{
+    height: 33px;
+}
