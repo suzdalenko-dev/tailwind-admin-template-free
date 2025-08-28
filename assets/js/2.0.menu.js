@@ -18,10 +18,10 @@ let menuData = [
         { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion']},
       ]},
   ]},
-  { title: 'Logística', icon: '🚚', roles: ['logistica'], submenu: [
+  { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
       { title: 'Informes', icon: '📋', submenu: [
         { title: 'Cargas Nacional', icon: '🗺️', submenu: null , view: 'logistica-listado-cargas', roles: ['logistica'] },
-        { title: 'Comparación Alm.98', icon: '🆚', submenu: null , view: 'almacen-importacion-vs-resto', roles: ['logistica'] },
+        { title: 'Comparación Alm.98', icon: '🆚', submenu: null , view: 'almacen-importacion-vs-resto', roles: ['logistica;finanzas;'] },
       ]},
   ]},
   { title: 'Compras', icon: '🛍️', roles: ['compras'], submenu: [
