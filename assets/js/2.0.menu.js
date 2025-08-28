@@ -34,6 +34,7 @@ let menuData = [
         { title: 'Consumo Producción', icon: '📈', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['powerbi1'] },
         { title: 'Inventario', icon: '🏷️', submenu: null , view: 'power-bi?name=inventario', roles: ['powerbi2'] },
         { title: 'Prevision Entradas', icon: '📅', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['powerbi3'] },
+        { title: 'Plazo de cobro', icon: '⏳', submenu: null , view: 'power-bi?name=plazo-de-cobro', roles: ['powerbi4'] },
      ]},
   ]},
 ];
