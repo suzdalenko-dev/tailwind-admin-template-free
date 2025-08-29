@@ -249,3 +249,12 @@ function formatEuro(num) {
     maximumFractionDigits: 2 
   }).format(n);
 }
+
+
+function getOfState(x){
+    if(x == 'A') return 'Abierta';
+    if(x == 'C') return 'Cerrada';
+    if(x == 'B') return 'Anulada';
+    if(x == 'R') return 'Retenida';
+    return 'None';
+}
