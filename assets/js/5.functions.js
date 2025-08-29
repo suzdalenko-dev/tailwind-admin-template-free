@@ -229,3 +229,23 @@ function formatLongDate(x) {
   const [year, month, day] = parts;
   return `${day}/${month}/${year}`;
 }
+
+
+function getFirstDayOfCurrentMonth() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); 
+  return `${year}-${month}-01`;
+}
+
+
+function formatEuro(num) {
+  if (num == null || num === '' || isNaN(num)) return "0,00";
+  // Asegura que sea número
+  const n = parseFloat(num);
+  // Usa Intl.NumberFormat con formato europeo
+  return new Intl.NumberFormat('de-DE', { 
+    minimumFractionDigits: 2, 
+    maximumFractionDigits: 2 
+  }).format(n);
+}

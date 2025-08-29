@@ -1,5 +1,6 @@
 let searchAlmValue = '';
-let ivr_data = [];   // guardamos todos los datos recibidos del fetch
+let ivr_data = [];
+let inputDatevalueAIVS
 
 function almacenImportacionVsRestoInit(){
     document.getElementById('slugTitle').innerHTML = `
@@ -11,12 +12,22 @@ function almacenImportacionVsRestoInit(){
     searchAlmValue = window.localStorage.getItem('buscar_almacen_val') || '';
     document.getElementById('searchAlmVal').value = searchAlmValue;
 
+    setDateToInput();
     getDataAIVR();
 }
 
+function changedDateAIVS(){
+  inputDatevalueAIVS = document.getElementById('inputDateAIVS').value;
+  getDataAIVR();
+}
+
+function setDateToInput() {
+  inputDatevalueAIVS = getFirstDayOfCurrentMonth();
+  document.getElementById('inputDateAIVS').value = inputDatevalueAIVS;
+}
+
 function getDataAIVR(){
-  let currentYear = new Date().getFullYear()
-  fetch(HTTP_HOST+`logistica/recalculate/0/0/comparacion_almacen_98/?year=${currentYear}`)
+  fetch(HTTP_HOST+`logistica/recalculate/0/0/comparacion_almacen_98/?day=${inputDatevalueAIVS}`)
     .then(r => r.json())
     .then(r => {
       if (r && Array.isArray(r.data)) {
@@ -63,10 +74,14 @@ function paintIVRTable(){
           ${td(formatLongDate(exped.FECHA_SUPERVISION), 'text-center')}
           ${td(exped.NUMERO_DOC_EXT,   'text-center')}
           ${td(exped.NUMERO_DOC_INTERNO)}
+          ${td(formatEuro(exped.IMPORTE_TOTAL_EUR))}
+          ${td(formatEuro(exped.IMPORTE_TEXTOS_AND_STOCK))}
           ${td(j(exped.CODIGO_PROVEEDOR, exped.D_CODIGO_PROVEEDOR))}
           ${td(j(s.NUMERO_DOC_INTERNO, s.CODIGO_ALMACEN, s.D_ALMACEN))}
+          ${td(formatEuro(s.IMPORTE_TOTAL_EUR))}
           ${td(j(s.CODIGO_PROVEEDOR, s.D_CODIGO_PROVEEDOR))}
           ${td(j(t.NUMERO_DOC_INTERNO, t.CODIGO_ALMACEN, t.D_ALMACEN))}
+          ${td(formatEuro(t.IMPORTE_TOTAL_EUR))}
           ${td(j(t.CODIGO_PROVEEDOR, t.D_CODIGO_PROVEEDOR))}
         </tr>`;
       }
@@ -84,6 +99,7 @@ function changeSearchedAlmVal(event){
 
 /* 🧹 Limpiar */
 function cleanAlmValSearch(){
+    setDateToInput();
     searchAlmValue = '';
     document.getElementById('searchAlmVal').value = '';
     window.localStorage.setItem('buscar_almacen_val', '');  // ⬅ limpiar localStorage

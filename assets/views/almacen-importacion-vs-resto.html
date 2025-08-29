@@ -3,8 +3,8 @@
       <input type="text" value="" class="input-ca input-ca-ba" placeholder="Buscar.." id="searchAlmVal" oninput="changeSearchedAlmVal(event)">
       <span  class="b-top-page" onclick="cleanAlmValSearch()"> 🧹 </span>
     </span>
-    <h1 class="text-xl text-center">Comparación de albaranes de almacén 98 contra almacenes (00, 01, 02, E01, E02, E03, E04, E05) y 25</h1>
-    <span> </span><span> </span><span> </span><span> </span>
+    <h1 class="text-xl text-center">Comparación de albaranes de almacén 98 contra almacenes (00, 01, 02, E01, E02, E03, E04, E05, E06) y 25</h1>
+    <span>Desde</span><span><input type="date" id="inputDateAIVS" onchange="changedDateAIVS()"></span><span> </span><span> </span>
 </div>
 <div class="flex flex-col gap-2 text-sm w-full">
     <div>
@@ -14,13 +14,17 @@
                     <th class="topLeft">Fecha</th>
                     <th>D. Ext.</th>
                     <th>D. Int.</th>
-                    <th>Proveedor. 98</th>
+                    <th>€ 98</th>
+                    <th>€ Ent.+ Gast.</th>
+                    <th>Prov. 98</th>
 
-                    <th>Documento Interno Alm.</th>
-                    <th>Proveedor</th>
+                    <th>D. Int. Alm.</th>
+                    <th>€ Int.</th>
+                    <th>Prov.</th>
 
-                    <th>D. Int. Gastos</th>
-                    <th class="topRight">Proveedor Gastos</th>
+                    <th>D. Int. Gast.</th>
+                    <th>€ Gast.</th>   
+                    <th class="topRight">Prov. Gast.</th>
                 </tr>
             </thead>
             <tbody id="tableIVR"></tbody>
