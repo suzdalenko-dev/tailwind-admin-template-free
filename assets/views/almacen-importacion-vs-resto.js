@@ -101,6 +101,7 @@ function changeSearchedAlmVal(event){
 function cleanAlmValSearch(){
     setDateToInput();
     searchAlmValue = '';
+    getDataAIVR();
     document.getElementById('searchAlmVal').value = '';
     window.localStorage.setItem('buscar_almacen_val', '');  // ⬅ limpiar localStorage
     paintIVRTable();
