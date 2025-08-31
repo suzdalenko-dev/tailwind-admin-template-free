@@ -41,7 +41,7 @@ async function renderCalendario(ordenes, year, month) {
         const ordenesDelDia = ordenes.filter(o => o.FECHA_INI_FABRI_PREVISTA.slice(0, 10) == fechaStr);
 
         const cell = document.createElement('div');
-        cell.className = 'border p-2 rounded shadow text-xs h-52 overflow-y-auto bg-white hover:bg-gray-50 transition';
+        cell.className = 'border p-2 rounded shadow text-xs overflow-y-auto bg-white hover:bg-gray-50 transition height-calendar';
         cell.innerHTML = `<div class="text-center mb-1">${dia}</div>`;
 
         ordenesDelDia.forEach(ord => {
