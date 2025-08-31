@@ -125,11 +125,16 @@ function createExcelAlmacen98() {
   const toDateDDMMYYYY = (v) => {
     const s = String(nn(v));
     if (!s) return '';
-    // intenta parsear YYYY-MM-DD...
     const p = s.slice(0, 10).split('-');
-    if (p.length === 3) return `${p[2]}/${p[1]}/${p[0]}`;
-    // si ya viene formateada por tu backend, devuelve tal cual
-    return s;
+    return (p.length === 3) ? `${p[2]}/${p[1]}/${p[0]}` : s;
+  };
+  // Convierte "102.674,59" o "102674.59" a número JS
+  const toNum = (v) => {
+    if (typeof v === 'number') return v;
+    const s = String(v ?? '').trim();
+    if (!s) return '';
+    const n = Number(s.replace(/\./g, '').replace(',', '.'));
+    return Number.isFinite(n) ? n : '';
   };
 
   // Igual que en paintIVRTable
@@ -146,21 +151,25 @@ function createExcelAlmacen98() {
     return values.some(v => String(v ?? '').toLowerCase().includes(inputValue));
   };
 
-  // Cabecera EXACTA a tu tabla (8 columnas)
+  // Cabecera EXACTA a la tabla en pantalla (12 columnas)
   const HEAD = [
     'Fecha',
     'D. Ext.',
     'D. Int.',
+    '€ 98',
+    '€ Ent.+ Gast.',
     'Proveedor. 98',
     'Documento Interno Alm.',
+    '€ Entr.',
     'Proveedor',
     'D. Int. Gastos',
+    '€ Gast.',
     'Proveedor Gastos'
   ];
 
   const AOA = [HEAD];
 
-  // Recorremos cada expediente y “alineamos” stock/textos como en la tabla
+  // Recorremos y “alineamos” stock/textos como en la tabla
   ivr_data.filter(match).forEach(i => {
     const exped    = i?.exped || {};
     const stockArr = Array.isArray(i?.stock)  ? i.stock  : [];
@@ -170,21 +179,22 @@ function createExcelAlmacen98() {
     for (let k = 0; k < rows; k++) {
       const s = stockArr[k] || {};
       const t = textArr[k]  || {};
+
       AOA.push([
-        toDateDDMMYYYY(exped.FECHA_SUPERVISION),
-        nn(exped.NUMERO_DOC_EXT),
-        nn(exped.NUMERO_DOC_INTERNO),
-        joinVals(exped.CODIGO_PROVEEDOR, exped.D_CODIGO_PROVEEDOR),
-
-        joinVals(s.NUMERO_DOC_INTERNO, s.CODIGO_ALMACEN, s.D_ALMACEN),
-        joinVals(s.CODIGO_PROVEEDOR,   s.D_CODIGO_PROVEEDOR),
-
-        joinVals(t.NUMERO_DOC_INTERNO, t.CODIGO_ALMACEN, t.D_ALMACEN),
-        joinVals(t.CODIGO_PROVEEDOR,   t.D_CODIGO_PROVEEDOR),
+        toDateDDMMYYYY(exped.FECHA_SUPERVISION),                  // Fecha
+        nn(exped.NUMERO_DOC_EXT),                                 // D. Ext.
+        nn(exped.NUMERO_DOC_INTERNO),                             // D. Int.
+        toNum(exped.IMPORTE_TOTAL_EUR),                           // € 98
+        toNum(exped.IMPORTE_TEXTOS_AND_STOCK),                    // € Ent.+ Gast.
+        joinVals(exped.CODIGO_PROVEEDOR, exped.D_CODIGO_PROVEEDOR), // Prov. 98
+        joinVals(s.NUMERO_DOC_INTERNO, s.CODIGO_ALMACEN, s.D_ALMACEN), // Doc Int Alm.
+        toNum(s.IMPORTE_TOTAL_EUR),                               // € Entr.
+        joinVals(s.CODIGO_PROVEEDOR,   s.D_CODIGO_PROVEEDOR),     // Proveedor
+        joinVals(t.NUMERO_DOC_INTERNO, t.CODIGO_ALMACEN, t.D_ALMACEN), // D. Int. Gastos
+        toNum(t.IMPORTE_TOTAL_EUR),                               // € Gast.
+        joinVals(t.CODIGO_PROVEEDOR,   t.D_CODIGO_PROVEEDOR),     // Prov. Gastos
       ]);
     }
-    // (opcional) fila en blanco separadora
-    // AOA.push(new Array(HEAD.length).fill(''));
   });
 
   // === Excel (SheetJS) ===
@@ -194,17 +204,36 @@ function createExcelAlmacen98() {
   // Congelar cabecera
   ws['!freeze'] = { xSplit: 0, ySplit: 1 };
 
-  // Anchos aproximados por columna
+  // Anchos de columna aproximados
   ws['!cols'] = [
     { wch: 12 }, // Fecha
     { wch: 16 }, // D. Ext.
     { wch: 18 }, // D. Int.
-    { wch: 28 }, // Proveedor. 98
-    { wch: 26 }, // Documento Interno Alm.
-    { wch: 26 }, // Proveedor
+    { wch: 14 }, // € 98
+    { wch: 16 }, // € Ent.+ Gast.
+    { wch: 30 }, // Proveedor 98
+    { wch: 28 }, // Doc Interno Alm.
+    { wch: 14 }, // € Entr.
+    { wch: 28 }, // Proveedor
     { wch: 26 }, // D. Int. Gastos
-    { wch: 26 }, // Proveedor Gastos
+    { wch: 14 }, // € Gast.
+    { wch: 28 }, // Proveedor Gastos
   ];
+
+  // Aplica formato numérico a las columnas de precios: D, E, H, K
+  // (fila 1 = cabecera; empezamos en la 2)
+  const range = XLSX.utils.decode_range(ws['!ref']);
+  const euroCols = ['D','E','H','K'];
+  for (let R = range.s.r + 1; R <= range.e.r; ++R) {
+    euroCols.forEach(col => {
+      const addr = `${col}${R + 1}`;
+      const cell = ws[addr];
+      if (cell && typeof cell.v === 'number') {
+        cell.t = 'n';
+        cell.z = '#,##0.00'; // deja el símbolo € al usuario; evita problemas regionales
+      }
+    });
+  }
 
   XLSX.utils.book_append_sheet(wb, ws, 'Comparación A98');
 
@@ -213,6 +242,7 @@ function createExcelAlmacen98() {
   const fileName = `comparacion_almacen_98_${stamp}${inputValue ? `_f_${inputValue}` : ''}.xlsx`;
   XLSX.writeFile(wb, fileName);
 }
+
 
 
 /* ===========================
