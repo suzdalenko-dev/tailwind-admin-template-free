@@ -313,16 +313,8 @@ function createPDFArrivals() {
 
   // ======= Helpers (alineados con la tabla/Excel) =======
   const nn = v => (v === null || v === undefined || v === 'None') ? '' : v;
-  const parseNum = v => {
-    if (v === null || v === undefined) return NaN;
-    if (typeof v === 'number') return v;
-    const s = String(v).replace(/\s+/g,'').replace(',', '.');
-    return parseFloat(s);
-  };
-  const fmt0 = v => { const n = parseNum(v); return isFinite(n) ? n.toLocaleString('es-ES',{maximumFractionDigits:0}) : ''; };
-  const fmt2 = v => { const n = parseNum(v); return isFinite(n) ? n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) : ''; };
-  const fmt3 = v => { const n = parseNum(v); return isFinite(n) ? n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:3}) : ''; };
-  const fmt4 = v => { const n = parseNum(v); return isFinite(n) ? n.toLocaleString('es-ES',{minimumFractionDigits:4,maximumFractionDigits:4}) : ''; };
+ 
+
   const toDateStr = v => {
     const s = nn(v); if (!s) return '';
     const [Y,M,D] = String(s).slice(0,10).split('-');

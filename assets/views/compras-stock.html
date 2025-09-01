@@ -1,11 +1,11 @@
 <div class="w-full mx-auto mb-4 flex justify-between items-center">
     <span>
-      <input type="text" value="" class="input-ca input-ca-ba" placeholder="Buscar.." id="searchInputL" oninput="changeSearchedInput(event)">
-      <span  class="b-top-page" onclick="clickBroom()"> 🧹 </span>
+      <input type="text" value="" class="input-ca input-ca-ba" placeholder="Buscar.." id="searchInputL" oninput="changeSearchedInputCS(event)">
+      <span  class="b-top-page" onclick="clickBroomCS()"> 🧹 </span>
     </span>
-    <span><select><option value="familia" selected>Familia</option></select></span>
-    <h1 class="text-xl text-center">Stock</h1>
-    <span><select><option value="subfamilia" selected>SubFamilia</option></select></span>
+    <span><select id="selectFamCS" onchange="chagedFamilyCS(event)"><option value="" selected>FAMILIAS</option></select></span>
+    <h1 class="text-xl text-center">Stock actual</h1>
+    <span><select id="selectSubFamCS" onchange="chagedSubFamilyCS(event)"><option value="" selected>SUBFAMILIAS</option></select></span>
     <span></span><span></span><span></span><span></span>
 </div>
 <div class="flex flex-col gap-2 text-sm w-full">
@@ -13,23 +13,78 @@
         <table class="w-ful styled-table-fh stycky-table">
             <thead>
                 <tr class="twcolor">
-                    <th class="topLeft">Familia</th>
-                    <th>SubFamilia</th>
+                    <th class="topLeft">Fam. subfamlia</th>
                     <th>Artículo</th>
-                    <th>Cajas</th>
+                    <th>Caj.</th>
                     <th>Und.</th>
                     <th>Kg</th>
-                    <th>Doc.</th>
-                    <th>Origen</th>
-                    <th>Embarque</th>
-                    <th>Llegada</th>
-                    <th>Puerto</th>
-                    <th>Proveedor</th>
-                    <th>Cont.Prov</th>
-                    <th class="topRight">Exp</th>
+                    <th>€/Kg PMP</th>
+                    <th>Valor PMP</th>
+                    <th>€/Kg UPC</th>
+                    <th>Valor UPC</th>
+                    <th>€/Kg Estándar</th>
+                    <th>Valor Estándar</th>
+                    <th>€/Kg PVP</th>
+                    <th class="topRight">Valor PVP</th>
                 </tr>
             </thead>
-            <tbody id="tableNormal"></tbody>
+            <tbody id="tableNormalCS"></tbody>
         </table>
     </div>
 </div>
+<div id="divCS" class="flex flex-col gap-2 text-sm w-full rounded-md">
+    <div class="bg-white p-2 border ">Cargando el contenido..</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div>
+    <div class="bg-white p-2 border ">Informe de stock actual sin familias '001 AUXILIARES','006 EMBALAJES ','007 HELADOS','011 PAN Y REPOSTERÍA','013 PRODUCTOS AJENOS','015 VARIOS', '016 VERDURAS ','017 GRÁNELES Y VARIOS'.
+        <br>
+            €/Kg PMP - precio medio ponderado en libra
+        <br>
+            €/Kg UPC - último precio de compra en libra
+        <br>
+            €/Kg Estándar - precio estándar en libra
+        <br>
+            €/Kg PVP - precio venta desde precios_lista organizacion comercial NACIONAL FROXA > tarifa GENERAL NACIONAL, en el caso si no existe el precio NACIONAL FROXA se coge el REGIONAL FROXA > GENERAL REGIONAL PVP.
+    </div>
+</div>
+<br>
+<br>
+<br>

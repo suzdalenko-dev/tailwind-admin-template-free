@@ -258,3 +258,51 @@ function getOfState(x){
     if(x == 'R') return 'Retenida';
     return 'None';
 }
+
+
+const toNum = (v) => {
+  if (v === null || v === undefined || v === '' || v === 'None') return NaN;
+  if (typeof v === 'number') return v;
+
+  // Normaliza strings: admite "1.234,56" y "1,234.56"
+  let s = String(v).trim().replace(/\s+/g, '');
+  const hasComma = s.includes(',');
+  const hasDot   = s.includes('.');
+
+  if (hasComma && hasDot) {
+    // Toma el último símbolo como separador decimal
+    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {
+      s = s.replace(/\./g, '').replace(',', '.');  // 1.234,56 -> 1234.56
+    } else {
+      s = s.replace(/,/g, '');                     // 1,234.56 -> 1234.56
+    }
+  } else if (hasComma) {
+    s = s.replace(',', '.');                       // 123,45 -> 123.45
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : NaN;
+};
+
+function fmtFixed(v, dec = 0) {
+  const n = toNum(v);
+  if (!Number.isFinite(n)) return '';
+  // Algunos motores aún no soportan 'always'; hacemos fallback a true
+  try {
+    return n.toLocaleString('es-ES', {
+      minimumFractionDigits: dec,
+      maximumFractionDigits: dec,
+      useGrouping: 'always'   // fuerza 1.193 en vez de 1193
+    });
+  } catch (e) {
+    return n.toLocaleString('es-ES', {
+      minimumFractionDigits: dec,
+      maximumFractionDigits: dec,
+      useGrouping: true
+    });
+  }
+}
+function fmt0 (v) { return fmtFixed(v, 0); }  // 5.555
+function fmt1 (v) { return fmtFixed(v, 1); }  // 5.555,0
+function fmt2 (v) { return fmtFixed(v, 2); }  // 5.555,00
+function fmt3 (v) { return fmtFixed(v, 3); }  // 123.456,123
+function fmt4 (v) { return fmtFixed(v, 4); }  // 5.555,0000

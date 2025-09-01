@@ -24,10 +24,10 @@ let menuData = [
         { title: 'Comparación Alm.98', icon: '🆚', submenu: null , view: 'almacen-importacion-vs-resto', roles: ['logistica;finanzas;'] },
       ]},
   ]},
-  { title: 'Compras', icon: '🛍️', roles: ['compras'], submenu: [
+  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;logistica;'], submenu: [
       { title: 'Informes', icon: '📋', submenu: [
         { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras'] },
-        { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['PENDIENTE'] },
+        { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;logistica;'] },
       ]}
   ]},
   { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;'], submenu: [
