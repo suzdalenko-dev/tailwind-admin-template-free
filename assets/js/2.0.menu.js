@@ -27,7 +27,7 @@ let menuData = [
   { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;'], submenu: [
       { title: 'Informes', icon: '📋', submenu: [
         { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras'] },
-        { title: 'Stock Compras', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;'] },
+        { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;'] },
       ]}
   ]},
   { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;'], submenu: [
