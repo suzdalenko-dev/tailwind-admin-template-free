@@ -1,8 +1,16 @@
-// ===== Estado =====
-let articlesCS     = [];   // datos originales del servidor
-let filteredCS     = [];   // lista visible (filtrada)
+/* ========================================================================
+   STOCK – JS completo
+   NUEVO requisito: los nombres de almacén SIEMPRE se muestran todos
+   (universo completo) y, al filtrar por artículo/familia/subfamilia,
+   solo quedan **marcados** los que participan en los artículos visibles.
+   Al desmarcar manualmente un almacén, el checkbox NO desaparece.
+   ======================================================================== */
 
-// arrays completos (no visibles) – se reconstruyen al cargar
+/* ===== Estado ===== */
+let articlesCS     = [];   // datos originales del servidor (tras el fetch por almacén)
+let filteredCS     = [];   // lista visible (filtrada por texto/familia/subfamilia)
+
+// arrays completos (no visibles) – se reconstruyen al cargar/fetch
 let arrayFamily    = [];
 let arraySubfamily = [];
 
@@ -16,12 +24,18 @@ let visSubToFams = new Map();
 let visFamilies = [];
 let visSubfamilies = [];
 
-// filtros activos
+/* ===== Almacenes ===== */
+let warehousesUniverse = [];        // [{code:'00', name:'CARTES'}, ...] (solo del primer fetch)
+let selectedWarehouses = new Set(); // lo que enviaremos al backend en el próximo fetch
+let participatingWarehouses = new Set(); // los que participan en la lista visible (para "checked")
+let warehousesReady    = false;     // para construir el universo una sola vez
+
+/* ===== Filtros activos ===== */
 let filterText = "";
 let filterFamily = "";
 let filterSubfamily = "";
 
-// ===== Helpers =====
+/* ===== Helpers ===== */
 const norm = s => (s ?? "")
   .toString()
   .toLowerCase()
@@ -58,6 +72,29 @@ function setSelectOptions(id, options, placeholder, selected){
   el.innerHTML = html;
 }
 
+function toNumRaw(v){
+  if (v === null || v === undefined || v === '') return NaN;
+  const n = Number(String(v).replace(/\s+/g,'').replace(',', '.'));
+  return Number.isFinite(n) ? n : NaN;
+}
+function toNum0(v){ const n = toNumRaw(v); return Number.isNaN(n) ? 0 : n; }
+function fmt0(v){
+  const n = toNumRaw(v);
+  return Number.isNaN(n) ? '' : n.toLocaleString('es-ES', { maximumFractionDigits: 0 });
+}
+function fmt1(v){
+  const n = toNumRaw(v);
+  return Number.isNaN(n) ? '' : n.toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+}
+function fmt3(v){
+  const n = toNumRaw(v);
+  return Number.isNaN(n) ? '' : n.toLocaleString('es-ES', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+}
+function pvpNum(a){
+  const p = (toNumRaw(a.PVP_NACIONAL) === 0) ? a.PVP_REGIONAL : a.PVP_NACIONAL;
+  return toNum0(p);
+}
+
 /** Construye índices fam<->sub para una lista base */
 function buildIndexesFrom(list){
   const mapFamToSubs = new Map();
@@ -80,7 +117,69 @@ function buildIndexesFrom(list){
   return { mapFamToSubs, mapSubToFams, families, subfamilies };
 }
 
-// ===== Init =====
+/** === Almacenes: parseo desde artículos (ALMACENES_TXT) === */
+function parseWarehousesFromArticles(list){
+  const map = new Map(); // code -> name
+  for (const a of list){
+    const txt = String(a.ALMACENES_TXT || '').trim();
+    if (!txt) continue;
+    for (const chunk of txt.split(';')){
+      const s = chunk.trim();
+      if (!s) continue;
+      const sp = s.indexOf(' ');
+      const code = sp === -1 ? s : s.slice(0, sp);
+      const name = sp === -1 ? '' : s.slice(sp+1);
+      if (!map.has(code)) map.set(code, name);
+    }
+  }
+  return Array.from(map, ([code, name]) => ({code, name})).sort((a,b)=>{
+    const an = /^\d+$/.test(a.code) ? parseInt(a.code,10) : null;
+    const bn = /^\d+$/.test(b.code) ? parseInt(b.code,10) : null;
+    if (an!=null && bn!=null) return an-bn;
+    return a.code.localeCompare(b.code, 'es');
+  });
+}
+
+/** Render de los checkboxes de almacén
+ *  Siempre pinta el UNIVERSO de almacenes. El estado "checked" se decide
+ *  por participatingWarehouses (los que están en los artículos visibles).
+ */
+function renderWarehouseCheckboxes(){
+  const cont = document.getElementById('listCheskBoxAlmecenes');
+  if (!cont) return;
+
+  let html = `
+    <div class="w-full flex items-center gap-3 mb-1">
+      <span class="font-medium">Almacenes:</span>
+    </div>
+    <div class="flex flex-wrap gap-x-4 gap-y-1">
+  `;
+
+  if (!warehousesUniverse.length){
+    html += `<div class="text-sm text-gray-500">— No hay almacenes —</div></div>`;
+    cont.innerHTML = html;
+    return;
+  }
+
+  for (const w of warehousesUniverse){
+    const checked = participatingWarehouses.has(w.code) ? 'checked' : '';
+    html += `<label class="wh-item">
+      <input type="checkbox" value="${w.code}" ${checked} onchange="onWarehouseToggle(event)">
+      ${w.code} ${w.name}
+    </label>`;
+  }
+  html += `</div>`;
+  cont.innerHTML = html;
+}
+
+/* ===== Util de UI para marcar/desmarcar todos sin re-render ===== */
+function setAllWarehouseCheckboxes(checked){
+  const cont = document.getElementById('listCheskBoxAlmecenes');
+  if (!cont) return;
+  cont.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = checked);
+}
+
+/* ===== Init ===== */
 function comprasStockInit(){
   document.getElementById('slugTitle').innerHTML = `
     <span class="b-top-page" onclick="createExcelCS()">📥 Excel </span>
@@ -90,33 +189,58 @@ function comprasStockInit(){
   getDataCS();
 }
 
-// ===== Data fetch =====
+/* ===== Data fetch ===== */
 async function getDataCS(){
-  fetch(HTTP_HOST + 'compras/get/0/0/stock_calculation/')
+  // Parametriza por almacenes seleccionados
+  let qs = '';
+  if (selectedWarehouses.size > 0){
+    const codes = [...selectedWarehouses].join(',');
+    qs = `?warehouse=${encodeURIComponent(codes)}`;
+  }
+
+  fetch(HTTP_HOST + 'compras/get/0/0/stock_calculation/' + qs)
     .then(r => r.json())
     .then(x => {
       if (x && x.data && x.data.stock && x.data.stock.length > 0){
         articlesCS = x.data.stock;
 
+        // Universo de almacenes SOLO en el primer fetch
+        if (!warehousesReady){
+          warehousesUniverse = parseWarehousesFromArticles(articlesCS);
+          selectedWarehouses = new Set(warehousesUniverse.map(w => w.code)); // por defecto: todos
+          warehousesReady = true;
+        }
+
         // índices del dataset completo (referencia)
         ({ mapFamToSubs: famToSubs, mapSubToFams: subToFams, families: arrayFamily, subfamilies: arraySubfamily } = buildIndexesFrom(articlesCS));
 
-        filteredCS = sortForView(articlesCS);
-
-        // índices visibles = inicialmente todos (sin texto)
-        ({ mapFamToSubs: visFamToSubs, mapSubToFams: visSubToFams, families: visFamilies, subfamilies: visSubfamilies } = buildIndexesFrom(articlesCS));
-
-        buildSelectsCS();     // llenar selects con todas las opciones
-        fillTableCS(filteredCS);
+        // Estado visible inicial según filtros actuales
+        applyFiltersCS(true); // también actualiza la tira de almacenes (sin ocultar ninguno)
       } else {
         showM('No hay datos para mostrar', 'warning');
+        articlesCS = [];
+        filteredCS = [];
+        participatingWarehouses = new Set();
+        renderWarehouseCheckboxes(); // muestra universo (si se hubiera creado) con todos desmarcados
+        fillTableCS([]);
       }
     })
     .catch(err => showM('Error: ' + err, 'error'));
 }
 
-// ===== Filtros =====
-function applyFiltersCS() {
+/* ===== Filtros ===== */
+function hasActiveFilters(){
+  return Boolean(filterText || filterFamily || filterSubfamily);
+}
+
+/**
+ * Aplica filtros de texto/familia/subfamilia a articlesCS,
+ * recalcula selects visibles y SINCRONIZA los "checked" de almacenes
+ * con los que participan en los artículos en pantalla.
+ *
+ * @param {boolean} fromFetch - si se llama justo después de un fetch
+ */
+function applyFiltersCS(fromFetch = false) {
   const t = norm(filterText);
 
   // 1) Filtrar SOLO por texto para determinar las opciones visibles en selects
@@ -135,11 +259,11 @@ function applyFiltersCS() {
   // Si la selección actual ya no existe con el filtro de texto, limpiarla
   if (filterFamily && !visFamilies.includes(filterFamily)) {
     filterFamily = "";
-    document.getElementById('selectFamCS').value = "";
+    const sf = document.getElementById('selectFamCS'); if (sf) sf.value = "";
   }
   if (filterSubfamily && !visSubfamilies.includes(filterSubfamily)) {
     filterSubfamily = "";
-    document.getElementById('selectSubFamCS').value = "";
+    const ssf = document.getElementById('selectSubFamCS'); if (ssf) ssf.value = "";
   }
 
   // 2) Reconstruir selects dependientes según lo visible
@@ -156,9 +280,19 @@ function applyFiltersCS() {
 
   filteredCS = sortForView(filteredCS);
   fillTableCS(filteredCS);
+
+  // 4) Mostrar SIEMPRE todos los almacenes, marcando solo los que participan
+  const whVisible = parseWarehousesFromArticles(filteredCS);
+  participatingWarehouses = new Set(whVisible.map(w => w.code));
+  renderWarehouseCheckboxes();
+
+  // 5) Opcional: sin filtros y en primer fetch, si no hay selección del usuario, marcamos todos
+  if (fromFetch && !hasActiveFilters() && selectedWarehouses.size === 0 && warehousesUniverse.length){
+    selectedWarehouses = new Set(warehousesUniverse.map(w => w.code));
+  }
 }
 
-// ===== Selects (dependientes y sensibles al texto) =====
+/* ===== Selects (dependientes y sensibles al texto) ===== */
 function buildSelectsCS(){
   // Familias visibles (si hay subfamilia seleccionada, limitar a las compatibles dentro de lo visible)
   const families = filterSubfamily
@@ -175,7 +309,7 @@ function buildSelectsCS(){
   setSelectOptions('selectSubFamCS', subfamilies, 'SUBFAMILIAS', filterSubfamily);
 }
 
-// ===== Pintar tabla =====
+/* ===== Pintar tabla ===== */
 function fillTableCS(list){
   let html      = '';
   let oldFamily = '';
@@ -186,22 +320,12 @@ function fillTableCS(list){
     if (familyFull !== oldFamily){
       html += `<tr>
         <td class="border px-2 py-1 text-left">${familyFull}</td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
-        <td class="border px-2 py-1"></td>
+        ${'<td class="border px-2 py-1"></td>'.repeat(12)}
       </tr>`;
     }
 
-    const pvp = a.PVP_NACIONAL == 0 ? a.PVP_REGIONAL : a.PVP_NACIONAL;
+    const kg = toNum0(a.STOCK_UNIDAD1);
+    const pvp = pvpNum(a);
 
     html += `<tr>
       <td class="border px-2 py-1"></td>
@@ -209,32 +333,34 @@ function fillTableCS(list){
 
       <td class="border px-2 py-1 text-right">${fmt1(a.STOCK_UNIDAD2)}</td>
       <td class="border px-2 py-1 text-right">${fmt1(a.UND_DESDE_CAJAS)}</td>
-      <td class="border px-2 py-1 text-right">${fmt1(a.STOCK_UNIDAD1)}</td>
+      <td class="border px-2 py-1 text-right">${fmt1(kg)}</td>
 
       <td class="border px-2 py-1 text-right">${fmt3(a.PMP)}</td>
-      <td class="border px-2 py-1 text-right">${fmt0(a.PMP * a.STOCK_UNIDAD1)}</td>
+      <td class="border px-2 py-1 text-right">${fmt0(toNum0(a.PMP) * kg)}</td>
 
       <td class="border px-2 py-1 text-right">${fmt3(a.UPC)}</td>
-      <td class="border px-2 py-1 text-right">${fmt0(a.UPC * a.STOCK_UNIDAD1)}</td>
+      <td class="border px-2 py-1 text-right">${fmt0(toNum0(a.UPC) * kg)}</td>
 
       <td class="border px-2 py-1 text-right">${fmt3(a.PRECIO_STANDARD)}</td>
-      <td class="border px-2 py-1 text-right">${fmt0(a.PRECIO_STANDARD * a.STOCK_UNIDAD1)}</td>
+      <td class="border px-2 py-1 text-right">${fmt0(toNum0(a.PRECIO_STANDARD) * kg)}</td>
 
       <td class="border px-2 py-1 text-right">${fmt3(pvp)}</td>
-      <td class="border px-2 py-1 text-right">${fmt0(pvp * a.STOCK_UNIDAD1)}</td>
+      <td class="border px-2 py-1 text-right">${fmt0(pvp * kg)}</td>
     </tr>`;
 
     oldFamily = familyFull;
   }
 
-  document.getElementById('tableNormalCS').innerHTML = html;
-  document.getElementById('divCS').innerHTML = '';
+  const tbl = document.getElementById('tableNormalCS');
+  if (tbl) tbl.innerHTML = html;
+  const div = document.getElementById('divCS');
+  if (div) div.innerHTML = '';
 }
 
-// ===== Handlers UI =====
+/* ===== Handlers UI ===== */
 function changeSearchedInputCS(event){
   filterText = event.target.value || "";
-  applyFiltersCS();     // también actualiza selects visibles
+  applyFiltersCS(); // también actualiza selects visibles y "checked" de almacenes
 }
 
 function chagedFamilyCS(event){
@@ -245,11 +371,11 @@ function chagedFamilyCS(event){
     const subs = visFamToSubs.get(filterFamily);
     if (!subs || !subs.has(filterSubfamily)) {
       filterSubfamily = "";
-      document.getElementById('selectSubFamCS').value = "";
+      const ssf = document.getElementById('selectSubFamCS'); if (ssf) ssf.value = "";
     }
   }
 
-  applyFiltersCS();     // recalcula opciones y tabla con el texto actual
+  applyFiltersCS();
 }
 
 function chagedSubFamilyCS(event){
@@ -260,18 +386,33 @@ function chagedSubFamilyCS(event){
     const fams = visSubToFams.get(filterSubfamily);
     if (!fams || !fams.has(filterFamily)) {
       filterFamily = "";
-      document.getElementById('selectFamCS').value = "";
+      const sf = document.getElementById('selectFamCS'); if (sf) sf.value = "";
     }
   }
 
-  applyFiltersCS();     // recalcula opciones y tabla con el texto actual
+  applyFiltersCS();
 }
 
-// Escoba: limpiar filtros sin recargar del servidor
+/* ===== Handlers Almacenes ===== */
+function onWarehouseToggle(ev){
+  const code = ev.target.value;
+  const isChecked = ev.target.checked;
+
+  if (isChecked) selectedWarehouses.add(code);
+  else selectedWarehouses.delete(code);
+
+  // Hacemos fetch con los seleccionados.
+  // Si no queda ninguno marcado => sin parámetro => backend devuelve todos.
+  getDataCS();
+}
+
+
+
+// Escoba: limpiar filtros (solo UI/cliente, no toca selección de almacenes)
 function clickBroomCS(){
-  document.getElementById('searchInputL').value = "";
-  document.getElementById('selectFamCS').value = "";
-  document.getElementById('selectSubFamCS').value = "";
+  const si = document.getElementById('searchInputL'); if (si) si.value = "";
+  const sf = document.getElementById('selectFamCS'); if (sf) sf.value = "";
+  const ssf = document.getElementById('selectSubFamCS'); if (ssf) ssf.value = "";
 
   filterText = "";
   filterFamily = "";
@@ -283,12 +424,14 @@ function clickBroomCS(){
 
   filteredCS = sortForView(articlesCS);
   fillTableCS(filteredCS);
+
+  // Recalcular participación y pintar (SIEMPRE lista completa)
+  const whVisible = parseWarehousesFromArticles(filteredCS);
+  participatingWarehouses = new Set(whVisible.map(w => w.code));
+  renderWarehouseCheckboxes();
 }
 
-
-
-/* EXCEL */
-
+/* ===== Excel ===== */
 function createExcelCS(){
   if (typeof XLSX === 'undefined') { console.error('XLSX no está cargado'); return; }
 
@@ -318,7 +461,10 @@ function createExcelCS(){
     const val = (a.UNIDADES_CALCULADAS ?? a.UND_DESDE_CAJAS ?? 0);
     return Math.round(Number(val) || 0); // unidades como entero
   };
-  const pvpNum = a => num((a.PVP_NACIONAL == 0 ? a.PVP_REGIONAL : a.PVP_NACIONAL));
+  const pvpN = a => {
+    const p = (toNumRaw(a.PVP_NACIONAL) === 0) ? a.PVP_REGIONAL : a.PVP_NACIONAL;
+    return num(p);
+  };
 
   const AOA = [HEAD];
   let lastFam = '';
@@ -330,7 +476,7 @@ function createExcelCS(){
       lastFam = fam;
     }
     const und = units(a);
-    const pvp = pvpNum(a);
+    const pvp = pvpN(a);
 
     AOA.push([
       '',                                              // fam vacío en detalle
@@ -338,10 +484,10 @@ function createExcelCS(){
       num(a.STOCK_UNIDAD2),                            // Caj.
       und,                                             // Und. (entero)
       num(a.STOCK_UNIDAD1),                            // Kg
-      num(a.PMP),              num((a.PMP||0) * (a.STOCK_UNIDAD1||0)),             // PMP €/Kg / Valor
-      num(a.UPC),              num((a.UPC||0) * (a.STOCK_UNIDAD1||0)),             // UPC €/Kg / Valor
-      num(a.PRECIO_STANDARD),  num((a.PRECIO_STANDARD||0) * (a.STOCK_UNIDAD1||0)), // Estándar €/Kg / Valor
-      pvp,                     num((pvp||0) * (a.STOCK_UNIDAD1||0))                // PVP / Valor PVP
+      num(a.PMP),              num((toNum0(a.PMP)) * (toNum0(a.STOCK_UNIDAD1))),             // PMP €/Kg / Valor
+      num(a.UPC),              num((toNum0(a.UPC)) * (toNum0(a.STOCK_UNIDAD1))),             // UPC €/Kg / Valor
+      num(a.PRECIO_STANDARD),  num((toNum0(a.PRECIO_STANDARD)) * (toNum0(a.STOCK_UNIDAD1))), // Estándar €/Kg / Valor
+      pvp,                     num((toNum0(pvp)) * (toNum0(a.STOCK_UNIDAD1)))                // PVP / Valor PVP
     ]);
   });
 
@@ -366,10 +512,7 @@ function createExcelCS(){
   XLSX.writeFile(wb, `stock_actual_${ts}.xlsx`);
 }
 
-
-
-
-
+/* ===== PDF ===== */
 function createPdfCS(){
   if (!(window.jspdf && window.jspdf.jsPDF)) { console.error('jsPDF no está cargado'); return; }
   if (!(window.jspdf.jsPDF.API && typeof window.jspdf.jsPDF.API.autoTable === 'function')) {
@@ -393,14 +536,8 @@ function createPdfCS(){
     '€/Kg Estándar','Valor Estándar','PVP','Valor PVP'
   ];
 
-  const toNum = v => {
-    if (v === null || v === undefined || v === '') return NaN;
-    const n = Number(String(v).replace(/\s+/g,'').replace(',', '.'));
-    return Number.isFinite(n) ? n : NaN;
-  };
-  
   const units = a => Math.round(Number(a.UNIDADES_CALCULADAS ?? a.UND_DESDE_CAJAS ?? 0));
-  const pvpNum = a => (a.PVP_NACIONAL == 0 ? a.PVP_REGIONAL : a.PVP_NACIONAL);
+  const pvpN = a => (toNumRaw(a.PVP_NACIONAL) === 0 ? a.PVP_REGIONAL : a.PVP_NACIONAL);
 
   const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'A4' });
   const pageW = doc.internal.pageSize.getWidth();
@@ -424,14 +561,12 @@ function createPdfCS(){
     doc.setTextColor(0);
   };
 
-  // Body con filas de grupo (familia) y detalle (artículo)
   const body = [];
   let lastFam = '';
 
   rows.forEach(a => {
     const fam = `${a.D_CODIGO_FAMILIA} ${a.FAMILIA} ${a.D_CODIGO_SUBFAMILIA} ${a.SUBFAMILIA}`.replaceAll('/', '/ ');
     if (fam !== lastFam){
-      // Fila de grupo: una sola celda que ocupa todo el ancho
       body.push([{
         content: fam,
         colSpan: HEAD.length,
@@ -441,25 +576,18 @@ function createPdfCS(){
     }
 
     const und = units(a);
-    const pvp = pvpNum(a);
+    const kg = toNum0(a.STOCK_UNIDAD1);
+    const pvp = toNum0(pvpN(a));
 
-    // Fila de detalle: el nombre del artículo VA A LA IZQUIERDA
-    // usando colSpan=2 para ocupar las columnas "Fam. subfamilia" + "Artículo"
     body.push([
-      {
-        content: `${a.DESCRIP_COMERCIAL} ${a.CODIGO_ARTICULO}`,
-        colSpan: 2,
-        styles: { overflow: 'linebreak', halign: 'left' }
-      },
-      // ¡OJO! Como colSpan=2 ocupa col 0 y 1, a partir de aquí
-      // añadimos las celdas de las columnas 2..12:
-      fmt1(a.STOCK_UNIDAD2),           // Caj.
-      fmt1(und),                       // Und. (entero, sin decimales)
-      fmt1(a.STOCK_UNIDAD1),           // Kg
-      fmt3(a.PMP), fmt0((toNum(a.PMP)||0) * (toNum(a.STOCK_UNIDAD1)||0)),
-      fmt3(a.UPC),              fmt0((a.UPC||0) * (a.STOCK_UNIDAD1||0)),             // UPC €/Kg / Valor
-      fmt3(a.PRECIO_STANDARD), fmt0((toNum(a.PRECIO_STANDARD)||0) * (toNum(a.STOCK_UNIDAD1)||0)),
-      fmt3(pvp), fmt0((toNum(pvp)||0) * (toNum(a.STOCK_UNIDAD1)||0))
+      { content: `${a.DESCRIP_COMERCIAL} ${a.CODIGO_ARTICULO}`, colSpan: 2, styles: { overflow: 'linebreak', halign: 'left' } },
+      fmt1(a.STOCK_UNIDAD2),
+      fmt1(und),
+      fmt1(kg),
+      fmt3(a.PMP),             fmt0((toNum0(a.PMP)) * kg),
+      fmt3(a.UPC),             fmt0((toNum0(a.UPC)) * kg),
+      fmt3(a.PRECIO_STANDARD), fmt0((toNum0(a.PRECIO_STANDARD)) * kg),
+      fmt3(pvp),               fmt0(pvp * kg)
     ]);
   });
 
@@ -474,16 +602,13 @@ function createPdfCS(){
     },
     styles: { fontSize: 7, cellPadding: 2, overflow: 'ellipsize' },
     columnStyles: {
-      // La primera celda de detalle tiene colSpan=2 (0 y 1),
-      // así que definimos anchos para ambas columnas sumando el espacio que necesitas
-      0:{ cellWidth: 99 },      // parte izquierda (bajo "Fam. subfamilia")
-      1:{ cellWidth: 99 },      // parte derecha (bajo "Artículo")
-      2:{ halign:'right', cellWidth: 33 }, // Caj.
-      3:{ halign:'right', cellWidth: 33 }, // Und.
-      4:{ halign:'right', cellWidth: 44 }, // Kg
-      5:{ halign:'right', cellWidth: 44 }, 
+      0:{ cellWidth: 99 }, 1:{ cellWidth: 99 },
+      2:{ halign:'right', cellWidth: 33 },
+      3:{ halign:'right', cellWidth: 33 },
+      4:{ halign:'right', cellWidth: 44 },
+      5:{ halign:'right', cellWidth: 44 },
       6:{ halign:'right', cellWidth: 55 },
-      7:{ halign:'right', cellWidth: 44 }, 
+      7:{ halign:'right', cellWidth: 44 },
       8:{ halign:'right', cellWidth: 60 },
       9:{ halign:'right', cellWidth: 65 },
       10:{ halign:'right', cellWidth: 50 },
@@ -496,14 +621,21 @@ function createPdfCS(){
   doc.save(`stock_actual_${ts}.pdf`);
 }
 
+/* ===== Utilidad mínima de mensajes ===== */
+function showM(msg, type='info'){
+  // Ajusta esto a tu sistema de notificaciones si lo tienes (toasts, etc.)
+  const fn = (type === 'error') ? console.error : (type === 'warning') ? console.warn : console.log;
+  fn(msg);
+}
 
-
-
-
-
-
-
-
-
-
-
+/* ===== Exportar init (si usas módulos, cambia esto) ===== */
+// window.comprasStockInit = comprasStockInit;
+// window.changeSearchedInputCS = changeSearchedInputCS;
+// window.chagedFamilyCS = chagedFamilyCS;
+// window.chagedSubFamilyCS = chagedSubFamilyCS;
+// window.clickBroomCS = clickBroomCS;
+// window.createExcelCS = createExcelCS;
+// window.createPdfCS = createPdfCS;
+// window.onWarehouseToggle = onWarehouseToggle;
+// window.whSelectAll = whSelectAll;
+// window.whSelectNone = whSelectNone;
