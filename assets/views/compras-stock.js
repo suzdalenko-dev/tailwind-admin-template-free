@@ -375,3 +375,196 @@ function clickBroomCS(){
 
 /* ===== Excel / PDF / Mensajes ===== */
 // ... (tus funciones createExcelCS / createPdfCS / showM se mantienen igual que ya las tienes)
+
+/* ===================== Excel ===================== */
+function createExcelCS(){
+  if (typeof XLSX === 'undefined') { showM?.('XLSX no está cargado', 'error'); return; }
+
+  // Timestamp: 2025-01-01__11-30-44
+  const ts = (() => {
+    const d = new Date();
+    const p = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}__${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}`;
+  })();
+
+  const situ = (typeof getSelectedStockSituacion === 'function' ? getSelectedStockSituacion() : (stockSituacion || 'DISPG'));
+  const list = (filteredCS && filteredCS.length ? filteredCS : articlesCS);
+  const rows = [...list]; // ya vienen ordenados por sortForView()
+
+  const HEAD = [
+    'Fam. subfamilia','Artículo','Caj.','Und.','Kg',
+    '€/Kg PMP','Valor PMP','€/Kg UPC','Valor UPC',
+    '€/Kg Estándar','Valor Estándar','€/Kg PVP','Valor PVP'
+  ];
+
+  const num = v => {
+    if (v === null || v === undefined || v === '') return '';
+    const n = Number(String(v).replace(/\s+/g,'').replace(',', '.'));
+    return Number.isFinite(n) ? n : '';
+  };
+
+  const units = a => Math.round(Number(a.UND_DESDE_CAJAS ?? 0));
+  const kgNum = a => toNum0(a.STOCK_UNIDAD1);
+  const pvpN  = a => {
+    const p = (toNumRaw(a.PVP_NACIONAL) === 0) ? a.PVP_REGIONAL : a.PVP_NACIONAL;
+    return toNum0(p);
+  };
+
+  const AOA = [HEAD];
+  let lastFam = '';
+
+  rows.forEach(a => {
+    const fam = `${a.D_CODIGO_FAMILIA} ${a.FAMILIA} ${a.D_CODIGO_SUBFAMILIA} ${a.SUBFAMILIA}`.replaceAll('/', '/ ');
+    if (fam !== lastFam){
+      AOA.push([fam, ...new Array(HEAD.length-1).fill('')]); // fila de grupo
+      lastFam = fam;
+    }
+    const und = units(a);
+    const kg  = kgNum(a);
+    const pvp = pvpN(a);
+    const pmp = toNum0(a.PMP);
+    const upc = toNum0(a.UPC);
+    const est = toNum0(a.PRECIO_STANDARD);
+
+    AOA.push([
+      '',                                              // fam vacío en detalle
+      `${a.DESCRIP_COMERCIAL} ${a.CODIGO_ARTICULO}`,   // Artículo
+      num(a.STOCK_UNIDAD2),                            // Caj.
+      und,                                             // Und.
+      num(kg),                                         // Kg
+      num(pmp),              num(pmp * kg),            // PMP €/Kg / Valor
+      num(upc),              num(upc * kg),            // UPC €/Kg / Valor
+      num(est),              num(est * kg),            // Estándar €/Kg / Valor
+      num(pvp),              num(pvp * kg)             // PVP €/Kg / Valor
+    ]);
+  });
+
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(AOA);
+
+  // Congela cabecera y define anchuras
+  ws['!freeze'] = { xSplit: 0, ySplit: 1 };
+  ws['!cols'] = [
+    { wch: 36 }, // Fam. subfamilia
+    { wch: 40 }, // Artículo
+    { wch: 10 }, // Caj.
+    { wch: 10 }, // Und.
+    { wch: 10 }, // Kg
+    { wch: 11 }, { wch: 12 }, // PMP €/Kg / Valor
+    { wch: 11 }, { wch: 12 }, // UPC €/Kg / Valor
+    { wch: 13 }, { wch: 14 }, // Estándar €/Kg / Valor
+    { wch: 10 }, { wch: 12 }  // PVP €/Kg / Valor PVP
+  ];
+
+  XLSX.utils.book_append_sheet(wb, ws, `Stock_${situ}`);
+  XLSX.writeFile(wb, `stock_actual_${situ}_${ts}.xlsx`);
+}
+
+/* ===================== PDF ===================== */
+function createPdfCS(){
+  if (!(window.jspdf && window.jspdf.jsPDF)) { showM?.('jsPDF no está cargado', 'error'); return; }
+  if (!(window.jspdf.jsPDF.API && typeof window.jspdf.jsPDF.API.autoTable === 'function')) {
+    showM?.('jspdf-autotable no está cargado', 'error'); return;
+  }
+  const { jsPDF } = window.jspdf;
+
+  const ts = (() => {
+    const d = new Date();
+    const p = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}__${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}`;
+  })();
+
+  const situ = (typeof getSelectedStockSituacion === 'function' ? getSelectedStockSituacion() : (stockSituacion || 'DISPG'));
+  const list = (filteredCS && filteredCS.length ? filteredCS : articlesCS);
+  const rows = [...list];
+
+  const HEAD = [
+    'Fam. subfamilia','Artículo','Caj.','Und.','Kg',
+    '€/Kg PMP','Valor PMP','€/Kg UPC','Valor UPC',
+    '€/Kg Estándar','Valor Estándar','€/Kg PVP','Valor PVP'
+  ];
+
+  const units = a => Math.round(Number(a.UND_DESDE_CAJAS ?? 0));
+  const pvpN  = a => (toNumRaw(a.PVP_NACIONAL) === 0 ? a.PVP_REGIONAL : a.PVP_NACIONAL);
+
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'A4' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 16;
+
+  const drawHeader = (pageNo=1) => {
+    doc.setFontSize(9); doc.setFont('helvetica','bold');
+    doc.text(`Stock actual (${situ}) ${ts}`, margin, 22);
+    doc.setFontSize(6); doc.setFont('helvetica','normal');
+    let filtros = [];
+    if (filterText) filtros.push(`Texto: "${filterText}"`);
+    if (filterFamily) filtros.push(`Fam: ${filterFamily}`);
+    if (filterSubfamily) filtros.push(`Subfam: ${filterSubfamily}`);
+    if (filtros.length) doc.text(filtros.join('   •   '), margin, 38);
+    doc.setDrawColor(200); doc.line(margin, 44, pageW - margin, 44);
+  };
+  const drawFooter = (pageNo=1) => {
+    doc.setFontSize(7); doc.setTextColor(120);
+    doc.text(`Página ${pageNo}`, pageW - margin, pageH - 10, { align: 'right' });
+    doc.setTextColor(0);
+  };
+
+  const body = [];
+  let lastFam = '';
+
+  rows.forEach(a => {
+    const fam = `${a.D_CODIGO_FAMILIA} ${a.FAMILIA} ${a.D_CODIGO_SUBFAMILIA} ${a.SUBFAMILIA}`.replaceAll('/', '/ ');
+    if (fam !== lastFam){
+      body.push([{
+        content: fam,
+        colSpan: HEAD.length,
+        styles: { fillColor: [240,240,240], fontStyle: 'bold', halign: 'left' }
+      }]);
+      lastFam = fam;
+    }
+
+    const und = units(a);
+    const kg  = toNum0(a.STOCK_UNIDAD1);
+    const pvp = toNum0(pvpN(a));
+
+    body.push([
+      { content: `${a.DESCRIP_COMERCIAL} ${a.CODIGO_ARTICULO}`, colSpan: 2, styles: { overflow: 'linebreak', halign: 'left' } },
+      fmt1(a.STOCK_UNIDAD2),
+      fmt1(und),
+      fmt1(kg),
+      fmt3(a.PMP),             fmt0((toNum0(a.PMP)) * kg),
+      fmt3(a.UPC),             fmt0((toNum0(a.UPC)) * kg),
+      fmt3(a.PRECIO_STANDARD), fmt0((toNum0(a.PRECIO_STANDARD)) * kg),
+      fmt3(pvp),               fmt0(pvp * kg)
+    ]);
+  });
+
+  doc.autoTable({
+    head: [HEAD],
+    body,
+    theme: 'plain',
+    margin: { left: margin, right: margin, top: 52 },
+    headStyles: {
+      fillColor: [67,56,202], textColor:[255,255,255],
+      halign: 'center', fontStyle:'bold'
+    },
+    styles: { fontSize: 7, cellPadding: 2, overflow: 'ellipsize' },
+    columnStyles: {
+      0:{ cellWidth: 99 }, 1:{ cellWidth: 99 },
+      2:{ halign:'right', cellWidth: 33 },
+      3:{ halign:'right', cellWidth: 33 },
+      4:{ halign:'right', cellWidth: 44 },
+      5:{ halign:'right', cellWidth: 44 },
+      6:{ halign:'right', cellWidth: 55 },
+      7:{ halign:'right', cellWidth: 44 },
+      8:{ halign:'right', cellWidth: 60 },
+      9:{ halign:'right', cellWidth: 65 },
+      10:{ halign:'right', cellWidth: 50 },
+      11:{ halign:'right', cellWidth: 41 },
+      12:{ halign:'right', cellWidth: 41 }
+    },
+    didDrawPage: ({ pageNumber }) => { drawHeader(pageNumber); drawFooter(pageNumber); }
+  });
+
+  doc.save(`stock_actual_${situ}_${ts}.pdf`);
+}
