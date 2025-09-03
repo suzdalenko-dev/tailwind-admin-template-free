@@ -233,3 +233,7 @@ b{
 .height-calendar{
     height: 252px;
 }
+
+.ml-11:hover, label:hover{
+    cursor: pointer;
+}
