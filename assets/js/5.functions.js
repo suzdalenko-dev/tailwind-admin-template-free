@@ -238,6 +238,15 @@ function getFirstDayOfCurrentMonth() {
   return `${year}-${month}-01`;
 }
 
+function getLastDayOfCurrentMonth() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const lastDay = new Date(year, month, 0).getDate();
+  return `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+}
+
+
 
 function formatEuro(num) {
   if (num == null || num === '' || isNaN(num)) return "0,00";

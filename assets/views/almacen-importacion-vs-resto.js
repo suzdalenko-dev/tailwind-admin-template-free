@@ -1,6 +1,7 @@
 let searchAlmValue = '';
 let ivr_data = [];
-let inputDatevalueAIVS
+let inputDatevalueAIVS;
+let inputDateLastAIVS;
 
 function almacenImportacionVsRestoInit(){
     document.getElementById('slugTitle').innerHTML = `
@@ -21,13 +22,20 @@ function changedDateAIVS(){
   getDataAIVR();
 }
 
+function changedDateHastaAIVS(){
+  inputDateLastAIVS = document.getElementById('inputDateHastaAIVS').value;
+  getDataAIVR();
+}
+
 function setDateToInput() {
   inputDatevalueAIVS = getFirstDayOfCurrentMonth();
   document.getElementById('inputDateAIVS').value = inputDatevalueAIVS;
+  inputDateLastAIVS = getLastDayOfCurrentMonth();
+  document.getElementById('inputDateHastaAIVS').value = inputDateLastAIVS;
 }
 
 function getDataAIVR(){
-  fetch(HTTP_HOST+`logistica/recalculate/0/0/comparacion_almacen_98/?day=${inputDatevalueAIVS}`)
+  fetch(HTTP_HOST+`logistica/recalculate/0/0/comparacion_almacen_98/?from=${inputDatevalueAIVS}&to=${inputDateLastAIVS}`)
     .then(r => r.json())
     .then(r => {
       if (r && Array.isArray(r.data)) {
