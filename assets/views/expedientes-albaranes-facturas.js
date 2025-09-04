@@ -106,6 +106,9 @@ async function renderCalendarioExpedientes(x) {
         </div>`;
 
     if(document.getElementById('expedientes_content')) document.getElementById('expedientes_content').innerHTML = htmlTable;
+    if(expedientes.length == 0){
+        document.getElementById('expedientes_content').innerHTML = 'No hay datos..';
+    }
 }
 
 function formatDate(dateStr) {
