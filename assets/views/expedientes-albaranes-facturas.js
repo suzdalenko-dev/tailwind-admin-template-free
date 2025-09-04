@@ -21,10 +21,12 @@ function setDateToInputEAF(){
 
 function changedDateFromEAL(){
     dateFromEAF =  document.getElementById('inputDateFromEAL').value;
+    document.getElementById('expedientes_content').innerHTML = 'Cargando datos..';
     renderCalendarioExpedientes();
 }
 function changedDateToEAL(){
    dateToEAF = document.getElementById('inputDateHastaToEAL').value;
+   document.getElementById('expedientes_content').innerHTML = 'Cargando datos..';
    renderCalendarioExpedientes();
 }
 
