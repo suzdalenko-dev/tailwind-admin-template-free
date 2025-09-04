@@ -201,6 +201,11 @@ function createExcelExpedientes() {
     });
 
     const worksheet = XLSX.utils.aoa_to_sheet(rows);
+
+    const lastRow = rows.length;                                     // última fila con datos
+    const lastCol = XLSX.utils.encode_col(headers.length - 1);       // última columna con datos
+    worksheet['!autofilter'] = { ref: `A1:${lastCol}${lastRow}` };   // rango a filtrar
+
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Expedientes");
     XLSX.writeFile(workbook, `exp-${dateFromEAF}_${dateToEAF}.xlsx`);
