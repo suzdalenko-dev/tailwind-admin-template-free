@@ -1,7 +1,9 @@
 <div class="w-full mx-auto mb-4 flex justify-between items-center">
-    <input type="button" value="<" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-0 px-2 rounded mx-2" onclick="addYearFunc(-1)">
-    <h1 id="tituloYearExpediente" class="text-xl text-center"></h1>
-    <input type="button" value=">" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-0 px-2 rounded mx-2" onclick="addYearFunc(1)">
+    <span> </span>
+    <span>Desde</span><span><input type="date" id="inputDateFromEAL" onchange="changedDateFromEAL()"></span>
+    <h1 class="text-xl text-center">📅 Expedientes importación</h1>
+    <span>Hasta</span><span><input type="date" id="inputDateHastaToEAL" onchange="changedDateToEAL()"></span>
+    <span> </span>
 </div>
 <div id="expedientes_content" class="flex flex-col gap-2 text-sm w-full">
     <div class="bg-white p-2 border">Cargando el contenido..</div>

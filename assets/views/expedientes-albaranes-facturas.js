@@ -1,25 +1,36 @@
-var excelData = []
+var excelData = [];
+var dateFromEAF;
+var dateToEAF;
 
 function expedientesAlbaranesFacturasInit() {
-    renderCalendarioExpedientes(CURRENT_YEAR);
 
     document.title = "Expedientes importación";
-    document.getElementById('slugTitle').innerHTML = '<span class="b-top-page" onclick="renderCalendarioExpedientes(1)">📥 Excel</span>';
+    document.getElementById('slugTitle').innerHTML = '<span class="b-top-page" onclick="createExcelExpedientes()">📥 Excel</span>';
+
+    setDateToInputEAF();
+
+    renderCalendarioExpedientes();
 }
 
-function addYearFunc(valueA){
-    CURRENT_YEAR = CURRENT_YEAR + valueA;
-    renderCalendarioExpedientes(CURRENT_YEAR);
+function setDateToInputEAF(){
+    dateFromEAF = getFirstDayOfCurrentMonth();
+    document.getElementById('inputDateFromEAL').value = dateFromEAF;
+    dateToEAF   = getLastDayOfCurrentMonth();
+    document.getElementById('inputDateHastaToEAL').value = dateToEAF;
 }
+
+function changedDateFromEAL(){
+    dateFromEAF =  document.getElementById('inputDateFromEAL').value;
+    renderCalendarioExpedientes();
+}
+function changedDateToEAL(){
+   dateToEAF = document.getElementById('inputDateHastaToEAL').value;
+   renderCalendarioExpedientes();
+}
+
 
 async function renderCalendarioExpedientes(x) {
-    const tituloYearExpediente = document.getElementById('tituloYearExpediente');
-    const firstDayA = new Date(CURRENT_YEAR, 0, 1).toISOString().slice(0, 10);
-    const lastDayA = new Date(CURRENT_YEAR, 11, 31).toISOString().slice(0, 10);
-
-    tituloYearExpediente.textContent = `📅 Expedientes importación año ${CURRENT_YEAR}`;
-
-    const expedientesData = await loadData(`finanzas/get/0/0/expedientes_importacion/?dateFrom=${firstDayA}&dateTo=${lastDayA}`);
+    const expedientesData = await loadData(`finanzas/get/0/0/expedientes_importacion/?dateFrom=${dateFromEAF}&dateTo=${dateToEAF}`);
     const expedientes = expedientesData.data || [];
     excelData = expedientes;
 
@@ -34,7 +45,7 @@ async function renderCalendarioExpedientes(x) {
                 <tr>
                     <td class="border px-2 py-1 text-center">${expediente.CODIGO}</td>
                     <td class="border px-2 py-1 text-center">${expediente.PROVEEDOR}</td>
-                    <td class="border px-2 py-1 text-center">${formatDate(expediente.FECHA_EXPEDIENTE)}</td>
+                    <td class="border px-2 py-1 text-center">${formatLongDate(expediente.FECHA_EXPEDIENTE)}</td>
                     <td class="border px-2 py-1 text-center">${expediente.VALOR_CAMBIO}</td>
 
                     <td class="border px-2 py-1 text-center"></td>
@@ -53,11 +64,11 @@ async function renderCalendarioExpedientes(x) {
                     <tr>
                         <td class="border px-2 py-1 text-center">${expediente.CODIGO}</td>
                         <td class="border px-2 py-1 text-center">${expediente.PROVEEDOR}</td>
-                        <td class="border px-2 py-1 text-center">${formatDate(expediente.FECHA_EXPEDIENTE)}</td>
+                        <td class="border px-2 py-1 text-center">${formatLongDate(expediente.FECHA_EXPEDIENTE)}</td>
                         <td class="border px-2 py-1 text-center">${expediente.VALOR_CAMBIO}</td>
 
                         <td class="border px-2 py-1 text-center"></td>
-                        <td class="border px-2 py-1 text-center">${formatDate(factura.V_FECHA_FACTURA)}</td>
+                        <td class="border px-2 py-1 text-center">${formatLongDate(factura.V_FECHA_FACTURA)}</td>
                         <td class="border px-2 py-1 text-center">${factura.V_NUMERO_FACTURA}</td>
                         <td class="border px-2 py-1 text-center">${toLN(factura.V_NETO_FACTURA)}</td>
                         <td class="border px-2 py-1 text-center">${factura.V_VALOR_CAMBIO}</td>
@@ -93,10 +104,6 @@ async function renderCalendarioExpedientes(x) {
         </div>`;
 
     if(document.getElementById('expedientes_content')) document.getElementById('expedientes_content').innerHTML = htmlTable;
-
-    if(x == 1){ createExcelExpedientes(); }
-
-    setDefaulContentToLocalStorage();
 }
 
 function formatDate(dateStr) {
@@ -135,58 +142,58 @@ function createExcelExpedientes() {
             rows.push([
                 exp.CODIGO,
                 `${exp.PROVEEDOR} ${exp.NOMBRE_PROVEEDOR}`,
-                exp.FECHA_EXPEDIENTE,
-                parseFloat(exp.VALOR_CAMBIO).toFixed(10),
+                formatLongDate(exp.FECHA_EXPEDIENTE),
+                exp.VALOR_CAMBIO * 1,
                 " ",
 
                 // Pendientes
                 " ",
-                pendiente.V_FECHA || "",
+                formatLongDate(pendiente.V_FECHA) || "",
                 pendiente.V_NUMERO_DOC_EXT || "",
                 pendiente.V_NUMERO_DOC_INTERNO || "",
-                pendiente.V_IMPORTE_TOTAL_ALBARAN || "",
+                toNumberForExcel(pendiente.V_IMPORTE_TOTAL_ALBARAN) || "",
                 pendiente.V_DIVISA || "",
-                pendiente.cambio_en_linea_albaran?.[0]?.V_CAMBIO || "",
+                toNumberForExcel(pendiente.cambio_en_linea_albaran?.[0]?.V_CAMBIO) || "",
                 pendiente.valor_albaran_suz || "",
-                pendiente.precio_dolar_diario?.VALOR_VENTA || "",
-                pendiente.precio_dolar_mensual?.GN1 || "",
+                toNumberForExcel(pendiente.precio_dolar_diario?.VALOR_VENTA) || "",
+                toNumberForExcel(pendiente.precio_dolar_mensual?.GN1) || "",
 
                 " ",
                 // Facturados
                 " ",
-                facturado.V_FECHA || "",
+                formatLongDate(facturado.V_FECHA) || "",
                 facturado.V_NUMERO_DOC_EXT || "",
                 facturado.V_NUMERO_DOC_INTERNO || "",
-                facturado.V_IMPORTE_TOTAL_ALBARAN || "",
+                toNumberForExcel(facturado.V_IMPORTE_TOTAL_ALBARAN) || "",
                 facturado.V_DIVISA || "",
-                facturado.cambio_en_linea_albaran?.[0]?.V_CAMBIO || "",
+                toNumberForExcel(facturado.cambio_en_linea_albaran?.[0]?.V_CAMBIO) || "",
                 facturado.valor_albaran_suz || "",
-                facturado.precio_dolar_diario?.VALOR_VENTA || "",
-                facturado.precio_dolar_mensual?.GN1 || "",
+                toNumberForExcel(facturado.precio_dolar_diario?.VALOR_VENTA) || "",
+                toNumberForExcel(facturado.precio_dolar_mensual?.GN1) || "",
 
                 " ",
                 // No facturables
                 " ",
-                noFact.V_FECHA || "",
+                formatLongDate(noFact.V_FECHA) || "",
                 noFact.V_NUMERO_DOC_EXT || "",
                 noFact.V_NUMERO_DOC_INTERNO || "",
-                noFact.V_IMPORTE_TOTAL_ALBARAN || "",
-                noFact.V_DIVISA || "",
-                noFact.cambio_en_linea_albaran?.[0]?.V_CAMBIO || "",
+                toNumberForExcel(noFact.V_IMPORTE_TOTAL_ALBARAN)  || "",
+                noFact.V_DIVISA  || "",
+                toNumberForExcel(noFact.cambio_en_linea_albaran?.[0]?.V_CAMBIO) || "",
                 noFact.valor_albaran_suz || "",
-                noFact.precio_dolar_diario?.VALOR_VENTA || "",
-                noFact.precio_dolar_mensual?.GN1 || "",
+                toNumberForExcel(noFact.precio_dolar_diario?.VALOR_VENTA) || "",
+                toNumberForExcel(noFact.precio_dolar_mensual?.GN1) || "",
 
                 " ",
                 // Factura
                 " ",
-                factura.V_FECHA_FACTURA || "",
+                formatLongDate(factura.V_FECHA_FACTURA) || "",
                 factura.V_NUMERO_FACTURA || "",
-                factura.V_NETO_FACTURA || "",
-                factura.V_VALOR_CAMBIO || "",
+                toNumberForExcel(factura.V_NETO_FACTURA)  || "",
+                toNumberForExcel(factura.V_VALOR_CAMBIO)  || "",
                 factura.valor_factura_suz || "",
-                factura.precio_dolar_diario?.VALOR_VENTA || "",
-                factura.precio_dolar_mensual?.GN1 || ""
+                toNumberForExcel(factura.precio_dolar_diario?.VALOR_VENTA) || "",
+                toNumberForExcel(factura.precio_dolar_mensual?.GN1) || ""
             ]);
         }
     });
@@ -194,6 +201,6 @@ function createExcelExpedientes() {
     const worksheet = XLSX.utils.aoa_to_sheet(rows);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Expedientes");
-    XLSX.writeFile(workbook, `exp-${CURRENT_YEAR}.xlsx`);
+    XLSX.writeFile(workbook, `exp-${dateFromEAF}_${dateToEAF}.xlsx`);
 }
 

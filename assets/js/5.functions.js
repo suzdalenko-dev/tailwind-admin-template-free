@@ -160,7 +160,7 @@ function userDontLogin(){
 }
 
 function formatDateToEuropean(dateStr) {
-    [year, month, day] = ["", "", ""]
+    [year, month, day] = ["00", "00", "00"]
     dateStr && dateStr.split("-").length == 3 ? [year, month, day] = dateStr.split("-"): 10 / 2 
     return `${day}/${month}/${year}`;
 }
@@ -315,3 +315,23 @@ function fmt1 (v) { return fmtFixed(v, 1); }  // 5.555,0
 function fmt2 (v) { return fmtFixed(v, 2); }  // 5.555,00
 function fmt3 (v) { return fmtFixed(v, 3); }  // 123.456,123
 function fmt4 (v) { return fmtFixed(v, 4); }  // 5.555,0000
+
+
+
+const toNumberForExcel = (value) => {
+  let s = String(value).trim().replace(/\s/g, '');
+
+  const hasDot = s.includes('.');
+  const hasComma = s.includes(',');
+
+  if (hasDot && hasComma) {
+    // Asume '.' = miles, ',' = decimal  → "1.234,56" -> "1234.56"
+    s = s.replace(/\./g, '').replace(',', '.');
+  } else if (hasComma && !hasDot) {
+    // Solo coma → úsala como decimal  → "1234,56" -> "1234.56"
+    s = s.replace(',', '.');
+  } // si solo hay punto, ya sirve como decimal
+
+  const n = Number(s);
+  return Number.isFinite(n) ? n : NaN; // o lanza error si prefieres
+};
