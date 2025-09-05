@@ -98,10 +98,10 @@ function createExcelFAF(){
         let facturasReales  = exp.facturas_reales  || []; 
 
         let maxLen = Math.max(albaranesReales.length, facturasReales.length);
-      
         let valAlb = 0;
         let valFac = 0;
-        let valDif = 0;
+        let valDif = 0;  
+
         let previosFact = {};
         for(let i=0; i<maxLen; i++){
             let alb98 = albaranesReales[i] || {};
@@ -127,7 +127,7 @@ function createExcelFAF(){
                 toNumberForExcel(fact.LIQUIDO_FACTURA_DIV) || '',
                 toNumberForExcel(fact.VALOR_CAMBIO) || '',
                 toNumberForExcel(fact.LIQUIDO_FACTURA) || '',
-                (maxLen - i == 1 ? toNumberForExcel(valDif) : '')
+                (maxLen - i == 1) ? valDif : ''
             ]);
         }           
     });
