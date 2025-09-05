@@ -90,7 +90,7 @@ async function renderVSFAF() {
 function createExcelFAF(){
     let wb = XLSX.utils.book_new();
     let ws_data = [
-        ["Cambio mes","Fecha alb.","Exp.","Num.","Alm.","Prov.","$ alb.","Cambio alb.","€ alb.","Fecha fac.","Num. fac.","$ fac.","Cambio fac.","€ fac.","Dif. alb-fac."]
+        ["C/Mes fecha alb.","Fecha alb.","Exp.","Num.","Alm.","Prov.","$ alb.","Cambio alb.","€ alb.","Fecha fac.","Num. fac.","$ fac.","Cambio fac.","€ fac.","Dif. alb-fac."]
     ];
 
     excelDataFAF.forEach(exp => {
