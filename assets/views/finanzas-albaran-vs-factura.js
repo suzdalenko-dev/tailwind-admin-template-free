@@ -124,7 +124,7 @@ function createExcelFAF(){
                 toNumberForExcel(alb98.IMPORTE_LIN_NETO_EUR) || '',
                 fact.FECHA_FACTURA || '',
                 fact.NUMERO_FACTURA || '',
-                (maxLen - i == 1) && fact.LIQUIDO_FACTURA_DIV ? toNumberForExcel(fact.LIQUIDO_FACTURA_DIV) : '',
+                (maxLen - i == 1) && fact.LIQUIDO_FACTURA_DIV > 11 ? toNumberForExcel(fact.LIQUIDO_FACTURA_DIV) : '',
                 (maxLen - i == 1) && fact.VALOR_CAMBIO ? toNumberForExcel(fact.VALOR_CAMBIO) : '',
                 (maxLen - i == 1) && fact.LIQUIDO_FACTURA ? toNumberForExcel(fact.LIQUIDO_FACTURA) : '',
                 (maxLen - i == 1) ? toCents(valDif) : ''
