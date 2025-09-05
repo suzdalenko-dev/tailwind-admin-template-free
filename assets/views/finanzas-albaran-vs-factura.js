@@ -41,11 +41,11 @@ async function renderVSFAF() {
     let facturasReales;
     let htmlTable = '';
 
-    excelDataFAF.forEach(exp => { console.log(exp);
+    excelDataFAF.forEach(exp => {
         albaranesReales = exp.albaranes_reales; 
         facturasReales = exp.facturas_reales; 
 
-        let maxLen = Math.max(albaranesReales.length, facturasReales.length); console.log(maxLen)
+        let maxLen = Math.max(albaranesReales.length, facturasReales.length);
       
         let valAlb = 0;
         let valFac = 0;
@@ -127,20 +127,17 @@ function createExcelFAF(){
                 toNumberForExcel(fact.LIQUIDO_FACTURA_DIV) || '',
                 toNumberForExcel(fact.VALOR_CAMBIO) || '',
                 toNumberForExcel(fact.LIQUIDO_FACTURA) || '',
-                (maxLen - i == 1) ? valDif : ''
+                (maxLen - i == 1) ? toCents(valDif) : ''
             ]);
         }           
     });
   
     let ws = XLSX.utils.aoa_to_sheet(ws_data);
-
-    // === Autofiltro para TODAS las columnas de la cabecera (fila 1) ===
     const lastRow = ws_data.length;                 // última fila con datos
     const lastColIndex = ws_data[0].length - 1;     // última columna (basado en cabecera)
     ws['!autofilter'] = {
         ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: lastRow - 1, c: lastColIndex } })
     };
-
     XLSX.utils.book_append_sheet(wb, ws, "Albaran vs Factura");
     XLSX.writeFile(wb, `albaran_vs_factura_${dateFromFAF}_a_${dateToFAF}.xlsx`);
 }

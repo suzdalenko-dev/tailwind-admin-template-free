@@ -335,3 +335,9 @@ const toNumberForExcel = (value) => {
   const n = Number(s);
   return Number.isFinite(n) ? n : NaN; // o lanza error si prefieres
 };
+
+
+function toCents(v){
+  let y = Math.round((parseFloat(v) || 0) * 100)
+  return y / 100 ;
+}
