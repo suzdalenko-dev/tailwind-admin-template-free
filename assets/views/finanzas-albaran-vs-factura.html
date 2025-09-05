@@ -1,0 +1,35 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span> </span>
+    <span>Desde</span><span><input type="date" id="inputDateFromFAF" onchange="changedDateFromFAF()"></span>
+    <h1 class="text-xl text-center">Albaranes VS Facturas</h1>
+    <span>Hasta</span><span><input type="date" id="inputDateToFAF" onchange="changedDateToFAF()"></span>
+    <span> </span>
+</div>
+
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table class="w-ful styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">Cambio mes</th>
+                    <th>Fecha alb.</th>
+                    <th>Exp.</th>
+                    <th>Num.</th>
+                    <th>Alm.</th>
+                    <th>Prov.</th>
+                    <th>$ alb.</th>
+                    <th>Cambio alb.</th>
+                    <th>€ alb.</th>
+
+                    <th>Fecha fac.</th>
+                    <th>Num. fac.</th>
+                    <th>$ fac.</th>
+                    <th>Cambio</th>
+                    <th>€ fac.</th>  
+                    <th class="topRight">Diferencia</th>
+                </tr>
+            </thead>
+            <tbody id="tableFAF"></tbody>
+        </table>
+    </div>
+</div>

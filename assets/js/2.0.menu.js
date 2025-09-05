@@ -9,6 +9,7 @@ let menuData = [
   { title: 'Finanzas', icon: '💰', roles: ['finanzas'], submenu: [
       { title: 'Informes', icon: '📋', submenu: [
         { title: 'Expedientes', icon: '💵', submenu: null, view: 'expedientes-albaranes-facturas', roles: ['finanzas'] },
+        { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },
       ]},
   ]},
   { title: 'Producción', icon: '🏭', roles: ['produccion'], submenu: [

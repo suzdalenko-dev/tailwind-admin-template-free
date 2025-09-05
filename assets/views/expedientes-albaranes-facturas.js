@@ -111,13 +111,6 @@ async function renderCalendarioExpedientes(x) {
     }
 }
 
-function formatDate(dateStr) {
-    if (!dateStr) return '';
-    const d = new Date(dateStr);
-    if (isNaN(d)) return dateStr;
-    return d.toISOString().slice(0, 10);
-}
-
 
 function createExcelExpedientes() {
     const headers = [
