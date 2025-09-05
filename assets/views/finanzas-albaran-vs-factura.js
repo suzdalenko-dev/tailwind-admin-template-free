@@ -73,9 +73,9 @@ async function renderVSFAF() {
 
                         <td class="border px-2 py-1 text-center">${fact.FECHA_FACTURA ?? ''}</td>
                         <td class="border px-2 py-1 text-center">${fact.NUMERO_FACTURA ?? ''}</td>
-                        <td class="border px-2 py-1 text-center">${fmt2(fact.LIQUIDO_FACTURA_DIV)}</td>
-                        <td class="border px-2 py-1 text-center">${fact.VALOR_CAMBIO ?? ''}</td>
-                        <td class="border px-2 py-1 text-center">${fmt2(fact.LIQUIDO_FACTURA)}</td>
+                        <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fmt2(fact.LIQUIDO_FACTURA_DIV) ?? '': ''}</td>
+                        <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fact.VALOR_CAMBIO ?? '': ''}</td>
+                        <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fmt2(fact.LIQUIDO_FACTURA) ?? '' : ''}</td>
                         <td class="border px-2 py-1 text-right">${maxLen - i == 1 ? fmt2(valDif) : ''}</td>
                     </tr>`;
         }           
@@ -124,9 +124,9 @@ function createExcelFAF(){
                 toNumberForExcel(alb98.IMPORTE_LIN_NETO_EUR) || '',
                 fact.FECHA_FACTURA || '',
                 fact.NUMERO_FACTURA || '',
-                toNumberForExcel(fact.LIQUIDO_FACTURA_DIV) || '',
-                toNumberForExcel(fact.VALOR_CAMBIO) || '',
-                toNumberForExcel(fact.LIQUIDO_FACTURA) || '',
+                (maxLen - i == 1) && fact.LIQUIDO_FACTURA_DIV ? toNumberForExcel(fact.LIQUIDO_FACTURA_DIV) : '',
+                (maxLen - i == 1) && fact.VALOR_CAMBIO ? toNumberForExcel(fact.VALOR_CAMBIO) : '',
+                (maxLen - i == 1) && fact.LIQUIDO_FACTURA ? toNumberForExcel(fact.LIQUIDO_FACTURA) : '',
                 (maxLen - i == 1) ? toCents(valDif) : ''
             ]);
         }           
