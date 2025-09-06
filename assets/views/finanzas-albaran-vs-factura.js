@@ -74,7 +74,7 @@ async function renderVSFAF() {
                         <td class="border px-2 py-1 text-right"> </td>
 
                         <td class="border px-2 py-1 text-center">${fact.FECHA_FACTURA ?? ''}</td>
-                        <td class="border px-2 py-1 text-center">${fact.NUMERO_FACTURA ?? ''}</td>
+                        <td class="border px-2 py-1 text-left">${fact.NUMERO_FACTURA ?? ''}</td>
                         <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fmt2(fact.LIQUIDO_FACTURA_DIV) ?? '': ''}</td>
                         <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fact.VALOR_CAMBIO ?? '': ''}</td>
                         <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fmt2(fact.LIQUIDO_FACTURA) ?? '' : ''}</td>
