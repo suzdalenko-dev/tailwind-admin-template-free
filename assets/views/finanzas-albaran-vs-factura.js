@@ -71,12 +71,14 @@ async function renderVSFAF() {
                         <td class="border px-2 py-1 text-left">${alb98.CAMBIO}</td>
                         <td class="border px-2 py-1 text-right">${fmt2(alb98.IMPORTE_LIN_NETO_EUR)}</td>
 
+                        <td class="border px-2 py-1 text-right"> </td>
+
                         <td class="border px-2 py-1 text-center">${fact.FECHA_FACTURA ?? ''}</td>
                         <td class="border px-2 py-1 text-center">${fact.NUMERO_FACTURA ?? ''}</td>
                         <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fmt2(fact.LIQUIDO_FACTURA_DIV) ?? '': ''}</td>
                         <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fact.VALOR_CAMBIO ?? '': ''}</td>
                         <td class="border px-2 py-1 text-center">${maxLen - i == 1 ? fmt2(fact.LIQUIDO_FACTURA) ?? '' : ''}</td>
-                        <td class="border px-2 py-1 text-right">${maxLen - i == 1 ? fmt2(valDif) : ''}</td>
+                        <td class="border px-2 py-1 text-right"> ${maxLen - i == 1 ? fmt2(valDif) : ''}</td>
                     </tr>`;
         }           
     });
@@ -90,7 +92,7 @@ async function renderVSFAF() {
 function createExcelFAF(){
     let wb = XLSX.utils.book_new();
     let ws_data = [
-        ["C/Mes fecha alb.","Fecha alb.","Exp.","Num.","Alm.","Prov.","$ alb.","Cambio alb.","€ alb.","Fecha fac.","Num. fac.","$ fac.","Cambio fac.","€ fac.","Dif. alb-fac."]
+        ["C/Mes fecha alb.","Fecha alb.","Exp.","Num.","Alm.","Prov.","$ alb.","Cambio alb.","€ alb."," ","Fecha fac.","Num. fac.","$ fac.","Cambio fac.","€ fac.","Dif. alb-fac."]
     ];
 
     excelDataFAF.forEach(exp => {
@@ -122,6 +124,9 @@ function createExcelFAF(){
                 toNumberForExcel(alb98.IMPORTE_LIN_NETO_DIV_USD) || '',
                 toNumberForExcel(alb98.CAMBIO) || '',
                 toNumberForExcel(alb98.IMPORTE_LIN_NETO_EUR) || '',
+
+                ' ',
+
                 fact.FECHA_FACTURA || '',
                 fact.NUMERO_FACTURA || '',
                 (maxLen - i == 1) && fact.LIQUIDO_FACTURA_DIV > 11 ? toNumberForExcel(fact.LIQUIDO_FACTURA_DIV) : '',
