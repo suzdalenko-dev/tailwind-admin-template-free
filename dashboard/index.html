@@ -39,10 +39,14 @@
     <div id="content" class="flex-1 flex flex-col transition-transform duration-300">
         <!-- Top bar -->
         <header class="bg-white shadow pl-4 pr-4 p-2 flex items-center justify-between">
-            <button id="menuButton" onclick="toggleSidebar('userClick')" class="text-xl text-gray-700">☰</button>
+            <span>
+                <button id="menuButton" onclick="toggleSidebar('userClick')" class="text-xl">☰</button> 
+                <span class="text-xl" id="appTime"></span>
+            </span>
             <div class="text-xl text-gray-700" id="slugTitle"></div>
             <div class="flex items-center gap-3">
-                <img src="/assets/img/logo.png" width="41px" />
+                <span class="font-medium" id="userNameApp"></span>
+                <img src="/assets/img/logo.png" width="41px" /
             </div>
         </header>
         <!-- Dashboard content -->
@@ -50,9 +54,6 @@
     </div>
 
     <!-- JS -->
-    <script>
-     
-    </script>
     <script src="/assets/js/4.notifications.js"></script>
     <script src="/assets/js/0.config.js"></script>
     <script src="/assets/js/1.router.js"></script>
@@ -60,6 +61,7 @@
     <script src="/assets/js/2.menu.js"></script>
     <script src="/assets/js/3.hamburger.js"></script>
     <script src="/assets/js/5.functions.js"></script>
+    <script src="/assets/js/6.utils.js"></script>
     <script src="/assets/js/vendor/xlsx.full.min.js"></script>
     <script src="/assets/js/vendor/jspdf.umd.min.js"></script>
     <script src="/assets/js/vendor/jspdf.plugin.autotable.min.js"></script>
