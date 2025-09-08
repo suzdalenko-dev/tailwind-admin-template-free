@@ -1,3 +1,4 @@
+let timeCounter = 0;
 function setTimeUserName() {
   let el = document.getElementById('userNameApp');
   let raw = window.localStorage.getItem('username') ?? '';
@@ -6,10 +7,23 @@ function setTimeUserName() {
   el.textContent = pretty;
 
   el = document.getElementById('appTime');
-  el.innerHTML = nowHHMMSS();
+  let [x, y]= nowHHMMSS();
+
+  let white = `${x}<span class="text-xl clwhite">:</span>${y}`;
+  let black = `${x}<span class="text-xl clblack">:</span>${y}`;
+
+
+  if(timeCounter == 0){
+    timeCounter = 1;
+    el.innerHTML = black;
+  }
+  else if(timeCounter == 1) {
+    timeCounter = 0;
+    el.innerHTML = white;
+  }
 }
 
 setInterval(() => {
     setTimeUserName();
-}, 1000);
+}, 500);
 

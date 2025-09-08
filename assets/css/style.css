@@ -236,3 +236,9 @@ b{
 .ml-11:hover, label:hover{
     cursor: pointer;
 }
+.clwhite{
+    color: white;
+}
+.clblack{
+    color: #080377;
+}
