@@ -23,7 +23,5 @@ function setTimeUserName() {
   }
 }
 
-setInterval(() => {
-    setTimeUserName();
-}, 500);
-
+setInterval(() => { setTimeUserName(); }, 500);
+setTimeUserName();
