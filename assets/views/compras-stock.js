@@ -313,7 +313,7 @@ function fillTableCS(list){
       <td class="border px-2 py-1"></td>
       <td class="border px-2 py-1 text-left">${a.DESCRIP_COMERCIAL} ${a.CODIGO_ARTICULO}</td>
       <td class="border px-2 py-1 text-right">${fmt1(a.STOCK_UNIDAD2)}</td>
-      <td class="border px-2 py-1 text-right">${fmt1(a.UND_DESDE_CAJAS)}</td>
+      <td class="border px-2 py-1 text-right">${fmt1(a.UND_DESDE_KG)}</td>
       <td class="border px-2 py-1 text-right">${fmt1(kg)}</td>
       <td class="border px-2 py-1 text-right">${fmt3(a.PMP)}</td>
       <td class="border px-2 py-1 text-right">${fmt0(toNum0(a.PMP) * kg)}</td>
@@ -403,7 +403,7 @@ function createExcelCS(){
     return Number.isFinite(n) ? n : '';
   };
 
-  const units = a => Math.round(Number(a.UND_DESDE_CAJAS ?? 0));
+  const units = a => Math.round(Number(a.UND_DESDE_KG ?? 0));
   const kgNum = a => toNum0(a.STOCK_UNIDAD1);
   const pvpN  = a => {
     const p = (toNumRaw(a.PVP_NACIONAL) === 0) ? a.PVP_REGIONAL : a.PVP_NACIONAL;
@@ -484,7 +484,7 @@ function createPdfCS(){
     '€/Kg Estándar','Valor Estándar','€/Kg PVP','Valor PVP'
   ];
 
-  const units = a => Math.round(Number(a.UND_DESDE_CAJAS ?? 0));
+  const units = a => Math.round(Number(a.UND_DESDE_KG ?? 0));
   const pvpN  = a => (toNumRaw(a.PVP_NACIONAL) === 0 ? a.PVP_REGIONAL : a.PVP_NACIONAL);
 
   const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'A4' });
