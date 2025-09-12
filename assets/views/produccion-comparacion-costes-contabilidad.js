@@ -1,8 +1,9 @@
+let dataPCCC = []
 let currentMonthPCCC;
 let dateFromPCCC = '2025-01-01';
 let dateTOPCCC   = '2025-12-31';
 function produccionComparacionCostesContabilidadInit(){
-    document.getElementById('slugTitle').innerHTML = ''; // `<span class="b-top-page" onclick="createExcelPCCC()">📥 Excel </span>`;
+    document.getElementById('slugTitle').innerHTML = `<span class="b-top-page" onclick="createExcelPCCC()">📥 Excel </span>`;
     document.title = "Comparación de costes en producción y contabilidad";
 
     initPagePCCC()
@@ -44,6 +45,7 @@ function setPageTitlePCCC(monthYear){
 function getDateRangePCCC(from, to){
     fetch(HTTP_HOST+'produccion/get/0/0/produccion_vs_contabilidad/?from='+from+'&to='+to).then(r => r.json()).then(r => { console.log(r.data.res[0]);
         if(r && r.data && r.data.res && r.data.res.length > 0){
+            dataPCCC = r.data.res;
             document.getElementById('loadPCCC').innerHTML = '';
             let htmlPCCC = '';
             let suma_total = 0;
@@ -76,3 +78,57 @@ function getDateRangePCCC(from, to){
         showM(e, 'error');
     });
 } 
+
+
+function createExcelPCCC(){
+    if(!dataPCCC || dataPCCC.length === 0){
+        showM("No hay datos para exportar", "warning");
+        return;
+    }
+
+    let suma_total = 0;
+    let suma_absoluta = 0;
+
+    // Calcular sumas
+    dataPCCC.forEach(x => {
+        let dif = x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA - x.IMP_CONTA;
+        suma_total += dif;
+        suma_absoluta += Math.abs(dif);
+    });
+
+    // Encabezado con sumas
+    let ws_data = [
+        ["Suma diferencias", "Suma absoluta"],
+        [suma_total, suma_absoluta],
+        [], // línea vacía
+        ["OF", "Nombre", "Fecha Cierre", "Kg", "Coste Producción", "Coste Contabilidad", "Diferencia"]
+    ];
+
+    // Agregar los datos
+    dataPCCC.forEach(x => {
+        let dif = x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA - x.IMP_CONTA;
+        ws_data.push([
+            x.ORDEN_DE_FABRICACION,
+            x.NOMBRE_OF,
+            formatLongDate(x.FECHA_CIERRE),
+            x.KG_FABRICADOS,
+            x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA,
+            x.IMP_CONTA,
+            dif
+        ]);
+    });
+
+    // Crear hoja y libro
+    let ws = XLSX.utils.aoa_to_sheet(ws_data);
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "PCCC");
+
+    // Nombre del archivo con fecha y hora actual
+    let now = new Date();
+    let timestamp = now.getFullYear().toString() + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0");
+
+    let nombreArchivo = `Comparacion_Costes_PCCC_${timestamp}.xlsx`;
+
+    // Descargar archivo
+    XLSX.writeFile(wb, nombreArchivo);
+}
