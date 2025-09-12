@@ -120,10 +120,10 @@ function createExcelPCCC(){
         [], // línea vacía
     ];
 
-    // 2) Tabla de totales
-    ws_data.push(["", "OF cerradas", "OF en curso"]);
-    ws_data.push(["Diferencia total", sumaCerradas, suma_total]);
-    ws_data.push(["Diferencia total absoluta", absolutCerradas, suma_absoluta]);
+    // 2) Tabla de totales (OFs en curso primero, luego cerradas)
+    ws_data.push(["", "OFs en curso", "OFs cerradas"]);
+    ws_data.push(["Diferencia total", suma_total, sumaCerradas]);
+    ws_data.push(["Diferencia total absoluta", suma_absoluta, absolutCerradas]);
 
     // Línea en blanco antes del detalle
     ws_data.push([]);
