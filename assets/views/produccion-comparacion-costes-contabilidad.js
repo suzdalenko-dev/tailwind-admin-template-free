@@ -89,6 +89,9 @@ function getDateRangePCCC(from, to){
 } 
 
 
+
+
+
 function createExcelPCCC(){
     if(!dataPCCC || dataPCCC.length === 0){
         showM("No hay datos para exportar", "warning");
@@ -111,25 +114,22 @@ function createExcelPCCC(){
         suma_absoluta += Math.abs(dif);
     });
 
-    // Encabezado con sumas
+    // 1) Título
     let ws_data = [
-        [
-            "OFs cerradas (sum. diferencias)",
-            "OFs cerradas (sum. diferencias absolutas)",
-            "Total (sum de diferencias)",
-            "Total absoluto"
-        ],
-        [
-            sumaCerradas,
-            absolutCerradas,
-            suma_total,
-            suma_absoluta
-        ],
+        [`Comparación de costes en producción y contabilidad ${currentMonthPCCC}`],
         [], // línea vacía
-        ["OF", "Nombre", "Fecha Cierre", "Kg", "Coste Producción", "Coste Contabilidad", "Diferencia"]
     ];
 
-    // Agregar los datos
+    // 2) Tabla de totales
+    ws_data.push(["", "OF cerradas", "OF en curso"]);
+    ws_data.push(["Diferencia total", sumaCerradas, suma_total]);
+    ws_data.push(["Diferencia total absoluta", absolutCerradas, suma_absoluta]);
+
+    // Línea en blanco antes del detalle
+    ws_data.push([]);
+    ws_data.push(["OF", "Nombre", "Fecha Cierre", "Kg", "Coste Producción", "Coste Contabilidad", "Diferencia"]);
+
+    // 3) Detalle
     dataPCCC.forEach(x => {
         let dif = x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA - x.IMP_CONTA;
         ws_data.push([
@@ -148,9 +148,9 @@ function createExcelPCCC(){
     let wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "PCCC");
 
-    // Nombre del archivo con fecha y hora actual (incluye hora, min, sec)
+    // Nombre del archivo con fecha y hora actual
     let now = new Date();
-    let timestamp = 
+    let timestamp =
         now.getFullYear().toString() +
         String(now.getMonth() + 1).padStart(2, "0") +
         String(now.getDate()).padStart(2, "0") + "_" +
@@ -160,6 +160,5 @@ function createExcelPCCC(){
 
     let nombreArchivo = `Comparacion_Costes_PCCC_${timestamp}.xlsx`;
 
-    // Descargar archivo
     XLSX.writeFile(wb, nombreArchivo);
 }
