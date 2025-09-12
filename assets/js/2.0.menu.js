@@ -26,9 +26,9 @@ let menuData = [
         { title: 'Comparación Alm.98', icon: '🆚', submenu: null , view: 'almacen-importacion-vs-resto', roles: ['logistica;finanzas;'] },
       ]},
   ]},
-  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;'], submenu: [
+  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;finanzas;20finanzas;'], submenu: [
       { title: 'Informes', icon: '📋', submenu: [
-        { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras'] },
+        { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;finanzas;20finanzas;'] },
         { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;'] },
       ]}
   ]},
