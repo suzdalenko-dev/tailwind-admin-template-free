@@ -350,3 +350,11 @@ function nowHHMMSS() {
   const ss = String(d.getSeconds()).padStart(2, '0');
   return [hh, mm] // :${ss}`;
 }
+
+function getCurrentYearMonth(){
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0"); // +1 porque enero = 0
+  const current = `${month}/${year}`;
+  return current;
+}

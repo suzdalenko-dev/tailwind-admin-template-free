@@ -1,0 +1,78 @@
+let currentMonthPCCC;
+let dateFromPCCC = '2025-01-01';
+let dateTOPCCC   = '2025-12-31';
+function produccionComparacionCostesContabilidadInit(){
+    document.getElementById('slugTitle').innerHTML = ''; // `<span class="b-top-page" onclick="createExcelPCCC()">📥 Excel </span>`;
+    document.title = "Comparación de costes en producción y contabilidad";
+
+    initPagePCCC()
+}
+
+function initPagePCCC(){
+    currentMonthPCCC = parseHashRoute();
+    currentMonthPCCC = currentMonthPCCC.params.month;
+    
+    if(!currentMonthPCCC){
+        let globalMonthPCCC = getCurrentYearMonth();
+        window.location = `/dashboard/#produccion-comparacion-costes-contabilidad?month=${globalMonthPCCC}`
+    } else {
+        setPageTitlePCCC(currentMonthPCCC);
+        let [mm, yyyy] = currentMonthPCCC.split("/").map(Number);
+        dateFromPCCC   = `${yyyy}-${String(mm).padStart(2, "0")}-01`;
+        let lastDay = new Date(yyyy, mm, 0).getDate();
+        dateToPCCC = `${yyyy}-${String(mm).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
+        getDateRangePCCC(dateFromPCCC, dateToPCCC);
+    }
+}
+
+function cambiarMesPCCC(delta){
+    let [mm, yyyy] = currentMonthPCCC.split("/").map(Number);
+    let d = new Date(yyyy, mm - 1, 1);
+    d.setMonth(d.getMonth() + delta);
+    let newMonth = String(d.getMonth() + 1).padStart(2, "0");
+    let newYear = d.getFullYear();
+
+    currentMonthPCCC = `${newMonth}/${newYear}`;
+    setPageTitlePCCC(currentMonthPCCC);    
+}
+
+function setPageTitlePCCC(monthYear){
+    document.getElementById('titlePCCC').innerHTML = `Comparación de costes en producción y contabilidad ${monthYear}`;
+    window.location = `/dashboard/#produccion-comparacion-costes-contabilidad?month=${monthYear}`
+}
+
+function getDateRangePCCC(from, to){
+    fetch(HTTP_HOST+'produccion/get/0/0/produccion_vs_contabilidad/?from='+from+'&to='+to).then(r => r.json()).then(r => { console.log(r.data.res[0]);
+        if(r && r.data && r.data.res && r.data.res.length > 0){
+            document.getElementById('loadPCCC').innerHTML = '';
+            let htmlPCCC = '';
+            let suma_total = 0;
+            let suma_absoluta = 0;
+            let dif = 0;
+            r.data.res.map(x => {
+                htmlPCCC += `
+                    <tr>
+                        <td class="border px-2 py-1 text-center">${x.ORDEN_DE_FABRICACION}</td>
+                        <td class="border px-2 py-1 text-left">${x.NOMBRE_OF}</td>
+                        <td class="border px-2 py-1 text-right">${formatLongDate(x.FECHA_CIERRE)}</td>
+                        <td class="border px-2 py-1 text-right">${fmt0(x.KG_FABRICADOS)}</td>
+                        <td class="border px-2 py-1 text-right">${fmt2(x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA)}</td>
+                        <td class="border px-2 py-1 text-right">${fmt2(x.IMP_CONTA)}</td>
+                        <td class="border px-2 py-1 text-right">${fmt2(x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA - x.IMP_CONTA)}</td>
+                    </tr>
+                `;
+                dif = x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA - x.IMP_CONTA;
+                suma_total += dif;
+                suma_absoluta += Math.abs(dif);
+            });
+            document.getElementById('tablePCCC').innerHTML = htmlPCCC;
+            document.getElementById('sumaTotalPCCC').innerHTML = fmt2(suma_total);
+            document.getElementById('sumaAbsolutaPCCC').innerHTML = fmt2(suma_absoluta);
+        } else {
+            showM('No hay datos para este periodo', 'warning');
+            document.getElementById('loadPCCC').innerHTML = 'No hay datos..';
+        }
+    }).catch(e => {
+        showM(e, 'error');
+    });
+} 

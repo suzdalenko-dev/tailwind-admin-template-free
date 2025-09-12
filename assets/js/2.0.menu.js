@@ -1,9 +1,9 @@
 let menuData = [
-  { title: 'Calidad', icon: '🧪', roles: ['calidad;fabrica;'], submenu: [
+  { title: 'Calidad', icon: '🧪', roles: ['calidad;fabrica;20produccion;'], submenu: [
       { title: 'Informes', icon: '📋', submenu: [
-          { title: 'Trazabilidad', icon: '🔗', view: 'trazabilidad-ordenes-fabricacion', roles: ['calidad;fabrica;'] },
+          { title: 'Trazabilidad', icon: '🔗', view: 'trazabilidad-ordenes-fabricacion', roles: ['calidad;fabrica;20produccion;'] },
           { title: 'Bloqueos', icon: '🔒', view: 'stock-bloqueado-situacion-calidad', roles: ['calidad;'] },
-          { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;'] },
+          { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;20produccion;'] },
       ] }
   ] },
   { title: 'Finanzas', icon: '💰', roles: ['finanzas'], submenu: [
@@ -12,11 +12,12 @@ let menuData = [
         { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },
       ]},
   ]},
-  { title: 'Producción', icon: '🏭', roles: ['produccion'], submenu: [
+  { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;20produccion;'], submenu: [
       { title: 'Informes', icon: '📋', submenu: [
         { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion']},
         { title: 'Equiv. C/C',  icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor', roles: ['produccion']},
         { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion']},
+        { title: 'Comparación Costes OFs',  icon: '💰', submenu: null , view: 'produccion-comparacion-costes-contabilidad', roles: ['produccion;finanzas;20produccion;']},
       ]},
   ]},
   { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
