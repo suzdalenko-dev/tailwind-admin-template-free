@@ -95,20 +95,36 @@ function createExcelPCCC(){
         return;
     }
 
-    let suma_total = 0;
-    let suma_absoluta = 0;
+    let sumaCerradas    = 0;
+    let absolutCerradas = 0;
+    let suma_total      = 0;
+    let suma_absoluta   = 0;
 
     // Calcular sumas
     dataPCCC.forEach(x => {
         let dif = x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA - x.IMP_CONTA;
+        if (x.STATUS_OF === "C") {
+            sumaCerradas += dif;
+            absolutCerradas += Math.abs(dif);
+        }
         suma_total += dif;
         suma_absoluta += Math.abs(dif);
     });
 
     // Encabezado con sumas
     let ws_data = [
-        ["Suma diferencias", "Suma absoluta"],
-        [suma_total, suma_absoluta],
+        [
+            "OFs cerradas (sum. diferencias)",
+            "OFs cerradas (sum. diferencias absolutas)",
+            "Total (sum de diferencias)",
+            "Total absoluto"
+        ],
+        [
+            sumaCerradas,
+            absolutCerradas,
+            suma_total,
+            suma_absoluta
+        ],
         [], // línea vacía
         ["OF", "Nombre", "Fecha Cierre", "Kg", "Coste Producción", "Coste Contabilidad", "Diferencia"]
     ];
@@ -120,10 +136,10 @@ function createExcelPCCC(){
             x.ORDEN_DE_FABRICACION,
             x.NOMBRE_OF,
             formatLongDate(x.FECHA_CIERRE),
-            x.KG_FABRICADOS,
-            x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA,
-            x.IMP_CONTA,
-            dif
+            x.KG_FABRICADOS * 1,
+            x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA * 1,
+            x.IMP_CONTA * 1,
+            dif * 1
         ]);
     });
 
@@ -132,9 +148,15 @@ function createExcelPCCC(){
     let wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "PCCC");
 
-    // Nombre del archivo con fecha y hora actual
+    // Nombre del archivo con fecha y hora actual (incluye hora, min, sec)
     let now = new Date();
-    let timestamp = now.getFullYear().toString() + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0");
+    let timestamp = 
+        now.getFullYear().toString() +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        String(now.getDate()).padStart(2, "0") + "_" +
+        String(now.getHours()).padStart(2, "0") +
+        String(now.getMinutes()).padStart(2, "0") +
+        String(now.getSeconds()).padStart(2, "0");
 
     let nombreArchivo = `Comparacion_Costes_PCCC_${timestamp}.xlsx`;
 
