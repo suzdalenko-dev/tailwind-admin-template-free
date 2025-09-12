@@ -48,8 +48,11 @@ function getDateRangePCCC(from, to){
             dataPCCC = r.data.res;
             document.getElementById('loadPCCC').innerHTML = '';
             let htmlPCCC = '';
-            let suma_total = 0;
-            let suma_absoluta = 0;
+            let sumaCerradas    = 0;
+            let absolutCerradas = 0;
+
+            let suma_total      = 0;
+            let suma_absoluta   = 0;
             let dif = 0;
             r.data.res.map(x => {
                 htmlPCCC += `
@@ -64,10 +67,16 @@ function getDateRangePCCC(from, to){
                     </tr>
                 `;
                 dif = x.TOTAL_COSTE_INDRECTO_AND_MANO_OBRA - x.IMP_CONTA;
+                if(x.STATUS_OF == 'C'){
+                    sumaCerradas += dif;
+                    absolutCerradas += Math.abs(dif);
+                }
                 suma_total += dif;
                 suma_absoluta += Math.abs(dif);
             });
             document.getElementById('tablePCCC').innerHTML = htmlPCCC;
+            document.getElementById('ofCerrdasSumaTotalPCCC').innerHTML = fmt2(sumaCerradas);
+            document.getElementById('ofCerradassumaAbsolutaPCCC').innerHTML = fmt2(absolutCerradas);
             document.getElementById('sumaTotalPCCC').innerHTML = fmt2(suma_total);
             document.getElementById('sumaAbsolutaPCCC').innerHTML = fmt2(suma_absoluta);
         } else {
