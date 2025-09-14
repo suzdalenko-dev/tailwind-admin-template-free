@@ -1,20 +1,18 @@
-<!-- PIB -->
+
 <div class="grid grid-cols-1 gap-6">
-    <div class="bg-white p-4 rounded-lg border" style="height: 41vh; padding-bottom: 31px;">
-        <h4 class="font-semibold mb-2">PIB
-            <input type="button" value="<" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-0 px-2 rounded mx-2" onclick="MinusYear()" />
-            <span id="yearSpan">&nbsp; &nbsp; &nbsp; &nbsp; </span>
-            <input type="button" value=">" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-0 px-2 rounded mx-2" onclick="PlusYear()" />
-        </h4>
-        <canvas id="lineChart2"></canvas>
+    <div class="bg-white p-4 rounded-lg border" style="padding-bottom: 31px;">
+        <h4 class="font-semibold mb-2">Avisos</h4>
+        <p>1. Expedientes sin precio final - sin gastos imputados en las hojas de seguimiento (diario, activado).</p>
+        <p>2. Los albaranes de entrada del almacén 98 no coinciden con los albaranes de compra de los almacenes 00, 01, 02, E01, E02, E03, E04, E05, E06 y 25 (diario, activado).</p>
+        <p>3. Paletas que se quedan en producción - almacén 90, código entrada PRODUCCION, tipo situación CALID (diario, activado).</p>
     </div>
 </div>
 <br>
-<!-- España & fr -->
 <div class="grid grid-cols-1 gap-6">
-    <div class="bg-white p-4 rounded-lg border" style="height: 41vh; padding-bottom: 31px;">
-        <h4 class="font-semibold mb-2">España & Froxá</h4>
-        <canvas id="chartLine3"></canvas>
+    <div class="bg-white p-4 rounded-lg border" style="padding-bottom: 31px;">
+        <h4 class="font-semibold mb-2">Recálculos</h4>
+        <p>1. Cálculo de plazo de cobro de las facturas (diario, activado).</p>
+        <p>2. Cálculo de costes en producción (diario, activado).</p>
     </div>
 </div>
 <br>
@@ -51,8 +49,3 @@
 </div>
 -->
 
-<style>
-    input{
-        background-color: red;
-    }
-</style>
