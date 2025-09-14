@@ -51,7 +51,12 @@ function loadView(viewName) {
     
     let username = window.localStorage.getItem('username');
     let password = window.localStorage.getItem('password');
-    fetch(HTTP_HOST+'froxa/login/?action=login&username='+username+'&password='+password).then(r => r.json()).then(r => {
+    let formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('action', 'login');
+
+    fetch(HTTP_HOST+'froxa/login/', {method:'POST', body: formData}).then(r => r.json()).then(r => {
         if(r && r.data && r.data.id > 0){
             window.localStorage.setItem('role', r.data.role);
             window.localStorage.setItem('permissions', r.data.permissions);
