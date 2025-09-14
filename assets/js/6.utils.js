@@ -25,3 +25,4 @@ function setTimeUserName() {
 
 setInterval(() => { setTimeUserName(); }, 500);
 setTimeUserName();
+

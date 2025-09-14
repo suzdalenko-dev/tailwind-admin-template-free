@@ -358,3 +358,21 @@ function getCurrentYearMonth(){
   const current = `${month}/${year}`;
   return current;
 }
+
+
+
+function sortedByNameSuzdalenko(x) {
+  x.sort((a, b) => (a.name?.trim().toUpperCase().charCodeAt(0) || 0) - (b.name?.trim().toUpperCase().charCodeAt(0) || 0));
+  return x; 
+};
+
+
+/* Get first and last day of the year */
+function getYearBoundsStr(year) {
+  const y = parseInt(year, 10);
+  if (!Number.isFinite(y)) throw new Error('Año inválido');
+  const first = new Date(Date.UTC(y, 0, 1));
+  const last  = new Date(Date.UTC(y, 11, 31));
+  const toYMD = d => d.toISOString().slice(0, 10); 
+  return [toYMD(first), toYMD(last)];
+}
