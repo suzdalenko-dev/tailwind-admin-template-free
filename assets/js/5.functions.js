@@ -361,11 +361,22 @@ function getCurrentYearMonth(){
 
 
 
-function sortedByNameSuzdalenko(x) {
-  x.sort((a, b) => (a.name?.trim().toUpperCase().charCodeAt(0) || 0) - (b.name?.trim().toUpperCase().charCodeAt(0) || 0));
-  return x; 
-};
 
+function sortedByNameSuzdalenko(list) {
+  return list.sort((a, b) => {
+    const an = (a.name ?? '').toString().trim();
+    const bn = (b.name ?? '').toString().trim();
+    const cmp = an.localeCompare(bn, 'es', {
+      sensitivity: 'base',
+      ignorePunctuation: true,
+      numeric: true,
+    });
+    if (cmp !== 0) return cmp;
+    return (a.code ?? '').toString().localeCompare((b.code ?? '').toString(), 'es', {
+      numeric: true,
+    });
+  });
+}
 
 /* Get first and last day of the year */
 function getYearBoundsStr(year) {
