@@ -2,7 +2,7 @@ let yearLDCR;
 let load_idLDCR;
 
 function logisticaDetalleCargaRegionalInit(){
-    document.title = 'Cargas en Regional Detalle'
+    document.title = 'Carga Regional Detalle'
     document.getElementById('slugTitle').innerHTML = '<a href="/dashboard/#logistica-listado-cargas-regional"><span class="b-top-page">🗺️ Listado Cargas Regional</span></a>';
 
     let hashDate = parseHashRoute();
