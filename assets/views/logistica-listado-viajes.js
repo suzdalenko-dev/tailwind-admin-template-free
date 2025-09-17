@@ -5,7 +5,7 @@ function logisticaListadoViajesInit(){
     let slugTitle = document.getElementById('slugTitle');
     if(slugTitle){
         slugTitle.innerHTML = `
-        <a href="/dashboard/#logistica-listado-cargas"><span class="b-top-page">🗺️ Listado Cargas </span></a>
+        <a href="/dashboard/#logistica-listado-cargas"><span class="b-top-page">🗺️ Listado Cargas Nacional</span></a>
         <span class="b-top-page" onclick="createAllTravels()">📥 Excel </span>
         `;
     }

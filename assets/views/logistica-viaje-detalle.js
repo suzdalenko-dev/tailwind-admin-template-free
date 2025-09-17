@@ -4,7 +4,7 @@ var truck_idLVD = 0;
 function logisticaViajeDetalleInit(){
     let slugTitle = document.getElementById('slugTitle');
     if(slugTitle){
-        slugTitle.innerHTML = `<a href="/dashboard/#logistica-listado-cargas"><span class="b-top-page">🗺️ Listado Cargas </span></a>
+        slugTitle.innerHTML = `<a href="/dashboard/#logistica-listado-cargas"><span class="b-top-page">🗺️ Listado Cargas Nacional</span></a>
                                 <span class="b-top-page" onclick="createCustomTravel()">📥 Excel </span>`;
     }
 
