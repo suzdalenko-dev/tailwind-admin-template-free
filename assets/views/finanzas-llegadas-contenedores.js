@@ -380,6 +380,8 @@ function createPDFFLC() {
   // Cabecera EXACTA (14 columnas)
   const HEAD = [
     'Artículo',
+    'C.Ban',
+    'F.Contrato',
     'Cont.',
     'Kg',
     'Precio',
@@ -407,6 +409,8 @@ function createPDFFLC() {
       const col1 = `${nn(y.ARTICULO)} ${(nn(y.DESCRIP_COMERCIAL)).slice(0,55)}`.trim();
       body.push([
         col1,
+        y.C_BAN,
+        y.FECHA_CONTRATO,
         nn(String(y.CONTENEDOR || '').trim()),
         fmt0(y.CANTIDAD1),
         fmt3(y.PRECIO),
@@ -470,19 +474,21 @@ function createPDFFLC() {
     bodyStyles: { textColor: [0,0,0] },
     columnStyles: {
       0:{cellWidth:151, overflow: 'linebreak'},                // articulo
-      1:{cellWidth:55},                 // contenedor
-      2:{cellWidth:33, halign:'center'},                  // kg
-      3:{cellWidth:33, halign:'center'},                  // precio
-      4:{cellWidth:33, halign:'center'},                  // cambio
-      5:{cellWidth:37, halign:'center'},                  // precio con gastos
-      6:{cellWidth:22, halign:'center'},                  // Doc
-      7:{cellWidth:55},                                   // origen
-      8:{cellWidth:55, halign:'center'},                  // Embarque
-      9:{cellWidth:55, halign:'center'},                  // LLegada
-      10:{cellWidth:55},                                  // puerto
-      11:{cellWidth:151, overflow: 'linebreak'},          // proveedor
-      12:{cellWidth:55},                                  // contrato
-      13:{cellWidth:33, halign:'center'}                  // expediente
+      1:{cellWidth:22},                 // contenedor
+      2:{cellWidth:35},                 // contenedor
+      3:{cellWidth:44},                 // contenedor
+      4:{cellWidth:30, halign:'center'},                  // kg
+      5:{cellWidth:30, halign:'center'},                  // precio
+      6:{cellWidth:30, halign:'center'},                  // cambio
+      7:{cellWidth:34, halign:'center'},                  // precio con gastos
+      8:{cellWidth:21, halign:'center'},                  // Doc
+      9:{cellWidth:54},                                   // origen
+      10:{cellWidth:54, halign:'center'},                  // Embarque
+      11:{cellWidth:54, halign:'center'},                  // LLegada
+      12:{cellWidth:54},                                  // puerto
+      13:{cellWidth:130, overflow: 'linebreak'},          // proveedor
+      14:{cellWidth:54},                                  // contrato
+      15:{cellWidth:32, halign:'center'}                  // expediente
     },
     didDrawPage: hookData => {
       drawHeader(hookData.pageNumber);
