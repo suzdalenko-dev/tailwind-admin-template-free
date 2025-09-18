@@ -168,8 +168,8 @@ function createExceFLC() {
     if (!inputValue) return true;
     const lineData = (
       (y.ARTICULO  || '') +
-      (y.x || '') +
-      (y.x || '') +
+      (y.C_BAN || '') +
+      (y.FECHA_CONTRATO || '') +
       (y.DESCRIP_COMERCIAL || '') +
       (y.CONTENEDOR || '') +
       (y.D_CLAVE_ARANCEL || '') +
@@ -220,8 +220,8 @@ function createExceFLC() {
       const col1 = `${nn(y.ARTICULO)} ${(nn(y.DESCRIP_COMERCIAL)).slice(0,33)}`.trim();
       AOA.push([
         col1,
-        '', // C. Ban (no hay dato)
-        '', // F. Contrato (no hay dato)
+        y.C_BAN, // C. Ban (no hay dato)
+        y.FECHA_CONTRATO, // F. Contrato (no hay dato)
         nn(String(y.CONTENEDOR || '').trim()),
         nnum(y.CANTIDAD1),
         nnum(y.PRECIO),
