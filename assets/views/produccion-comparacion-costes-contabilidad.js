@@ -127,7 +127,7 @@ function createExcelPCCC(){
 
     // Línea en blanco antes del detalle
     ws_data.push([]);
-    ws_data.push(["OF", "Nombre", "Fecha Cierre", "Kg", "Coste Producción", "Coste Contabilidad", "Diferencia"]);
+    ws_data.push(["OF", "Nombre", "Fecha Cierre", "Kg", "Coste Producción", "Importe coste movimientos", "Diferencia"]);
 
     // 3) Detalle
     dataPCCC.forEach(x => {
