@@ -41,15 +41,16 @@ async function renderVSFAF() {
     let facturasReales;
     let htmlTable = '';
 
-    excelDataFAF.forEach(exp => {
+    excelDataFAF.forEach(exp => {                   console.log(exp)
         albaranesReales = exp.albaranes_reales; 
-        facturasReales = exp.facturas_reales; 
+        facturasReales  = exp.facturas_reales; 
 
         let maxLen = Math.max(albaranesReales.length, facturasReales.length);
       
         let valAlb = 0;
         let valFac = 0;
         let valDif = 0;
+        previosFact = {};
         for(let i=0; i<maxLen; i++){
             alb98 = albaranesReales[i] || {};
             fact  = facturasReales[i] || previosFact || {};
