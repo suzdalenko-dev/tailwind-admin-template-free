@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IndexedDB CRUD Example</title>
+</head>
+<body>
+  <h2>IndexedDB Example: Users Table</h2>
+  <button onclick="addUser(1, 'Alice')">Add User</button>
+  <button onclick="addUser(2, 'Bob')">Add Another User</button>
+  <button onclick="getUsers()">Read All Users</button>
+  <button onclick="updateUser(1, 'Alice Updated')">Update Alice</button>
+  <button onclick="deleteUser(2)">Delete Bob</button>
+  <pre id="output"></pre>
+
+  <script>
+    let db;
+
+    let request = indexedDB.open("SuzdalenkoDB", 1);
+
+    request.onupgradeneeded = function(event) {
+      db = event.target.result;
+      if (!db.objectStoreNames.contains("users")) {
+        db.createObjectStore("users", { keyPath: "id" });
+      }
+    };
+
+    request.onsuccess = function(event) {
+      db = event.target.result;
+      log("Database ready ✅");
+    };
+
+    request.onerror = function(event) {
+      log("Error: " + event.target.errorCode);
+    };
+
+    // CREATE (Add user)
+    function addUser(id, name) {
+      let tx = db.transaction("users", "readwrite");
+      let store = tx.objectStore("users");
+      let user = { id, name };
+      store.put(user); // put = add or update
+      tx.oncomplete = () => log(`User saved: ${JSON.stringify(user)}`);
+    }
+
+    // READ (Get all users)
+    function getUsers() {
+      let tx = db.transaction("users", "readonly");
+      let store = tx.objectStore("users");
+      let request = store.getAll();
+      request.onsuccess = () => log("Users: " + JSON.stringify(request.result, null, 2));
+    }
+
+    // UPDATE (just re-use addUser with same id)
+    function updateUser(id, newName) {
+      let tx = db.transaction("users", "readwrite");
+      let store = tx.objectStore("users");
+      store.get(id).onsuccess = function(e) {
+        let user = e.target.result;
+        if (user) {
+          user.name = newName;
+          store.put(user);
+          log(`User updated: ${JSON.stringify(user)}`);
+        } else {
+          log("User not found ❌");
+        }
+      };
+    }
+
+    // DELETE
+    function deleteUser(id) {
+      let tx = db.transaction("users", "readwrite");
+      let store = tx.objectStore("users");
+      store.delete(id);
+      tx.oncomplete = () => log(`User with id=${id} deleted`);
+    }
+
+    // Helper: log messages
+    function log(msg) {
+      document.getElementById("output").textContent += msg + "\n";
+    }
+  </script>
+</body>
+</html>
