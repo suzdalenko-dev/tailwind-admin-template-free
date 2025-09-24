@@ -1,4 +1,29 @@
-   /* Personalización del scroll */
+@font-face {
+    font-family: 'DS-Digital';
+    src: url('/assets/css/fonts/DS-DIGI.TTF') format('truetype');
+}
+
+@font-face {
+    font-family: 'DS-Digital-Bold';
+    src: url('/assets/css/fonts/DS-DIGIB.TTF') format('truetype');
+}
+
+@font-face {
+    font-family: 'DS-Digital-Italic';
+    src: url('/assets/css/fonts/DS-DIGII.TTF') format('truetype');
+}
+
+@font-face {
+    font-family: 'DS-Digital-BoldItalic';
+    src: url('/assets/css/fonts/DS-DIGIT.TTF') format('truetype');
+}
+
+#appTime{
+    font-family: 'DS-Digital-Bold';
+    font-size: 19px;
+}
+
+/* Personalización del scroll */
    #sidebar {
     overflow-y: auto;
     /* activa el scroll vertical */

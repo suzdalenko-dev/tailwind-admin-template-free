@@ -1,22 +1,147 @@
-<!-- En <head> -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
-      rel="stylesheet" />
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboral Froxa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/style.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-size: 1.4em;
+            font-family: 'Source Code Pro', Consolas, monospace, sans-serif;
+            background-color: black;
+            color: #ff9500;
+        }
+        .wraper{
+            width: 90%;
+            margin-left: 5%;
+        }
+        .top {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr  1fr;
+            gap: 11px; /* Espacio entre bloques */
+        }
+        .block{
+            text-align: center;
+        }
+        .letter{
+            font-size: 0.77em;
+            line-height: 1.56em;
+        }
+        .number{
+            font-size: 2.7em;
+            font-family: 'DS-Digital-BoldItalic', sans-serif;
+        }
+        .separator{
+            font-size: 2.0em;
+        }
+        .medium{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        #spanTime{
+            position: fixed;
+            top:1px;
+            right: 11px;
+            font-family: 'DS-Digital-BoldItalic', sans-serif;
+            font-size:87px;
+        }
+        .puntos_white{
+            font-family: 'DS-Digital-BoldItalic', sans-serif;
+            font-size: 87px;
+            color: #ff9500;
+        }
+        .puntos_black{
+            font-family: 'DS-Digital-BoldItalic', sans-serif;
+            font-size: 87px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <span id="spanTime">00:00</span>
+    <div class="wraper">
+        <div style="text-align: center;">
+            <div class="letter">ACCIDENTES DE TRABAJO &nbsp;&nbsp;&nbsp;</div>
+        </div>
+       
+        <div class="top">
+            <div class="block letter">AÑO <br> ACTUAL</div>
+            <div class="block number" id="currentYear"></div>
+            <div class="block separator">/</div>
+            <div class="block number" id="lastYear"></div>
+            <div class="block letter">AÑO <br> ANTERIOR</div>
+        </div>
+       
+        <div class="medium">
+            <div class="block letter">DIAS SIN ACCIDENTES</div>
+            <div class="block number" id="dateOfLastAccident"></div>
+        </div>
+       
+        <div class="medium">
+            <div class="block letter">RECORD SIN ACCIDENTES</div>
+            <div class="block number" id="recordWithOut"></div>
+        </div>
+    </div>
+    <script>
+        let currentYear = document.getElementById('currentYear');
+        let lastYear = document.getElementById('lastYear');
+        let dateOfLastAccident = document.getElementById('dateOfLastAccident');
+        let recordWithOut = document.getElementById('recordWithOut');
 
-<style>
-  .msr {
-    font-family: 'Material Symbols Rounded';
-    font-weight: normal; font-style: normal; line-height: 1;
-    font-size: 18px; /* tamaño */
-    /* afinado del glyph */
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
-  }
-  .menu-item .msr { margin-right: 8px; vertical-align: -2px; color: blue; }
-</style>
+        function getData(){
+            fetch(window.location.origin+'/ritmo/laboral/ajustes/ajuste.php?get_data=1')
+                .then(r => r.json())
+                .then(r => {
+                    setData(r);
+                });
+        }
+        
+        function setData(r){
+            currentYear.innerHTML = r.current_year;
+            lastYear.innerHTML = r.last_year;
+            let fecha = new Date( r.last);
+            let fechaActual = new Date();
+            let diferenciaEnMilisegundos = fechaActual - fecha;
+            let diferenciaEnDias = Math.floor(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
+            dateOfLastAccident.innerHTML = diferenciaEnDias;
+            let diasRecord =  r.record;
+            if(diasRecord < diferenciaEnDias ) diasRecord = diferenciaEnDias;
+            recordWithOut.innerHTML = diasRecord;
+        }
 
-<!-- Uso -->
-<li class="menu-item"><span class="msr">search</span> Consulta Pal.</li>
-<li class="menu-item"><span class="msr">lock</span> Bloqueos</li>
-<li class="menu-item"><span class="msr">insights</span> Comparación Costes OFs</li>
-<li class="menu-item"><span class="msr">local_shipping</span> Entradas</li>
-<li class="menu-item"><span class="msr">handshake</span> Evaluación Prov.</li>
-<li class="menu-item"><span class="msr">home</span> Evaluación Prov.</li>
+        getData();
+    </script>
+    <script>
+        let resTime   = '';
+        let whiteBlack = 0;
+        let stringTimeColon = '';
+        function getCurrentDateTime() {
+            let currentDate = new Date();
+            let hours = currentDate.getHours().toString().padStart(2, '0');
+            let minutes = currentDate.getMinutes().toString().padStart(2, '0');
+            if(whiteBlack == 0){
+                whiteBlack = 1;
+                stringTimeColon = hours+'<span class="puntos_black">:</span>'+minutes;
+            } else {
+                whiteBlack = 0;
+                stringTimeColon = hours+'<span class="puntos_white">:</span>'+minutes;
+            }
+            document.getElementById('spanTime').innerHTML = stringTimeColon;
+        }
+        getCurrentDateTime();
+        setInterval(() => { getCurrentDateTime(); }, 500);
+        let currentDateInMillis1 = new Date().getTime();
+        setTimeout(() => {
+            window.open('/ritmo/laboral?s='+currentDateInMillis1, '_self');
+        }, 222000);
+        setInterval(() => {
+            let currentDateInMillis = new Date().getTime();
+                window.open('/ritmo/laboral?s='+currentDateInMillis, '_self');
+        }, 3600000);
+      </script>
+</body>
+</html>
