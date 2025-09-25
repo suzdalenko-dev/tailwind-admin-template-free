@@ -72,15 +72,15 @@
     -->
 
     <script>
-        const originalFetch = window.fetch;
-        window.fetch = function(resource, config) {
-            if (typeof resource === 'string' && resource.endsWith('.js')) {
-                const url = new URL(resource, location.origin);
-                url.searchParams.set('time', Date.now());
-                return originalFetch(url.toString(), config);
-            }
-            return originalFetch(resource, config);
-        };
+        // const originalFetch = window.fetch;
+        // window.fetch = function(resource, config) {
+        //     if (typeof resource === 'string' && resource.endsWith('.js')) {
+        //         const url = new URL(resource, location.origin);
+        //         url.searchParams.set('time', Date.now());
+        //         return originalFetch(url.toString(), config);
+        //     }
+        //     return originalFetch(resource, config);
+        // };
     </script>
 </body>
 
