@@ -5,10 +5,10 @@ let menuData = [
     { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;produccion;20produccion;'] },
     { title: 'Evaluación Proveedores', icon: '⭐', view: 'calidad-evaluacion-proveedor', roles: ['calidad;'] },
   ]},
-  { title: 'Finanzas', icon: '💰', roles: ['finanzas;20finanzas;20compras;'], submenu: [
+  { title: 'Finanzas', icon: '💰', roles: ['finanzas;20finanzas;20compras;ventas;'], submenu: [
     { title: 'Expedientes', icon: '💵', submenu: null, view: 'expedientes-albaranes-facturas', roles: ['finanzas'] },
     { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },
-    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;20finanzas;20compras;'] },
+    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;20finanzas;20compras;ventas;'] },
   ]},
   { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;20produccion;'], submenu: [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion']},
