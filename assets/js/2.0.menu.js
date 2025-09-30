@@ -27,9 +27,9 @@ let menuData = [
   ]},
   { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;'], submenu: [
      { title: 'General', icon: '', roles: ['powerbi1;powerbi2;powerbi3;'], submenu: [
-        { title: 'Consumo Producción', icon: '📈', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['powerbi1'] },
-        { title: 'Inventario', icon: '🏷️', submenu: null , view: 'power-bi?name=inventario', roles: ['powerbi2'] },
-        { title: 'Proyección Coste', icon: '📅', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['powerbi3'] },
+        { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['powerbi1'] },
+        { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['powerbi2'] },
+        { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['powerbi3'] },
      ]},
      { title: 'Comercial nacional', icon: '', roles: ['ventas;ventas20;'], submenu: [
         { title: 'Global Libra', icon: '', submenu: null , view: 'power-bi?name=global-fuente-datos-libra-edisa', roles: ['ventas;ventas20;'] },
