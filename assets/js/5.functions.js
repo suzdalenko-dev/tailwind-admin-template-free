@@ -119,7 +119,7 @@ function obtenerFechasFuturas() {
   return fechas;
 }
 
-
+/* acabo de cambiar aqui */
 
 function setTopDates4(){
     let today = new Date();
