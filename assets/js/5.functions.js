@@ -127,7 +127,7 @@ function setTopDates4(){
       let year = today.getFullYear();
       let month = today.getMonth() + i;
       let lastDay = new Date(year, month + 1, 0);
-      let formatted = ('0' + (lastDay.getMonth() + 1)).slice(-2) + '/25';
+      let formatted = ('0' + (lastDay.getMonth() + 1)).slice(-2) + '/' + lastDay.getFullYear();
       let element = document.getElementById(`topDate${i}`);
       if (element) {
         element.textContent = formatted;
