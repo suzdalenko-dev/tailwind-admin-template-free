@@ -270,3 +270,7 @@ b{
 .padd7{
     padding: 3px;
 }
+.fontssmall{
+    font-size: 12px!important;
+    font-weight: 600!important;
+}

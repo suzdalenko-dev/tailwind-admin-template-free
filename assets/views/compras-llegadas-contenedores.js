@@ -67,7 +67,6 @@ function getAllContainer(){
     fetch(HTTP_HOST+`compras/get/0/0/latest_arrivals/?first=${first}&second=${second}`).then(r => r.json()).then(r => {
         allLinesCLC = r;
         show2Tables();
-        let x = 1 / 0
     }).catch(e => {
         showM('err1 ' +e, 'error');
     });

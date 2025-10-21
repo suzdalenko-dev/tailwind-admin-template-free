@@ -7,12 +7,12 @@ function finanzasLlegadasContenedoresInit(){
     `;
     document.title = "LLegada de los contenedores";
 
-    setInputDate();
-    setSearchedDate();
-    getAllContainer();
+    setInputDateFEC();
+    setSearchedDateFEC();
+    getAllContainerFEC();
 }
 /* 1. trabajo con fechas */
-function setInputDate(){
+function setInputDateFEC(){
     let firstDataInput = document.getElementById('firstDataInput');
     let secondDataInput = document.getElementById('secondDataInput');
 
@@ -31,49 +31,48 @@ function setInputDate(){
 function firstDateChange(event){
     let firstDate = event.target.value;
     window.localStorage.setItem('first_date', firstDate);
-    getAllContainer();
+    getAllContainerFEC();
 }
 
 function secondDateChange(event){
     let secondDate = event.target.value;
     window.localStorage.setItem('second_date', secondDate);
-    getAllContainer();
+    getAllContainerFEC();
 }
 
 /* 2. trabajo de busqueda */
-function setSearchedDate(){
+function setSearchedDateFEC(){
     let searchInputL = document.getElementById('searchInputL');
     searchInputL.value = window.localStorage.getItem('searched_line') || '';
 }
 
-function changeSearchedInput(event){
+function changeSearchedInputFEC(event){
     let searched = event.target.value.trim();
     window.localStorage.setItem('searched_line', searched);
-    show2Tables();
+    show2TablesFEC();
 }
 
 function clickBroom(){
     document.getElementById('searchInputL').value = '';
     window.localStorage.setItem('searched_line', '');
-    show2Tables();
+    show2TablesFEC();
 }
 
 
 
 /* 3. traer datos */
-function getAllContainer(){
+function getAllContainerFEC(){
     let first  = window.localStorage.getItem('first_date');
     let second = window.localStorage.getItem('second_date');
     fetch(HTTP_HOST+`finanzas/get/0/0/finanzas_latest_arrivals/?first=${first}&second=${second}`).then(r => r.json()).then(r => {
         allLinesFLC = r;
-        show2Tables();
-        let x = 1 / 0
+        show2TablesFEC();
     }).catch(e => {
         showM('err1 ' +e, 'error');
     });
 };
 
-function show2Tables() {
+function show2TablesFEC() {
   const inputValue = (localStorage.getItem('searched_line') || '').toLowerCase();
   let html = '';
   const r = allLinesFLC;
@@ -95,7 +94,8 @@ function show2Tables() {
       y.D_PLANTILLA  +
       y.PROVEEDOR +
       y.D_PROVEEDOR_HOJA +
-      y.NUM_EXPEDIENTE+'-'+y.NUM_HOJA
+      y.NUM_EXPEDIENTE+'-'+y.NUM_HOJA +
+      y.BUQUE
     ).toLowerCase();
     return lineData.includes(inputValue);
   };
@@ -108,22 +108,23 @@ function show2Tables() {
     // Filas
     filtered.forEach(y => {
       html += `<tr>
-        <td class="border px-2 py-1 text-left" title="${notNone(y.OBSERVACIONES)}">${y.ARTICULO ?? ''} ${(y.DESCRIP_COMERCIAL || '').slice(0, 33)}</td>
-        <td class="border px-2 py-1 text-center">${y.C_BAN ?? ''}</td>
-        <td class="border px-2 py-1 text-center">${y.FECHA_CONTRATO ?? ''}</td>
-        <td class="border px-2 py-1 text-center">${y.CONTENEDOR ?? ''}</td>
-        <td class="border px-2 py-1 text-center">${fEurEntero(y.CANTIDAD1)}</td>
-        <td class="border px-2 py-1 text-center">${fEur000(y.PRECIO)}</td>
-        <td class="border px-2 py-1 text-center">${fEur0000(y.VALOR_CAMBIO)}</td>
-        <td class="border px-2 py-1 text-center">${fEur000(y.PRECIO_CON_GASTOS)}</td>
-        <td class="border px-2 py-1 text-center">${notNone(y.DOCUMENTACION_X_CONTENEDOR)}</td>
-        <td class="border px-2 py-1 text-left">${replaceEntr(y.LUGAR_EMBARQUE)}</td>
-        <td class="border px-2 py-1 text-center">${fLDate(y.FECHA_EMBARQUE)}</td>
-        <td class="border px-2 py-1 text-center">${fLDate(y.FECHA_PREV_LLEGADA)}</td>
-        <td class="border px-2 py-1 text-left">${replaceEntr(y.LUGAR_DESEMBARQUE)}</td>
-        <td class="border px-2 py-1 text-left">${(y.D_PROVEEDOR_HOJA || '').slice(0, 22)}</td>
-        <td class="border px-2 py-1 text-left">${y.D_DESCRIPCION_EXPEDIENTE ?? ''}</td>
-        <td class="border px-2 py-1 text-center">${y.NUM_EXPEDIENTE}-${y.NUM_HOJA}</td>
+        <td class="fontssmall border px-2 py-1 text-left" title="${notNone(y.OBSERVACIONES)}">${y.ARTICULO ?? ''} ${(y.DESCRIP_COMERCIAL || '').slice(0, 33)}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${y.C_BAN ?? ''}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${y.FECHA_CONTRATO ?? ''}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${y.CONTENEDOR ?? ''}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${fEurEntero(y.CANTIDAD1)}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${fEur000(y.PRECIO)}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${fEur0000(y.VALOR_CAMBIO)}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${fEur000(y.PRECIO_CON_GASTOS)}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${notNone(y.DOCUMENTACION_X_CONTENEDOR)}</td>
+        <td class="fontssmall border px-2 py-1 text-left">${replaceEntr(y.LUGAR_EMBARQUE)}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${fLDate(y.FECHA_EMBARQUE)}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${fLDate(y.FECHA_PREV_LLEGADA)}</td>
+        <td class="fontssmall border px-2 py-1 text-left">${replaceEntr(y.LUGAR_DESEMBARQUE)}</td>
+        <td class="fontssmall border px-2 py-1 text-left">${(y.D_PROVEEDOR_HOJA || '').slice(0, 22)}</td>
+        <td class="fontssmall border px-2 py-1 text-left">${y.D_DESCRIPCION_EXPEDIENTE ?? ''}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${y.NUM_EXPEDIENTE}-${y.NUM_HOJA}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${notNone(y.BUQUE)}</td>
       </tr>`;
     });
 
@@ -163,7 +164,7 @@ function createExceFLC() {
   const replaceEntr = v => String(nn(v)).replace(/\r?\n/g, ' ').trim();
   const notNone = v => nn(v);
 
-  // Mismo filtro que show2Tables
+  // Mismo filtro que show2TablesFEC
   const match = (y) => {
     if (!inputValue) return true;
     const lineData = (
@@ -333,7 +334,7 @@ function createPDFFLC() {
   const replaceEntr = v => String(nn(v)).replace(/\r?\n/g, ' ').trim();
   const notNone = v => nn(v);
 
-  // === Mismo filtro que show2Tables ===
+  // === Mismo filtro que show2TablesFEC ===
   const match = y => {
     if (!inputValue) return true;
     const line = (
