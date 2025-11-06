@@ -5,10 +5,10 @@ let menuData = [
     { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;produccion;20produccion;'] },
     { title: 'Evaluación Proveedores', icon: '⭐', view: 'calidad-evaluacion-proveedor', roles: ['calidad;'] },
   ]},
-  { title: 'Finanzas', icon: '💰', roles: ['finanzas;20finanzas;20compras;ventas;ventas20;'], submenu: [
+  { title: 'Finanzas', icon: '💰', roles: ['finanzas;20finanzas;20compras;ventas;ventas20;ventas30;'], submenu: [
     { title: 'Expedientes', icon: '💵', submenu: null, view: 'expedientes-albaranes-facturas', roles: ['finanzas'] },
     { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },
-    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;20finanzas;20compras;ventas;ventas20;'] },
+    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;20finanzas;20compras;ventas;ventas20;ventas30;'] },
   ]},
   { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;20produccion;'], submenu: [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion']},
@@ -21,9 +21,9 @@ let menuData = [
     { title: 'Cargas Regional', icon: '🗺️', submenu: null , view: 'logistica-listado-cargas-regional', roles: ['logistica'] },
     { title: 'Comparación Alm.98', icon: '🆚', submenu: null , view: 'almacen-importacion-vs-resto', roles: ['logistica;finanzas;'] },
   ]},
-  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;'], submenu: [
+  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;'], submenu: [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;'] },
-    { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;'] },
+    { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;'] },
   ]},
   { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;'], submenu: [
      { title: 'General', icon: '', roles: ['powerbi1;powerbi2;powerbi3;'], submenu: [
