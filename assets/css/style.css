@@ -209,6 +209,10 @@ li:hover{
 }
 .color_blue{
     color:#4f46e5;
+    text-decoration: underline;
+}
+.color_blue:hover{
+    cursor: pointer;
 }
 b{
     font-weight: 900;

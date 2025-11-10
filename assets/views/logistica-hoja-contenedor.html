@@ -1,0 +1,33 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span></span>
+    <span></span>
+    <span>Desde</span><span><input type="date" id="inputDesdeLHC" onchange="funcDesdeLHC()"></span>
+    <h1 class="text-xl text-center">Hojas de seguimiento expedientes</h1>
+    <span>Hasta</span><span><input type="date" id="inputHastaLHC" onchange="funcHastaLHC()"></span>
+    <span> </span> <span> </span> <span> </span>
+</div>
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table class="w-ful styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">Fecha de llegada</th>
+                    <th>Numero expediente</th>
+                    <th>Numero hoja</th>
+                    <th>Contenedor</th>
+                    <th>Proveedor</th>
+                    <th class="topRight">Situación Logística</th>
+                </tr>
+            </thead>
+            <tbody id="tableLHC"></tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    En esta pantalla se muestran los datos de hojas de seguimiento (expediente) entre fechas que están en situación logística '6-REC RECEPCION ALMACEN'.
+
+</div>
