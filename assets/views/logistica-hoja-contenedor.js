@@ -15,17 +15,18 @@ function initLHC(){
     document.getElementById('inputHastaLHC').value = fechaHasta;
     document.getElementById('tableLHC').innerHTML = '<br>Cargando datos..';
 
-    let url = `${HTTP_HOST}/logistica/action/0/0/modelo_hoja_cnt/?fecha_desde=${fechaDesde}&fecha_hasta=${fechaHasta}`;
+    let url = `${HTTP_HOST}logistica/action/0/0/modelo_hoja_cnt/?fecha_desde=${fechaDesde}&fecha_hasta=${fechaHasta}`;
     fetch(url).then(r => r.json()).then(r => {
         if(r && r.data && r.data && r.data.res && r.data.res.length > 0){
             let htmlTable = '';
             r.data.res.map(row => {
                 htmlTable += `<tr>
-                                <td class="border expanded px-2 py-1 text-center">${formatLongDate(row.FECHA_LLEGADA)}</td>
+                                <td class="border expanded px-2 py-1 text-center">${row.FECHA_LLEGADA}</td>
+                                <td class="border expanded px-2 py-1 text-center">${row.FECHA_DESCARGA}</td>
                                 <td class="border expanded px-2 py-1 text-center">${row.NUM_EXPEDIENTE}</td>
                                 <td class="border expanded px-2 py-1 text-center">${row.NUM_HOJA}</td>
                                 <td class="border expanded px-2 py-1 text-center"><b class="color_blue" onclick="openExcelLHC('${row.NUM_EXPEDIENTE}', '${row.CONTENEDOR}')">${row.CONTENEDOR}</b></td>
-                                <td class="border expanded px-2 py-1 text-center">${row.PROVEEDOR} ${row.D_PROVEEDOR}</td>
+                                <td class="border expanded px-2 py-1 text-left">${row.PROVEEDOR} ${row.D_PROVEEDOR}</td>
                                 <td class="border expanded px-2 py-1 text-center">${row.SITUACION_LOGISTICA} ${row.D_SITUACION_LOGISTICA}</td>
                             </tr>`;
                 console.log(row);
