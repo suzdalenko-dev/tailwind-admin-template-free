@@ -40,8 +40,8 @@ let menuData = [
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=ventas-inventario', roles: ['ventas;ventas20;'] },
         { title: 'Compraración importes', icon: '', submenu: null , view: 'power-bi?name=compraracion-de-importes', roles: ['ventas;ventas20;'] },
      ]},
-     { title: 'Informes', icon: '', roles: ['propietario;'], submenu: [
-        { title: 'Ventas ORG. Comercial', icon: '', submenu: null , view: 'power-bi?name=venta-contabilidad-excel-libra', roles: ['propietario;'] },
+     { title: 'Informes', icon: '', roles: ['propietario;finanzas;'], submenu: [
+        { title: 'Ventas ORG. Comercial', icon: '', submenu: null , view: 'power-bi?name=venta-contabilidad-excel-libra', roles: ['propietario;finanzas;'] },
      ]},
   ]},
 ];
