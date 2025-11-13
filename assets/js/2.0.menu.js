@@ -41,7 +41,7 @@ let menuData = [
         { title: 'Compraración importes', icon: '', submenu: null , view: 'power-bi?name=compraracion-de-importes', roles: ['ventas;ventas20;'] },
      ]},
      { title: 'Informes', icon: '', roles: ['propietario;finanzas;'], submenu: [
-        { title: 'Ventas ORG. Comercial', icon: '', submenu: null , view: 'power-bi?name=venta-contabilidad-excel-libra', roles: ['propietario;finanzas;'] },
+        { title: 'Ventas Conta', icon: '', submenu: null , view: 'power-bi?name=venta-contabilidad-excel-libra', roles: ['propietario;finanzas;'] },
      ]},
   ]},
 ];
