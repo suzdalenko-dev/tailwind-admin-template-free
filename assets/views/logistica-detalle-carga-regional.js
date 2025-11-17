@@ -74,10 +74,10 @@ function getLDCR(){
                     });
 
                     html += `<tr ${colorGreenLDCR}>
-                        <td class="border expanded px-2 py-1 text-center">${formatDateToEuropean(x.load_date)}</td>
-                        <td class="border expanded px-2 py-1 text-center">${x.load_id}</td>
-                        <td class="border expanded px-2 py-1 text-left" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"><span class="hovered">${x.article_name} ${x.article_code}</span></td>
-                        <td class="border expanded px-2 py-1 text-center"></td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')">${formatDateToEuropean(x.load_date)}</td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')">${x.load_id}</td>
+                        <td class="border expanded px-2 py-1 text-left hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"><span class="hovered">${x.article_name} ${x.article_code}</span></td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"></td>
                         <td class="border expanded px-2 py-1 text-center">${x.preparado > 0 ? x.preparado : ''}</td>
                         <td class="border expanded px-2 py-1 text-center">${x.pedido > 0 ? x.pedido: ''}</td>
                         <td class="border expanded px-2 py-1 text-center">${x.und_ped > 0 ? x.und_ped : ''}</td>
@@ -91,10 +91,10 @@ function getLDCR(){
                 } else {
                     // lineas solo articulos
                     html += `<tr ${colorGreenLDCR}>
-                        <td class="border expanded px-2 py-1 text-center">${formatDateToEuropean(x.load_date)}</td>
-                        <td class="border expanded px-2 py-1 text-center">${x.load_id}</td>
-                        <td class="border expanded px-2 py-1 text-left" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"><span class="hovered">${x.article_name} ${x.article_code}</span></td>
-                        <td class="border expanded px-2 py-1 text-center"></td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')">${formatDateToEuropean(x.load_date)}</td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')">${x.load_id}</td>
+                        <td class="border expanded px-2 py-1 text-left hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"><span class="hovered">${x.article_name} ${x.article_code}</span></td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"></td>
                         <td class="border expanded px-2 py-1 text-center">${x.preparado > 0 ? x.preparado : ''}</td>
                         <td class="border expanded px-2 py-1 text-center">${x.pedido > 0 ? x.pedido: ''}</td>
 

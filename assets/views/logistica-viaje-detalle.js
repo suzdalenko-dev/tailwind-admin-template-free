@@ -76,9 +76,9 @@ function getCustomLoadTruckDetail(){
                                             });
                                         }
                                         html += `<tr ${colorGreen}>
-                                        <td class="border px-2 py-1 text-letf"></td>
+                                        <td class="border px-2 py-1 text-letf hovered" onclick="orderClicked1(${load_idLVD}, '${z.order_id}', ${js.ARTICULO})"></td>
                                         <td class="border px-2 py-1 text-center hovered" onclick="orderClicked1(${load_idLVD}, '${z.order_id}', ${js.ARTICULO})">${z.order_id}</td>
-                                        <td class="border px-2 py-1 text-left">${js.DESCRIPCION_ARTICULO || ' '}</td>
+                                        <td class="border px-2 py-1 text-left hovered" onclick="orderClicked1(${load_idLVD}, '${z.order_id}', ${js.ARTICULO})">${js.DESCRIPCION_ARTICULO || ' '}</td>
                                         <td class="border px-2 py-1 text-center">${js.UNIDADES_SERVIDAS || ' '}</td>
                                         <td class="border px-2 py-1 text-center">${js.PRESENTACION_PEDIDO || ' '}</td>
                                         <td class="border px-2 py-1 text-center">${js.UNI_SERALM || ' '}</td>
