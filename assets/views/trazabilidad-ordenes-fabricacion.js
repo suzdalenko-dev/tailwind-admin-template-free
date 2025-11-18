@@ -158,6 +158,7 @@ async function getMonthBounds() {
    7) INIT
    ============================================================ */
 function trazabilidadOrdenesFabricacionInit() {
+    inputTOF = '';
     document.title = "Calendario OFs";
     document.getElementById('slugTitle').innerHTML = '';
     renderCalendario(ordenesFabricacion, fechaActualOF.getFullYear(), fechaActualOF.getMonth());
