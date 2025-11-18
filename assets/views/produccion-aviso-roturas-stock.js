@@ -21,7 +21,7 @@ function gePARS(x){
 
         if(r && r.data && r.data.art_all){
             r.data.art_all.map(a => {
-                if(a.stock_dispg + a.stock_final <= a.stock_segur){ redColor = 'style="background: #841313; color: white"';
+                if(a.stock_dispg + a.stock_final <= a.stock_segur){ redColor = 'style="background: #9a0000ff; color: white"';
                 } else { redColor = ''; }
 
                 leyenda = '';
@@ -41,7 +41,8 @@ function gePARS(x){
                     <td class="border px-2 py-1 text-center"><b>${a.stock_final}</b></td> 
                     <td class="border px-2 py-1 text-center"><b>${a.stock_dispg + a.stock_final}</b></td> 
                     <td class="border px-2 py-1 text-center"><b>${a.stock_segur}</b></td>
-                    <td class="border px-2 py-1 text-center"><b>${leyenda} </b></td>   
+                    <td class="border px-2 py-1 text-center"><b>${leyenda} </b></td>
+                    <td class="border px-2 py-1 text-center"><b>${a.kg_ped_vent}</b></td>   
                 </tr>`;
 
                 // htmlTable += '<br>'
