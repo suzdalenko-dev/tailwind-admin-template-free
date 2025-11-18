@@ -14,7 +14,7 @@ let menuData = [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion']},
     { title: 'Equiv. C/C',  icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor', roles: ['produccion']},
     { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion']},
-    { title: 'Comparación Costes OFs',  icon: '💰', submenu: null , view: 'produccion-comparacion-costes-contabilidad', roles: ['produccion;finanzas;20produccion;']},
+    { title: 'Comparación Costes OFs',  icon: '💰', submenu: null , view: 'produccion-comparacion-costes-contabilidad', roles: ['produccion;finanzas;']},
     { title: 'Roturas Stock',  icon: '🛎️', submenu: null , view: 'produccion-aviso-roturas-stock', roles: ['produccion;20produccion;compras;20compras;']},
   ]},
   { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
