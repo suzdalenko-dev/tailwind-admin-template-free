@@ -32,6 +32,7 @@ function changeTOF(event) {
    ============================================================ */
 function cambiarMes(delta) {
     inputTOF = ''; // limpiar el filtro al cambiar de mes
+    document.getElementById('inputTOF').value = '';
     fechaActualOF.setMonth(fechaActualOF.getMonth() + delta);
     renderCalendario(ordenesFabricacion, fechaActualOF.getFullYear(), fechaActualOF.getMonth());
 }
@@ -159,6 +160,7 @@ async function getMonthBounds() {
    ============================================================ */
 function trazabilidadOrdenesFabricacionInit() {
     inputTOF = '';
+    document.getElementById('inputTOF').value = '';
     document.title = "Calendario OFs";
     document.getElementById('slugTitle').innerHTML = '';
     renderCalendario(ordenesFabricacion, fechaActualOF.getFullYear(), fechaActualOF.getMonth());
