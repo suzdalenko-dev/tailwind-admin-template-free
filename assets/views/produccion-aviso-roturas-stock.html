@@ -1,27 +1,52 @@
 <div class="w-full mx-auto mb-4 flex justify-between items-center">
     <span></span>
-    <h1 class="text-xl text-center">Stock actual</h1>
-    <span></span>
+    <h1 class="text-xl text-center">Artículos con stock de seguridad indicado en libra</h1>
+    <span><input type="checkbox" onchange="changePARS(event)" /> Rotura Stock</span>
 </div>
 <div class="flex flex-col gap-2 text-sm w-full">
     <div>
         <table class="w-ful styled-table-fh stycky-table">
             <thead>
                 <tr class="twcolor">
-                    <th class="topLeft">Codigo</th>
+                    <th class="topLeft">Código</th>
                     <th>Artículo</th>
-                    <th>DISPG</th>
-                    <th>FINAL</th>
-                    <th>Total</th>
-                    <th class="topRight">Stock Seguridad</th>
+                    <th>Stock DISPG</th>
+                    <th>Stock FINAL</th>
+                    <th>DISPG + FINAL</th>
+                    <th>Stock de Seguridad</th>
+                    <th class="topRight">Otras situaciones</th>
                 </tr>
             </thead>
-            <tbody id="tablePARS"></tbody>
+            <tbody id="tablePARS">
+             <tr>
+                <td>
+                    Cargando..
+                </td>
+             </tr>
+            </tbody>
         </table>
     </div>
 </div>
+<br>
+<br>
+<br>
+<div id="html_email_alert">
+    <h2 class="text-lg font-semibold mb-2 flex items-center gap-2">📧 Correos de aviso</h2>
+    <p class="text-xs text-gray-600 mb-2">
+        Introduce uno o varios correos separados por punto y coma.<br>
+        Estos correos recibirán una alerta semanal cuando un artículo esté por debajo del stock de seguridad.
+    </p>
+    <textarea id="emailsAviso" class="w-full h-32 border rounded p-2 text-sm focus:ring focus:ring-blue-200 focus:border-blue-500 outline-none" placeholder="ejemplo@empresa.com;otro@dominio.com" disabled></textarea>
+    <div class="flex justify-end mt-3">
+        <button id="btnGuardarCorreos" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded text-sm shadow" >Guardar correos</button>
+    </div>
+</div>
+<br>
+<br>
+<br>
 
 <!--
 12828864Q
 svoboda2019S.
+class="expanded"
 -->

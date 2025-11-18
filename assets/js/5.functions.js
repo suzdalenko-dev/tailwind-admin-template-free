@@ -136,16 +136,16 @@ function setTopDates4(){
 }
 
 
-window.onerror = function (message, source, lineno, colno, error) {
-  console.log("🔴 Error detectado:");
-  console.log("Mensaje:", message);
-  console.log("Fuente:", source);
-  console.log("Línea:", lineno);
-  console.log("Columna:", colno);
-  console.log("Objeto Error:", error);
-  // localStorage.clear();
-  return false;
-};
+// window.onerror = function (message, source, lineno, colno, error) {
+//   console.log("🔴 Error detectado:");
+//   console.log("Mensaje:", message);
+//   console.log("Fuente:", source);
+//   console.log("Línea:", lineno);
+//   console.log("Columna:", colno);
+//   console.log("Objeto Error:", error);
+//   // localStorage.clear();
+//   return false;
+// };
 
 
 function userDontLogin(){
