@@ -64,6 +64,9 @@ function clickBroom(){
 function getAllContainerFEC(){
     let first  = window.localStorage.getItem('first_date');
     let second = window.localStorage.getItem('second_date');
+
+    document.getElementById('tableFLC').innerHTML = 'Cargando..';
+    
     fetch(HTTP_HOST+`finanzas/get/0/0/finanzas_latest_arrivals/?first=${first}&second=${second}`).then(r => r.json()).then(r => {
         allLinesFLC = r;
         show2TablesFEC();

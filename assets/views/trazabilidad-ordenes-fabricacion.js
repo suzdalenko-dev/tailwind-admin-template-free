@@ -2,7 +2,9 @@ let ordenesFabricacion = [];
 let mesesOF = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 let fechaActualOF = new Date();
 
-
+function changeTOF(event){
+    let inputVal = event.target.value;
+}
 
 function cambiarMes(delta) {
     fechaActualOF.setMonth(fechaActualOF.getMonth() + delta);
