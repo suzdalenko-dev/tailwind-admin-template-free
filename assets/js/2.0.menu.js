@@ -57,7 +57,7 @@ let menuData = [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['calidad;'] },
         { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['calidad;'] },
         { title: 'Control de Roturas', icon: '', submenu: null , view: 'power-bi?name=calidad-control-de-roturas', roles: ['calidad;'] },
-        { title: 'Informe Venta/Stock', icon: '', submenu: null , view: 'power-bi?name=ccalidad-venta-stock', roles: ['calidad;'] },
+        { title: 'Informe Venta/Stock', icon: '', submenu: null , view: 'power-bi?name=calidad-venta-stock', roles: ['calidad;'] },
      ]},
   ]},
 ];
