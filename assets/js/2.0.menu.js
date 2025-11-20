@@ -27,7 +27,7 @@ let menuData = [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;'] },
     { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;'] },
   ]},
-  { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;'], submenu: [
+  { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;produccion;'], submenu: [
      { title: 'General', icon: '', roles: ['powerbi1;powerbi2;powerbi3;'], submenu: [
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['powerbi2'] },
         { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['powerbi3'] },
