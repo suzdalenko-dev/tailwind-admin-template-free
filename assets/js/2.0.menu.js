@@ -51,5 +51,9 @@ let menuData = [
         { title: 'Intentario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;'] },
         { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['produccion;'] },
      ]},
+     { title: 'Calidad', icon: '', roles: ['calidad;'], submenu: [
+        { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['calidad;'] },
+        { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['calidad;'] },
+     ]},
   ]},
 ];
