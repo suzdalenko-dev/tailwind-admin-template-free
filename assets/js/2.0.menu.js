@@ -61,8 +61,3 @@ let menuData = [
      ]},
   ]},
 ];
-
-
-// trazabilidad-ordenes-fabricacion;consulta-caracteristicas-lote;trazabilidad-ordenes-fabricacion-desglose;compras-stock;produccion-aviso-roturas-stock;
-// trazabilidad-ordenes-fabricacion;consulta-caracteristicas-lote;trazabilidad-ordenes-fabricacion-desglose;compras-stock;produccion-aviso-roturas-stock;power-bi;
-// trazabilidad-ordenes-fabricacion;consulta-caracteristicas-lote;
