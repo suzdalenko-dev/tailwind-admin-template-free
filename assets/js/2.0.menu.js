@@ -5,10 +5,10 @@ let menuData = [
     { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;produccion;20produccion;'] },
     { title: 'Evaluación Proveedores', icon: '⭐', view: 'calidad-evaluacion-proveedor', roles: ['calidad;'] },
   ]},
-  { title: 'Finanzas', icon: '💰', roles: ['finanzas;20finanzas;20compras;ventas;ventas20;ventas30;'], submenu: [
+  { title: 'Finanzas', icon: '💰', roles: ['finanzas;finanzas20;20compras;ventas;ventas20;ventas30;'], submenu: [
     { title: 'Expedientes', icon: '💵', submenu: null, view: 'expedientes-albaranes-facturas', roles: ['finanzas'] },
     { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },
-    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;20finanzas;20compras;ventas;ventas20;ventas30;'] },
+    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;finanzas20;20compras;ventas;ventas20;ventas30;'] },
   ]},
   { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;20produccion;compras;20compras;'], submenu: [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion']},
@@ -27,7 +27,9 @@ let menuData = [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;'] },
     { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;'] },
   ]},
-  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;'], submenu: [
+
+  
+  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;calidad;produccion20;'], submenu: [
      { title: 'Compras', icon: '', roles: ['compras;'], submenu: [                                             // powerbi1;powerbi2;powerbi3
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['compras;'] },
