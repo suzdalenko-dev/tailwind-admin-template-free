@@ -23,9 +23,9 @@ let menuData = [
     { title: 'Comparación Alm.98', icon: '🆚', submenu: null , view: 'almacen-importacion-vs-resto', roles: ['logistica;finanzas;'] },
     { title: 'Hoja de Contenedor', icon: '🧾', submenu: null , view: 'logistica-hoja-contenedor', roles: ['logistica;'] },
   ]},
-  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;'], submenu: [
+  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;produccion20;'], submenu: [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;'] },
-    { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;'] },
+    { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;produccion20;'] },
   ]},
 
 
@@ -59,3 +59,8 @@ let menuData = [
      ]},
   ]},
 ];
+
+
+// trazabilidad-ordenes-fabricacion;consulta-caracteristicas-lote;trazabilidad-ordenes-fabricacion-desglose;compras-stock;produccion-aviso-roturas-stock;
+// trazabilidad-ordenes-fabricacion;consulta-caracteristicas-lote;trazabilidad-ordenes-fabricacion-desglose;compras-stock;produccion-aviso-roturas-stock;power-bi;
+// trazabilidad-ordenes-fabricacion;consulta-caracteristicas-lote;
