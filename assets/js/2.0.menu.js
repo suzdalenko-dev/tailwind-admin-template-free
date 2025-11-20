@@ -50,7 +50,7 @@ let menuData = [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['produccion;produccion20;'] },
         { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['produccion;'] },
         { title: 'Previsión de Entradas', icon: '', submenu: null , view: 'power-bi?name=produccion-prevision-de-entradas', roles: ['produccion;'] },
-        { title: 'Intentario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;'] },
+        { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;'] },
         { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['produccion;produccion20;'] },
      ]},
      { title: 'Calidad', icon: '', roles: ['calidad;'], submenu: [
