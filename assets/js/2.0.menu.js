@@ -27,10 +27,11 @@ let menuData = [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;'] },
     { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;20compras;ventas;ventas20;ventas30;'] },
   ]},
-  { title: 'Power Bi', icon: '🟡', roles: ['powerbi0;produccion;'], submenu: [
-     { title: 'General', icon: '', roles: ['powerbi1;powerbi2;powerbi3;'], submenu: [
-        { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['powerbi2'] },
-        { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['powerbi3'] },
+  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;'], submenu: [
+     { title: 'Compras', icon: '', roles: ['compras;'], submenu: [                                             // powerbi1;powerbi2;powerbi3
+        { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;'] },
+        { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['compras;'] },
+        { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['compras;'] },
      ]},
      { title: 'Comercial nacional', icon: '', roles: ['ventas;ventas20;'], submenu: [
         { title: 'Global Libra', icon: '', submenu: null , view: 'power-bi?name=global-fuente-datos-libra-edisa', roles: ['ventas;ventas20;'] },
@@ -43,9 +44,12 @@ let menuData = [
      { title: 'Informes', icon: '', roles: ['propietario;finanzas;'], submenu: [
         { title: 'Venta Abel', icon: '', submenu: null , view: 'power-bi?name=venta-contabilidad-excel-libra', roles: ['propietario;finanzas;'] },
      ]},
-     { title: 'Produccion', icon: '', roles: ['produccion;powerbi1'], submenu: [
-        { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['produccion;powerbi1;'] },
-        { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['produccion;powerbi1;'] },
+     { title: 'Produccion', icon: '', roles: ['produccion;'], submenu: [
+        { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['produccion;'] },
+        { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['produccion;'] },
+        { title: 'Previsión de Entradas', icon: '', submenu: null , view: 'power-bi?name=produccion-prevision-de-entradas', roles: ['produccion;'] },
+        { title: 'Intentario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;'] },
+        { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['produccion;'] },
      ]},
   ]},
 ];
