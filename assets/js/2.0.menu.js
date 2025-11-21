@@ -1,7 +1,7 @@
 let menuData = [
   { title: 'Calidad', icon: '🧪', roles: ['calidad;fabrica;produccion;produccion20;'], submenu: [
     { title: 'Trazabilidad', icon: '🔗', view: 'trazabilidad-ordenes-fabricacion', roles: ['calidad;fabrica;produccion;produccion20;'] },
-    { title: 'Bloqueos', icon: '🔒', view: 'stock-bloqueado-situacion-calidad', roles: ['calidad;produccion;'] },
+    { title: 'Bloqueos', icon: '🔒', view: 'stock-bloqueado-situacion-calidad', roles: ['calidad;produccion;produccion20;'] },
     { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;produccion;produccion20;'] },
     { title: 'Evaluación Proveedores', icon: '⭐', view: 'calidad-evaluacion-proveedor', roles: ['calidad;'] },
   ]},
@@ -11,10 +11,10 @@ let menuData = [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;finanzas20;20compras;ventas;ventas20;ventas30;'] },
   ]},
   { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;20compras;'], submenu: [
-    { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion']},
-    { title: 'Equiv. C/C',  icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor', roles: ['produccion']},
-    { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion']},
-    { title: 'Comparación Costes OFs',  icon: '💰', submenu: null , view: 'produccion-comparacion-costes-contabilidad', roles: ['produccion;finanzas;']},
+    { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion;produccion20;']},
+    { title: 'Equiv. C/C',  icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor', roles: ['produccion;produccion20;']},
+    { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion;produccion20;']},
+    { title: 'Comparación Costes OFs',  icon: '💰', submenu: null , view: 'produccion-comparacion-costes-contabilidad', roles: ['produccion;produccion20;finanzas;']},
     { title: 'Roturas Stock',  icon: '🛎️', submenu: null , view: 'produccion-aviso-roturas-stock', roles: ['produccion;produccion20;compras;20compras;']},
   ]},
   { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
@@ -48,9 +48,9 @@ let menuData = [
      ]},
      { title: 'Produccion', icon: '', roles: ['produccion;produccion20;'], submenu: [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['produccion;produccion20;'] },
-        { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['produccion;'] },
-        { title: 'Previsión de Entradas', icon: '', submenu: null , view: 'power-bi?name=produccion-prevision-de-entradas', roles: ['produccion;'] },
-        { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;'] },
+        { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['produccion;produccion20;'] },
+        { title: 'Previsión de Entradas', icon: '', submenu: null , view: 'power-bi?name=produccion-prevision-de-entradas', roles: ['produccion;produccion20;'] },
+        { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;produccion20;'] },
         { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['produccion;produccion20;'] },
      ]},
      { title: 'Calidad', icon: '', roles: ['calidad;'], submenu: [
