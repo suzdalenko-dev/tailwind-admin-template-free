@@ -1,0 +1,39 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span></span>
+    <h1 class="text-xl text-center">Editar Usuario</h1>
+    <span></span>
+</div>
+
+<div class="flex flex-col gap-2 text-sm w-full mx-auto bg-white p-4 rounded shadow">
+    <input type="hidden" id="user_id">
+    <div>
+        <label class="block font-medium mb-1">Nombre</label>
+        <input id="user_name_eu" type="text" class="w-full border px-3 py-2 rounded" disabled>
+    </div>
+    <div>
+        <label class="block font-medium mb-1">Contraseña</label>
+        <input id="user_password_eu" type="text" class="w-full border px-3 py-2 rounded" disabled>
+    </div>
+    <div>
+        <label class="block font-medium mb-1">Rol</label>
+        <input id="user_role_eu" type="text" class="w-full border px-3 py-2 rounded" disabled>
+    </div>
+    <div>
+        <label class="block font-medium mb-1">Permisos</label>
+        <textarea id="user_permissions_eu" rows="4" class="w-full border px-3 py-2 rounded" disabled></textarea>
+        <small class="text-gray-500">Separar con punto y coma ";".</small>
+    </div>
+    <div>
+        <label class="block font-medium mb-1">Acciones especiales</label>
+        <input id="user_action_pass_eu" type="text"  class="w-full border px-3 py-2 rounded" disabled>
+        <small class="text-gray-500">Edición de costes y usuarios.</small>
+    </div>
+    <!--
+    <div class="flex justify-center mt-6">
+        <button onclick="saveUser()" 
+            class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+            Guardar cambios
+        </button>
+    </div>
+-->
+</div>
