@@ -26,13 +26,13 @@ function getAU(){
 }
 
 function openUsersAU(user_id, user_name){
-    if(window.localStorage.getItem('password') && window.localStorage.getItem('action_pass') && window.localStorage.getItem('username') == 'admin' && window.localStorage.getItem('password') == window.localStorage.getItem('action_pass')){
+    if(window.localStorage.getItem('password') && !window.localStorage.getItem('action_pass') && window.localStorage.getItem('username') == 'admin' && window.localStorage.getItem('password') != window.localStorage.getItem('action_pass')){
         let showUserData = confirm('¿Acceder a datos sensibles del usuario?')
         if(showUserData){
             window.open('/dashboard/#editar-usuario?id='+user_id+'&name='+user_name)
         }
     } else {
-        showM('No tienes suficientes permisos..', 'warning');
+        showM('Permisos insuficientes..', 'warning');
     }
     
    

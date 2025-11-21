@@ -9,10 +9,10 @@ function editarUsuarioInit(){
 
     document.title = 'Editar usuario '+user_nameEU;
 
-    if(window.localStorage.getItem('password') && window.localStorage.getItem('action_pass') && window.localStorage.getItem('username') == 'admin'){
+    if(window.localStorage.getItem('password') && !window.localStorage.getItem('action_pass') && window.localStorage.getItem('username') == 'admin' && window.localStorage.getItem('password') != window.localStorage.getItem('action_pass')){
         getfAU();
     } else {
-        showM('Sin permisos', 'error');
+        showM('Permisos insuficientes', 'error');
     }
 }
 
