@@ -65,6 +65,7 @@
 
       fetch(HTTP_HOST+'froxa/login/', {method:'POST', body: formData}).then(r => r.json()).then(r => {  console.log(r)
           if(r && r.data && r.data.id > 0){
+            window.localStorage.setItem('user_id', r.data.id);
             window.localStorage.setItem('username', username);
             window.localStorage.setItem('password', password);
             window.localStorage.setItem('role', r.data.role);
