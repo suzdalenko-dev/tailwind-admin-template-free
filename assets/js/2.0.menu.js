@@ -24,7 +24,7 @@ let menuData = [
     { title: 'Hoja de Contenedor', icon: '🧾', submenu: null , view: 'logistica-hoja-contenedor', roles: ['logistica;'] },
   ]},
   { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'], submenu: [
-    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;'] },
+    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;produccion;'] },
     { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
   ]},
   { title: 'Admin', icon: '🛠️', roles: ['admin;'], submenu: [
