@@ -7,7 +7,7 @@ function powerBiInit(){
     getReportPBI(powerBiName);
 }
 
-function getReportPBI(powerBiName){ console.log(window.localStorage)
+function getReportPBI(powerBiName){
     let userName    = window.localStorage.getItem('username') || 'None';
     let password    = window.localStorage.getItem('password') || 'None';
     let userId      = window.localStorage.getItem('user_id') || 'None';
