@@ -64,7 +64,9 @@ function loadView(viewName) {
         if(r && r.data && r.data.id > 0){
             window.localStorage.setItem('role', r.data.role);
             window.localStorage.setItem('permissions', r.data.permissions);
-            
+            window.localStorage.setItem('user_id', r.data.id);
+            window.localStorage.setItem('action_pass', r.data.action_pass);
+            window.localStorage.setItem('reports', r.data.reports);
         } else {
             showM('Credenciales incorrectos', 'warning');
             setTimeout(() => { window.location.href = '/'; }, 3000);

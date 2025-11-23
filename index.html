@@ -71,6 +71,7 @@
             window.localStorage.setItem('role', r.data.role);
             window.localStorage.setItem('permissions', r.data.permissions);
             window.localStorage.setItem('action_pass', r.data.action_pass);
+            window.localStorage.setItem('reports', r.data.reports);
             window.location.href = '/dashboard';
           } else if (r.message){
              showM(r.message, 'warning');
