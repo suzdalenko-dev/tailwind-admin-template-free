@@ -1,0 +1,26 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span></span>
+    <span>Desde</span><span><input type="date" id="inputFromLCHC" onchange="changedFromLCHC()"></span>
+    <h1 class="text-xl text-center">Repaso de cierre de hojas de carga</h1>
+    <span>Hasta</span><span><input type="date" id="inputToLCHC" onchange="changedToLCHC()"></span>
+    <span> </span> <span> </span>
+</div>
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table class="w-ful styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">Fecha</th>
+                    <th>Serie/Número</th>
+                    <th>Cliente</th>
+                    <th>Artículo</th>
+                    <th>KG Preparado</th>
+                    <th>KG Pedido</th>
+                    <th class="topRight">KG Dif.</th>
+                </tr>
+            </thead>
+            <tbody id="tableLCJC"></tbody>
+        </table>
+    </div>
+</div>
+
