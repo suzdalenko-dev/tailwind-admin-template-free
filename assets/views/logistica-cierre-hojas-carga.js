@@ -51,7 +51,7 @@ function initLCHC(){
             document.getElementById('tableLCJC').innerHTML = html;
             console.log(r.data.out)
         } else {
-            document.getElementById('tableLCJC').innerHTML = '<br>Datos no encontrados.';
+            document.getElementById('tableLCJC').innerHTML = '<br>No hay datos que mostrar.';
         }
     }).catch(e => {
         showM(e, 'error');
