@@ -1,8 +1,8 @@
 <div class="w-full mx-auto mb-4 flex justify-between items-center">
     <span></span>
-    <span>Desde</span><span><input type="date" id="inputFromLCHC" onchange="changedFromLCHC()"></span>
+    <span>Desde</span><span><input type="date" id="inputFromLCHC" onchange="changedLCHC()"></span>
     <h1 class="text-xl text-center">Repaso de cierre de hojas de carga</h1>
-    <span>Hasta</span><span><input type="date" id="inputToLCHC" onchange="changedToLCHC()"></span>
+    <span>Hasta</span><span><input type="date" id="inputToLCHC" onchange="changedLCHC()"></span>
     <span> </span> <span> </span>
 </div>
 <div class="flex flex-col gap-2 text-sm w-full">
@@ -13,7 +13,8 @@
                     <th class="topLeft">Fecha</th>
                     <th>Serie/Número</th>
                     <th>Cliente</th>
-                    <th>Artículo</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
                     <th>KG Preparado</th>
                     <th>KG Pedido</th>
                     <th class="topRight">KG Dif.</th>
