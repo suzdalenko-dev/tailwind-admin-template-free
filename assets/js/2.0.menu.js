@@ -22,6 +22,7 @@ let menuData = [
     { title: 'Cargas Regional', icon: '🗺️', submenu: null , view: 'logistica-listado-cargas-regional', roles: ['logistica'] },
     { title: 'Comparación Alm.98', icon: '🆚', submenu: null , view: 'almacen-importacion-vs-resto', roles: ['logistica;finanzas;'] },
     { title: 'Hoja de Contenedor', icon: '🧾', submenu: null , view: 'logistica-hoja-contenedor', roles: ['logistica;'] },
+    { title: 'Cierre de HC', icon: '📄', submenu: null , view: 'logistica-cierre-hojas-carga', roles: ['logistica;'] },
   ]},
   { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'], submenu: [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;produccion;'] },
