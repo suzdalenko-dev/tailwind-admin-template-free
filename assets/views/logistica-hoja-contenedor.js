@@ -1,21 +1,21 @@
-let fechaDesde = '';
-let fechaHasta = '';
+let fechaDesdeLHC = '';
+let fechaHastaLHC = '';
 
 function logisticaHojaContenedorInit(){
     document.getElementById('slugTitle').innerHTML = '';
     document.title = "Hojas de seguimiento expedientes";
 
-    fechaDesde = getTodayDate();
-    fechaHasta = getTodayDate();
+    fechaDesdeLHC = getTodayDate();
+    fechaHastaLHC = getTodayDate();
     initLHC();
 }
 
 function initLHC(){
-    document.getElementById('inputDesdeLHC').value = fechaDesde;
-    document.getElementById('inputHastaLHC').value = fechaHasta;
+    document.getElementById('inputDesdeLHC').value = fechaDesdeLHC;
+    document.getElementById('inputHastaLHC').value = fechaHastaLHC;
     document.getElementById('tableLHC').innerHTML = '<br>Cargando datos..';
 
-    let url = `${HTTP_HOST}logistica/action/0/0/modelo_hoja_cnt/?fecha_desde=${fechaDesde}&fecha_hasta=${fechaHasta}`;
+    let url = `${HTTP_HOST}logistica/action/0/0/modelo_hoja_cnt/?fecha_desde=${fechaDesdeLHC}&fecha_hasta=${fechaHastaLHC}`;
     fetch(url).then(r => r.json()).then(r => {
         if(r && r.data && r.data && r.data.res && r.data.res.length > 0){
             let htmlTable = '';
@@ -46,11 +46,11 @@ function openExcelLHC(expediente, contenedor){
 }
 
 function funcDesdeLHC(){
-    fechaDesde = document.getElementById('inputDesdeLHC').value;
+    fechaDesdeLHC = document.getElementById('inputDesdeLHC').value;
     initLHC();
 }
 
 function funcHastaLHC(){
-    fechaHasta = document.getElementById('inputHastaLHC').value;
+    fechaHastaLHC = document.getElementById('inputHastaLHC').value;
     initLHC();
 }
