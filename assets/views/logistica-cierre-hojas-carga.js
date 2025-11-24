@@ -1,28 +1,28 @@
-let fechaDesde;
-let fechaHasta;
+let fechaDesdeLCHC;
+let fechaHastaLCHC;
 
 function logisticaCierreHojasCargaInit(){
     document.title = 'Repaso de cierre de hojas de carga';
     document.getElementById('slugTitle').innerHTML = '';
 
-    fechaDesde = getTodayDate();
-    fechaHasta = getTodayDate();
+    fechaDesdeLCHC = getTodayDate();
+    fechaHastaLCHC = getTodayDate();
 
     initLCHC();
 }
 
 function changedLCHC(){
-    fechaDesde =  document.getElementById('inputFromLCHC').value; 
-    fechaHasta = document.getElementById('inputToLCHC').value;
+    fechaDesdeLCHC =  document.getElementById('inputFromLCHC').value; 
+    fechaHastaLCHC = document.getElementById('inputToLCHC').value;
     initLCHC();
 }
 
 function initLCHC(){
-    document.getElementById('inputFromLCHC').value = fechaDesde;
-    document.getElementById('inputToLCHC').value   = fechaHasta;
+    document.getElementById('inputFromLCHC').value = fechaDesdeLCHC;
+    document.getElementById('inputToLCHC').value   = fechaHastaLCHC;
     document.getElementById('tableLCJC').innerHTML = '<br>Cargando datos..';
 
-    fetch(HTTP_HOST+'logistica/get/0/0/repaso_hc_sin_cerrar/?date_from='+fechaDesde+'&date_to='+fechaHasta).then(r => r.json()).then(r => {
+    fetch(HTTP_HOST+'logistica/get/0/0/repaso_hc_sin_cerrar/?date_from='+fechaDesdeLCHC+'&date_to='+fechaHastaLCHC).then(r => r.json()).then(r => {
         console.log(r)
         if(r && r.data && r.data.out && r.data.out.length){
             let html = '';
