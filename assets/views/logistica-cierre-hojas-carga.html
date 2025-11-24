@@ -1,9 +1,18 @@
 <div class="w-full mx-auto mb-4 flex justify-between items-center">
-    <span></span>
+    <span> </span> <span> </span> <span> </span>
     <span>Desde</span><span><input type="date" id="inputFromLCHC" onchange="changedLCHC()"></span>
     <h1 class="text-xl text-center">Repaso de cierre de hojas de carga</h1>
     <span>Hasta</span><span><input type="date" id="inputToLCHC" onchange="changedLCHC()"></span>
-    <span> </span> <span> </span>
+    <span>
+        <select id="serieLCHCId" class="border border-gray-300 rounded-md" onchange="changeSerieLCHC(this.value)">
+            <option value="all" selected>Todas las series 01, 02, 03, 04 </option>
+            <option value="01">01 - NACIONAL</option>
+            <option value="02">02 - REGIONAL</option>
+            <option value="03">03 - CUBA</option>
+            <option value="04">04 - EXPORTACION</option>
+        </select>
+    </span>
+    <span> </span>
 </div>
 <div class="flex flex-col gap-2 text-sm w-full">
     <div>
@@ -24,4 +33,3 @@
         </table>
     </div>
 </div>
-
