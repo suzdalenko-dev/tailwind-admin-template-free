@@ -46,16 +46,8 @@ function initLCHC(){
 
 function applyFilters(){
     let filtered = rawLCHCData;
-    // filtrar por estado
-    if(stateLCHC !== 'all_states'){
-        filtered = filtered.map(item => {
-            return {
-                ...item,
-                articulos: item.articulos.filter(a => a.LINE_STATE == stateLCHC)
-            };
-        }).filter(x => x.articulos.length > 0);
-    }
-
+    // filtrar por estado de CABECERA
+    if(stateLCHC !== 'all_states'){ filtered = filtered.filter(item => item.estado === stateLCHC);}
     renderLCHCTable(filtered);
 }
 
@@ -79,7 +71,7 @@ function renderLCHCTable(data){
             <td class="border px-2 py-1 text-center"></td>
             <td class="border px-2 py-1 text-center"></td>
             <td class="border px-2 py-1 text-center"></td>
-            <td class="border px-2 py-1 text-center"></td>
+            <td class="border px-2 py-1 text-center">${x.estado}</td>
         </tr>`;
         // detalles de articulos
         x.articulos.map(a => {
