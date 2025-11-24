@@ -26,7 +26,7 @@ function changeState(val){
     setTimeout(() => {
         stateLCHC = val;
         applyFilters();
-    }, 100)
+    }, 100);
 }
 
 function initLCHC(){
