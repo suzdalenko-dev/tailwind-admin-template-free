@@ -1,7 +1,7 @@
 let fechaDesdeLCHC;
 let fechaHastaLCHC;
 let serieLCHC = 'all';
-let stateLCHC = 'all_states';
+let stateLCHC = document.getElementById('stateLCHCId').value;
 let rawLCHCData = [];
 
 

@@ -14,9 +14,9 @@
     </span>
     <span>
         <select id="stateLCHCId" class="border border-gray-300 rounded-md" onchange="changeState(this.value)">
-            <option value="all_states" selected>Todos los estados </option>
+            <option value="all_states">Todos los estados </option>
             <option value="Facturado">Facturado</option>
-            <option value="Preparado">Preparado</option>
+            <option value="Preparado" selected>Preparado</option>
             <option value="Pendiente">Pendiente</option>
             <option value="Revisar">Revisar</option>
         </select>
@@ -43,3 +43,31 @@
         </table>
     </div>
 </div>
+
+
+<br><br><br><br>
+<br>
+<br>
+Facturado: cantidad preparada 0, pedido kg y dif kg distinto de cero <br>
+SUM(pedidos_ventas_lin.uni_resalm) = 0  <br>
+AND SUM(pedidos_ventas_lin.uni_pedalm) != 0  <br>
+AND (SUM(pedidos_ventas_lin.uni_pedalm) - SUM(pedidos_ventas_lin.uni_resalm)) != 0  <br>
+<br><br>
+
+Preparado: suma de todas las lineas del pedido dif kg = 0 (filtro por defecto) <br>
+(SUM(pedidos_ventas_lin.uni_pedalm) - SUM(pedidos_ventas_lin.uni_resalm)) = 0 <br>
+<br><br>
+
+Pendiente: null en preparado kg y null en dif kg <br>
+SUM(pedidos_ventas_lin.uni_resalm) IS NULL <br>
+AND (SUM(pedidos_ventas_lin.uni_pedalm) - SUM(pedidos_ventas_lin.uni_resalm)) IS NULL <br>
+<br><br>                       
+
+
+Revisar: preparado != 0 y dif kg =! 0 <br>
+SUM(pedidos_ventas_lin.uni_resalm) != 0 <br>
+AND (SUM(pedidos_ventas_lin.uni_pedalm) - SUM(pedidos_ventas_lin.uni_resalm)) != 0 <br>
+<br><br>
+sum(pedidos_ventas_lin.uni_resalm) PREPARADOS_KG, <br>
+sum(pedidos_ventas_lin.uni_pedalm) PEDIDOS_KG, <br>
+( ( pedidos_ventas_lin.uni_pedalm ) - ( pedidos_ventas_lin.uni_resalm ) ) DIF_KG 
