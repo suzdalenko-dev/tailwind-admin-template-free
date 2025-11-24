@@ -12,8 +12,17 @@
             <option value="04">04 - EXPORTACION</option>
         </select>
     </span>
-    <span> </span>
+    <span>
+        <select id="stateLCHCId" class="border border-gray-300 rounded-md" onchange="changeState(this.value)">
+            <option value="all_states" selected>Todos los estados </option>
+            <option value="Facturado">Facturado</option>
+            <option value="Preparado">Preparado</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Revisar">Revisar</option>
+        </select>
+    </span>
 </div>
+
 <div class="flex flex-col gap-2 text-sm w-full">
     <div>
         <table class="w-ful styled-table-fh stycky-table">
@@ -26,7 +35,8 @@
                     <th>Descripción</th>
                     <th>KG Preparado</th>
                     <th>KG Pedido</th>
-                    <th class="topRight">KG Dif.</th>
+                    <th>KG Dif.</th>
+                    <th class="topRight">Estado</th>
                 </tr>
             </thead>
             <tbody id="tableLCJC"></tbody>

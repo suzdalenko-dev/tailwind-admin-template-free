@@ -1,6 +1,9 @@
 let fechaDesdeLCHC;
 let fechaHastaLCHC;
 let serieLCHC = 'all';
+let stateLCHC = 'all_states';
+let rawLCHCData = [];
+
 
 function logisticaCierreHojasCargaInit(){
     document.title = 'Repaso de cierre de hojas de carga';
@@ -18,51 +21,86 @@ function changedLCHC(){
     initLCHC();
 }
 
+function changeState(val){
+    document.getElementById('tableLCJC').innerHTML = '<br>Cargando datos..';
+    setTimeout(() => {
+        stateLCHC = val;
+        applyFilters();
+    }, 100)
+}
+
 function initLCHC(){
     document.getElementById('inputFromLCHC').value = fechaDesdeLCHC;
     document.getElementById('inputToLCHC').value   = fechaHastaLCHC;
     document.getElementById('tableLCJC').innerHTML = '<br>Cargando datos..';
 
     fetch(HTTP_HOST+'logistica/get/0/0/repaso_hc_sin_cerrar/?date_from='+fechaDesdeLCHC+'&date_to='+fechaHastaLCHC+'&serie='+serieLCHC).then(r => r.json()).then(r => {
-        if(r && r.data && r.data.out && r.data.out.length){
-            let html = '';
-            r.data.out.map(x => {
-                html += `<tr>
-                        <td class="border px-2 py-1 text-center">${x.fecha}</td>
-                        <td class="border px-2 py-1 text-center">${x.serie}</td>
-                        <td class="border px-2 py-1 text-center"></td>
-                        <td class="border px-2 py-1 text-center"></td><td class="border px-2 py-1 text-center"></td><td class="border px-2 py-1 text-center"></td><td class="border px-2 py-1 text-center"></td><td class="border px-2 py-1 text-center"></td>
-                    </tr>`;
-                    if(x.articulos){
-                        x.articulos.map(a => {
-                            html += `<tr>
-                                <td class="border px-2 py-1 text-center"></td>
-                                <td class="border px-2 py-1 text-center"></td>
-                                <td class="border px-2 py-1 text-left">${a.CLIENTE} ${a.RAZON_SOCIAL}</td>
-                                <td class="border px-2 py-1 text-center">${a.ARTICULO}</td>
-                                <td class="border px-2 py-1 text-left">${a.DESCRIPCION}</td>
-                                <td class="border px-2 py-1 text-center">${a.PREPARADOS_KG}</td>
-                                <td class="border px-2 py-1 text-center">${a.PEDIDOS_KG}</td>
-                                <td class="border px-2 py-1 text-center">${a.DIF_KG}</td>
-                            </tr>`
-                        });
-                    }
-            });
-            document.getElementById('tableLCJC').innerHTML = html;
+        if(r && r.data && r.data.out){
+            rawLCHCData = r.data.out;   // guardamos datos crudos
+            applyFilters();             // aplicamos filtros iniciales
         } else {
             document.getElementById('tableLCJC').innerHTML = '<br>No hay datos que mostrar.';
         }
-        if(r && r.data && r.data.serie_hc){
-            let serieVal = '<option value="all" selected>Todas las series 01, 02, 03, 04 </option>';
-            console.log(r.data)
-            r.data.serie_hc.map(s => {
-                serieVal += `<option value="${s}">${s} ${serieNameLCHC(s)}</option>`;
-            });
-        }
-    }).catch(e => {
-        showM(e, 'error');
-    });
+    }).catch(e => showM(e,'error'));
 }
+
+function applyFilters(){
+    let filtered = rawLCHCData;
+    // filtrar por estado
+    if(stateLCHC !== 'all_states'){
+        filtered = filtered.map(item => {
+            return {
+                ...item,
+                articulos: item.articulos.filter(a => a.LINE_STATE == stateLCHC)
+            };
+        }).filter(x => x.articulos.length > 0);
+    }
+
+    renderLCHCTable(filtered);
+}
+
+function renderLCHCTable(data){
+    if(!data || data.length == 0){
+        document.getElementById('tableLCJC').innerHTML = '<br>No hay datos que mostrar.';
+        return;
+    }
+
+    let html = '';
+
+    data.map(x => {
+        // fila principal
+        html += `
+        <tr>
+            <td class="border px-2 py-1 text-center">${x.fecha}</td>
+            <td class="border px-2 py-1 text-center">${x.serie}</td>
+            <td class="border px-2 py-1 text-center"></td>
+            <td class="border px-2 py-1 text-center"></td>
+            <td class="border px-2 py-1 text-center"></td>
+            <td class="border px-2 py-1 text-center"></td>
+            <td class="border px-2 py-1 text-center"></td>
+            <td class="border px-2 py-1 text-center"></td>
+            <td class="border px-2 py-1 text-center"></td>
+        </tr>`;
+        // detalles de articulos
+        x.articulos.map(a => {
+            html += `
+            <tr>
+                <td class="border px-2 py-1 text-center"></td>
+                <td class="border px-2 py-1 text-center"></td>
+                <td class="border px-2 py-1 text-left">${a.CLIENTE} ${a.RAZON_SOCIAL}</td>
+                <td class="border px-2 py-1 text-center">${a.ARTICULO}</td>
+                <td class="border px-2 py-1 text-left">${a.DESCRIPCION}</td>
+                <td class="border px-2 py-1 text-center">${a.PREPARADOS_KG}</td>
+                <td class="border px-2 py-1 text-center">${a.PEDIDOS_KG}</td>
+                <td class="border px-2 py-1 text-center">${a.DIF_KG}</td>
+                <td class="border px-2 py-1 text-center">${a.LINE_STATE}</td>
+            </tr>`;
+        });
+    });
+
+    document.getElementById('tableLCJC').innerHTML = html;
+}
+
 
 function changeSerieLCHC(val){
     serieLCHC = val;
