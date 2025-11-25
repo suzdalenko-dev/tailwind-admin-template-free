@@ -111,7 +111,10 @@ function show2TablesFEC() {
     // Filas
     filtered.forEach(y => {
       html += `<tr>
-        <td class="fontssmall border px-2 py-1 text-left" title="${notNone(y.OBSERVACIONES)}">${y.ARTICULO ?? ''} ${(y.DESCRIP_COMERCIAL || '').slice(0, 33)}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${y.CODIGO_FAMILIA}</td>
+        <td class="fontssmall border px-2 py-1 text-center">${y.D_CODIGO_FAMILIA}</td>
+        <td class="fontssmall border px-2 py-1 text-left" title="${notNone(y.OBSERVACIONES)}">${y.ARTICULO ?? ''}</td>
+        <td class="fontssmall border px-2 py-1 text-left" title="${notNone(y.OBSERVACIONES)}">${(y.DESCRIP_COMERCIAL || '').slice(0, 33)}</td>
         <td class="fontssmall border px-2 py-1 text-center">${y.C_BAN ?? ''}</td>
         <td class="fontssmall border px-2 py-1 text-center">${y.FECHA_CONTRATO ?? ''}</td>
         <td class="fontssmall border px-2 py-1 text-center">${y.CONTENEDOR ?? ''}</td>
@@ -140,7 +143,6 @@ function show2TablesFEC() {
 
 
 /* EXCEL */
-
 function createExceFLC() {
   const r = allLinesFLC;
   if (!r || !r.data) return;
@@ -149,7 +151,7 @@ function createExceFLC() {
   const second = (localStorage.getItem('second_date') || '').trim();
   const inputValue = (localStorage.getItem('searched_line') || '').toLowerCase();
 
-  // ===== Helpers (alineados con la tabla) =====
+  // ===== Helpers =====
   const nn = v => (v === null || v === undefined || v === 'None') ? '' : v;
   const nnum = v => {
     if (v === null || v === undefined) return '';
@@ -162,19 +164,21 @@ function createExceFLC() {
     const s = nn(v);
     if (!s) return '';
     const m = String(s).slice(0,10).split('-'); // YYYY-MM-DD
-    return (m.length === 3) ? `${m[2]}/${m[1]}/${m[0]}` : s; // dd/mm/yyyy
+    return (m.length === 3) ? `${m[2]}/${m[1]}/${m[0]}` : s;
   };
   const replaceEntr = v => String(nn(v)).replace(/\r?\n/g, ' ').trim();
   const notNone = v => nn(v);
 
-  // Mismo filtro que show2TablesFEC
+  // ===== Filtro (incluye nuevas columnas) =====
   const match = (y) => {
     if (!inputValue) return true;
     const lineData = (
-      (y.ARTICULO  || '') +
+      (y.CODIGO_FAMILIA || '') +
+      (y.D_CODIGO_FAMILIA || '') +
+      (y.ARTICULO || '') +
+      (y.DESCRIP_COMERCIAL || '') +
       (y.C_BAN || '') +
       (y.FECHA_CONTRATO || '') +
-      (y.DESCRIP_COMERCIAL || '') +
       (y.CONTENEDOR || '') +
       (y.D_CLAVE_ARANCEL || '') +
       (y.FECHA_PREV_LLEGADA || '') +
@@ -186,14 +190,17 @@ function createExceFLC() {
     return lineData.includes(inputValue);
   };
 
-  // Soporta array de grupos o objeto {desc: [lines]}
+  // ===== Grupos =====
   const groups = Array.isArray(r.data)
     ? r.data
     : Object.entries(r.data).map(([id, lines]) => ({ id, lines }));
 
-  // Cabecera EXACTA a la tabla principal
+  // ===== Nueva cabecera =====
   const HEAD = [
-    'Artículo',
+    'Cód. Fam',
+    'Descr. Fam',
+    'Cód. Art',
+    'Descr. Art',
     'C. Ban',
     'F. Contrato',
     'Cont.',
@@ -213,19 +220,22 @@ function createExceFLC() {
 
   const AOA = [HEAD];
 
-  // Preparamos solo los grupos que tienen filas tras el filtro
+  // === Filtrar grupos ===
   const groupsWithRows = groups
     .map(g => ({ rows: (g.lines || []).filter(match) }))
     .filter(x => x.rows.length > 0);
 
-  // Relleno de datos + fila en blanco entre grupos presentes
+  // === Rellenar ===
   groupsWithRows.forEach((entry, idx) => {
     entry.rows.forEach(y => {
-      const col1 = `${nn(y.ARTICULO)} ${(nn(y.DESCRIP_COMERCIAL)).slice(0,33)}`.trim();
+
       AOA.push([
-        col1,
-        y.C_BAN, // C. Ban (no hay dato)
-        y.FECHA_CONTRATO, // F. Contrato (no hay dato)
+        y.CODIGO_FAMILIA,
+        nn(y.D_CODIGO_FAMILIA),
+        nn(y.ARTICULO),
+        nn(y.DESCRIP_COMERCIAL).slice(0, 50),
+        y.C_BAN,
+        y.FECHA_CONTRATO,
         nn(String(y.CONTENEDOR || '').trim()),
         nnum(y.CANTIDAD1),
         nnum(y.PRECIO),
@@ -242,37 +252,38 @@ function createExceFLC() {
       ]);
     });
 
-    // Fila en blanco SOLO si no es el último grupo con filas
+    // Línea blanca si no es último grupo
     if (idx < groupsWithRows.length - 1) {
       AOA.push(new Array(HEAD.length).fill(''));
     }
   });
 
-  // === Excel ===
+  // ===== Crear Excel =====
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.aoa_to_sheet(AOA);
 
-  // Congelar cabecera
   ws['!freeze'] = { xSplit: 0, ySplit: 1 };
 
-  // Anchuras aproximadas
   ws['!cols'] = [
-    { wch: 40 }, // ARTÍCULO / DESCRIPCIÓN
-    { wch: 10 }, // C. BAN
-    { wch: 12 }, // F. CONTRATO
-    { wch: 15 }, // CONTENEDOR
-    { wch: 12 }, // CANTIDAD
-    { wch: 10 }, // PRECIO
-    { wch: 12 }, // VALOR CAMBIO
-    { wch: 16 }, // PRECIO CON GASTOS
-    { wch: 18 }, // DOC X CONTENEDOR
-    { wch: 18 }, // LUGAR EMBARQUE
-    { wch: 14 }, // FECHA EMBARQUE
-    { wch: 16 }, // FECHA PREV LLEGADA
-    { wch: 18 }, // LUGAR DESEMBARQUE
-    { wch: 22 }, // PROVEEDOR HOJA
-    { wch: 24 }, // DESCRIPC EXPEDIENTE
-    { wch: 18 }  // EXPEDIENTE-HOJA
+    { wch: 10 },   // Cod. Fam
+    { wch: 20 },   // Desc Fam
+    { wch: 12 },   // Cod Art
+    { wch: 40 },   // Desc Art
+    { wch: 8  },   // C Ban
+    { wch: 12 },   // F Contrato
+    { wch: 12 },   // Cont
+    { wch: 10 },   // Kg
+    { wch: 10 },   // Precio
+    { wch: 10 },   // Cambio
+    { wch: 14 },   // Coste c/g
+    { wch: 16 },   // Doc
+    { wch: 18 },   // Origen
+    { wch: 16 },   // Embarque
+    { wch: 16 },   // Llegada
+    { wch: 18 },   // Puerto
+    { wch: 24 },   // Proveedor
+    { wch: 20 },   // Cont.Prov.
+    { wch: 14 }    // Exp
   ];
 
   const tabBase = `Llegadas ${first} a ${second}`;
@@ -282,7 +293,6 @@ function createExceFLC() {
   const fileName = `llegadas_contenedores_${first || 'desde'}_${second || 'hasta'}.xlsx`;
   XLSX.writeFile(wb, fileName);
 }
-
 
 
 
