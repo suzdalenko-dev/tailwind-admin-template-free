@@ -84,9 +84,9 @@ function renderLCHCTable(data){
                 <td class="border px-2 py-1 text-left">${a.CLIENTE} ${a.RAZON_SOCIAL}</td>
                 <td class="border px-2 py-1 text-center">${a.ARTICULO}</td>
                 <td class="border px-2 py-1 text-left">${a.DESCRIPCION}</td>
-                <td class="border px-2 py-1 text-center">${a.PREPARADOS_KG}</td>
-                <td class="border px-2 py-1 text-center">${a.PEDIDOS_KG}</td>
-                <td class="border px-2 py-1 text-center">${a.DIF_KG}</td>
+                <td class="border px-2 py-1 text-center">${replaceNoneLCHC(a.PREPARADOS_KG)}</td>
+                <td class="border px-2 py-1 text-center">${replaceNoneLCHC(a.PEDIDOS_KG)}</td>
+                <td class="border px-2 py-1 text-center">${replaceNoneLCHC(a.DIF_KG)}</td>
                 <td class="border px-2 py-1 text-center">${a.LINE_STATE}</td>
             </tr>`;
         });
@@ -109,4 +109,9 @@ function serieNameLCHC(x) {
         case '04': return 'EXPORTACION';
         default:   return '';  
     }
+}
+
+function replaceNoneLCHC(x){
+    if(x == 'None') return '';
+    else return x;
 }
