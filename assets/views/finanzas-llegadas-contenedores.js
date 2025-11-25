@@ -89,7 +89,7 @@ function show2TablesFEC() {
   const match = (y) => {
     if (!inputValue) return true;
     const lineData = (
-      y.ARTICULO  +
+      y.CODIGO_FAMILIA+y.D_CODIGO_FAMILIA+y.ARTICULO  +
       y.DESCRIP_COMERCIAL+
       y.CONTENEDOR +
       y.D_CLAVE_ARANCEL +
@@ -349,14 +349,25 @@ function createPDFFLC() {
 
   // === Mismo filtro que show2TablesFEC ===
   const match = y => {
-    if (!inputValue) return true;
-    const line = (
-      (y.ARTICULO||'')+(y.DESCRIP_COMERCIAL||'')+(y.CONTENEDOR||'')+(y.D_CLAVE_ARANCEL||'')+
-      (y.FECHA_PREV_LLEGADA||'')+(y.D_PLANTILLA||'')+(y.PROVEEDOR||'')+
-      (y.D_PROVEEDOR_HOJA||'')+((y.NUM_EXPEDIENTE||'')+'-'+(y.NUM_HOJA||''))
-    ).toLowerCase();
+  if (!inputValue) return true;
+
+  const line = (
+    (y.CODIGO_FAMILIA || '') +
+    (y.D_CODIGO_FAMILIA || '') +
+    (y.ARTICULO || '') +
+    (y.DESCRIP_COMERCIAL || '') +
+    (y.CONTENEDOR || '') +
+    (y.D_CLAVE_ARANCEL || '') +
+    (y.FECHA_PREV_LLEGADA || '') +
+    (y.D_PLANTILLA || '') +
+    (y.PROVEEDOR || '') +
+    (y.D_PROVEEDOR_HOJA || '') +
+    ((y.NUM_EXPEDIENTE || '') + '-' + (y.NUM_HOJA || '')) +
+    (y.BUQUE || '')
+  ).toLowerCase();
     return line.includes(inputValue);
   };
+
 
   const groups = Array.isArray(r.data) ? r.data : Object.entries(r.data).map(([id, lines]) => ({ id, lines }));
 
