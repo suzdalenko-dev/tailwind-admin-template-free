@@ -46,6 +46,8 @@ function initLCHC(){
 
 function applyFilters(){
     let filtered = rawLCHCData;
+    // Nunca mostrar Facturado
+    filtered = filtered.filter(item => item.estado != "Facturado");
     // filtrar por estado de CABECERA
     if(stateLCHC !== 'all_states'){ filtered = filtered.filter(item => item.estado === stateLCHC);}
     renderLCHCTable(filtered);

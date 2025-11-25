@@ -36,10 +36,11 @@ function gePARS(x){
 
                 htmlTable += `<tr ${redColor}>
                     <td class="border px-2 py-1 text-center"><b>${a.codigo}</b></td>
-                    <td class="border px-2 py-1 text-left">  <b>${a.descripcion}</b></td> 
+                    <td class="border px-2 py-1 text-left">  <b>${a.descripcion}</b></td>
+                    <td class="border px-2 py-1 text-center"><b>0</b></td>
                     <td class="border px-2 py-1 text-center"><b>${a.stock_dispg}</b></td> 
                     <td class="border px-2 py-1 text-center"><b>${a.stock_final}</b></td> 
-                    <td class="border px-2 py-1 text-center"><b>${a.stock_dispg + a.stock_final}</b></td> 
+                    <td class="border px-2 py-1 text-center"><b>${a.stock_dispg + a.stock_final}</b></td>
                     <td class="border px-2 py-1 text-center"><b>${a.stock_segur}</b></td>
                     <td class="border px-2 py-1 text-center"><b>${leyenda} </b></td>
                     <td class="border px-2 py-1 text-center"><b>${a.kg_ped_vent}</b></td>   
