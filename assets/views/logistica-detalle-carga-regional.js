@@ -147,3 +147,4 @@ function orderClickedLDCR(ejercicio, load_id, article_code, serie){
     });
 }
 
+// asi pero asi
