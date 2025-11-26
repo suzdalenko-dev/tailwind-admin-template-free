@@ -2,6 +2,7 @@ let yearLDCR;
 let load_idLDCR;
 let colorGreenLDCR = '';
 let inputBackColor = '';
+let serialLDCR     = 0;
 
 function logisticaDetalleCargaRegionalInit(){
     document.title = 'Carga Regional Detalle'
@@ -10,12 +11,13 @@ function logisticaDetalleCargaRegionalInit(){
     let hashDate = parseHashRoute();
     if(hashDate && hashDate.params && hashDate.params.year){ yearLDCR = hashDate.params.year; }
     if(hashDate && hashDate.params && hashDate.params.load_id){ load_idLDCR = hashDate.params.load_id; }
+    if(hashDate && hashDate.params && hashDate.params.load_id){ serialLDCR = hashDate.params.serial; }
     
     getLDCR();
 }
 
 function getLDCR(){
-    suzdalenkoGet(`/logistica/get/${yearLDCR}/${load_idLDCR}/get_refresh_custom_load_02/`, (res) => {
+    suzdalenkoGet(`/logistica/get/${yearLDCR}/${load_idLDCR}/get_refresh_custom_load_02/?serial=`+serialLDCR, (res) => {
         let html = '';
         let htmlDesg = '';
         let inputIdLDCR1 = 0;
@@ -68,16 +70,16 @@ function getLDCR(){
 
                                         <td class="border expanded px-2 py-1 text-center"><input value="${cajasI}" class="input_pal ${inputBackColor}" type="number" id="inputCajas${inputIdLDCR1}"></td>
                                         <td class="border expanded px-2 py-1 text-center"><input value="${kgI}" class="input_pal ${inputBackColor}" type="number" id="inputKg${inputIdLDCR1}"></td>
-                                        <td class="border px-2 py-1 text-center hovered"><span onclick="ticadoJsonLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', ${inputIdLDCR1}, '${d.CLIENTE}')">💾</span></td>
+                                        <td class="border px-2 py-1 text-center hovered"><span onclick="ticadoJsonLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', ${inputIdLDCR1}, '${d.CLIENTE}', '${x.serie}')">💾</span></td>
                                     </tr>`;
                         console.log(d)
                     });
 
                     html += `<tr ${colorGreenLDCR}>
-                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')">${formatDateToEuropean(x.load_date)}</td>
-                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')">${x.load_id}</td>
-                        <td class="border expanded px-2 py-1 text-left hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"><span class="hovered">${x.article_name} ${x.article_code}</span></td>
-                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"></td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}' , '${x.serie}')">${formatDateToEuropean(x.load_date)}</td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', '${x.serie}')">${x.load_id}</td>
+                        <td class="border expanded px-2 py-1 text-left hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', '${x.serie}')"><span class="hovered">${x.article_name} ${x.article_code}</span></td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', '${x.serie}')"></td>
                         <td class="border expanded px-2 py-1 text-center">${x.preparado > 0 ? x.preparado : ''}</td>
                         <td class="border expanded px-2 py-1 text-center">${x.pedido > 0 ? x.pedido: ''}</td>
                         <td class="border expanded px-2 py-1 text-center">${x.und_ped > 0 ? x.und_ped : ''}</td>
@@ -91,10 +93,10 @@ function getLDCR(){
                 } else {
                     // lineas solo articulos
                     html += `<tr ${colorGreenLDCR}>
-                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')">${formatDateToEuropean(x.load_date)}</td>
-                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')">${x.load_id}</td>
-                        <td class="border expanded px-2 py-1 text-left hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"><span class="hovered">${x.article_name} ${x.article_code}</span></td>
-                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}')"></td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', '${x.serie}')">${formatDateToEuropean(x.load_date)}</td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', '${x.serie}')">${x.load_id}</td>
+                        <td class="border expanded px-2 py-1 text-left hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', '${x.serie}')"><span class="hovered">${x.article_name} ${x.article_code}</span></td>
+                        <td class="border expanded px-2 py-1 text-center hovered" onclick="orderClickedLDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', '${x.serie}')"></td>
                         <td class="border expanded px-2 py-1 text-center">${x.preparado > 0 ? x.preparado : ''}</td>
                         <td class="border expanded px-2 py-1 text-center">${x.pedido > 0 ? x.pedido: ''}</td>
 
@@ -103,7 +105,7 @@ function getLDCR(){
 
                         <td class="border expanded px-2 py-1 text-center"><input value="${x.cajas_real}" class="input_pal ${inputBackColor}" type="number" id="inputCajas${inputIdLDCR1}"></td>
                         <td class="border expanded px-2 py-1 text-center"><input value="${x.kg_real}" class="input_pal ${inputBackColor}" type="number" id="inputKg${inputIdLDCR1}"></td>
-                        <td class="border px-2 py-1 text-center hovered"><span onclick="savedPressed2LDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', ${inputIdLDCR1})">💾</span></td>
+                        <td class="border px-2 py-1 text-center hovered"><span onclick="savedPressed2LDCR(${x.ejercicio}, '${x.load_id}', '${x.article_code}', ${inputIdLDCR1}, '${x.serie}')">💾</span></td>
                     </tr>`;
                 }
                 
@@ -115,32 +117,32 @@ function getLDCR(){
     });
 }
 
-function savedPressed2LDCR(ejercicio, load_id, article_code, inputIdLDCR1){
+function savedPressed2LDCR(ejercicio, load_id, article_code, inputIdLDCR1, serie){
     let cajasInput = document.getElementById('inputCajas'+inputIdLDCR1).value;
     if(!cajasInput) cajasInput = 0;
     let kgInput    = document.getElementById('inputKg'+inputIdLDCR1).value;
     if(!kgInput) kgInput = 0;
-    let obj        = {ejercicio: ejercicio, load_id: load_id, article_code: article_code, cajas: cajasInput, kg: kgInput, action: 'update_linea', cliente: 'x'}
+    let obj        = {ejercicio: ejercicio, load_id: load_id, article_code: article_code, cajas: cajasInput, kg: kgInput, action: 'update_linea', cliente: 'x', serie: serie}
 
     suzdalenkoPost(`logistica/action/0/0/regional_update/`, obj, (res) => {
         getLDCR();
     });
 }
 
-function ticadoJsonLDCR(ejercicio, load_id, article_code, inputIdLDCR1, cliente){
+function ticadoJsonLDCR(ejercicio, load_id, article_code, inputIdLDCR1, cliente, serie){
     let cajasInput = document.getElementById('inputCajas'+inputIdLDCR1).value;
     if(!cajasInput) cajasInput = 0;
     let kgInput    = document.getElementById('inputKg'+inputIdLDCR1).value;
     if(!kgInput) kgInput = 0;
-    let obj        = {ejercicio: ejercicio, load_id: load_id, article_code: article_code, cajas: cajasInput, kg: kgInput, action: 'update_desglose', cliente: cliente}
+    let obj        = {ejercicio: ejercicio, load_id: load_id, article_code: article_code, cajas: cajasInput, kg: kgInput, action: 'update_desglose', cliente: cliente, serie: serie}
 
     suzdalenkoPost(`logistica/action/0/0/regional_update/`, obj, (res) => {
         getLDCR();
     });
 }
 
-function orderClickedLDCR(ejercicio, load_id, article_code){
-    suzdalenkoGet(`logistica/action/0/0/regional_clicked/?ejercicio=${ejercicio}&load_id=${load_id}&article_code=${article_code}`, (res) => {
+function orderClickedLDCR(ejercicio, load_id, article_code, serie){
+    suzdalenkoGet(`logistica/action/0/0/regional_clicked/?ejercicio=${ejercicio}&load_id=${load_id}&article_code=${article_code}&serie=${serie}`, (res) => {
         getLDCR();
     });
 }
