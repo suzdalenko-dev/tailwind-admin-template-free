@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-gray-50">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Balanza de desperdicios</title>
+    <script src="/assets/css/taiwling.js"></script>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="/balanza/bassets/css/style.css">
+</head>
+
+<body>
+    <div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Balanza de desperdicios</h1>
+            <p id="fecha" class="text-gray-500 text-lg mt-2"></p>
+        </div>
+        <div>
+            <label for="tipo_merma" class="block size18">Tipo de merma</label>
+            <select id="tipo_merma" class="w-full mt-1 rounded-md border border-gray-300 px-3 py-2 size18 focus:ring-indigo-500 focus:border-indigo-500 bg-white"></select>
+        </div>
+        <div class="space-y-5">
+            <div id="inputs_automaticos"></div>
+            <br>
+            <div>
+                <label class="block size18">Peso manual</label>
+                <input  id="peso_manual" class="w-full mt-1 rounded-md border border-gray-300 px-3 py-2 size18 focus:ring-indigo-500 focus:border-indigo-500" type="number" placeholder="Escribe el peso manual">
+            </div>
+            <div>
+                <button onclick="guardarLineasMerma()" class="w-full bg-indigo-600 text-white size18 py-2 rounded-md hover:bg-indigo-900">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DESPLEGABLE -->
+    <div class="max-w-3xl mx-auto mt-8">
+        <button onclick="toggleTablaPesadas()" class="w-full bg-gray-200 text-gray-900 font-semibold py-2 rounded-md hover:bg-gray-300" id="existen_datos_dia">Ver registros guardados durante el día ▼</button>
+        <div id="tabla_contenedor" class="mt-4 p-4 bg-gray-50 rounded-lg shadow" style="display: none;">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b">
+                        <th class="py-2 px-2 font-semibold text-gray-900">Fecha-Hora</th>
+                        <th class="py-2 px-2 font-semibold text-gray-900">Tipo de merma</th>
+                        <th class="py-2 px-2 font-semibold text-gray-900 text-right">Kg</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_datos"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="conexion">Conexión<span id="con_internet" title="WAN" style="display: none;">🟡</span><span id="con_django" title="LAN">🟡</span><span id="con_ws_socket" title="WS SOCKET">🟡</span><span id="con_balanza" title="WIFI">🟡</span></div>
+
+    <script>
+        var CON_WS_SOCKET = null;
+        var CON_BALANZA   = null;
+    </script>
+    <script src="/balanza/bassets/js/notifications.js"></script>
+    <script src="/assets/js/0.config.js"></script>
+    <script src="/assets/js/4.notifications.js"></script>
+    <script src="/balanza/bassets/js/conexion_socket.js"></script>
+    <script src="/balanza/bassets/js/conexion_db.js"></script>
+    <script src="/balanza/bassets/js/datos_dia.js"></script>
+    <script src="/balanza/bassets/js/conexion_estado.js"></script>
+    
+</body>
+</html>
