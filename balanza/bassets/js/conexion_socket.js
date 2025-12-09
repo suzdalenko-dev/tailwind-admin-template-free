@@ -65,7 +65,10 @@ function conectarSocket() {
         console.log("laPesada:", laPesada);
 
         if (peso && peso > 0) {
-            agregarPesoAutomatico(laPesada); 
+            sonarPesada();
+            setTimeout(() => {
+                 agregarPesoAutomatico(laPesada);
+            }, 500);
         }
     };
 
