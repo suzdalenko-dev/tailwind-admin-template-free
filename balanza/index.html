@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es" class="bg-gray-50">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +8,6 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="/balanza/bassets/css/style.css">
 </head>
-
 <body>
     <div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
         <div class="text-center mb-6">
@@ -32,7 +30,6 @@
             </div>
         </div>
     </div>
-
     <!-- TABLA DESPLEGABLE -->
     <div class="max-w-3xl mx-auto mt-8">
         <button onclick="toggleTablaPesadas()" class="w-full bg-gray-200 text-gray-900 font-semibold py-2 rounded-md hover:bg-gray-300" id="existen_datos_dia">Ver registros guardados durante el día ▼</button>
@@ -50,9 +47,7 @@
             </table>
         </div>
     </div>
-
     <div class="conexion">Conexión<span id="con_internet" title="WAN" style="display: none;">🟡</span><span id="con_django" title="LAN">🟡</span><span id="con_ws_socket" title="WS SOCKET">🟡</span><span id="con_balanza" title="WIFI">🟡</span></div>
-
     <script>
         var CON_WS_SOCKET = null;
         var CON_BALANZA   = null;
@@ -64,6 +59,5 @@
     <script src="/balanza/bassets/js/conexion_db.js"></script>
     <script src="/balanza/bassets/js/datos_dia.js"></script>
     <script src="/balanza/bassets/js/conexion_estado.js"></script>
-    
 </body>
 </html>
