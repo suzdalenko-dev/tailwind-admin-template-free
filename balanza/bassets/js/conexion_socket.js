@@ -68,7 +68,7 @@ function conectarSocket() {
             sonarPesada();
             setTimeout(() => {
                  agregarPesoAutomatico(laPesada);
-            }, 500);
+            }, 100);
         }
     };
 
