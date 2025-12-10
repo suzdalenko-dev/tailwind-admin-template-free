@@ -57,7 +57,7 @@ function deleteItemDD(id, accion) {
                 showM("No se ha podido eliminar el registro", 'error');
             }
         }).catch(e => {
-            showM(e, 'error');
+            showM('2. '+e, 'error');
             loadTodaDate();
         });
     }

@@ -91,32 +91,6 @@ conectarSocket();
 
 
 function agregarPesoAutomatico(laPesada){
-    contadorPesos++;
-
-    const idCampo = "peso_auto_" + contadorPesos;
-
-    const html = `
-        <div>
-            <br> 
-            <label class="block size18 mt-1">
-                Peso recibido (automático) ${contadorPesos}
-            </label>
-            <div class="flex items-center gap-2 mt-1">
-                <input id="${idCampo}"
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 size18 focus:ring-indigo-500 focus:border-indigo-500"
-                       type="text" value="${laPesada}">
-                <button onclick="borrarPeso('${idCampo}')" class="text-red-500 text-lg hover:text-red-700">✖</button>
-            </div>
-        </div>
-    `;
-
-    document.getElementById("inputs_automaticos").insertAdjacentHTML("beforeend", html);
+    document.getElementById("peso_manual").value = laPesada;
 }
 
-function borrarPeso(idCampo) {
-    const input = document.getElementById(idCampo);
-    if (!input) return;
-
-    const bloque = input.closest("div").parentElement;
-    bloque.remove();
-}

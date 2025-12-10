@@ -17,7 +17,7 @@ function conexionDjango(){
         } else {
             document.getElementById('con_django').innerHTML = '🔴';
         }
-    }).catch( e =>{
+    }).catch( e => {
         document.getElementById('con_django').innerHTML = '🔴';
     });
 }

@@ -38,15 +38,11 @@ function guardarLineasMerma() {
     clickAction = 1;
 
     let tipo_merma = document.getElementById('tipo_merma').value;
-    let autos      = document.querySelectorAll("#inputs_automaticos input");
-    let listaPesos = [];
-    autos.forEach(inp => {
-        let valor = inp.value.trim();
-        if (valor !== "") listaPesos.push(valor);
-    });
+
+
     let pesoManual = document.getElementById("peso_manual").value.trim();
 
-    if((tipo_merma && pesoManual && pesoManual != 0) || (tipo_merma && listaPesos.length > 0)){
+    if(tipo_merma && pesoManual && pesoManual != 0){
 
     } else {
         showM('Rellene el formulario !!!', 'warning');
@@ -55,17 +51,9 @@ function guardarLineasMerma() {
     }
     
 
-    listaPesos = [];
-    autos      = document.querySelectorAll("#inputs_automaticos input");
-    autos.forEach(inp => {
-        let valor = inp.value.trim();
-        if (valor != "") listaPesos.push(valor);
-    });
+
 
     let formData = new FormData();
-    listaPesos.forEach(p => {
-        formData.append("pesos_auto[]", p);
-    });
     formData.append("peso_manual", pesoManual);
     formData.append("tipo_merma", tipo_merma);
 
@@ -75,7 +63,6 @@ function guardarLineasMerma() {
                 showM('Guardado correctamente');
                 listaPesos = null;
                 document.getElementById('tipo_merma').value             = '';
-                document.getElementById('inputs_automaticos').innerHTML = '';
                 document.getElementById('peso_manual').value            = '';
                 clickAction = 0;
             } else {
@@ -84,7 +71,7 @@ function guardarLineasMerma() {
             }
             loadTodaDate();
         }).catch(e => {
-            showM("Error de red: " + e, 'error');
+            showM("1. Error de red: " + e, 'error');
             clickAction = 0;
             loadTodaDate();
         });
