@@ -52,7 +52,6 @@ let menuData = [
         { title: 'Plazos de cobro', icon: '', submenu: null , view: 'power-bi?name=plazo-de-cobro', roles: ['exportacion;'] },
      ]},
      { title: 'Informes propiedad', icon: '', roles: ['propietario;finanzas;'], submenu: [
-        { title: 'Venta Contabilidad', icon: '', submenu: null , view: 'power-bi?name=venta-excel-libra-vista-contabilidad', roles: ['propietario;finanzas;'] },
         { title: 'Venta Comercial', icon: '', submenu: null , view: 'power-bi?name=venta-excel-libra-vista-comercial', roles: ['propietario;finanzas;'] },
      ]},
      { title: 'Produccion', icon: '', roles: ['produccion;produccion20;produccion30;'], submenu: [
