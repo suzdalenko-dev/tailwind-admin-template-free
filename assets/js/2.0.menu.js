@@ -60,12 +60,14 @@ let menuData = [
         { title: 'Previsión de Entradas', icon: '', submenu: null , view: 'power-bi?name=produccion-prevision-de-entradas', roles: ['produccion;produccion20;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;produccion20;'] },
         { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['produccion;produccion20;produccion30;'] },
+        { title: 'Balanza Mermas', icon: '', submenu: null , view: 'power-bi?name=balanza-mermas-produccion-calidad', roles: ['produccion;produccion20;produccion30;'] },
      ]},
      { title: 'Calidad', icon: '', roles: ['calidad;'], submenu: [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['calidad;'] },
         { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['calidad;'] },
         { title: 'Control de Roturas', icon: '', submenu: null , view: 'power-bi?name=calidad-control-de-roturas', roles: ['calidad;'] },
         { title: 'Informe Venta/Stock', icon: '', submenu: null , view: 'power-bi?name=calidad-venta-stock', roles: ['calidad;'] },
+        { title: 'Balanza Mermas', icon: '', submenu: null , view: 'power-bi?name=balanza-mermas-produccion-calidad', roles: ['calidad;'] },
      ]},
   ]},
 ];
