@@ -1,0 +1,71 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span></span>
+    <span>Desde <input type="date" id="fromIdDateMS" onchange="changeDateMSC(event)"></span>
+    <h1 class="text-xl text-center">Informe productos MSC / ASC</h1>
+    <span>Hasta <input type="date" id="toIdDateMSC" onchange="changeDateMSC(event)"></span>
+    <span></span>
+</div>
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table class="w-full styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">Fecha</th>
+                    <th>Código</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>Present.</th>
+                    <th>Albaran</th>
+                    <th>Org. Com.</th>
+                    <th class="topRight">Cliente</th>
+                </tr>
+            </thead>
+            <tbody id="tableMSC"></tbody>
+        </table>
+    </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+<!-- SEPARADOR -->
+<div class="w-full mt-6 mb-2 text-sm font-semibold text-gray-600">
+    Artículos MSC/ASC evaluados (con o sin ventas)
+</div>
+
+<!-- TABLA ARTÍCULOS EVALUADOS -->
+<div class="">
+    <table class="">
+        <thead>
+            <tr class="twcolor">
+                <th class="topLeft"> Código</th>
+                <th class="topRight">Descripción </th>
+            </tr>
+        </thead>
+        <tbody>
+    <tr>
+        <td>40957</td>
+        <td>FILETE ABADEJO S/P 140/220 IQF 6x1 MSC-C-55741</td>
+    </tr>
+    <tr>
+        <td>40153</td>
+        <td>FILETE LIMANDA S/P 80/140 6x1 MSC-C-55741</td>
+    </tr>
+    <tr>
+        <td>40123</td>
+        <td>FILETE SALMON PREMIUM C/P 800/1200 IWP 1x10 MSC-C-55741</td>
+    </tr>
+    <tr>
+        <td>41172</td>
+        <td>LOMO SALMON KETA 100/120 MSC-C-55741 ZERO</td>
+    </tr>
+    <tr>
+        <td>40124</td>
+        <td>LOMO SALMON PREMIUM C/P 120/160 IQF 6x1 MSC-C-55741</td>
+    </tr>
+    <tr>
+        <td>41297</td>
+        <td>TELLINA AUSTRAL 6x1 MSC-C-55741</td>
+    </tr>
+</tbody>
+
+    </table>
+</div>

@@ -396,3 +396,13 @@ function getYearBoundsStr(year) {
   const toYMD = d => d.toISOString().slice(0, 10); 
   return [toYMD(first), toYMD(last)];
 }
+
+
+function getCurrentYearBounds() {
+  const y = new Date().getFullYear();
+  const first = new Date(Date.UTC(y, 0, 1));   // 1 enero
+  const last  = new Date(Date.UTC(y, 11, 31)); // 31 diciembre
+
+  const toYMD = d => d.toISOString().slice(0, 10);
+  return [toYMD(first), toYMD(last)];
+}

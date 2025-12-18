@@ -4,6 +4,7 @@ let menuData = [
     { title: 'Bloqueos', icon: '🔒', view: 'stock-bloqueado-situacion-calidad', roles: ['calidad;produccion;produccion20;produccion30;'] },
     { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;produccion;produccion20;produccion30;'] },
     { title: 'Evaluación Proveedores', icon: '⭐', view: 'calidad-evaluacion-proveedor', roles: ['calidad;'] },
+    { title: 'Productos MSC/ASC', icon: '🌱', view: 'calidad-productos-msc-asc', roles: ['calidad;'] },
   ]},
   { title: 'Finanzas', icon: '💰', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'], submenu: [
     { title: 'Expedientes', icon: '💵', submenu: null, view: 'expedientes-albaranes-facturas', roles: ['finanzas'] },
