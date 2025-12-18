@@ -25,7 +25,7 @@ function changeDateMSC(){
 }
 
 function getMSC(){
-    document.getElementById('tableMSC').innerHTML = 'Cargando..';
+    document.getElementById('tableMSC').innerHTML = '<br>Cargando..';
     linesArtMSC = [];
 
     fetch(HTTP_HOST+'calidad/get/0/0/ventas_msc_asc/?date_from='+timeFromMSC+'&date_to='+timeToMSC).then(res => res.json()).then(r => {
