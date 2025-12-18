@@ -34,7 +34,7 @@ let menuData = [
 
 
   
-  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;'], submenu: [
+  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;'], submenu: [
      { title: 'Compras', icon: '', roles: ['compras;'], submenu: [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['compras;'] },
@@ -68,6 +68,9 @@ let menuData = [
         { title: 'Control de Roturas', icon: '', submenu: null , view: 'power-bi?name=calidad-control-de-roturas', roles: ['calidad;'] },
         { title: 'Informe Venta/Stock', icon: '', submenu: null , view: 'power-bi?name=calidad-venta-stock', roles: ['calidad;'] },
         { title: 'Balanza Mermas', icon: '', submenu: null , view: 'power-bi?name=balanza-mermas-produccion-calidad', roles: ['calidad;'] },
+     ]},
+     { title: 'Mantenimiento', icon: '', roles: ['mantenimiento;'], submenu: [
+        { title: 'Balanza Mermas', icon: '', submenu: null , view: 'power-bi?name=balanza-mermas-produccion-calidad', roles: ['mantenimiento;'] },
      ]},
   ]},
 ];
