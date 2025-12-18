@@ -38,7 +38,6 @@ function getMSC(){
                             <td class="border px-2 py-1 text-center">${l.ARTICULO ?? ''}</td>
                             <td class="border px-2 py-1 text-left">${l.DESCRIPCION_ARTICULO ?? ''}</td>
                             <td class="border px-2 py-1 text-center">${l.UNI_SERALM ?? ''}</td>
-                            <td class="border px-2 py-1 text-center">${l.PRESENTACION_PEDIDO ?? ''}</td>
                             <td class="border px-2 py-1 text-center">${l.EJERCICIO}/${l.NUMERO_SERIE}/${l.NUMERO_ALBARAN}</td>
                             <td class="border px-2 py-1 text-center">${l.ORGANIZACION_COMERCIAL ?? ''}</td>
                             <td class="border px-2 py-1 text-left">${l.CLIENTE} ${l.NOMBRE_CLIENTE}</td>
@@ -53,7 +52,6 @@ function getMSC(){
         document.getElementById('tableMSC').innerHTML = e;
     });
 }
-
 
 /* ===========================
    EXPORTAR EXCEL MSC / ASC
@@ -74,13 +72,6 @@ function createExcelMSC(){
     return s;
   };
 
-  const toNum = (v) => {
-    if (typeof v === 'number') return v;
-    const s = String(v ?? '').trim();
-    if (!s) return '';
-    const n = Number(s.replace(/\./g, '').replace(',', '.'));
-    return Number.isFinite(n) ? n : '';
-  };
 
   // --- Cabecera EXACTA a la tabla ---
   const HEAD = [
@@ -88,7 +79,6 @@ function createExcelMSC(){
     'Código artículo',
     'Descripción',
     'Cantidad',
-    'Presentación',
     'Albarán',
     'Org. Comercial',
     'Cliente'
@@ -102,8 +92,7 @@ function createExcelMSC(){
       toDateDDMMYYYY(l.FECHA_PEDIDO),
       nn(l.ARTICULO),
       nn(l.DESCRIPCION_ARTICULO),
-      toNum(l.UNI_SERALM),
-      nn(l.PRESENTACION_PEDIDO),
+      l.UNI_SERALM,
       `${nn(l.EJERCICIO)}/${nn(l.NUMERO_SERIE)}/${nn(l.NUMERO_ALBARAN)}`,
       nn(l.ORGANIZACION_COMERCIAL),
       `${nn(l.CLIENTE)} ${nn(l.NOMBRE_CLIENTE)}`
