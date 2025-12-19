@@ -45,7 +45,7 @@ function getMSC(){
             });
             document.getElementById('tableMSC').innerHTML = html;
         } else {
-            document.getElementById('tableMSC').innerHTML = '<br>No hay ventas en el periodo indicado';
+            document.getElementById('tableMSC').innerHTML = '<br>No hay ventas en el periodo indicado para artículos MSC/ASC y organizacion comercial T01 VENTA TIENDA CARTES FROXA';
         }
     }).catch(e => {
         showM('Error MSC '+e, 'error');
