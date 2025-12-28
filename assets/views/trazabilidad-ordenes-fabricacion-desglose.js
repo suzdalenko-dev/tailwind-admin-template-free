@@ -244,8 +244,8 @@ async function createExcelTOF() {
 
     addSection("OF", raw.OF.map(item => ({
         "Id": item.ORDEN_DE_FABRICACION,
-        "Fecha Inicio": item.FECHA_INI_FABRI_PREVISTA,
-        "Fecha Entrega": item.FECHA_ENTREGA_PREVISTA,
+        "Fecha Inicio": formatLongDate(item.FECHA_INI_FABRI_PREVISTA),
+        "Fecha Entrega": formatLongDate(item.FECHA_ENTREGA_PREVISTA),
         "Código": item.CODIGO_ARTICULO,
         "Nombre": item.NOMBRE_ARTICULO?.trim(),
         "Cantidad": `${item.CANTIDAD_A_FABRICAR} ${item.CODIGO_PRESENTACION}`,
@@ -259,8 +259,8 @@ async function createExcelTOF() {
     })));
 
     addSection("Materiales consumidos", raw.MATERIAL_CONSUMIDO.map(item => ({
-        "Fecha creación": item.FECHA_CREACION,
-        "Fecha caducidad": item.FECHA_CADUCIDAD,
+        "Fecha creación": formatLongDate(item.FECHA_CREACION),
+        "Fecha caducidad": formatLongDate(item.FECHA_CADUCIDAD),
         "Código": item.CODIGO_ARTICULO_CONSUMIDO,
         "Nombre": item.DESCRIP_CONSUMIDO?.trim(),
         "Lote": item.NUMERO_LOTE_INT_CONSUMIDO,
