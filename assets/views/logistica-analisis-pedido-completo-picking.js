@@ -108,7 +108,7 @@ async function createExcelLAP() {
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet("Analisis Pedido");
 
-    const COLOR_HEADER = "FF4F46E5";   // mismo color que usas
+    const COLOR_HEADER = '00751b'; // "FF4F46E5";   // mismo color que usas
 
     // ========= TÍTULO (FILA 1, MISMO TAMAÑO QUE EL RESTO) =========
     sheet.mergeCells("A1:N1");

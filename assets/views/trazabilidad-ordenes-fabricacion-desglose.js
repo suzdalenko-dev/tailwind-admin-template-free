@@ -14,7 +14,7 @@ function realoadPageTOFD(){
 async function showCustomOfTOFD(ofId){
     document.getElementById('slugTitle').innerHTML = `
         <span class="b-top-page" onclick="realoadPageTOFD()">🔗 Trazabilidad </a></span>
-        <span class="b-top-page" onclick="createExcel()">📥 Excel </span>`;
+        <span class="b-top-page" onclick="createExcelTOF()">📥 Excel </span>`;
 
     trazData = await fetch(HTTP_HOST+'calidad/get/of/'+ofId+'/of_trazabilidad/');
     trazData = await trazData.json();
@@ -185,9 +185,126 @@ async function showCustomOfTOFD(ofId){
 
 /* 3. CREATE EXCEL FUNCTION */
  
+async function createExcelTOF() {
+
+    const raw = trazData.data[0];
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet("Trazabilidad");
+
+    const COLOR_HEADER = '00751b'; // "FF4F46E5";
+
+    let currentRow = 1;
+
+    function addSection(title, dataArray) {
+
+        if (!dataArray || dataArray.length === 0) return;
+
+        // ---- TÍTULO SECCIÓN ----
+        const colCount = Object.keys(dataArray[0]).length;
+        const start = sheet.getRow(currentRow);
+
+        sheet.mergeCells(currentRow, 1, currentRow, colCount);
+        const cell = sheet.getCell(currentRow, 1);
+
+        cell.value = title.toUpperCase();
+        cell.font = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
+        cell.alignment = { horizontal: "center" };
+        cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: COLOR_HEADER } };
+
+        currentRow++;
+
+        // ---- CABECERAS ----
+        const headers = Object.keys(dataArray[0]);
+        sheet.insertRow(currentRow, headers);
+
+        sheet.getRow(currentRow).eachCell(cell => {
+            cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
+            cell.alignment = { horizontal: "center" };
+            cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: COLOR_HEADER } };
+            cell.border = {
+                top:{style:"thin"},left:{style:"thin"},
+                bottom:{style:"thin"},right:{style:"thin"}
+            };
+        });
+
+        currentRow++;
+
+        // ---- DATOS ----
+        dataArray.forEach(obj => {
+            sheet.insertRow(currentRow, Object.values(obj));
+            currentRow++;
+        });
+
+        currentRow++; // espacio entre secciones
+    }
+
+    // ======================
+    //  SECCIONES
+    // ======================
+
+    addSection("OF", raw.OF.map(item => ({
+        "Id": item.ORDEN_DE_FABRICACION,
+        "Fecha Inicio": item.FECHA_INI_FABRI_PREVISTA,
+        "Fecha Entrega": item.FECHA_ENTREGA_PREVISTA,
+        "Código": item.CODIGO_ARTICULO,
+        "Nombre": item.NOMBRE_ARTICULO?.trim(),
+        "Cantidad": `${item.CANTIDAD_A_FABRICAR} ${item.CODIGO_PRESENTACION}`,
+        "Estado": item.SITUACION_OF === 'C' ? 'Cerrada' : item.SITUACION_OF
+    })));
+
+    addSection("Materiales pedidos", raw.MATERIAL_PEDIDO.map(item => ({
+        "Código": item.CODIGO_COMPONENTE,
+        "Nombre": item.COMPO_DESC_COMERCIAL?.trim(),
+        "Cantidad": `${item.CANTIDAD_TECNICA} ${item.CODIGO_PRESENTACION_COMPO}`
+    })));
+
+    addSection("Materiales consumidos", raw.MATERIAL_CONSUMIDO.map(item => ({
+        "Fecha creación": item.FECHA_CREACION,
+        "Fecha caducidad": item.FECHA_CADUCIDAD,
+        "Código": item.CODIGO_ARTICULO_CONSUMIDO,
+        "Nombre": item.DESCRIP_CONSUMIDO?.trim(),
+        "Lote": item.NUMERO_LOTE_INT_CONSUMIDO,
+        "Cantidad": `${item.CANTIDAD_UNIDAD1} ${item.CODIGO_PRESENTACION}`
+    })));
+
+    addSection("Materiales producidos", raw.MATERIAL_PRODUCIDO.map(item => ({
+        "Fecha creación": item.FECHA_CREACION,
+        "Fecha caducidad": item.FECHA_CADUCIDAD,
+        "Código": item.CODIGO_ARTICULO,
+        "Nombre": item.DESCRIP_COMERCIAL?.trim(),
+        "Lote": item.NUMERO_LOTE_INT,
+        "Cantidad": `${item.CANTIDAD_UNIDAD1} ${item.CODIGO_PRESENTACION}`,
+        "Paleta": item.NUMERO_PALET
+    })));
+
+    addSection("Parte inspección", raw.PARTE_INSPECCION.map(item => ({
+        "OF id": item.ORDEN_FABRICACION,
+        "Parte": item.NUMERO_PARTE,
+        "Código": item.CODIGO_ARTICULO,
+        "Fecha entrada": item.FECHA_ENTRADA,
+        "Fecha verificación": item.FECHA_VERIFICACION,
+        "Cantidad aceptada": `${item.CANT_ACEPTADA} ${item.CODIGO_PRESENTACION}`,
+        "Cantidad recibida": `${item.CANT_RECIBIDA} ${item.CODIGO_PRESENTACION}`,
+        "Usuario": item.CODIGO_VERIFICADOR
+    })));
+
+    // Auto ancho
+    sheet.columns.forEach(col => col.width = 22);
+
+    // Descargar
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    });
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `Trazabilidad_OF_${raw.OF[0].ORDEN_DE_FABRICACION}.xlsx`;
+    a.click();
+}
 
 
-function createExcel() {
+function createExcelNoseUsa() {
   const raw = trazData.data[0];
   const sheetData = [];
 
