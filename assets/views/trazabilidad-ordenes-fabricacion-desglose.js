@@ -249,7 +249,7 @@ async function createExcelTOF() {
         "Código": item.CODIGO_ARTICULO,
         "Nombre": item.NOMBRE_ARTICULO?.trim(),
         "Cantidad": `${item.CANTIDAD_A_FABRICAR} ${item.CODIGO_PRESENTACION}`,
-        "Estado": item.SITUACION_OF === 'C' ? 'Cerrada' : item.SITUACION_OF
+        "Estado": getOfState(item.SITUACION_OF)
     })));
 
     addSection("Materiales pedidos", raw.MATERIAL_PEDIDO.map(item => ({
