@@ -71,11 +71,17 @@ function fEE(num) {
   return entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function fENN(numero) {
+  const partes = numero.toString().split(".");
+  const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const decimal = partes[1] || "";
+  return `${entero}`;
+}
 
 function fEur0(numero) {
   const partes = numero.toString().split(".");
   const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  const decimal = partes[1] || "000";
+  const decimal = partes[1] || "0";
   return `${entero},${decimal}`;
 }
 
