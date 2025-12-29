@@ -46,7 +46,7 @@ function getLAPData(){
                     <td class="border px-2 py-1 text-center">${l.lineas_pedido}</td>
                     <td class="border px-2 py-1 text-center">${fENN(l.cant_cajas)}</td>
                     <td class="border px-2 py-1 text-center">${l.serie_hoja_carga}</td>
-                    <td class="border px-2 py-1 text-center">${l.numero_hoja_carga}</td>
+                    <td class="border px-2 py-1 text-center">${notNone(l.numero_hoja_carga)}</td>
                 </tr>`;
             });
             let rLAP = r.data.resumen;
@@ -161,7 +161,7 @@ async function createExcelLAP() {
             l.lineas_pedido,
             l.cant_cajas,
             l.serie_hoja_carga,
-            l.numero_hoja_carga
+            notNone(l.numero_hoja_carga)
         ]);
     });
 
