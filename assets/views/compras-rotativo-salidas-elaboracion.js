@@ -67,7 +67,7 @@ function pintarTablaRSE(rows){
 
     rows.forEach(r => {
         html += `<tr>
-            <td class="border px-2 py-1 text-left">${r.Erp}</td>
+            <td class="border px-2 py-1 text-center">${r.Erp}</td>
             <td class="border px-2 py-1 text-left">${r.Descripcion}</td>`;
 
         // one → first visible month
