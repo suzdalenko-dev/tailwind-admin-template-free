@@ -37,9 +37,9 @@ let menuData = [
 
 
   
-  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;'], submenu: [
-     { title: 'Compras', icon: '', roles: ['compras;'], submenu: [
-        { title: 'Salidas Elaboración', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;'] },
+  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;'], submenu: [
+     { title: 'Compras', icon: '', roles: ['compras;compras20;'], submenu: [
+        { title: 'Salidas Elaboración', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;compras20;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['compras;'] },
         { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['compras;'] },
      ]},
