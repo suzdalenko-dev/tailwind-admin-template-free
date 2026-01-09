@@ -36,8 +36,8 @@ function getLLCR(){
                                     <td class="border expanded px-2 py-1 text-center"><a href="#logistica-detalle-carga-regional?year=${y.ejercicio}&load_id=${y.load_id}&serial=${y.serie}"><b class="color_blue" ${colorGreenLDCR2}>${y.serie}/${y.load_id}</b></a></td>
                                     <td class="border expanded px-2 py-1 text-center">${y.conductor == 'None' ? '': y.conductor} ${y.matricula}</td>
 
-                                    <td class="border expanded px-2 py-1 text-center">${y.cajas_real > 0 ? y.cajas_real: ''}</td>
-                                    <td class="border expanded px-2 py-1 text-center">${y.kg_real > 0 ? y.kg_real : ''}</td>
+                                    <td class="border expanded px-2 py-1 text-center">${y.cajas_real > 0 ? Number(y.cajas_real.toFixed(2)) : ''}</td>
+                                    <td class="border expanded px-2 py-1 text-center">${y.kg_real > 0 ? Number(y.kg_real.toFixed(2)) : ''}</td>
                                 </tr>`;
                     });
                 };
