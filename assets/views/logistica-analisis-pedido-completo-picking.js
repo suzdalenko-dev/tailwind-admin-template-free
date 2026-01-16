@@ -41,7 +41,9 @@ function getLAPData(){
                     <td class="border px-2 py-1 text-right">${fEur0(l.kg)}</td>
                     <td class="border px-2 py-1 text-left">${l.cliente}</td>
                     <td class="border px-2 py-1 text-right">${fEur0(l.palets_complet)}</td>
+                    <td class="border px-2 py-1 text-center">${l.NUMERO_LINEAS_PALET_COMPLETO}</td>
                     <td class="border px-2 py-1 text-right">${fEur0(l.palets_de_pick)}</td>
+                    <td class="border px-2 py-1 text-center">${l.NUMERO_LINEAS_PALET_PICKING}</td>
                     <td class="border px-2 py-1 text-center">${l.num_referencias}</td>
                     <td class="border px-2 py-1 text-center">${l.lineas_pedido}</td>
                     <td class="border px-2 py-1 text-center">${fENN(l.cant_cajas)}</td>
@@ -60,7 +62,9 @@ function getLAPData(){
                     <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.TOTAL_KG)}</b></td>
                     <td class="border px-2 py-1 text-left"></td>
                     <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.PALET_COMPLETOS_PC)}</b></td>
+                    <td class="border px-2 py-1 text-left"></td>
                     <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.PALET_PICKING_PC)}</b></td>
+                    <td class="border px-2 py-1 text-left"></td>
                     <td class="border px-2 py-1 text-center"><b>${rLAP.TOTAL_REFERENCIAS}</b></td>
                     <td class="border px-2 py-1 text-center"><b>${rLAP.TOTAL_LINEAS_PED}</b></td>
                     <td class="border px-2 py-1 text-center"><b>${fEur0(rLAP.TOTAL_CAJAS)}</b></td>
@@ -77,7 +81,9 @@ function getLAPData(){
                     <td class="border px-2 py-1 text-right"></td>
                     <td class="border px-2 py-1 text-left"></td>
                     <td class="border px-2 py-1 text-right"><b>% ${fEur0(rLAP.PORCENTAJE_COMPLETOS)}</b></td>
+                    <td class="border px-2 py-1 text-left"></td>
                     <td class="border px-2 py-1 text-right"><b>% ${fEur0(rLAP.PORCENTAJE_PICKING)}</b></td>
+                    <td class="border px-2 py-1 text-left"></td>
                     <td class="border px-2 py-1 text-center"></td>
                     <td class="border px-2 py-1 text-center"></td>
                     <td class="border px-2 py-1 text-center"></td>
@@ -111,7 +117,7 @@ async function createExcelLAP() {
     const COLOR_HEADER = '00751b'; // "FF4F46E5";   // mismo color que usas
 
     // ========= TÍTULO (FILA 1, MISMO TAMAÑO QUE EL RESTO) =========
-    sheet.mergeCells("A1:N1");
+    sheet.mergeCells("A1:P1");
     const t = sheet.getCell("A1");
 
     t.value = `Panel de Análisis de Pedido  —  Desde ${formatDateToEuropean(dateFromLAP)}  Hasta ${formatDateToEuropean(dateToLAP)}`;
@@ -123,7 +129,8 @@ async function createExcelLAP() {
     const headers = [
         "Pedido","Fecha Pedido","Fecha Carga","Fecha Entrega",
         "Palets","Kg","Cliente",
-        "Pal. Complet.","Pal. Picking",
+        "Pal. Complet.", "Complet. Num. Lin.",
+        "Pal. Picking", "Picking Num. Lin.",
         "Num. Referen.","Ped. Lineas","Cant. Cajas",
         "Serie HC","Num. HC"
     ];
@@ -155,8 +162,8 @@ async function createExcelLAP() {
             l.palets_total,
             l.kg,
             l.cliente,
-            l.palets_complet,
-            l.palets_de_pick,
+            l.palets_complet, l.NUMERO_LINEAS_PALET_COMPLETO,
+            l.palets_de_pick, l.NUMERO_LINEAS_PALET_PICKING,
             l.num_referencias,
             l.lineas_pedido,
             l.cant_cajas,
@@ -173,8 +180,8 @@ async function createExcelLAP() {
         r.TOTAL_PALETS,
         r.TOTAL_KG,
         "",
-        r.PALET_COMPLETOS_PC,
-        r.PALET_PICKING_PC,
+        r.PALET_COMPLETOS_PC, "",
+        r.PALET_PICKING_PC, "",
         r.TOTAL_REFERENCIAS,
         r.TOTAL_LINEAS_PED,
         r.TOTAL_CAJAS,
@@ -187,8 +194,8 @@ async function createExcelLAP() {
         "",
         "",
         "",
-        "% " + r.PORCENTAJE_COMPLETOS,
-        "% " + r.PORCENTAJE_PICKING,
+        "% " + r.PORCENTAJE_COMPLETOS, "",
+        "% " + r.PORCENTAJE_PICKING, "",
         "", "", "", "", ""
     ]);
 
