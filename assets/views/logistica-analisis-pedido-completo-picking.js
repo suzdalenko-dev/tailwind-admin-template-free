@@ -40,7 +40,7 @@ function getLAPData(){
                     <td class="border px-2 py-1 text-right">${fEur0(l.palets_total)}</td>
                     <td class="border px-2 py-1 text-right">${fEur0(l.kg)}</td>
                     <td class="border px-2 py-1 text-left">${l.cliente}</td>
-                    <td class="border px-2 py-1 text-right">${fEur0(l.palets_complet)}</td>
+                    <td class="border px-2 py-1 text-right">${Math.ceil(l.palets_complet)}</td>
                     <td class="border px-2 py-1 text-center">${l.NUMERO_LINEAS_PALET_COMPLETO}</td>
                     <td class="border px-2 py-1 text-right">${fEur0(l.palets_de_pick)}</td>
                     <td class="border px-2 py-1 text-center">${l.NUMERO_LINEAS_PALET_PICKING}</td>
@@ -61,7 +61,7 @@ function getLAPData(){
                     <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.TOTAL_PALETS)}</b></td>
                     <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.TOTAL_KG)}</b></td>
                     <td class="border px-2 py-1 text-left"></td>
-                    <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.PALET_COMPLETOS_PC)}</b></td>
+                    <td class="border px-2 py-1 text-right"><b>${Math.ceil(rLAP.PALET_COMPLETOS_PC)}</b></td>
                     <td class="border px-2 py-1 text-left"></td>
                     <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.PALET_PICKING_PC)}</b></td>
                     <td class="border px-2 py-1 text-left"></td>
@@ -162,7 +162,7 @@ async function createExcelLAP() {
             l.palets_total,
             l.kg,
             l.cliente,
-            l.palets_complet, l.NUMERO_LINEAS_PALET_COMPLETO,
+            Math.ceil(l.palets_complet), l.NUMERO_LINEAS_PALET_COMPLETO,
             l.palets_de_pick, l.NUMERO_LINEAS_PALET_PICKING,
             l.num_referencias,
             l.lineas_pedido,
@@ -180,7 +180,7 @@ async function createExcelLAP() {
         r.TOTAL_PALETS,
         r.TOTAL_KG,
         "",
-        r.PALET_COMPLETOS_PC, "",
+        Math.ceil(r.PALET_COMPLETOS_PC), "",
         r.PALET_PICKING_PC, "",
         r.TOTAL_REFERENCIAS,
         r.TOTAL_LINEAS_PED,
