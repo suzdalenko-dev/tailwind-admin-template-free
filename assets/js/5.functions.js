@@ -412,3 +412,4 @@ function getCurrentYearBounds() {
   const toYMD = d => d.toISOString().slice(0, 10);
   return [toYMD(first), toYMD(last)];
 }
+

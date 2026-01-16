@@ -1,0 +1,25 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span> </span>
+    <span>Desde <input type="date" id="date_from_HPD" onchange="change_date_HPD(event)"></span>
+    <h1 class="text-xl text-center">Hoja Planificación de Descargas</h1>
+    <span>Hasta <input type="date" id="date_to_HPD" onchange="change_date_HPD(event)"></span>
+    <span></span>
+</div>
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table class="w-ful styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">Fecha de llegada</th>
+                    <th>Nº pedido</th>
+                    <th>Proveedor</th>
+                    <th>Artículo</th>
+                    <th>Kg</th>
+                    <th>Transporte</th>
+                    <th class="topRight" id="rpe12">Destino</th>
+                </tr>
+            </thead>
+            <tbody id="tableHPD"></tbody>
+        </table>
+    </div>
+</div>
