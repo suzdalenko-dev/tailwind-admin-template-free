@@ -77,7 +77,7 @@ let menuData = [
         { title: 'Balanza Mermas', icon: '', submenu: null , view: 'power-bi?name=balanza-mermas-produccion-calidad', roles: ['mantenimiento;'] },
      ]},
      { title: 'Regional', icon: '', roles: ['regional00;'], submenu: [
-        { title: 'Tabla din. regional', icon: '', submenu: null , view: 'power-bi?name=regional-tabla-dinamica', roles: ['regional00;'] },
+        { title: 'Tabla dinamica. regional', icon: '', submenu: null , view: 'power-bi?name=regional-tabla-dinamica', roles: ['regional00;'] },
      ]},
   ]},
 ];
