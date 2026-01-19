@@ -38,7 +38,7 @@ let menuData = [
 
 
   
-  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;'], submenu: [
+  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;regional00;'], submenu: [
      { title: 'Compras', icon: '', roles: ['compras;compras20;'], submenu: [
         { title: 'Salidas Elaboración', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;compras20;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['compras;'] },
@@ -75,6 +75,9 @@ let menuData = [
      ]},
      { title: 'Mantenimiento', icon: '', roles: ['mantenimiento;'], submenu: [
         { title: 'Balanza Mermas', icon: '', submenu: null , view: 'power-bi?name=balanza-mermas-produccion-calidad', roles: ['mantenimiento;'] },
+     ]},
+     { title: 'Regional', icon: '', roles: ['regional00;'], submenu: [
+        { title: 'Tabla din. regional', icon: '', submenu: null , view: 'power-bi?name=regional-tabla-dinamica', roles: ['regional00;'] },
      ]},
   ]},
 ];
