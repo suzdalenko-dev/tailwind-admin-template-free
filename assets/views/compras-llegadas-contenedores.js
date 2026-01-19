@@ -224,7 +224,7 @@ function createExcelAllArrivals() {
       (y.D_PLANTILLA || '') +
       (y.PROVEEDOR || '') +
       (y.D_PROVEEDOR_HOJA || '') +
-      ((y.NUM_EXPEDIENTE || '') + '-' + (y.NUM_HOJA || ''))
+      ((y.NUM_EXPEDIENTE || '') + '-' + (y.NUM_HOJA || ''))+y.D_CODIGO_FAMILIA
     ).toLowerCase();
     return lineData.includes(inputValue);
   };
@@ -393,7 +393,7 @@ function createPDFArrivals() {
     const line = (
       (y.ARTICULO||'')+(y.DESCRIP_COMERCIAL||'')+(y.CONTENEDOR||'')+(y.D_CLAVE_ARANCEL||'')+
       (y.FECHA_PREV_LLEGADA||'')+(y.D_PLANTILLA||'')+(y.PROVEEDOR||'')+
-      (y.D_PROVEEDOR_HOJA||'')+((y.NUM_EXPEDIENTE||'')+'-'+(y.NUM_HOJA||''))
+      (y.D_PROVEEDOR_HOJA||'')+((y.NUM_EXPEDIENTE||'')+'-'+(y.NUM_HOJA||''))+y.D_CODIGO_FAMILIA
     ).toLowerCase();
     return line.includes(inputValue);
   };
