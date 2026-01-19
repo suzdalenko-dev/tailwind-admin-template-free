@@ -5,6 +5,7 @@ var famillySettedCLC = 0;
 var familyHTMLCLC    = 0;
 
 function comprasLlegadasContenedoresInit(){
+    famillySettedCLC = 0;
     document.getElementById('slugTitle').innerHTML = `
         <span class="b-top-page" onclick="createExcelAllArrivals()">📥 Excel </span>
         <span class="b-top-page" onclick="createPDFArrivals()">📄 PDF </span>
@@ -106,7 +107,7 @@ function show2Tables() {
   };
 
   // 🔹 recorrer array de grupos
-  r.data.forEach(group => { console.log(group)
+  r.data.forEach(group => {
     const filtered = group.lines.filter(match);
     if (filtered.length === 0) return;
 
