@@ -3,10 +3,15 @@
       <input type="text" value="" class="input-ca input-ca-ba" placeholder="Buscar.." id="searchInputL" oninput="changeSearchedInput(event)">
       <span  class="b-top-page" onclick="clickBroom()"> 🧹 </span>
     </span>
+    <span>
+        <select id="familiasCLC" onchange="changedFamCLC(event)">
+            <option value=""> FAMILIAS </option>
+        </select>
+    </span>
     <span>Desde <input type="date" id="firstDataInput" onchange="firstDateChange(event)"></span>
     <h1 class="text-xl text-center">Llegadas pendientes de contenedores entre fechas</h1>
     <span>Hasta <input type="date" id="secondDataInput" onchange="secondDateChange(event)"></span>
-    <span></span><span></span><span></span><span></span>
+    <span> </span><span> </span><span> </span><span> </span>
 </div>
 <div class="flex flex-col gap-2 text-sm w-full">
     <div>
@@ -26,7 +31,8 @@
                     <th>Puerto</th>
                     <th>Proveedor</th>
                     <th>Cont.Prov</th>
-                    <th class="topRight">Exp</th>
+                    <th>Exp</th>
+                    <th class="topRight">Familia</th>
                 </tr>
             </thead>
             <tbody id="tableNormal"></tbody>

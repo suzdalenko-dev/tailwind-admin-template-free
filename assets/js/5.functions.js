@@ -154,10 +154,11 @@ function setTopDates4(){
 // };
 
 
-function userDontLogin(){
+function userDontLogin(departament){
   let userPass   = window.localStorage.getItem('password');
   let actionPass = window.localStorage.getItem('action_pass');
-  if(userPass && actionPass && userPass == actionPass){
+  let role       = window.localStorage.getItem('role');
+  if(userPass && actionPass && userPass == actionPass && role.includes(departament)){
     return false;
   }  
 
@@ -413,3 +414,17 @@ function getCurrentYearBounds() {
   return [toYMD(first), toYMD(last)];
 }
 
+function fechaConMeses(offsetMeses = 0) {
+    const hoy = new Date();
+    // Crear copia para no mutar la fecha original
+    const fecha = new Date(
+        hoy.getFullYear(),
+        hoy.getMonth() + offsetMeses,
+        hoy.getDate()
+    );
+    const yyyy = fecha.getFullYear();
+    const mm = String(fecha.getMonth() + 1).padStart(2, '0');
+    const dd = String(fecha.getDate()).padStart(2, '0');
+
+    return `${yyyy}-${mm}-${dd}`;
+}

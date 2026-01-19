@@ -3,13 +3,45 @@ let fechaHastaHPD = '';
 let array_transpo = ['Propio', 'Agencia'];
 let array_destino = ['Produccion', 'Venta/Prod.', 'Venta', 'Exportacion', 'Regional'];
 let line_array    = [];
+let defaultState  = 'E';
+let defaultOrgCom = '0102';
 
 function comprasHojaPlanificacionDescargasInit(){
-    document.getElementById('slugTitle').innerHTML = `<span class="b-top-page" onclick="createExcelHPD()">📥 Excel </span>`;
+    document.getElementById('slugTitle').innerHTML = `
+        <span>
+            <select id="selectOrgHPD" onchange="chagedOrgHPD(event)">
+                <option value="0102" selected="0102">01 INTERNACIONAL & 02 NACIONAL</option>
+                <option value="03">03 MATERIAL AUXILIAR FROXA</option>
+                <option value="05">05 VARIOS FROXA</option>
+                <option value="all">TODAS ORG. COMPRAS</option>
+            </select>
+        </span>
+        <span class="b-top-page" onclick="reloadHPD()">🔁 Recargar</span>
+        <span class="b-top-page" onclick="createExcelHPD()">📥 Excel</span>
+        <span class="ml-11">
+            <input class="radio-input" name="pedidos_situacion" type="radio" id="pendientesHPD" value="E" checked>
+            <label class="radio-label" for="pendientesHPD">PENDIENTES</label>
+            <input class="radio-input" name="pedidos_situacion" type="radio" id="cerradosHPD" value="Z">
+            <label class="radio-label" for="cerradosHPD">CERRADOS</label>
+        </span>`;
     document.title = "Hoja Planificación de Descargas";
 
-    fechaDesdeHPD = getFirstDayOfCurrentMonth();
-    fechaHastaHPD = getLastDayOfCurrentMonth();
+    fechaDesdeHPD = fechaConMeses(-1);
+    fechaHastaHPD = fechaConMeses(+3);
+    initHPD();
+
+     // 🔔 ESCUCHAR CAMBIO DE RADIO
+    document.querySelectorAll('input[name="pedidos_situacion"]').forEach(radio => {
+        radio.addEventListener('change', onPedidosSituacionChange);
+    });
+}
+
+function chagedOrgHPD(event){
+    defaultOrgCom = event.target.value;
+    initHPD();
+}
+
+function reloadHPD(){
     initHPD();
 }
 
@@ -24,7 +56,7 @@ function initHPD(){
     document.getElementById('date_to_HPD').value   = fechaHastaHPD;
     document.getElementById('tableHPD').innerHTML  = '<br>Cargando datos..';
 
-    let url = `${HTTP_HOST}compras/get/0/0/hoja_planificacion_descargas/?date_from=${fechaDesdeHPD}&date_to=${fechaHastaHPD}`;
+    let url = `${HTTP_HOST}compras/get/0/0/hoja_planificacion_descargas/?date_from=${fechaDesdeHPD}&date_to=${fechaHastaHPD}&state=${defaultState}&org_com=${defaultOrgCom}`;
     fetch(url).then(r => r.json()).then(r => {
         if(r && r.data && r.data && r.data.res && r.data.res.length > 0){
             line_array    = r.data.res;
@@ -38,6 +70,7 @@ function initHPD(){
                                 <td class="border px-2 py-1 text-right">${fEur0(row.cantidad)}</td>
                                 <td class="border px-2 py-1 text-center">${selectTrasporte(row.transporte, row.id)}</td>
                                 <td class="border px-2 py-1 text-center">${selectDestino(row.destino, row.id)}</td>
+                                <td class="border px-2 py-1 text-center">${stateOrderHPD(row.status_cierre)}</td>
                             </tr>`;
             });
             document.getElementById('tableHPD').innerHTML = htmlTable;
@@ -78,6 +111,7 @@ function selectDestino(val, id){
 }
 
 function changeHPD(event, id, entity){
+    if(userDontLogin('compras')) return;
     let value = event.target.value;
     uploadHPD(entity, id, value);
 }
@@ -90,7 +124,6 @@ function uploadHPD(entity, id, value){
         form.append('value', value);
     fetch(url, {method:'POST', body:form}).then(r => r.json()).then(res => {
         initHPD();
-
     }) .catch(e => {
         showM(e, 'error');
          initHPD();
@@ -100,7 +133,15 @@ function uploadHPD(entity, id, value){
 
 
 
+function onPedidosSituacionChange(event){
+    defaultState = event.target.value;
+    initHPD();
+}
 
+function stateOrderHPD(x){
+    if (x == 'E') return 'Pendiente';
+    return 'Cerrado';
+}
 
 
 
@@ -114,12 +155,12 @@ async function createExcelHPD(){
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet("Hoja Planificación Descargas");
 
-    const COLOR_HEADER = '1f4acc'; // azul logística
+    const COLOR_HEADER = '4F46E5'; // azul logística
 
     // =====================================================
     // TÍTULO
     // =====================================================
-    sheet.mergeCells("A1:G1");
+    sheet.mergeCells("A1:H1");
     const t = sheet.getCell("A1");
     t.value = `Hoja Planificación de Descargas — ${formatLongDate(fechaDesdeHPD)} a ${formatLongDate(fechaHastaHPD)}`;
     t.font = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
@@ -136,7 +177,8 @@ async function createExcelHPD(){
         "Artículo",
         "Kg",
         "Transporte",
-        "Destino"
+        "Destino",
+        "Estado"
     ];
 
     sheet.addRow(headers);
@@ -164,7 +206,8 @@ async function createExcelHPD(){
             `${r.article_name || ''} [${r.article_code || ''}]`,
             Number(r.cantidad || 0),
             r.transporte || '',
-            r.destino || ''
+            r.destino || '',
+            stateOrderHPD(r.status_cierre),
         ]);
     });
 
@@ -174,11 +217,12 @@ async function createExcelHPD(){
     sheet.columns = [
         { width: 14 }, // Fecha
         { width: 16 }, // Pedido
-        { width: 30 }, // Proveedor
-        { width: 35 }, // Artículo
+        { width: 50 }, // Proveedor
+        { width: 55 }, // Artículo
         { width: 12 }, // Kg
         { width: 16 }, // Transporte
-        { width: 18 }  // Destino
+        { width: 18 }, // Destino
+        { width: 18 }  // Estado
     ];
 
     // Formato numérico para Kg

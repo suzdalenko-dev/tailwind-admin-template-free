@@ -1,4 +1,8 @@
-var allLinesCLC = [];
+var allLinesCLC  = [];
+var array_famCLC = [];
+var familiaQueFiltramosCLC = '';
+var famillySettedCLC = 0;
+var familyHTMLCLC    = 0;
 
 function comprasLlegadasContenedoresInit(){
     document.getElementById('slugTitle').innerHTML = `
@@ -74,9 +78,10 @@ function getAllContainer(){
 };
 
 function show2Tables() {
+  array_famCLC     = [];
   const inputValue = (localStorage.getItem('searched_line') || '').toLowerCase();
-  let html = '';
-  const r = allLinesCLC;
+  let html         = '';
+  const r          = allLinesCLC;
 
   if (!r || !r.data) {
     document.getElementById('tableNormal').innerHTML = '';
@@ -95,18 +100,27 @@ function show2Tables() {
       y.D_PLANTILLA  +
       y.PROVEEDOR +
       y.D_PROVEEDOR_HOJA +
-      y.NUM_EXPEDIENTE+'-'+y.NUM_HOJA
+      y.NUM_EXPEDIENTE+'-'+y.NUM_HOJA+y.D_CODIGO_FAMILIA
     ).toLowerCase();
     return lineData.includes(inputValue);
   };
 
   // 🔹 recorrer array de grupos
-  r.data.forEach(group => {
+  r.data.forEach(group => { console.log(group)
     const filtered = group.lines.filter(match);
     if (filtered.length === 0) return;
 
     // Filas
     filtered.forEach(y => {
+
+      if(!array_famCLC.includes(y.D_CODIGO_FAMILIA)){ array_famCLC.push(y.D_CODIGO_FAMILIA); }
+      // ✅ FILTRO POR FAMILIA (CORRECTO)
+      familyHTMLCLC = 0;
+      if (familiaQueFiltramosCLC && y.D_CODIGO_FAMILIA !== familiaQueFiltramosCLC) {
+        familyHTMLCLC = 1;
+        return;
+      }
+
       html += `<tr>
         <td class="border px-2 py-1 text-left" title="${notNone(y.OBSERVACIONES)}">${y.ARTICULO ?? ''} ${(y.DESCRIP_COMERCIAL || '').slice(0, 33)}</td>
         <td class="border px-2 py-1 text-center">${y.CONTENEDOR ?? ''}</td>
@@ -122,14 +136,51 @@ function show2Tables() {
         <td class="border px-2 py-1 text-left">${(y.D_PROVEEDOR_HOJA || '').slice(0, 22)}</td>
         <td class="border px-2 py-1 text-left">${y.D_DESCRIPCION_EXPEDIENTE ?? ''}</td>
         <td class="border px-2 py-1 text-center">${y.NUM_EXPEDIENTE}-${y.NUM_HOJA}</td>
+        <td class="border px-2 py-1 text-left">${y.D_CODIGO_FAMILIA}</td>
       </tr>`;
     });
 
-    html += '<br>';
+    if(familyHTMLCLC == 0){
+       html += '<br>';
+    }
   });
 
+  
+  array_famCLC.sort((a, b) => a.localeCompare(b, 'es'));
+  insertFamInPage(array_famCLC);
   document.getElementById('tableNormal').innerHTML = html;
 }
+
+function insertFamInPage(arr){
+  html = '<option value="">FAMILIAS</option>';
+  if(arr.length > 0){
+    arr.map(x => {
+      html += `<option value="${x}">${x}</option>`;
+    });
+  }
+  if(famillySettedCLC == 0){
+    document.getElementById('familiasCLC').innerHTML = html;
+    famillySettedCLC = 1;
+  }
+  
+}
+
+function changedFamCLC(event){
+  familiaQueFiltramosCLC = event.target.value;
+  getAllContainer();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -198,15 +249,27 @@ function createExcelAllArrivals() {
     'Puerto',
     'Proveedor',
     'Cont.Prov.',
-    'Exp.'
+    'Exp.',
+    'Familia'
   ];
 
   const AOA = [HEAD];
 
   // Preparamos solo los grupos que tienen filas tras el filtro
-  const groupsWithRows = groups
+  /* const groupsWithRows = groups
     .map(g => ({ rows: (g.lines || []).filter(match) }))
     .filter(x => x.rows.length > 0);
+  */
+  const groupsWithRows = groups
+  .map(g => ({
+    rows: (g.lines || [])
+      .filter(match)
+      .filter(y => {
+        if (!familiaQueFiltramosCLC) return true;
+        return y.D_CODIGO_FAMILIA === familiaQueFiltramosCLC;
+      })
+  })).filter(x => x.rows.length > 0);
+
 
   // Relleno de datos + fila en blanco entre grupos presentes
   groupsWithRows.forEach((entry, idx) => {
@@ -226,7 +289,8 @@ function createExcelAllArrivals() {
         replaceEntr(y.LUGAR_DESEMBARQUE),
         nn(y.D_PROVEEDOR_HOJA),
         nn(y.D_DESCRIPCION_EXPEDIENTE),
-        `${nn(y.NUM_EXPEDIENTE)}-${nn(y.NUM_HOJA)}`
+        `${nn(y.NUM_EXPEDIENTE)}-${nn(y.NUM_HOJA)}`,
+        `${y.D_CODIGO_FAMILIA}`
       ]);
     });
 
@@ -386,9 +450,20 @@ function createPDFArrivals() {
   ];
 
   // Preparamos solo grupos con filas tras el filtro
-  const groupsWithRows = groups
+  /*const groupsWithRows = groups
     .map(g => ({ rows: (g.lines || []).filter(match) }))
     .filter(x => x.rows.length > 0);
+  */
+  const groupsWithRows = groups
+  .map(g => ({
+    rows: (g.lines || [])
+      .filter(match)
+      .filter(y => {
+        if (!familiaQueFiltramosCLC) return true;
+        return y.D_CODIGO_FAMILIA == familiaQueFiltramosCLC;
+      })
+  })).filter(x => x.rows.length > 0);
+
 
   // Construcción del body con SEPARADOR NEGRO entre grupos
   const body = [];
