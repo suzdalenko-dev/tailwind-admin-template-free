@@ -57,6 +57,7 @@ function changeSearchedInput(event){
 }
 
 function clickBroom(){
+    familiaQueFiltramosCLC = '';
     document.getElementById('searchInputL').value = '';
     window.localStorage.setItem('searched_line', '');
     show2Tables();
