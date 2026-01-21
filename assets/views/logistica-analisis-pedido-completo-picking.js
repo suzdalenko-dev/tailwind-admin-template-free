@@ -66,7 +66,7 @@ function getLAPData(){
                     <td class="border px-2 py-1 text-left"></td>
                     <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.PALET_PICKING_PC)}</b></td>
                     <td class="border px-2 py-1 text-left"></td>
-                    <td class="border px-2 py-1 text-right">${fEur0(rLAP.TOT_CAJAS_PICKING)}</td>
+                    <td class="border px-2 py-1 text-right"><b>${fEur0(rLAP.TOT_CAJAS_PICKING)}</b></td>
                     <td class="border px-2 py-1 text-center"><b>${rLAP.TOTAL_REFERENCIAS}</b></td>
                     <td class="border px-2 py-1 text-center"><b>${rLAP.TOTAL_LINEAS_PED}</b></td>
                     <td class="border px-2 py-1 text-center"><b>${fEur0(rLAP.TOTAL_CAJAS)}</b></td>
