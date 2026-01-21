@@ -5,18 +5,17 @@ function produccionOfsNumeroPersonasInit(){
 }
 
 function getONP(){
-    fetch(HTTP_HOST+'produccion/get/0/0/ofs_personal/').then(r => r.json()).then(r => { console.log(r)
+    fetch(HTTP_HOST+'produccion/get/0/0/ofs_personal/').then(r => r.json()).then(r => {
         let html = '';
         r.data.ls.map(x => {
-            console.log(x);
             html += `<tr>
                         <td class="border px-2 py-1 text-center">${formatDateToEuropean(x.fecha)}</td>
                         <td class="border px-2 py-1 text-center">${x.of_id}</td>
                         <td class="border px-2 py-1 text-center">${x.of_code}</td>
                         <td class="border px-2 py-1 text-left">${x.of_desc}</td>
-                        <td class="border px-2 py-1 text-center"><input class="center_text" type="number" value="${x.turno1 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id}, 'turno1')" /></td>
-                        <td class="border px-2 py-1 text-center"><input class="center_text" type="number" value="${x.turno2 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id}, 'turno2')" /></td>
-                        <td class="border px-2 py-1 text-center"><input class="center_text" type="number" value="${x.turno3 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id}, 'turno3')" /></td>
+                        <td class="border px-2 py-1 text-center"><input id="input_turno1_${x.id}" class="center_text" type="number" value="${x.turno1 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
+                        <td class="border px-2 py-1 text-center"><input id="input_turno2_${x.id}" class="center_text" type="number" value="${x.turno2 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
+                        <td class="border px-2 py-1 text-center"><input id="input_turno3_${x.id}" class="center_text" type="number" value="${x.turno3 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
                     </tr>`
             });
         document.getElementById('tableONP').innerHTML = html;
@@ -26,21 +25,18 @@ function getONP(){
     })
 }
 
-function saveOnEnterONP(event, id, field) {
+function saveOnEnterONP(event, id) {
     if (event.key !== 'Enter') return;
 
-    const value = event.target.value;
-
-    fetch(HTTP_HOST + 'produccion/post/0/0/ofs_personal_save/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({id: id, field: field, value: value })
-    })
-    .then(r => r.json())
-    .then(r => {
+    let fm = new FormData();
+        fm.append('id', id);
+        fm.append('turno1', document.getElementById('input_turno1_'+id).value);
+        fm.append('turno2', document.getElementById('input_turno2_'+id).value);
+        fm.append('turno3', document.getElementById('input_turno3_'+id).value);
+        
+    fetch(HTTP_HOST + 'produccion/post/0/0/ofs_personal_save/', { method: 'POST', body: fm}).then(r => r.json()).then(r => {
         getONP();
-    })
-    .catch(e => {
+    }).catch(e => {
         showM('Error al guardar', 'error');
         getONP();
         console.error(e);
