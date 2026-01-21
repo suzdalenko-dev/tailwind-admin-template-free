@@ -68,6 +68,8 @@ function initHPD(){
                                 <td class="border px-2 py-1 text-left">${row.proveedor_name} [${row.proveedor_code}]</td>
                                 <td class="border px-2 py-1 text-left">${row.article_name} [${row.article_code}]</td>
                                 <td class="border px-2 py-1 text-right">${fEur0(row.cantidad)}</td>
+                                <td class="border px-2 py-1 text-right">${row.presentacion}</td>
+                                <td class="border px-2 py-1 text-right">${fEur0(row.precio)}</td>
                                 <td class="border px-2 py-1 text-center">${selectTrasporte(row.transporte, row.id)}</td>
                                 <td class="border px-2 py-1 text-center">${selectDestino(row.destino, row.id)}</td>
                                 <td class="border px-2 py-1 text-center">${stateOrderHPD(row.status_cierre)}</td>
