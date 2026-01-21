@@ -34,7 +34,7 @@ function saveOnEnterONP(event, id) {
         fm.append('turno2', document.getElementById('input_turno2_'+id).value);
         fm.append('turno3', document.getElementById('input_turno3_'+id).value);
         
-    fetch(HTTP_HOST + 'produccion/post/0/0/ofs_personal_save/', { method: 'POST', body: fm}).then(r => r.json()).then(r => {
+    fetch(HTTP_HOST + 'produccion/post/0/0/ofs_personal_save/', {method: 'POST', body: fm}).then(r => r.json()).then(r => {
         getONP();
     }).catch(e => {
         showM('Error al guardar', 'error');
