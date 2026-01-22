@@ -13,9 +13,9 @@ function getONP(){
                         <td class="border px-2 py-1 text-center">${x.of_id}</td>
                         <td class="border px-2 py-1 text-center">${x.of_code}</td>
                         <td class="border px-2 py-1 text-left">${x.of_desc}</td>
-                        <td class="border px-2 py-1 text-center"><input id="input_turno1_${x.id}" class="center_text" type="number" value="${x.turno1 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
-                        <td class="border px-2 py-1 text-center"><input id="input_turno2_${x.id}" class="center_text" type="number" value="${x.turno2 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
-                        <td class="border px-2 py-1 text-center"><input id="input_turno3_${x.id}" class="center_text" type="number" value="${x.turno3 ?? ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
+                        <td class="border px-2 py-1 text-center"><input id="input_turno1_${x.id}" class="center_text" type="number" value="${x.turno1 != 0 ? x.turno1 : ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
+                        <td class="border px-2 py-1 text-center"><input id="input_turno2_${x.id}" class="center_text" type="number" value="${x.turno2 != 0 ? x.turno2 : ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
+                        <td class="border px-2 py-1 text-center"><input id="input_turno3_${x.id}" class="center_text" type="number" value="${x.turno3 != 0 ? x.turno3 : ''}" onkeydown="saveOnEnterONP(event, ${x.id})" /></td>
                     </tr>`
             });
         document.getElementById('tableONP').innerHTML = html;
