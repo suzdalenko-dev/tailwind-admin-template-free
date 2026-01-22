@@ -5,6 +5,14 @@ let array_destino = ['Produccion', 'Venta/Prod.', 'Venta', 'Exportacion', 'Regio
 let line_array    = [];
 let defaultState  = 'E';
 let defaultOrgCom = '0102';
+let semanaOld     = '';
+let semanaCurrent = '';
+
+/*
+    ahora mismo si esta el pedido servido o no me baso en el estado del mismo
+    pero hay pedidos que YA TIENEN LINEAS SERVIDAS pero no han cambiado de estado
+    que hacemos con ellos ??
+*/
 
 function comprasHojaPlanificacionDescargasInit(){
     document.getElementById('slugTitle').innerHTML = `
@@ -62,6 +70,14 @@ function initHPD(){
             line_array    = r.data.res;
             let htmlTable = '';
             r.data.res.map(row => {
+                semanaOld =  weekNumberLocal(row.fecha_llegada);
+
+                if(semanaOld != semanaCurrent){
+                    htmlTable += `<tr>
+                                    <td class="border px-2 py-1 text-center">Semana ${weekNumberLocal(row.fecha_llegada)}</td>
+                                </tr>`;
+                }
+            
                 htmlTable += `<tr>
                                 <td class="border px-2 py-1 text-center">${formatLongDate(row.fecha_llegada)}</td>
                                 <td class="border px-2 py-1 text-center">${row.numero_pedido}</td>
@@ -74,6 +90,9 @@ function initHPD(){
                                 <td class="border px-2 py-1 text-center">${selectDestino(row.destino, row.id)}</td>
                                 <td class="border px-2 py-1 text-center">${stateOrderHPD(row.status_cierre)}</td>
                             </tr>`;
+                
+                semanaCurrent = weekNumberLocal(row.fecha_llegada);
+
             });
             document.getElementById('tableHPD').innerHTML = htmlTable;
         } else {
@@ -200,18 +219,42 @@ async function createExcelHPD(){
     // =====================================================
     // DATOS
     // =====================================================
+    let semanaExcelCurrent = null;
+
     line_array.forEach(r => {
-        sheet.addRow([
-            formatLongDate(r.fecha_llegada),
-            r.numero_pedido,
-            `${r.proveedor_name || ''} [${r.proveedor_code || ''}]`,
-            `${r.article_name || ''} [${r.article_code || ''}]`,
-            Number(r.cantidad || 0),
-            r.transporte || '',
-            r.destino || '',
-            stateOrderHPD(r.status_cierre),
+
+        const semana = weekNumberLocal(r.fecha_llegada);
+
+    if (semana !== semanaExcelCurrent) {
+        const rowSemana = sheet.addRow([`Semana ${semana}`]);
+
+        // Unir toda la fila
+        sheet.mergeCells(`A${rowSemana.number}:H${rowSemana.number}`);
+
+        // Estilo simple (opcional pero recomendable)
+        rowSemana.font = { bold: true };
+        rowSemana.alignment = { horizontal: 'left' };
+        rowSemana.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFF3F4F6' } // gris muy claro
+        };
+
+        semanaExcelCurrent = semana;
+    }
+
+    sheet.addRow([
+        formatLongDate(r.fecha_llegada),
+        r.numero_pedido,
+        `${r.proveedor_name || ''} [${r.proveedor_code || ''}]`,
+        `${r.article_name || ''} [${r.article_code || ''}]`,
+        Number(r.cantidad || 0),
+        r.transporte || '',
+        r.destino || '',
+        stateOrderHPD(r.status_cierre),
         ]);
     });
+
 
     // =====================================================
     // FORMATOS DE COLUMNAS
@@ -256,4 +299,15 @@ async function createExcelHPD(){
     a.href = URL.createObjectURL(blob);
     a.download = `hoja_planificacion_descargas_${fechaDesdeHPD}_a_${fechaHastaHPD}.xlsx`;
     a.click();
+}
+
+
+function weekNumberLocal(dateStr) {
+    const d = new Date(dateStr);
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+    const week1 = new Date(d.getFullYear(), 0, 4);
+    return 1 + Math.round(
+        ((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7
+    );
 }
