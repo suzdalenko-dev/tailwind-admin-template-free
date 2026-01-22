@@ -27,11 +27,11 @@ let menuData = [
     { title: 'Cierre de HC', icon: '📄', submenu: null , view: 'logistica-cierre-hojas-carga', roles: ['logistica;'] },
     { title: 'Análisis de Pedido', icon: '📊', submenu: null , view: 'logistica-analisis-pedido-completo-picking', roles: ['logistica;'] },
   ]},
-  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;produccion30;'], submenu: [
+  { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;produccion30;logistica;'], submenu: [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;produccion;'] },
     { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
     { title: 'Rotativo Salidas Elab.', icon: '🔄', submenu: null , view: 'compras-rotativo-salidas-elaboracion', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
-    { title: 'Hoja Plan. Descargas', icon: '⬇️', submenu: null , view: 'compras-hoja-planificacion-descargas', roles: ['compras;compras20;produccion;produccion20;produccion30;'] },
+    { title: 'Hoja Plan. Descargas', icon: '⬇️', submenu: null , view: 'compras-hoja-planificacion-descargas', roles: ['compras;compras20;produccion;produccion20;produccion30;logistica;'] },
   ]},
   { title: 'Admin', icon: '🛠️', roles: ['admin;'], submenu: [
     { title: 'Usuarios', icon: '👤', submenu: null , view: 'admin-usuarios', roles: ['admin;'] },
