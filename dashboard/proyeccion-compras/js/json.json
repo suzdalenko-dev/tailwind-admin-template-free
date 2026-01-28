@@ -1,0 +1,16 @@
+{
+  "from": "2026-01-27",
+  "months_top": ["Ene-26","Feb-26", "..."],
+  "labels_bottom": ["1-26","27-31","1-15","16-28", "..."],
+  "periods": [
+    {"id": 501, "desde":"2026-01-01","hasta":"2026-01-26","month":"Ene-26","slot":1},
+    {"id": 502, "desde":"2026-01-27","hasta":"2026-01-31","month":"Ene-26","slot":2},
+    {"id": 503, "desde":"2026-02-01","hasta":"2026-02-15","month":"Feb-26","slot":1},
+    {"id": 504, "desde":"2026-02-16","hasta":"2026-02-28","month":"Feb-26","slot":2}
+  ],
+  "rows": {
+    "prev":    [{"period_id":501,"value":4458},{"period_id":502,"value":0}, ...],
+    "entrada": [{"period_id":501,"value":0}, ...],
+    "stock":   [{"period_id":501,"value":...}, ...]
+  }
+}

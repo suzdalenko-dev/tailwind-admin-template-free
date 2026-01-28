@@ -14,7 +14,7 @@ function suzdalenkoGet(url, callback) {
     return response.json();
   }).then(callback)
   .catch(error => {
-    alert('Error AppGet '+ error);
+    showM('Error POST REQUEST API '+ error, 'error');
   });
 }
 
@@ -29,7 +29,7 @@ function suzdalenkoPost(url, objectValues = {}, callback) {
     return response.json();
   }).then(callback)
     .catch(error => {
-      alert('Error AppGetPost ' + error);
+      alert('Error GET REQUEST API ' + error);
   });
 }
 

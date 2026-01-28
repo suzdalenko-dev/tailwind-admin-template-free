@@ -26,7 +26,7 @@ function getInforTable(){
             showInfoTable(dataX);
 
         } else {
-            showM('Artículos no encotrados', 'warning');
+            showM('Artículos no encontrados', 'warning');
         }
        
         

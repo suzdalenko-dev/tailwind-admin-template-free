@@ -54,7 +54,7 @@ function getDataCCL(){
         if(r && r.data && r.data.res && r.data.res.length > 0){
             allCCL =  r.data.res;
             let html = '';
-            allCCL.map(x => {    console.log(x)
+            allCCL.map(x => {    
                 html += `<tr>
                             <td class="border px-2 py-1 text-left hovered" onclick="searchPalet('${notNone(x.NUMERO_PALET)}')">${notNone(x.NUMERO_PALET)}</td>
                             <td class="border px-2 py-1 text-left hovered" onclick="searchArt('${notNone(x.CODIGO_ARTICULO)}')">${notNone(x.CODIGO_ARTICULO)} ${notNone(x.DESCRIP_COMERCIAL)}</td>

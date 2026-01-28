@@ -42,7 +42,7 @@ function geRefreshGemaRoutes(){
                     });
                 }
             });
-            console.log(listLoads)
+            // console.log(listLoads)
         }
         let list22Loads = document.getElementById('list22Loads');
         if(list22Loads){

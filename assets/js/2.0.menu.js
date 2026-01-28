@@ -32,6 +32,9 @@ let menuData = [
     { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
     { title: 'Rotativo Salidas Elab.', icon: '🔄', submenu: null , view: 'compras-rotativo-salidas-elaboracion', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
     { title: 'Hoja Plan. Descargas', icon: '⬇️', submenu: null , view: 'compras-hoja-planificacion-descargas', roles: ['compras;compras20;produccion;produccion20;produccion30;logistica;'] },
+    { title: 'Proyección compras', icon: '📈', submenu: null , view: 'compras-proyeccion-listado-familias', roles: ['compras;'] },
+        
+
   ]},
   { title: 'Admin', icon: '🛠️', roles: ['admin;'], submenu: [
     { title: 'Usuarios', icon: '👤', submenu: null , view: 'admin-usuarios', roles: ['admin;'] },
