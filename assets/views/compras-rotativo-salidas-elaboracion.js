@@ -128,7 +128,7 @@ async function createExcelRSE(){
         sheet.addRow([
             r.Erp,
             r.Descripcion,
-            ...RSE_KEYS.map(k => fENN(r[k]) || 0)
+            ...RSE_KEYS.map(k => r[k] || 0)
         ]);
     });
 
