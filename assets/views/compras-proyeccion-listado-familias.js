@@ -67,7 +67,7 @@ function getFamiliasArticulosCPLF(){
                                 <td class="border px-2 py-1 text-center"></td>
                                 <td class="border px-2 py-1 text-center"></td>
                                 <td class="border px-2 py-1 text-left">${eq.codigo_hijo} ${eq.descrp_hijo}</td>
-                                <td class="border px-2 py-1 text-center" onclick="deleteEquivCPLF(${eq.id}, '${eq.descrp_hijo}', '${eq.codigo_hijo}', ${a.codigo})">🗑️</td>
+                                <td class="border px-2 py-1 text-center hovered" onclick="deleteEquivCPLF(${eq.id}, '${eq.descrp_hijo}', '${eq.codigo_hijo}', ${a.codigo})">🗑️</td>
                             </tr>`;
                     });
                 }
