@@ -144,38 +144,36 @@ function getFactTable(
                                 </tr>
                                 <tr>
                                     <td class="border px-2 py-1 text-center">Stock</td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
-                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[0].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[1].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[2].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[3].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[4].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[5].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[6].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[7].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[8].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[9].stock) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[10].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[11].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[12].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[13].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[14].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[15].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[16].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[17].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[18].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[19].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[20].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[21].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[22].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[23].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[24].stock ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[25].stock ) }</td>
                                 </tr>
                             </tbody>
                  
-            </table>
+                    </table>
             </div><br><br>
             `;
 
