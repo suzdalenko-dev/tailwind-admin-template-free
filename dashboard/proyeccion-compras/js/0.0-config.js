@@ -1,5 +1,6 @@
 const params = new URLSearchParams(window.location.search);
-const FAMILIA_ID = params.get("familia_id"); 
+const FAMILIA_ID = params.get("familia_id");
+const CODIGO_ART = params.get("codigo") || '';
 
 
 function putYellow_kat(x){  

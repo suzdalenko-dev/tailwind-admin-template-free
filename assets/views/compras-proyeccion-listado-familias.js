@@ -19,14 +19,16 @@ function openFormNewArtCPLF(famId, famName){
     if(artCode){
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'familia-add-articulo', 'entity':'articulo', 'name': '', 'familia_id': famId, 'id': artCode}, (res) => { 
             getFamiliasArticulosCPLF(); 
-            suzdalenkoGet(`compras/put/0/0/recalculo_jjavier/?codigo=${artCode}`, r => {;});
-            // recalcular padre
         });
     }
 }
 
 function openTableViewCPLF(family_id){
     window.open(`/dashboard/proyeccion-compras?familia_id=${family_id}`, '_self');
+}
+
+function openFamelyArticle(familia_id, codigo){
+    window.open(`/dashboard/proyeccion-compras/?familia_id=${familia_id}&codigo=${codigo}`, '_self');
 }
 
 function getFamiliasArticulosCPLF(){
@@ -51,7 +53,7 @@ function getFamiliasArticulosCPLF(){
             r.data.articulos.map(a => {
                 htmlArt += `<tr>
                                 <td class="border px-2 py-1 text-left hovered" onclick="openTableViewCPLF(${a.familia_id})">🔗 ${a.familia_descripcion}</td>
-                                <td class="border px-2 py-1 text-center">${a.codigo}</td>
+                                <td class="border px-2 py-1 text-center hovered" onclick="openFamelyArticle(${a.familia_id}, '${a.codigo}')" >🔗 ${a.codigo}</td>
                                 <td class="border px-2 py-1 text-left">${a.articulo_descripcion}</td> 
                                 <td class="border px-2 py-1 text-center hovered" onclick="deleteArtCPLF(${a.familia_id}, ${a.articulo_id}, '${a.codigo}', '${a.articulo_descripcion}')">🗑️</td>
                                 <td class="border px-2 py-1 text-center hovered" onclick="addEquivalenteCPLF('${a.familia_descripcion}', ${a.familia_id}, ${a.articulo_id}, ${a.codigo}, '${a.articulo_descripcion}')">➕ Equivalente</td>
@@ -84,7 +86,6 @@ function deleteEquivCPLF(lineId, eqDescr, eqCode, codigo){
     if(deleteThis){
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'delete-equivalente', 'entity':'articulo', 'name': '', 'familia_id': 0, 'id': lineId}, (res) => { 
             getFamiliasArticulosCPLF();
-            suzdalenkoGet(`compras/put/0/0/recalculo_jjavier/?codigo=${codigo}`, r => {;});
         });
     }
 }
@@ -94,7 +95,6 @@ function addEquivalenteCPLF(familia_descripcion, familia_id, articulo_id, codigo
     if(equivalentCode){
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'creacion-equivalente', 'entity':'articulo', 'name': equivalentCode, 'familia_id': familia_id, 'id': articulo_id}, (res) => { 
             getFamiliasArticulosCPLF();
-            suzdalenkoGet(`compras/put/0/0/recalculo_jjavier/?codigo=${codigo}`, r => {;});
         });
     }
 }
@@ -111,3 +111,11 @@ function deleteArtCPLF(fam_id, art_id, art_code, art_desrip){
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'borrar_articulo', 'entity':'articulo', 'name': '', 'familia_id': fam_id, 'id': art_id}, (res) => { getFamiliasArticulosCPLF(); });
     }
 }
+
+
+/*
+    Telefono de AB Micros pc y Impresoras
+    Telefono de CUBICE
+    Libra Leandro
+
+*/

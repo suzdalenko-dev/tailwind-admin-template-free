@@ -26,8 +26,8 @@ function getFactTable(
                                     <th colspan="2">${concepto_top[12]}</th>
                                 </tr>
                                 <tr class="twcolor">
-                                    <th>${labelDesdeUnoHastaHoy()}</th>
-                                    <th>${labelDesdeHoyHastaFinMes()}</th>
+                                    <th>${concepto_bottom[0]}</th>
+                                    <th>${concepto_bottom[1]}</th>
                                     <th>${concepto_bottom[2]}</th>
                                     <th>${concepto_bottom[3]}</th>
                                     <th>${concepto_bottom[4]}</th>
@@ -56,7 +56,137 @@ function getFactTable(
                              </thead>
                             <tbody>
                                 <tr>
-                                    <td class="border px-2 py-1 text-center">Prev</td>
+                                    <td class="border px-2 py-1 text-center">Previsto</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[0].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[1].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[2].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[3].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[4].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[5].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[6].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[7].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[8].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[9].prevision) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[10].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[11].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[12].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[13].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[14].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[15].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[16].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[17].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[18].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[19].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[20].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[21].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[22].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[23].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[24].prevision ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[25].prevision ) }</td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-2 py-1 text-center">Real</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[0].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[1].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[2].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[3].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[4].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[5].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[6].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[7].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[8].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[9].venta_real) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[10].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[11].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[12].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[13].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[14].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[15].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[16].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[17].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[18].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[19].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[20].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[21].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[22].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[23].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[24].venta_real ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[25].venta_real ) }</td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-2 py-1 text-center">Entrada</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[0].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[1].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[2].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[3].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[4].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[5].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[6].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[7].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[8].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[9].entrada) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[10].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[11].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[12].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[13].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[14].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[15].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[16].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[17].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[18].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[19].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[20].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[21].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[22].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[23].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[24].entrada ) }</td>
+                                    <td class="border px-2 py-1 text-center">${ fENN(m[25].entrada ) }</td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-2 py-1 text-center">Stock</td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                    <td class="border px-2 py-1 text-center"></td>
+                                </tr>
+                            </tbody>
+                 
+            </table>
+            </div><br><br>
+            `;
+
+    return tableFact0;
+}
+
+
+/*
+
+ <tr>
+                                    <td class="border px-2 py-1 text-center">Real</td>
                                     <td class="border px-2 py-1 text-center">${ fENN(m[0].previsto_fijo) }</td>
                                     <td class="border px-2 py-1 text-center">${ fENN(m[1].previsto_fijo) }</td>
                                     <td class="border px-2 py-1 text-center">${ fENN(m[2].previsto_fijo) }</td>
@@ -83,7 +213,7 @@ function getFactTable(
                                     <td class="border px-2 py-1 text-center">${ fENN(m[23].previsto_fijo ) }</td>
                                     <td class="border px-2 py-1 text-center">${ fENN(m[24].previsto_fijo ) }</td>
                                     <td class="border px-2 py-1 text-center">${ fENN(m[25].previsto_fijo ) }</td>
-                                </tr>
+                                    </tr>
                                 <tr>
                                     <td class="border px-2 py-1 text-center">Entrada</td>
                                     <td class="border px-2 py-1 text-center ${(putYellow_kat(m[0].color))}">${ fENN(m[0].entrada_fijo) }</td>
@@ -143,8 +273,8 @@ function getFactTable(
                                     <td class="border px-2 py-1 text-center">${ fENN(m[25].stock_fijo) }</td>
                                 </tr>
 
-                                <td class="border px-2 py-1 text-center">Prev M</td>
-                                   <td class="border px-2 py-1 text-center"> ${ fENN( m[0].previsto_mod) }</td>
+                                <td class="border px-2 py-1 text-center">Prev</td>
+                                   <td class="border px-2 py-1 text-center"> <input onkeydown="pressInputEdit(event, ${m[0].id}, 'gasto')" class="input-ca" type="number" value="${ m[0].previsto_mod }"></td>
                                     <td class="border px-2 py-1 text-center"><input onkeydown="pressInputEdit(event, ${m[1].id}, 'gasto')" class="input-ca" type="number" value="${ m[1].previsto_mod }"></td>
                                     <td class="border px-2 py-1 text-center"><input onkeydown="pressInputEdit(event, ${m[2].id}, 'gasto')" class="input-ca" type="number" value="${ m[2].previsto_mod }"></td>
                                     <td class="border px-2 py-1 text-center"><input onkeydown="pressInputEdit(event, ${m[3].id}, 'gasto')" class="input-ca" type="number" value="${ m[3].previsto_mod }"></td>
@@ -172,8 +302,8 @@ function getFactTable(
                                     <td class="border px-2 py-1 text-center"><input onkeydown="pressInputEdit(event, ${m[25].id}, 'gasto')" class="input-ca" type="number" value="${ m[25].previsto_mod }"></td>
                                 </tr>
 
-                                <td class="border px-2 py-1 text-center">Entrada M</td>
-                                   <td class="border px-2 py-1 text-center"> ${ fENN(m[0].entrada_mod) }</td>
+                                <td class="border px-2 py-1 text-center">Entrada</td>
+                                    <td class="border px-2 py-1 text-center  ${(putYellow_kat(m[0].color))}"><input onkeydown="pressInputEdit(event, ${m[0].id}, 'entrada')" class="input-ca" type="number" value="${ m[0].entrada_mod }"></td>
                                     <td class="border px-2 py-1 text-center  ${(putYellow_kat(m[1].color))}"><input onkeydown="pressInputEdit(event, ${m[1].id}, 'entrada')" class="input-ca" type="number" value="${ m[1].entrada_mod }"></td>
                                     <td class="border px-2 py-1 text-center  ${(putYellow_kat(m[2].color))}"><input onkeydown="pressInputEdit(event, ${m[2].id}, 'entrada')" class="input-ca" type="number" value="${ m[2].entrada_mod }"></td>
                                     <td class="border px-2 py-1 text-center  ${(putYellow_kat(m[3].color))}"><input onkeydown="pressInputEdit(event, ${m[3].id}, 'entrada')" class="input-ca" type="number" value="${ m[3].entrada_mod }"></td>
@@ -201,7 +331,7 @@ function getFactTable(
                                     <td class="border px-2 py-1 text-center  ${(putYellow_kat(m[25].color))}"><input onkeydown="pressInputEdit(event, ${m[25].id}, 'entrada')" class="input-ca" type="number" value="${ m[25].entrada_mod }"></td>
                                 </tr>
 
-                                <td class="border px-2 py-1 text-center">Stock M</td>
+                                <td class="border px-2 py-1 text-center">Stock</td>
                                    <td class="border px-2 py-1 text-center"> ${ fENN( m[0].stock_mod) }</td>
                                     <td class="border px-2 py-1 text-center">${ fENN( m[1].stock_mod) }</td>
                                     <td class="border px-2 py-1 text-center">${ fENN( m[2].stock_mod) }</td>
@@ -229,224 +359,6 @@ function getFactTable(
                                     <td class="border px-2 py-1 text-center">${ fENN( m[24].stock_mod) }</td>
                                     <td class="border px-2 py-1 text-center">${ fENN( m[25].stock_mod)}</td>
                                 </tr>
-                            </tbody>
-                 
-            </table>
-            </div><br><br>
-            `;
-
-    return tableFact0;
-}
 
 
-/*
-
-
-       <tr class="twcolor">
-                                    <th>${concepto_bottom[0]}</th>
-                                    <th>${concepto_bottom[1]}</th>
-                                    <th>${concepto_bottom[2]}</th>
-                                    <th>${concepto_bottom[3]}</th>
-                                    <th>${concepto_bottom[4]}</th>
-                                    <th>${concepto_bottom[5]}</th>
-                                    <th>${concepto_bottom[6]}</th>
-                                    <th>${concepto_bottom[7]}</th>
-                                    <th>${concepto_bottom[8]}</th>
-                                    <th>${concepto_bottom[9]}</th>
-                                    <th>${concepto_bottom[10]}</th>
-                                    <th>${concepto_bottom[11]}</th>
-                                    <th>${concepto_bottom[12]} </th>
-                                    <th>${concepto_bottom[13]}</th>
-                                    <th>${concepto_bottom[14]}</th>
-                                    <th>${concepto_bottom[15]}</th>
-                                    <th>${concepto_bottom[16]}</th>
-                                    <th>${concepto_bottom[17]}</th>
-                                    <th>${concepto_bottom[18]}</th>
-                                    <th>${concepto_bottom[19]}</th>
-                                    <th>${concepto_bottom[20]}</th>
-                                    <th>${concepto_bottom[21]}</th>
-                                    <th>${concepto_bottom[22]}</th>
-                                    <th>${concepto_bottom[23]}</th>
-                                    <th>${concepto_bottom[24]}</th>
-                                    <th>${concepto_bottom[25]}</th>
-                                    <th>${concepto_bottom[26]}</th>
-                                    <th>${concepto_bottom[27]}</th>
-                                    <th>${concepto_bottom[28]}</th>
-                                    <th>${concepto_bottom[29]}</th>
-                                    <th>${concepto_bottom[30]}</th>
-                                    <th>${concepto_bottom[31]}</th>
-                                    <th>${concepto_bottom[32]}</th>
-                                    <th>${concepto_bottom[33]}</th>
-                                    <th>${concepto_bottom[34]}</th>
-                                    <th>${concepto_bottom[35]}</th>
-                                    <th>${concepto_bottom[36]}</th>
-                                    <th>${concepto_bottom[37]}</th>
-                                    <th>${concepto_bottom[38]}</th>
-                                    <th>${concepto_bottom[39]}</th>
-                                    <th>${concepto_bottom[40]}</th>
-                                    <th>${concepto_bottom[41]}</th>
-                                    <th>${concepto_bottom[42]}</th>
-                                    <th>${concepto_bottom[43]}</th>
-                                    <th>${concepto_bottom[44]}</th>
-                                    <th>${concepto_bottom[45]}</th>
-                                    <th>${concepto_bottom[46]}</th>
-                                    <th>${concepto_bottom[47]}</th>
-                                    <th>${concepto_bottom[48]}</th>
-                                    <th>${concepto_bottom[49]}</th>
-                                </tr>
-
-
-                </thead>
-
-              <tbody>
-                    <tr>
-                        <td class="border px-2 py-1 text-center">Previsto</td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[0]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[1]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[2]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[3]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[4]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[5]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[6]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[7]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[8]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[9]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[10]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[11]}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[12]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[13]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[14]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[15]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[16]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[17]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[18]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[19]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[20]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[21]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[22]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[23]}"></td>
-                       <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${venta_prevista[24]}"></td>
-                    </tr>
-
-                    <tr>
-                        <td class="border px-2 py-1 text-center">Real</td>
-                        <td class="border px-2 py-1 text-center">${real[0]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[1]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[2]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[3]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[4]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[5]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[6]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[7]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[8]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[9]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[10]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[11]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${real[12]}</td>
-                    </tr>
-
-                    <tr>
-                        <td class="border px-2 py-1 text-center">LY</td>
-                        <td class="border px-2 py-1 text-center">${ly[0]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[1]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[2]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[3]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[4]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[5]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[6]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[7]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[8]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[9]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[10]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[11]}</td>
-                        <td class="border px-2 py-1 text-center" colspan="2">${ly[12]}</td>
-                    </tr>
-
-                    <tr>
-                        <td class="border px-2 py-1 text-center">Ent. M</td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[0].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[1].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[2].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[3].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[4].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[5].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[6].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[7].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[8].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[9].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[10].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[11].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[12].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[13].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[14].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[15].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[16].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[17].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[18].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[19].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[20].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[21].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[22].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[23].value}"></td>
-                        <td class="border px-2 py-1 text-center"><input class="input-ca" type="number" value="${entrada[24].value}"></td>
-                    </tr>
-
-                    <tr>
-                        <td class="border px-2 py-1 text-center">Ent. R</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[0].color)}">${entrada[0].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[1].color)}">${entrada[1].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[2].color)}">${entrada[2].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[3].color)}">${entrada[3].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[4].color)}">${entrada[4].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[5].color)}">${entrada[5].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[6].color)}">${entrada[6].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[7].color)}">${entrada[7].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[8].color)}">${entrada[8].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[9].color)}">${entrada[9].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[10].color)}">${entrada[10].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[11].color)}">${entrada[11].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[12].color)}">${entrada[12].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[13].color)}">${entrada[13].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[14].color)}">${entrada[14].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[15].color)}">${entrada[15].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[16].color)}">${entrada[16].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[17].color)}">${entrada[17].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[18].color)}">${entrada[18].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[19].color)}">${entrada[19].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[20].color)}">${entrada[20].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[21].color)}">${entrada[21].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[22].color)}">${entrada[22].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[23].color)}">${entrada[23].value}</td>
-                        <td class="border px-2 py-1 text-center ${putYellow_kat(entrada[24].color)}">${entrada[24].value}</td>
-                    </tr>
-
-                    <tr>
-                        <td class="border px-2 py-1 text-center">Stock</td>
-                        <td class="border px-2 py-1 text-center">${stock[0]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[1]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[2]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[3]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[4]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[5]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[6]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[7]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[8]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[9]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[10]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[11]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[12]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[13]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[14]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[15]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[16]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[17]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[18]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[19]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[20]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[21]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[22]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[23]}</td>
-                        <td class="border px-2 py-1 text-center">${stock[24]}</td>
-                    </tr>
-                </tbody>
-                */
+*/
