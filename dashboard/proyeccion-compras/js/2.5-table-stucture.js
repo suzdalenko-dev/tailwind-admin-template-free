@@ -7,7 +7,7 @@ let topTable = `<div class="table-round">
                         <th class="topLeft">Familia</th>
                         <th>Codígo</th>
                         <th class="px-2"> Descripción </th>
-                        <th>Stock Inicio Año</th>
+                        <th>Stock LM</th>
                         <th class="topRight">Stock Act.</th>
                     </tr>
                 </thead>
