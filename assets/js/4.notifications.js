@@ -96,6 +96,6 @@
         msg.appendChild(content);
         container.appendChild(msg);
 
-        setTimeout(() => { if (msg.parentElement) { msg.parentElement.removeChild(msg); }; }, 22000);
+        setTimeout(() => { if (msg.parentElement) { msg.parentElement.removeChild(msg); }; }, 11000);
       };
     })();

@@ -6,13 +6,12 @@ function setTablesGlobal(){
     if(r && r.data && r.data.articulos && r.data.articulos.length > 0){
         r.data.articulos.map(l => {                                                                      // console.log(l)  // ${fEur000(a.STOCK)} ${fEur0(a.STOCK)} 
             let htmlCenterTable   = '';
-            let lineasTopArticulo = JSON.parse(l.estado_actual);                                         // console.log(lineasTopArticulo)
+            let lineasTopArticulo = JSON.parse(l.estado_actual);                                         //console.log(lineasTopArticulo)
             lineasTopArticulo.stock_actual.map(a => {                                                    // console.log(a)
                 htmlCenterTable += `<tr>   
                         <td class="border px-2 py-1 text-center">${lineasTopArticulo.fam}</td>
                         <td class="border px-2 py-1 text-center">${a.CODIGO_ARTICULO}</td>
                         <td class="border px-2 py-1 text-left">${a.DESCRIP_COMERCIAL}</td>
-                        <td class="border px-2 py-1 text-right">${fENN(a.STOCK_PASADO)}</td>
                         <td class="border px-2 py-1 text-right">${fENN(a.STOCK)}</td>
                     </tr>`;
             });
@@ -22,7 +21,6 @@ function setTablesGlobal(){
                         <td class="border px-2 py-1 text-center"></td>
                         <td class="border px-2 py-1 text-center"></td>
                         <td class="border px-2 py-1 text-left"></td>
-                        <td class="border px-2 py-1 text-right">${fENN(lineasTopArticulo.stock_bloque_pasado)}</td>
                         <td class="border px-2 py-1 text-right">${fENN(lineasTopArticulo.stock_bloque_total)}</td>
                     </tr>`;
             }
@@ -30,8 +28,8 @@ function setTablesGlobal(){
             
 
 
-            total_content += topTable+htmlCenterTable+topBottomTable;
-            total_content += restablecerButton();
+            total_content += topTable+htmlCenterTable+topBottomTable+prepareAcumulado(l.id);
+            total_content += restablecerButton(FAMILIA_ID, l.id);
 
             let concepto_top    = r.data.cabezera;
             let concepto_bottom = r.data.labels_15;
@@ -42,8 +40,9 @@ function setTablesGlobal(){
                 concepto_top,
                 concepto_bottom,
                 metricas,
-
             );
+
+            pushAcumuladosContent(FAMILIA_ID, l.id);
       });
     }
     

@@ -351,9 +351,16 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .yellow_kat{
-    background-color: yellow;
+   background-color: yellow!important;
 }
-
 .boton_restablecer{
     float: right!important;
+}
+.blue_col{
+    border: 1px solid blue;
+    color: blue;
+    font-weight: 900;
+}
+.color_grey{
+    color: rgb(146, 145, 145);
 }

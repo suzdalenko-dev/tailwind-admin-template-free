@@ -71,7 +71,25 @@ function fEE(num) {
   return entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function SIN0(x){
+  if (x == 0) return '';
+  else return x;
+}
+
+function replacePunto(x){
+  return String(x).replaceAll('.', ',');
+}
+
+function fENN0(numero) {
+  if (numero == null || numero == undefined || numero == '') return '';
+  const partes = numero.toString().split(".");
+  const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const decimal = partes[1] || "";
+  return `${entero}`;
+}
+
 function fENN(numero) {
+  if (numero == null || numero == undefined || numero == '') return 0;
   const partes = numero.toString().split(".");
   const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   const decimal = partes[1] || "";
