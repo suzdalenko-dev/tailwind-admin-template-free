@@ -111,12 +111,12 @@ async function pushAcumuladosContent(familia_id, article_id){
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="border px-2 py-1 text-left">Venta Real </td>
+                                        <td class="border px-2 py-1 text-left">Consumo Real</td>
                                         <td class="border px-2 py-1 text-right">${fENN(data.acumulado_real_venta)}</td>
                                         <td class="border px-2 py-1 text-right">${fENN(data.promedio_venta)}</td>
                                     </tr>
                                      <tr>
-                                        <td class="border px-2 py-1 text-left">Venta LY </td>
+                                        <td class="border px-2 py-1 text-left">Consumo LY</td>
                                         <td class="border px-2 py-1 text-right">${fENN(data.acumulado_agno_pasado)}</td>
                                         <td class="border px-2 py-1 text-right">${fENN(data.promedio_agno_pasado)}</td>
                                     </tr>
