@@ -42,12 +42,12 @@ function prepareAcumulado(artId){
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="border px-2 py-1 text-left">Venta Real </td>
+                                        <td class="border px-2 py-1 text-left">Consumo Real </td>
                                         <td class="border px-2 py-1 text-right">&nbsp; &nbsp; &nbsp;</td>
                                         <td class="border px-2 py-1 text-right">&nbsp; &nbsp; &nbsp;</td>
                                     </tr>
                                      <tr>
-                                        <td class="border px-2 py-1 text-left">Venta LY </td>
+                                        <td class="border px-2 py-1 text-left">Consumo LY </td>
                                         <td class="border px-2 py-1 text-right"> &nbsp; &nbsp; &nbsp;</td>
                                         <td class="border px-2 py-1 text-right">&nbsp; &nbsp; &nbsp;</td>
                                     </tr>
