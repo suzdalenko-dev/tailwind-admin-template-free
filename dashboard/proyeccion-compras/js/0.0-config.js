@@ -125,6 +125,7 @@ async function pushAcumuladosContent(familia_id, article_id){
 
 
 function disabledSegundaQuincena(fechaStr = null) {
+    return '';
     const d = fechaStr ? new Date(fechaStr + 'T00:00:00') : new Date();
     const dia = d.getDate();
     return (dia >= 16) ? 'disabled' : '';
