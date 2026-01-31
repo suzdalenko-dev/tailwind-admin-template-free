@@ -43,17 +43,6 @@ function pressInputEdit(event, id, tipo, familia_id, article_code){
                 showM(err, 'error');
             });
     }
-    return 
-
-    if(event.key == 'Enter'){
-        let val = event.target.value;
-        let data = {tipo, id, val}
-        suzdalenkoPost('compras/put/0/0/editar_tabla_jj/', data, r => {
-            pintarMenuGlobal();
-            setTablesGlobal();
-            showM('Modificado');
-        });
-    }
 }
 
 
@@ -122,7 +111,7 @@ async function pushAcumuladosContent(familia_id, article_id){
                                     </tr>
                                     <tr> 
                                         <td class="border px-2 py-1 text-left">Porcentaje </td>
-                                        <td class="border px-2 py-1 text-right">${  replacePunto(data.variacion_porcentaje)  }</td>
+                                        <td class="border px-2 py-1 text-right">${replacePunto(data.variacion_porcentaje)} </td>
                                         <td class="border px-2 py-1 text-center"> </td>
                                     </tr>
                                 </tbody>

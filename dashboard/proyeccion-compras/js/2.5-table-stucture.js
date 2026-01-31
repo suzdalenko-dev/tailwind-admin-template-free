@@ -53,7 +53,7 @@ function prepareAcumulado(artId){
                                     </tr>
                                     <tr> 
                                         <td class="border px-2 py-1 text-left">Porcentaje </td>
-                                        <td class="border px-2 py-1 text-right">&nbsp; &nbsp; &nbsp;</td>
+                                        <td class="border px-2 py-1 text-right">&nbsp; &nbsp; &nbsp; %</td>
                                         <td class="border px-2 py-1 text-center"> </td>
                                     </tr>
                                 </tbody>

@@ -1,6 +1,6 @@
 function pintarMenuGlobal(){
     suzdalenkoGet('compras/put/0/0/get_familias_menu/', (r) => {
-        let html = '<a class="top_link" href="/dashboard/#compras-proyeccion-listado-familias">◀️</a>';
+        let html = '<a class="top_link" href="/dashboard/#compras-llegadas-contenedores">◀️</a>';
         let class_blue = '';
         r.data.familias.map(fam => {    
             if(fam.id == FAMILIA_ID){ 
