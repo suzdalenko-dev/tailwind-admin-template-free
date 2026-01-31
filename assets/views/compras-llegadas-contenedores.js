@@ -76,7 +76,7 @@ async function addPurchaseProjection(familia, familia_codigo, articulo, codigo_a
   if(familyExist.data.codigo > 0 && familyExist.data.familia_id > 0){
     window.open(`/dashboard/proyeccion-compras/?familia_id=${familyExist.data.familia_id}&codigo=${familyExist.data.codigo}`, '_self');
   } else { 
-    let addArticle = confirm(`¿Añadir ${familia} ${codigo_articulo} ${articulo} a la proyeccion de stock?`);
+    let addArticle = confirm(`¿Añadir ${familia} ${codigo_articulo} ${articulo} a la proyección de stock?`);
     if(addArticle){
       suzdalenkoPost('compras/put/0/0/add_purchase_projection/', {familia, familia_codigo, articulo, codigo_articulo}, r => {
         if(r && r.data && r.data.familia_id && r.data.codigo){
