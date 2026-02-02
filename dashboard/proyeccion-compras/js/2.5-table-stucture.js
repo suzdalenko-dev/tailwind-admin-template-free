@@ -30,7 +30,7 @@ function restablecerButton(famId, artId){
                 <span class="btn-reset hovered" onclick="restablecerTablaCA(${famId}, ${artId})">↩️ Restablecer</span>
                 <br><br>
                 <span>
-                    <span class="btn-reset hovered" onclick="historicoTablaCA(${famId}, ${artId})">📜 Histórico desde </span>
+                    <span class="btn-reset hovered" onclick="historicoTablaCA(${famId}, ${artId})">📜 Histórico desde año</span>
                     <span><input type="date" id="input_historico_${famId}_${artId}" onchange="cambioInputHistoricoDesde(event, ${famId}, ${artId})" value="${primerDiaDelAnioEnCurso()}" /></span>
                 </span>
             </div>`;
