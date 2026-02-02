@@ -267,7 +267,9 @@ function getFactTable(
                             </tbody>
                  
                     </table>
-            </div><br><br><br><br><br><br><br><br><br><br>
+            </div>
+            <div id="historico_table_${m[0].familia_id}_${m[0].article_id}"></div>
+            <br><br><br><br><br><br><br><br>
             `;
 
     return tableFact0;

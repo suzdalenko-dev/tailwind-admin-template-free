@@ -26,7 +26,14 @@ let topBottomTable = `</tbody>
 
 
 function restablecerButton(famId, artId){
-    return `<div class="boton_restablecer"><button type="button" class="btn-reset" onclick="restablecerTablaCA(${famId}, ${artId})">↩️ Restablecer</button></div>`;
+    return `<div class="boton_restablecer">
+                <span class="btn-reset hovered" onclick="restablecerTablaCA(${famId}, ${artId})">↩️ Restablecer</span>
+                <br><br>
+                <span>
+                    <span class="btn-reset hovered" onclick="historicoTablaCA(${famId}, ${artId})">📜 Histórico desde </span>
+                    <span><input type="date" id="input_historico_${famId}_${artId}" onchange="cambioInputHistoricoDesde(event, ${famId}, ${artId})" value="${primerDiaDelAnioEnCurso()}" /></span>
+                </span>
+            </div>`;
 }
 
 

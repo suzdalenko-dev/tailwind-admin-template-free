@@ -130,3 +130,43 @@ function disabledSegundaQuincena(fechaStr = null) {
     const dia = d.getDate();
     return (dia >= 16) ? 'disabled' : '';
 }
+
+
+function primerDiaDelAnioEnCurso() {
+  const now = new Date();
+  const y = now.getFullYear();
+  return `${y}-01-01`;
+}
+
+function historicoTablaCA(familia_id, article_id){
+    let fecha_desde = document.getElementById(`input_historico_${familia_id}_${article_id}`).value;
+    fetchHistoricoDatos(fecha_desde, familia_id, article_id);
+}
+
+function cambioInputHistoricoDesde(event, familia_id, article_id){
+    let fecha_desde = event.target.value;
+    fetchHistoricoDatos(fecha_desde, familia_id, article_id);
+}
+
+function fetchHistoricoDatos(fecha_desde, familia_id, article_id){
+        let id = `historico_table_${familia_id}_${article_id}`;
+        let divElement = document.getElementById(id);
+
+        
+
+    suzdalenkoGet(`compras/put/0/0/fetch_datos_historicos/?fecha_desde=${fecha_desde}&familia_id=${familia_id}&article_id=${article_id}`, (res) => {
+        if(res && res.data && res.data.metricas && res.data.metricas.length > 0){
+            divElement.innerHTML = buildHistoricosTable(res)
+        } else {
+            divElement.innerHTML = 'No hay históricos para este artículo y rango';
+        }
+    });
+}
+
+
+/*
+setTimeout(() => {
+    fetchHistoricoDatos('2026-03-03', 23, 128);
+}, 1000)
+*/
+

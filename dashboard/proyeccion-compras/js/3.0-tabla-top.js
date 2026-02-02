@@ -26,7 +26,7 @@ function setTablesGlobal(){
             }
 
             
-
+            // console.log(l)
 
             total_content += topTable+htmlCenterTable+topBottomTable+prepareAcumulado(l.id);
             total_content += restablecerButton(FAMILIA_ID, l.id);
