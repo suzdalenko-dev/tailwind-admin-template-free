@@ -62,7 +62,7 @@ function buildHistoricosTable(payload) {
     { name: "Previsto",  key: "previsto",          cls: "" },
     { name: "Real",      key: "venta_real",        cls: "" },
     { name: "LY",        key: "venta_agno_pasado", cls: "" },
-    { name: "Entrada",   key: "entrada",           cls: "" },
+    { name: "Entrada",   key: "entrada",           cls: "input-ca" },
     { name: "Stock",     key: "stock",             cls: "" },
     { separator: true },
     { name: "Entr. R",   key: "entra_real_tramo",  cls: "color_grey" },
