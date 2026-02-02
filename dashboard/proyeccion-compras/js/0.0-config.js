@@ -65,11 +65,12 @@ function labelDesdeHoyHastaFinMes(fecha = new Date()) {
 
 
 function restablecerTablaCA(familia_id, id){
-    let data = {familia_id, id, 'tipo': 'restablecer'}
+    let data = {familia_id, id, 'tipo': 'restablecer'};
+    showLoader('Restablecer');
     suzdalenkoPost('compras/put/0/0/editar_tabla_jj/',  data, r => {
         pintarMenuGlobal();
         setTablesGlobal();
-        showM('Restablecer');
+        hideLoader();
     });
 }
 
