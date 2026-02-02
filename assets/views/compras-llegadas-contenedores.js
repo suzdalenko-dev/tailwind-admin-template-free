@@ -15,6 +15,7 @@ function comprasLlegadasContenedoresInit(){
     setInputDate();
     setSearchedDate();
     getAllContainer();
+    setTimeout(() => { fetch(HTTP_HOST+'compras/get/0/0/recalculo_jjavier/'); }, 1100);
 }
 /* 1. trabajo con fechas */
 function setInputDate(){
