@@ -1,6 +1,7 @@
 let pedidosLAP  = null;
 let dateFromLAP = getTodayDate();
 let dateToLAP   = getTodayDate();
+let estadoOC_LAPCP = '01';
 
 function logisticaAnalisisPedidoCompletoPickingInit(){
     document.getElementById('slugTitle').innerHTML = `
@@ -10,6 +11,11 @@ function logisticaAnalisisPedidoCompletoPickingInit(){
     document.title = "Panel de Análisis de Pedido";
 
     setDateLAP();
+    getLAPData();
+}
+
+function changeStateLAPCP(x){
+    estadoOC_LAPCP = x;
     getLAPData();
 }
 
@@ -27,7 +33,7 @@ function setDateLAP(){
 function getLAPData(){
     document.getElementById('tableLAP').innerHTML = '<br> Cargando..'    
 
-    fetch(HTTP_HOST+'logistica/action/0/0/analisis_pedidos_dia_carga/?date_from='+dateFromLAP+'&date_to='+dateToLAP).then(r => r.json()).then(r => {
+    fetch(HTTP_HOST+'logistica/action/0/0/analisis_pedidos_dia_carga/?date_from='+dateFromLAP+'&date_to='+dateToLAP+'&oc='+estadoOC_LAPCP).then(r => r.json()).then(r => {
         pedidosLAP = r.data;
         if(r && r.data && r.data.pedidos && r.data.pedidos.length > 0){
             let html = '';

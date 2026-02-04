@@ -73,8 +73,8 @@ function initHPD(){
                 semanaOld =  weekNumberLocal(row.fecha_llegada);
 
                 if(semanaOld != semanaCurrent){
-                    htmlTable += `<tr>
-                                    <td class="border px-2 py-1 text-center">Semana ${weekNumberLocal(row.fecha_llegada)}</td>
+                    htmlTable += `<tr style="background-color:#dddbff;">
+                                    <td class="border px-2 py-1 text-center">Semana ${weekNumberLocal(row.fecha_llegada)}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                                 </tr>`;
                 }
             

@@ -1,5 +1,12 @@
 <div class="w-full mx-auto mb-4 flex justify-between items-center">
-    <span> </span> 
+    <span> 
+        <select id="selectLAPCP" class="border border-gray-300 rounded-md" onchange="changeStateLAPCP(this.value)">
+            <option value="01" selected>01 NACIONAL FROXA </option>
+            <option value="02">02 REGIONAL FROXA </option>
+            <option value="03">03 CUBA FROXA </option>
+            <option value="04">04 EXPORTACION FROXA </option>
+        </select>
+    </span> 
     <span>Desde</span><span><input type="date" id="inputFromLAP" onchange="changedDateLAP()"></span>
     <h1 class="text-xl text-center">Panel de Análisis de Pedido</h1>
     <span>Hasta</span><span><input type="date" id="inputToLAP" onchange="changedDateLAP()"></span>
@@ -38,3 +45,5 @@
     </div>
 </div>
 <br><br><br><br><br>
+
+
