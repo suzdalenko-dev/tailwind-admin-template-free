@@ -11,6 +11,12 @@ function logisticaAnalisisEstadoDvdsInit(){
     getDVDs();
 }
 
+function changedDateAED(){
+    fromAED = document.getElementById('inputFromAED').value;
+    toAED = document.getElementById('inputToAED').value;
+    getDVDs();
+}
+
 function setTimeAED(){
     document.getElementById('inputFromAED').value = primerDiaAgno();
     document.getElementById('inputToAED').value   = ultimoDiaAgno();
