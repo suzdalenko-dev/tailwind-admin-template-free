@@ -44,7 +44,7 @@ function getDVDs(){
                             <td class="border px-2 py-1 text-center">${CODIGO}</td>
                             <td class="border px-2 py-1 text-center">${DESCRIPCION}</td>
                             <td class="border px-2 py-1 text-center">${entrada.CODIGO_ARTICULO}</td>
-                            <td class="border px-2 py-1 text-left">${entrada.CODIGO_ARTICULO}</td>
+                            <td class="border px-2 py-1 text-left">${entrada.DESCRIPCION_ARTICULO}</td>
                             <td class="border px-2 py-1 text-left">${entrada.NUMERO_LOTE_INT}</td>
                             <td class="border px-2 py-1 text-right">${entrada.CANTIDAD_ALMACEN1}</td>
                             <td class="border px-2 py-1 text-right">${entrada.consumido}</td>
@@ -130,7 +130,7 @@ function createExcelAED(){
                     CODIGO,
                     DESCRIPCION,
                     e.CODIGO_ARTICULO || '',
-                    e.CODIGO_ARTICULO || '',   // si tienes descripción real del artículo, ponla aquí
+                    e.DESCRIPCION_ARTICULO || '',   // si tienes descripción real del artículo, ponla aquí
                     e.NUMERO_LOTE_INT || '',
                     Number(e.CANTIDAD_ALMACEN1 || 0),
                     Number(e.consumido || 0),
