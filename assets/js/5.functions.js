@@ -447,8 +447,6 @@ function fechaConMeses(offsetMeses = 0) {
     return `${yyyy}-${mm}-${dd}`;
 }
 
-
-
 function weekNumber(dateStr) {
     const d = new Date(dateStr);
     d.setHours(0, 0, 0, 0);
@@ -457,4 +455,15 @@ function weekNumber(dateStr) {
     return 1 + Math.round(
         ((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7
     );
+}
+
+function primerDiaAgno() {
+  const y = new Date().getFullYear();
+  return `${y}-01-01`;
+}
+
+function ultimoDiaAgno() {
+  const y = new Date().getFullYear();
+  const last = new Date(y + 1, 0, 0); // día 0 de enero del año siguiente = 31/12 del actual
+  return last.toISOString().slice(0, 10);
 }

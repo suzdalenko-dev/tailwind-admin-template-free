@@ -26,6 +26,7 @@ let menuData = [
     { title: 'Hoja de Contenedor', icon: '🧾', submenu: null , view: 'logistica-hoja-contenedor', roles: ['logistica;'] },
     { title: 'Cierre de HC', icon: '📄', submenu: null , view: 'logistica-cierre-hojas-carga', roles: ['logistica;'] },
     { title: 'Análisis de Pedido', icon: '📊', submenu: null , view: 'logistica-analisis-pedido-completo-picking', roles: ['logistica;'] },
+    { title: 'Análisis de DVDs', icon: '📦', submenu: null , view: 'logistica-analisis-estado-dvds', roles: ['logistica;'] },
   ]},
   { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;produccion30;logistica;'], submenu: [
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;produccion;'] },
