@@ -42,4 +42,121 @@ function getDVDs(){
 }
 
 
+function createExcelAED(){
+    if (!excelAED || !Array.isArray(excelAED) || excelAED.length === 0) {
+        alert("No hay datos para exportar");
+        return;
+    }
 
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet("Análisis Estado DVDs");
+
+    const COLOR_HEADER = 'FFFC8888'; // ExcelJS necesita ARGB (8 chars)
+
+    // ===== TÍTULO =====
+    sheet.mergeCells("A1:I1");
+    const t = sheet.getCell("A1");
+    t.value = `Panel de Análisis de DVDs`;
+    t.font = { bold:true, color:{argb:"FFFFFFFF"}, size:11 };
+    t.alignment = { horizontal:"center", vertical:"middle" };
+    t.fill = { type:"pattern", pattern:"solid", fgColor:{argb:COLOR_HEADER} };
+
+    // ===== CABECERAS (como tu tabla) =====
+    const headers = [
+        "Fecha",
+        "DVD",
+        "Descripción",
+        "Código",
+        "Artículo",
+        "Lote",
+        "Entrada",
+        "Salida",
+        "Existencias"
+    ];
+    sheet.addRow(headers);
+
+    sheet.getRow(2).height = 18;
+    sheet.getRow(2).eachCell(c => {
+        c.font = { bold:true, color:{argb:"FFFFFFFF"} };
+        c.alignment = { horizontal:"center", vertical:"middle", wrapText:true };
+        c.fill = { type:"pattern", pattern:"solid", fgColor:{argb:COLOR_HEADER} };
+        c.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
+    });
+
+    // helper numérico robusto (por si vienen strings "None", "", null, etc.)
+    const toNumber = (v) => {
+        if (v === null || v === undefined) return 0;
+        const s = String(v).trim();
+        if (!s || s.toLowerCase() === "none" || s.toLowerCase() === "null") return 0;
+        // soporta "1.234,56" y "123,45"
+        const normalized = (s.includes(",") && s.includes(".")) ? s.replace(/\./g, "").replace(",", ".")
+                          : (s.includes(",") ? s.replace(",", ".") : s);
+        const n = Number(normalized);
+        return Number.isFinite(n) ? n : 0;
+    };
+
+    // ===== DATOS (excelAED plano) =====
+    excelAED.forEach(d => {
+        const row = sheet.addRow([
+            formatDateToEuropean(d.FECHA),
+            d.CODIGO_DVD || "",
+            d.DESCRIPCION || "",
+            d.CODIGO_ARTICULO || "",
+            d.DESCRIPCION_ARTICULO || "",
+            d.NUMERO_LOTE_INT || "",
+            toNumber(d.CANTIDAD_ENTRADA),
+            toNumber(d.SALIDA),
+            toNumber(d.CANTIDAD_CON),
+        ]);
+
+        row.eachCell((cell, colNumber) => {
+            cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
+            // alineación parecida a la tabla: números a la derecha
+            if (colNumber >= 7) {
+                cell.alignment = { vertical:"middle", horizontal:"right" };
+            } else if (colNumber === 1 || colNumber === 2 || colNumber === 4) {
+                cell.alignment = { vertical:"middle", horizontal:"center" };
+            } else {
+                cell.alignment = { vertical:"middle", horizontal:"left" };
+            }
+        });
+    });
+
+    // ===== ANCHOS =====
+    sheet.columns = [
+        { width: 12 }, // Fecha
+        { width: 16 }, // DVD
+        { width: 40 }, // Descripción
+        { width: 12 }, // Código
+        { width: 40 }, // Artículo
+        { width: 18 }, // Lote
+        { width: 12 }, // Entrada
+        { width: 12 }, // Salida
+        { width: 12 }, // Existencias
+    ];
+
+    // ===== FORMATOS NUMÉRICOS =====
+    sheet.getColumn(7).numFmt = "#,##0.00";
+    sheet.getColumn(8).numFmt = "#,##0.00";
+    sheet.getColumn(9).numFmt = "#,##0.00";
+
+    // ===== CONGELAR + FILTROS =====
+    sheet.views = [{ state: "frozen", ySplit: 2 }];
+    sheet.autoFilter = {
+        from: { row: 2, column: 1 },
+        to:   { row: 2, column: 9 }
+    };
+
+    // ===== DESCARGA =====
+    workbook.xlsx.writeBuffer().then(buffer => {
+        const blob = new Blob([buffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        });
+
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `analisis_estado_dvds.xlsx`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    });
+}
