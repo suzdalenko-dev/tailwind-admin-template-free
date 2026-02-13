@@ -55,8 +55,8 @@ function getFamiliasArticulosCPLF(){
                                 <td class="border px-2 py-1 text-left hovered" onclick="openTableViewCPLF(${a.familia_id})">🔗 ${a.familia_descripcion}</td>
                                 <td class="border px-2 py-1 text-center hovered" onclick="openFamelyArticle(${a.familia_id}, '${a.codigo}')" >🔗 ${a.codigo}</td>
                                 <td class="border px-2 py-1 text-left">${a.articulo_descripcion}</td> 
-                                <td class="border px-2 py-1 text-center hovered" onclick="deleteArtCPLF(${a.familia_id}, ${a.articulo_id}, '${a.codigo}', '${a.articulo_descripcion}')">🗑️</td>
-                                <td class="border px-2 py-1 text-center hovered" onclick="addEquivalenteCPLF('${a.familia_descripcion}', ${a.familia_id}, ${a.articulo_id}, ${a.codigo}, '${a.articulo_descripcion}')">➕ Equivalente</td>
+                                <td class="border px-2 py-1 text-center hovered" onclick="deleteArtCPLF(${a.familia_id}, ${a.articulo_id}, '${a.codigo}')">🗑️</td>
+                                <td class="border px-2 py-1 text-center hovered" onclick="addEquivalenteCPLF('${a.familia_descripcion}', ${a.familia_id}, ${a.articulo_id}, ${a.codigo})">➕ Equivalente</td>
                                 <td class="border px-2 py-1 text-center"></td>
                                 <td class="border px-2 py-1 text-center"></td>
                             </tr>`;
@@ -90,8 +90,8 @@ function deleteEquivCPLF(lineId, eqDescr, eqCode, codigo){
     }
 }
 
-function addEquivalenteCPLF(familia_descripcion, familia_id, articulo_id, codigo, articulo_descripcion){
-    let equivalentCode = prompt(`Añadir artículo equivalente para familia ${familia_descripcion} \n ${articulo_descripcion} [${codigo}] \n Inserte código artículo Libra`);
+function addEquivalenteCPLF(familia_descripcion, familia_id, articulo_id, codigo){
+    let equivalentCode = prompt(`Añadir artículo equivalente para familia ${familia_descripcion} \n [${codigo}] \n Inserte código artículo Libra`);
     if(equivalentCode){
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'creacion-equivalente', 'entity':'articulo', 'name': equivalentCode, 'familia_id': familia_id, 'id': articulo_id}, (res) => { 
             getFamiliasArticulosCPLF();
@@ -105,8 +105,8 @@ function famCPLFPress(famId, famDesc){
     suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'update', 'entity':'familia', 'name': name.toUpperCase(), 'familia_id': famId, 'id': 0}, (res) => { getFamiliasArticulosCPLF(); });
 }
 
-function deleteArtCPLF(fam_id, art_id, art_code, art_desrip){
-    let confirm_delete = confirm(`Eliminar Artículo del cálculo de stock \n ${art_desrip} [${art_code}]`);
+function deleteArtCPLF(fam_id, art_id, art_code){
+    let confirm_delete = confirm(`Eliminar Artículo del cálculo de stock \n [${art_code}]`);
     if(confirm_delete){
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'borrar_articulo', 'entity':'articulo', 'name': '', 'familia_id': fam_id, 'id': art_id}, (res) => { getFamiliasArticulosCPLF(); });
     }
