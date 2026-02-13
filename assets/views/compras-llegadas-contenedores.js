@@ -71,16 +71,16 @@ async function compobacionFamArt(familia_codigo, codigo_articulo){
       return response
 }
 
-async function addPurchaseProjection(familia, familia_codigo, articulo, codigo_articulo){
+async function addPurchaseProjection(familia, familia_codigo, codigo_articulo){
   // comprobar si la familia y el articulo ya existen
   let familyExist = await compobacionFamArt(familia_codigo, codigo_articulo);
   if(familyExist.data.codigo > 0 && familyExist.data.familia_id > 0){
     window.open(`/dashboard/proyeccion-compras/?familia_id=${familyExist.data.familia_id}&codigo=${familyExist.data.codigo}`, '_self');
   } else { 
-    let addArticle = confirm(`¿Añadir ${familia} ${codigo_articulo} ${articulo} a la proyección de stock?`);
+    let addArticle = confirm(`¿Añadir ${familia} ${codigo_articulo} a la proyección de stock?`);
     if(addArticle){
       showLoader('Creando la proyección');
-      suzdalenkoPost('compras/put/0/0/add_purchase_projection/', {familia, familia_codigo, articulo, codigo_articulo}, r => {
+      suzdalenkoPost('compras/put/0/0/add_purchase_projection/', {familia, familia_codigo, codigo_articulo}, r => {
         if(r && r.data && r.data.familia_id && r.data.codigo){
           let familia_id = r.data.familia_id;
           let codigo     = r.data.codigo;
@@ -156,7 +156,7 @@ function show2Tables() {
       }
 
       html += `<tr>
-        <td class="border px-2 py-1 text-left hovered" title="${notNone(y.OBSERVACIONES)}" onclick="addPurchaseProjection('${y.D_CODIGO_FAMILIA}', '${y.CODIGO_FAMILIA}', '${y.DESCRIP_COMERCIAL}', ${y.ARTICULO})">${y.ARTICULO ?? ''} ${(y.DESCRIP_COMERCIAL || '')}</td>
+        <td class="border px-2 py-1 text-left hovered" title="${notNone(y.OBSERVACIONES)}" onclick="addPurchaseProjection('${y.D_CODIGO_FAMILIA}', '${y.CODIGO_FAMILIA}', ${y.ARTICULO})">${y.ARTICULO ?? ''} ${(y.DESCRIP_COMERCIAL || '')}</td>
         <td class="border px-2 py-1 text-center">${y.CONTENEDOR ?? ''}</td>
         <td class="border px-2 py-1 text-center">${fEurEntero(y.CANTIDAD1)}</td>
         <td class="border px-2 py-1 text-center">${fEur000(y.PRECIO)}</td>
