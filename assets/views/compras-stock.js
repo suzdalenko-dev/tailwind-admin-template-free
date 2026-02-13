@@ -32,7 +32,7 @@ let filterFamily = "";
 let filterSubfamily = "";
 
 /* ===== Situación de stock ===== */
-let stockSituacion = 'DISPG'; // por defecto
+let stockSituacion = 'ALL'; // por defecto
 
 /* ===== Helpers ===== */
 const norm = s => (s ?? "")
@@ -160,7 +160,7 @@ function resetTextFamFiltersOnly(){
 }
 function getSelectedStockSituacion(){
   const el = document.querySelector('input[name="stock_situacion"]:checked');
-  return el ? el.value : 'DISPG';
+  return el ? el.value : 'ALL';
 }
 
 /* ===== Init ===== */
@@ -169,8 +169,8 @@ function comprasStockInit(){
     <span class="b-top-page" onclick="createExcelCS()">📥 Excel </span>
     <span class="b-top-page" onclick="createPdfCS()">📄 PDF </span>
     <span class="ml-11">
-      <input class="radio-input" name="stock_situacion" type="radio" id="DISPG" value="DISPG" checked>
-      <label class="radio-label" for="DISPG">DISPONIBLE GENERAL</label>
+      <input class="radio-input" name="stock_situacion" type="radio" id="ALL" value="ALL" checked>
+      <label class="radio-label" for="ALL">STOCK TOTAL</label>
       <input class="radio-input" name="stock_situacion" type="radio" id="DEPA" value="DEPA">
       <label class="radio-label" for="DEPA">DEPÓSITO ADUANERO</label>
       <input class="radio-input" name="stock_situacion" type="radio" id="FINAL" value="FINAL">
@@ -188,7 +188,7 @@ function comprasStockInit(){
 }
 
 function onStockSituacionChange(e){
-  stockSituacion = e.target && e.target.value ? e.target.value : 'DISPG';
+  stockSituacion = e.target && e.target.value ? e.target.value : 'ALL';
   // reset: no mandar warehouse en el próximo fetch
   warehousesReady = false;
   selectedWarehouses.clear();
@@ -198,7 +198,7 @@ function onStockSituacionChange(e){
 
 /* ===== Data fetch ===== */
 async function getDataCS(){
-  const situ = getSelectedStockSituacion() || stockSituacion || 'DISPG';
+  const situ = getSelectedStockSituacion() || stockSituacion || 'ALL';
 
   // Si ya tenemos universo y selección => incluir warehouses; si no, sólo situación
   let qs = `?stock_situacion=${encodeURIComponent(situ)}`;
