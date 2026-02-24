@@ -17,7 +17,7 @@ let menuData = [
     { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion;produccion20;']},
     { title: 'Comparación Costes OFs',  icon: '💰', submenu: null , view: 'produccion-comparacion-costes-contabilidad', roles: ['produccion;produccion20;finanzas;produccion30;']},
     { title: 'Roturas Stock',  icon: '🛎️', submenu: null , view: 'produccion-aviso-roturas-stock', roles: ['produccion;produccion20;compras;compras20;calidad;produccion30;']},
-    { title: 'OFs Número Personas', icon: '👷‍♂️', submenu: null , view: 'produccion-ofs-numero-personas', roles: ['suzdalenko;'] },
+    { title: 'Móvil Encargado', icon: '👷‍♂️', submenu: null , view: 'produccion-ofs-numero-personas', roles: ['produccion;produccion20;;'] },
     { title: 'Gestión de operarios', icon: '👷‍♂️', submenu: null , view: 'produccion-de-operarios', roles: ['produccion;produccion20;'] },
   ]},
   { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
@@ -34,8 +34,8 @@ let menuData = [
     { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
     { title: 'Rotativo Salidas Elab.', icon: '🔄', submenu: null , view: 'compras-rotativo-salidas-elaboracion', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
     { title: 'Hoja Plan. Descargas', icon: '⬇️', submenu: null , view: 'compras-hoja-planificacion-descargas', roles: ['compras;compras20;produccion;produccion20;produccion30;logistica;'] },
-    { title: 'Proyección compras', icon: '📈', submenu: null , view: 'compras-proyeccion-listado-familias', roles: ['compras;'] },
-        
+    { title: 'Proyección Compras', icon: '📈', submenu: null , view: 'compras-proyeccion-listado-familias', roles: ['compras;'] },
+    { title: 'Histórico Compras', icon: '🕰️', submenu: null , view: 'compras-historico-de-compras', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;produccion30;logistica;'] },   
 
   ]},
   { title: 'Admin', icon: '🛠️', roles: ['admin;'], submenu: [

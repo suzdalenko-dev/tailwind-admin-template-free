@@ -1,7 +1,8 @@
 function produccionOfsNumeroPersonasInit(){
     document.title = 'Número de personas en una OF';
+    document.getElementById('slugTitle').innerHTML = ``;
 
-    getONP();
+    // getONP();
 }
 
 function getONP(){
