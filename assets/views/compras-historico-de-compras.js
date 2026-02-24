@@ -137,70 +137,156 @@ function renderCHCTable(){
   tbody.innerHTML = html;
 }
 
-// -------------------------------
-// EXCEL (respeta filtro + fechas)
-// Requiere XLSX + helper toNumberForExcel (ya lo tienes en tu base)
-// -------------------------------
-function excelCHC(){
-  if(!window.XLSX){
-    showM('No está cargado XLSX', 'error');
-    return;
+
+
+// ================================
+// EXCEL CHC (ExcelJS) - con colores + filtros
+// ================================
+async function excelCHC(){
+  try{
+    if(!window.ExcelJS){
+      showM('ExcelJS no está cargado', 'error');
+      return;
+    }
+    if(!dataCHC || !Array.isArray(dataCHC) || dataCHC.length === 0){
+      showM('No hay datos para exportar', 'warning');
+      return;
+    }
+
+    const q = (localStorage.getItem(LS_SEARCH_CHC) || '').toLowerCase().trim();
+
+    const match = (l) => {
+      if(!q) return true;
+      const lineData = (
+        (l.DESCRIP_COMERCIAL || '') + ' ' +
+        (l.CODIGO_ARTICULO   || '') + ' ' +
+        (l.CODIGO_PROVEEDOR  || '') + ' ' +
+        (l.NOMBRE            || '')
+      ).toLowerCase();
+      return lineData.includes(q);
+    };
+
+    const rows = dataCHC.filter(match);
+    if(rows.length === 0){
+      showM('No hay filas con ese filtro', 'warning');
+      return;
+    }
+
+    // --- helper number: tolera 1.234,56 / 1234,56 / 1234.56 ---
+    const toNum = (v) => {
+      if(v === null || v === undefined || v === '' || v === 'None') return null;
+      if(typeof v === 'number') return Number.isFinite(v) ? v : null;
+
+      let s = String(v).trim().replace(/\s+/g,'');
+      const hasComma = s.includes(',');
+      const hasDot   = s.includes('.');
+
+      if(hasComma && hasDot){
+        // último separador = decimal
+        if(s.lastIndexOf(',') > s.lastIndexOf('.')) s = s.replace(/\./g,'').replace(',', '.');
+        else s = s.replace(/,/g,'');
+      } else if(hasComma){
+        s = s.replace(',', '.');
+      }
+
+      const n = Number(s);
+      return Number.isFinite(n) ? n : null;
+    };
+
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Histórico compras');
+
+    // === estilos cabecera ===
+    // ExcelJS usa ARGB (AARRGGBB). NO vale "rgb(...)"
+    const COLOR_HEADER = 'FF6D3F3F'; // rgb(109,63,63)
+      
+    const headerStyle = (cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLOR_HEADER } };
+      cell.border = {
+        top:{style:'thin'}, left:{style:'thin'},
+        bottom:{style:'thin'}, right:{style:'thin'}
+      };
+    };
+    
+    // === cabecera ===
+    const HEAD = ['Fecha','Proveedor','Exp','Artículo','Cantidad','Precio','Cambio','Precio €'];
+    sheet.addRow(HEAD);
+    sheet.getRow(1).height = 18;
+    sheet.getRow(1).eachCell(c => headerStyle(c));
+
+    // === congelar fila 1 (cabecera) ===
+    sheet.views = [{ state: 'frozen', ySplit: 1 }];
+
+    // === autofiltro (fila 1) ===
+    sheet.autoFilter = {
+      from: { row: 1, column: 1 },
+      to:   { row: 1, column: HEAD.length }
+    };
+
+    // === datos ===
+    rows.forEach(l => {
+      const fecha = formatLongDate(l.FECHA); // dd/mm/yyyy
+      const proveedor = `${l.CODIGO_PROVEEDOR || ''} ${l.NOMBRE || ''}`.trim();
+      const exp = l.NUMERO_DOC_EXT || '';
+      const articulo = `${l.CODIGO_ARTICULO || ''} ${(l.DESCRIP_COMERCIAL || '').trim()}`.trim();
+
+      const cantidad  = toNum(l.UNIDADES_ALMACEN);
+      const precio    = toNum(l.PRECIO_VALORACION);
+      const cambio    = toNum(l.CAMBIO);
+      const precioEur = toNum(l.PRECIO_EUR);
+
+      const r = sheet.addRow([fecha, proveedor, exp, articulo, cantidad, precio, cambio, precioEur]);
+
+      // bordes
+      r.eachCell(cell => {
+        cell.border = {
+          top:{style:'thin'}, left:{style:'thin'},
+          bottom:{style:'thin'}, right:{style:'thin'}
+        };
+      });
+
+      // alineaciones
+      r.getCell(1).alignment = { horizontal: 'center' };
+      r.getCell(5).alignment = { horizontal: 'right' };
+      r.getCell(6).alignment = { horizontal: 'right' };
+      r.getCell(7).alignment = { horizontal: 'right' };
+      r.getCell(8).alignment = { horizontal: 'right' };
+
+      // formatos numéricos (como tu captura)
+      if(r.getCell(5).value !== null) r.getCell(5).numFmt = '#,##0';            // Cantidad entero
+      if(r.getCell(6).value !== null) r.getCell(6).numFmt = '#,##0.000';        // Precio 3 dec
+      if(r.getCell(7).value !== null) r.getCell(7).numFmt = '#,##0.000000000';  // Cambio 9 dec
+      if(r.getCell(8).value !== null) r.getCell(8).numFmt = '#,##0.00';         // Precio € 2 dec
+    });
+
+    // === anchos ===
+    sheet.columns = [
+      { width: 12 }, // Fecha
+      { width: 32 }, // Proveedor
+      { width: 14 }, // Exp
+      { width: 55 }, // Artículo
+      { width: 12 }, // Cantidad
+      { width: 12 }, // Precio
+      { width: 14 }, // Cambio
+      { width: 12 }  // Precio €
+    ];
+
+    // === descargar ===
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    });
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    const suf = q ? '_filtrado' : '';
+    a.download = `historico_compras_${dateFromCHC}_${dateToCHC}${suf}.xlsx`;
+    a.click();
+
+  } catch(err){
+    console.error(err);
+    showM('Error creando Excel CHC', 'error');
   }
-  if(!dataCHC || dataCHC.length === 0){
-    showM('No hay datos para exportar', 'warning');
-    return;
-  }
-
-  const q = (localStorage.getItem(LS_SEARCH_CHC) || '').toLowerCase().trim();
-
-  const rows = dataCHC.filter(l => {
-    if(!q) return true;
-    const lineData = (
-      (l.DESCRIP_COMERCIAL || '') + ' ' +
-      (l.CODIGO_ARTICULO   || '') + ' ' +
-      (l.CODIGO_PROVEEDOR  || '') + ' ' +
-      (l.NOMBRE            || '')
-    ).toLowerCase();
-    return lineData.includes(q);
-  });
-
-  const HEAD = ['Fecha','Proveedor','Exp','Artículo','Cantidad','Precio','Cambio','Precio €'];
-  const AOA = [HEAD];
-
-  rows.forEach(l => {
-    AOA.push([
-      formatLongDate(l.FECHA),
-      `${l.CODIGO_PROVEEDOR} ${l.NOMBRE}`,
-      l.NUMERO_DOC_EXT,
-      `${l.CODIGO_ARTICULO} ${(l.DESCRIP_COMERCIAL || '').trim()}`,
-      toNumberForExcel(l.UNIDADES_ALMACEN),
-      toNumberForExcel(l.PRECIO_VALORACION),
-      toNumberForExcel(l.CAMBIO),
-      toNumberForExcel(l.PRECIO_EUR)
-    ]);
-  });
-
-  const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet(AOA);
-
-  // congelar cabecera
-  ws['!freeze'] = { xSplit: 0, ySplit: 1 };
-
-  // anchos básicos
-  ws['!cols'] = [
-    { wch: 12 }, // Fecha
-    { wch: 28 }, // Proveedor
-    { wch: 14 }, // Exp
-    { wch: 42 }, // Artículo
-    { wch: 12 }, // Cantidad
-    { wch: 12 }, // Precio
-    { wch: 12 }, // Cambio
-    { wch: 12 }  // Precio €
-  ];
-
-  const tabName = (`CHC ${dateFromCHC} a ${dateToCHC}`).replace(/[\\/?*\[\]:]/g,'-').slice(0,31);
-  XLSX.utils.book_append_sheet(wb, ws, tabName || 'CHC');
-
-  const fileName = `historico_compras_${dateFromCHC}_${dateToCHC}${q ? '_filtrado' : ''}.xlsx`;
-  XLSX.writeFile(wb, fileName);
 }
