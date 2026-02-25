@@ -131,6 +131,7 @@ function renderCHCTable(){
       <td class="border px-2 py-1 text-left">${fEur000(l.PRECIO_VALORACION)}</td>
       <td class="border px-2 py-1 text-left">${fEur0000(l.CAMBIO)}</td>
       <td class="border px-2 py-1 text-left">${fEur000(l.PRECIO_EUR)}</td>
+      <td class="border px-2 py-1 text-left">${l.CODIGO_ALMACEN}</td>
     </tr>`;
   });
 
