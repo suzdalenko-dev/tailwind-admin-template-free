@@ -82,6 +82,8 @@ function getDataCHC(){
     r => {
       dataCHC = (r && r.data && Array.isArray(r.data.res)) ? r.data.res : [];
       renderCHCTable();
+
+      console.log(dataCHC[0])
     }
   );
 }
@@ -126,12 +128,15 @@ function renderCHCTable(){
       <td class="border px-2 py-1 text-center">${formatLongDate(l.FECHA)}</td>
       <td class="border px-2 py-1 text-left">${l.CODIGO_PROVEEDOR} ${l.NOMBRE}</td>
       <td class="border px-2 py-1 text-left">${l.NUMERO_DOC_EXT}</td>
+      <td class="border px-2 py-1 text-left">${l.NUMERO_DOC_INTERNO}</td>
       <td class="border px-2 py-1 text-left">${l.CODIGO_ARTICULO} ${(l.DESCRIP_COMERCIAL || '').trim()}</td>
+      <td class="border px-2 py-1 text-left">${l.DIVISA}</td>
       <td class="border px-2 py-1 text-right">${fENN(l.UNIDADES_ALMACEN)}</td>
-      <td class="border px-2 py-1 text-left">${fEur000(l.PRECIO_VALORACION)}</td>
+      <td class="border px-2 py-1 text-left">${fEur000(l.PRECIO_PRESENTACION)}</td>
       <td class="border px-2 py-1 text-left">${fEur0000(l.CAMBIO)}</td>
       <td class="border px-2 py-1 text-left">${fEur000(l.PRECIO_EUR)}</td>
       <td class="border px-2 py-1 text-left">${l.CODIGO_ALMACEN}</td>
+      <td class="border px-2 py-1 text-left">${fEur000(l.PRECIO_ULTIMA_COMPRA)}</td>
     </tr>`;
   });
 
@@ -141,7 +146,8 @@ function renderCHCTable(){
 
 
 // ================================
-// EXCEL CHC (ExcelJS) - con colores + filtros
+// EXCEL CHC (ExcelJS) - actualizado a 12 columnas (como la tabla)
+// Respeta: fechas actuales + search
 // ================================
 async function excelCHC(){
   try{
@@ -198,29 +204,28 @@ async function excelCHC(){
     const sheet = workbook.addWorksheet('Histórico compras');
 
     // === estilos cabecera ===
-    // ExcelJS usa ARGB (AARRGGBB). NO vale "rgb(...)"
     const COLOR_HEADER = 'FF6D3F3F'; // rgb(109,63,63)
-      
+
     const headerStyle = (cell) => {
       cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
       cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLOR_HEADER } };
       cell.border = {
         top:{style:'thin'}, left:{style:'thin'},
         bottom:{style:'thin'}, right:{style:'thin'}
       };
     };
-    
-    // === cabecera ===
-    const HEAD = ['Fecha','Proveedor','Exp','Artículo','Cantidad','Precio','Cambio','Precio €'];
+
+    // === cabecera (12 columnas) ===
+    const HEAD = [
+      'Fecha','Proveedor','Exp','Alb','Artículo','Div','Cant','Pr. Org','Cambio','Pr. €','Alm.','Precio € C.G.'
+    ];
     sheet.addRow(HEAD);
-    sheet.getRow(1).height = 18;
+    sheet.getRow(1).height = 20;
     sheet.getRow(1).eachCell(c => headerStyle(c));
 
-    // === congelar fila 1 (cabecera) ===
+    // congelar cabecera + autofiltro
     sheet.views = [{ state: 'frozen', ySplit: 1 }];
-
-    // === autofiltro (fila 1) ===
     sheet.autoFilter = {
       from: { row: 1, column: 1 },
       to:   { row: 1, column: HEAD.length }
@@ -231,14 +236,21 @@ async function excelCHC(){
       const fecha = formatLongDate(l.FECHA); // dd/mm/yyyy
       const proveedor = `${l.CODIGO_PROVEEDOR || ''} ${l.NOMBRE || ''}`.trim();
       const exp = l.NUMERO_DOC_EXT || '';
+      const alb = l.NUMERO_DOC_INTERNO || '';
       const articulo = `${l.CODIGO_ARTICULO || ''} ${(l.DESCRIP_COMERCIAL || '').trim()}`.trim();
+      const div = l.DIVISA || '';
 
-      const cantidad  = toNum(l.UNIDADES_ALMACEN);
-      const precio    = toNum(l.PRECIO_VALORACION);
-      const cambio    = toNum(l.CAMBIO);
-      const precioEur = toNum(l.PRECIO_EUR);
+      const cantidad        = toNum(l.UNIDADES_ALMACEN);
+      const precioOrg       = toNum(l.PRECIO_PRESENTACION);     // ✅ como la tabla
+      const cambio          = toNum(l.CAMBIO);
+      const precioEur       = toNum(l.PRECIO_EUR);
+      const almacen         = l.CODIGO_ALMACEN || '';
+      const precioEurCG     = toNum(l.PRECIO_ULTIMA_COMPRA);    // ✅ nueva col
 
-      const r = sheet.addRow([fecha, proveedor, exp, articulo, cantidad, precio, cambio, precioEur]);
+      const r = sheet.addRow([
+        fecha, proveedor, exp, alb, articulo, div,
+        cantidad, precioOrg, cambio, precioEur, almacen, precioEurCG
+      ]);
 
       // bordes
       r.eachCell(cell => {
@@ -249,17 +261,21 @@ async function excelCHC(){
       });
 
       // alineaciones
-      r.getCell(1).alignment = { horizontal: 'center' };
-      r.getCell(5).alignment = { horizontal: 'right' };
-      r.getCell(6).alignment = { horizontal: 'right' };
-      r.getCell(7).alignment = { horizontal: 'right' };
-      r.getCell(8).alignment = { horizontal: 'right' };
+      r.getCell(1).alignment  = { horizontal: 'center' }; // fecha
+      r.getCell(6).alignment  = { horizontal: 'center' }; // div
+      r.getCell(7).alignment  = { horizontal: 'right'  }; // cant
+      r.getCell(8).alignment  = { horizontal: 'right'  }; // pr org
+      r.getCell(9).alignment  = { horizontal: 'right'  }; // cambio
+      r.getCell(10).alignment = { horizontal: 'right'  }; // pr eur
+      r.getCell(11).alignment = { horizontal: 'center' }; // alm
+      r.getCell(12).alignment = { horizontal: 'right'  }; // pr eur cg
 
-      // formatos numéricos (como tu captura)
-      if(r.getCell(5).value !== null) r.getCell(5).numFmt = '#,##0';            // Cantidad entero
-      if(r.getCell(6).value !== null) r.getCell(6).numFmt = '#,##0.000';        // Precio 3 dec
-      if(r.getCell(7).value !== null) r.getCell(7).numFmt = '#,##0.000000000';  // Cambio 9 dec
-      if(r.getCell(8).value !== null) r.getCell(8).numFmt = '#,##0.00';         // Precio € 2 dec
+      // formatos numéricos (como tu tabla/captura)
+      if(r.getCell(7).value  !== null) r.getCell(7).numFmt  = '#,##0';             // Cant entero
+      if(r.getCell(8).value  !== null) r.getCell(8).numFmt  = '#,##0.000';         // Pr. Org 3 dec
+      if(r.getCell(9).value  !== null) r.getCell(9).numFmt  = '#,##0.000000000';   // Cambio 9 dec
+      if(r.getCell(10).value !== null) r.getCell(10).numFmt = '#,##0.00';          // Pr. € 2 dec
+      if(r.getCell(12).value !== null) r.getCell(12).numFmt = '#,##0.00';          // Precio € C.G. 2 dec
     });
 
     // === anchos ===
@@ -267,11 +283,15 @@ async function excelCHC(){
       { width: 12 }, // Fecha
       { width: 32 }, // Proveedor
       { width: 14 }, // Exp
+      { width: 14 }, // Alb
       { width: 55 }, // Artículo
-      { width: 12 }, // Cantidad
-      { width: 12 }, // Precio
-      { width: 14 }, // Cambio
-      { width: 12 }  // Precio €
+      { width: 8  }, // Div
+      { width: 12 }, // Cant
+      { width: 14 }, // Pr. Org
+      { width: 16 }, // Cambio
+      { width: 12 }, // Pr. €
+      { width: 8  }, // Alm.
+      { width: 16 }  // Precio € C.G.
     ];
 
     // === descargar ===
