@@ -1,4 +1,3 @@
--- drrWq9SNsFJH
 -- 12828864Q
 -- svoboda2019S.
 select * 
