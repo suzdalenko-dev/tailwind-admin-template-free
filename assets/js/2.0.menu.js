@@ -67,13 +67,14 @@ let menuData = [
      { title: 'Informes propiedad', icon: '', roles: ['propietario;finanzas;'], submenu: [
         { title: 'Venta Comercial', icon: '', submenu: null , view: 'power-bi?name=venta-excel-libra-vista-comercial', roles: ['propietario;finanzas;'] },
      ]},
-     { title: 'Produccion', icon: '', roles: ['produccion;produccion20;produccion30;'], submenu: [
+     { title: 'Produccion', icon: '', roles: ['produccion;produccion20;produccion30;mantenimiento;calidad;'], submenu: [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['produccion;produccion20;produccion30;'] },
         { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['produccion;produccion20;'] },
         { title: 'Previsión de Entradas', icon: '', submenu: null , view: 'power-bi?name=produccion-prevision-de-entradas', roles: ['produccion;produccion20;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;produccion20;'] },
         { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['produccion;produccion20;produccion30;'] },
         { title: 'Balanza Mermas', icon: '', submenu: null , view: 'power-bi?name=balanza-mermas-produccion-calidad', roles: ['produccion;produccion20;produccion30;'] },
+        { title: 'Industria 4.0', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;'] },
      ]},
      { title: 'Calidad', icon: '', roles: ['calidad;'], submenu: [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['calidad;'] },
