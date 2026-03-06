@@ -7,9 +7,15 @@ function logisticaListadoCargasInit(){
 
     document.title = 'Listado cargas';
     geRefreshGemaRoutes();
+
+    setTimeout(() => {
+        fetch(HTTP_HOST+'logistica/get/0/0/refresh_gema/').then(r => r.json()).then(r => { console.log(r); });
+    }, 1100);
 }
 
 function geRefreshGemaRoutes(){
+    document.getElementById('list22Loads').innerHTML = '<br> Cargando..';
+
     fetch(HTTP_HOST+'logistica/get/0/0/get_and_refresh_gema_routes/').then(r => r.json()).then(r => {
         let htmlLoadContent = '';
         let i = 0;

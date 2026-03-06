@@ -5,10 +5,13 @@ function logisticaListadoCargasRegionalInit(){
     document.getElementById('slugTitle').innerHTML = '';
 
     getLLCR();
+    setTimeout(() => {
+        fetch(HTTP_HOST+'logistica/get/0/0/refresh_gema_loading_sheet02/').then(r => r.json()).then(r => { console.log(r); });
+    }, 1100);
 }
 
 function getLLCR(){
-    document.getElementById('tableLLCR').innerHTML = 'Cargando..';
+    document.getElementById('tableLLCR').innerHTML = '<br>Cargando..';
 
     suzdalenkoGet('logistica/get/0/0/get_refresh_head_02/', (res) => {  
         let html = '';
