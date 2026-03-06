@@ -11,7 +11,7 @@ let menuData = [
     { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'] },
   ]},
-  { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;'], submenu: [
+  { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;mantenimiento;'], submenu: [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion;produccion20;ventas;']},
     { title: 'Equiv. C/C',  icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor', roles: ['produccion;produccion20;']},
     { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion;produccion20;']},
@@ -21,6 +21,10 @@ let menuData = [
       { title: 'Móvil Encargado', icon: '', submenu: null , view: 'produccion-ofs-numero-personas', roles: ['produccion;produccion20;'] },
       { title: 'Gestión de operarios', icon: '', submenu: null , view: 'produccion-de-operarios', roles: ['produccion;produccion20;'] },
       { title: 'Informe horas OF', icon: '', submenu: null , view: 'produccion-informe-horas-operarios', roles: ['produccion;produccion20;'] },
+    ]},
+    { title: 'Industria 4.0', icon: '🖥️', roles: ['mantenimiento;produccion;calidad;'], submenu: [
+      { title: 'Ajustes', icon: '', submenu: null , view: 'produccion-industria-ajustes-articulo', roles: ['mantenimiento;produccion;calidad;'] },
+      { title: 'Infome', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;'] },
     ]},
   ]},
   { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
@@ -74,7 +78,6 @@ let menuData = [
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=produccion-inventario', roles: ['produccion;produccion20;'] },
         { title: 'Consumo Equival. Libra', icon: '', submenu: null , view: 'power-bi?name=consumo-articulos-equivalentes-libra', roles: ['produccion;produccion20;produccion30;'] },
         { title: 'Balanza Mermas', icon: '', submenu: null , view: 'power-bi?name=balanza-mermas-produccion-calidad', roles: ['produccion;produccion20;produccion30;'] },
-        { title: 'Industria 4.0', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;'] },
      ]},
      { title: 'Calidad', icon: '', roles: ['calidad;'], submenu: [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['calidad;'] },
