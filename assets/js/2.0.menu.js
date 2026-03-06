@@ -22,9 +22,9 @@ let menuData = [
       { title: 'Gestión de operarios', icon: '', submenu: null , view: 'produccion-de-operarios', roles: ['produccion;produccion20;'] },
       { title: 'Informe horas OF', icon: '', submenu: null , view: 'produccion-informe-horas-operarios', roles: ['produccion;produccion20;'] },
     ]},
-    { title: 'Industria 4.0', icon: '🖥️', roles: ['mantenimiento;produccion;calidad;'], submenu: [
-      { title: 'Ajustes', icon: '', submenu: null , view: 'produccion-industria-ajustes-articulo', roles: ['mantenimiento;produccion;calidad;'] },
-      { title: 'Infome', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;'] },
+    { title: 'Industria 4.0', icon: '🖥️', roles: ['mantenimiento;produccion;calidad;produccion30;'], submenu: [
+      { title: 'Ajustes', icon: '', submenu: null , view: 'produccion-industria-ajustes-articulo', roles: ['mantenimiento;produccion;calidad;produccion30;'] },
+      { title: 'Infome', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;produccion30;'] },
     ]},
   ]},
   { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
@@ -71,7 +71,7 @@ let menuData = [
      { title: 'Informes propiedad', icon: '', roles: ['propietario;finanzas;'], submenu: [
         { title: 'Venta Comercial', icon: '', submenu: null , view: 'power-bi?name=venta-excel-libra-vista-comercial', roles: ['propietario;finanzas;'] },
      ]},
-     { title: 'Produccion', icon: '', roles: ['produccion;produccion20;produccion30;mantenimiento;calidad;'], submenu: [
+     { title: 'Produccion', icon: '', roles: ['produccion;produccion20;produccion30;calidad;'], submenu: [
         { title: 'Consumo Producción', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['produccion;produccion20;produccion30;'] },
         { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['produccion;produccion20;'] },
         { title: 'Previsión de Entradas', icon: '', submenu: null , view: 'power-bi?name=produccion-prevision-de-entradas', roles: ['produccion;produccion20;'] },
