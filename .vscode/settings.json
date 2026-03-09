@@ -1,0 +1,5 @@
+{
+    "powerquery.client.additionalSymbolsDirectories": [
+        "d:/INFORMES-WEB/froxa-html/.vscode/excel-pq-symbols"
+    ]
+}
