@@ -72,6 +72,11 @@ async function compobacionFamArt(familia_codigo, codigo_articulo){
 }
 
 async function addPurchaseProjection(familia, familia_codigo, codigo_articulo){
+  let permisions = localStorage.getItem('permissions');
+  if(permisions.includes('compras;') || permisions.includes('*')){
+  } else {
+    return;
+  }
   // comprobar si la familia y el articulo ya existen
   let familyExist = await compobacionFamArt(familia_codigo, codigo_articulo);
   if(familyExist.data.codigo > 0 && familyExist.data.familia_id > 0){
