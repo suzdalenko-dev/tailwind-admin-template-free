@@ -41,7 +41,7 @@ let menuData = [
     { title: 'Análisis de DVDs', icon: '📦', submenu: null , view: 'logistica-analisis-estado-dvds', roles: ['logistica;'] },
   ]},
   { title: 'Compras', icon: '🛍️', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;produccion30;logistica;'], submenu: [
-    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;produccion;'] },
+    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'compras-llegadas-contenedores', roles: ['compras;produccion;logistica;'] },
     { title: 'Stock', icon: '📦', submenu: null , view: 'compras-stock', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
     { title: 'Rotativo Salidas Elab.', icon: '🔄', submenu: null , view: 'compras-rotativo-salidas-elaboracion', roles: ['compras;calidad;produccion;compras20;ventas;ventas20;exportacion;produccion20;'] },
     { title: 'Hoja Plan. Descargas', icon: '⬇️', submenu: null , view: 'compras-hoja-planificacion-descargas', roles: ['compras;compras20;produccion;produccion20;produccion30;logistica;'] },
