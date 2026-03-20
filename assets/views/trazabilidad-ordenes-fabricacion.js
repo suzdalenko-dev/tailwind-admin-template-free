@@ -124,6 +124,7 @@ function renderTableSearchedArtLote(rows, total, page, limit) {
                         <th class="p-2 border-b">OF</th>
                         <th class="p-2 border-b">Código</th>
                         <th class="p-2 border-b">Artículo</th>
+                        <th class="p-2 border-b">Fecha</th>
                         <th class="p-2 border-b">Lote</th>
                     </tr>
                 </thead>
@@ -145,6 +146,10 @@ function renderTableSearchedArtLote(rows, total, page, limit) {
 
                 <td class="p-2 border-b">
                     ${row.NOMBRE_ARTICULO || ''}
+                </td>
+
+                <td class="p-2 border-b text-gray-600">
+                    ${formatDateOFTable(row.FECHA_INI_FABRI_PREVISTA)}
                 </td>
 
                 <td class="p-2 border-b text-gray-700">
