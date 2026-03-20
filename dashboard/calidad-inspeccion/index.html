@@ -1,0 +1,158 @@
+<html lang="es" data-arp=""><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operarios</title>
+  <link rel="icon" href="https://froxa.net/favicon.png" type="image/png">
+  <link href="/encargado/assets/boot/bootstrap.min.css" rel="stylesheet">
+  <link href="/encargado/assets/boot/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/encargado/assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-light" cz-shortcut-listen="true">
+  <a href="/balanza" class="btn btn-danger btn-sm abs_balanza">Balanza</a>
+  <div class="container" style="max-width: 720px;">
+    <div id="currentWorkShift" class="title_turn"><span> 17:53 TURNO DE TARDE </span></div>
+
+    <div class="d-flex align-items-center text-secondary small px-1 mb-2">
+      <div class="text-center w-col"></div>
+      <div class="blue flex-grow-1" id="workerNumbers">Operarios 17</div>
+      <div class="blue text-center w-col" id="h_previsto">H.Prev <br> 136</div>
+      <div class="blue text-center" style="width:56px;" id="h_of">H.Real <br> 136</div>
+    </div>
+
+    <div class="card shadow-sm border-0" id="workerList"> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1169)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope1" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1169">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1169)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1170)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope2" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1170">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1170)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1171)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope3" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1171">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1171)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1172)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope4" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1172">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1172)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1173)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope5" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1173">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1173)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1174)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope6" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1174">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1174)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1175)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope7" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1175">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1175)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1176)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope8" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1176">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1176)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1177)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope9" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1177">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1177)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1178)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope10" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1178">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1178)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1179)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope11" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1179">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1179)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1180)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope12" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1180">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1180)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1181)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope13" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1181">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1181)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1182)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope14" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1182">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1182)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1183)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope15" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1183">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1183)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1184)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope16" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1184">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1184)">💾</button>
+                        </div>
+                    </div> <div class="card-body py-2">
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-outline-danger btn-sm" onclick="deleteCalendarPerson(1185)">❌</button>
+                          <input class="form-control form-control-sm fw-semibold" value="Ope17" disabled="">
+                          <input type="number" class="form-control form-control-sm text-center fw-bold w-col" value="8" id="scheduled_1185">
+                          <button class="btn btn-outline-secondary btn-sm" onclick="saveScheduledInput(1185)">💾</button>
+                        </div>
+                    </div></div>
+    <div class="ofs_link"><a href="/encargado/ofs-en-uso"><span class="span_of_link">Gestion Horas OFs</span></a></div>
+  </div>
+
+
+  <button onclick="addWorkerFunction()" class="btn fab add_worker">+</button>
+  
+
+  <script src="/encargado/assets/boot/bootstrap.bundle.min.js"></script>
+  <script src="/encargado/assets/js/0.0.js"></script>
+  <script src="/encargado/assets/js/1.0.js"></script>
+  <script src="/encargado/assets/js/2.0.js"></script>
+  <script src="/encargado/assets/js/3.0.js"></script>
+
+
+</body></html>

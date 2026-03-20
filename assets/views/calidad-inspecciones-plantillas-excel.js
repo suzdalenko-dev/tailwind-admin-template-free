@@ -1,8 +1,15 @@
 function calidadInspeccionesPlantillasExcelInit(){
     document.title = 'Plantillas Excel';
-    document.getElementById('slugTitle').innerHTML = '<span class="b-top-page" onclick="loadTemplateCIPE()">➕ Cargar Plantilla</span>';
+    document.getElementById('slugTitle').innerHTML = `
+        <span class="b-top-page" onclick="openQualityInspection()">🔍 Realizar inspección de calidad</span>
+        <span class="b-top-page" onclick="loadTemplateCIPE()">➕ Cargar Plantilla</span>
+    `;
 
     getTemplatesCIPE();
+}
+
+function openQualityInspection(){
+    window.location.href = '/dashboard/calidad-inspeccion';
 }
 
 function loadTemplateCIPE(){
