@@ -7,7 +7,7 @@ let menuData = [
     { title: 'Productos MSC/ASC', icon: '🌱', view: 'calidad-productos-msc-asc', roles: ['calidad;'] },
     { title: 'Insp. calidad', icon: '🖥️', roles: ['calidad;'], submenu: [
       { title: 'Plantillas', icon: '', submenu: null , view: 'calidad-inspecciones-plantillas-excel', roles: ['calidad;'] },
-      { title: 'Infomes', icon: '', submenu: null , view: 'calidad-inspecciones-informe', roles: ['calidad;'] },
+      { title: 'Informes', icon: '', submenu: null , view: 'calidad-inspecciones-informe', roles: ['calidad;'] },
     ]},
   ]},
   { title: 'Finanzas', icon: '💰', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'], submenu: [
@@ -28,7 +28,7 @@ let menuData = [
     ]},
     { title: 'Industria 4.0', icon: '🖥️', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;'], submenu: [
       { title: 'Ajustes', icon: '', submenu: null , view: 'produccion-industria-ajustes-articulo', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;'] },
-      { title: 'Infomes', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;'] },
+      { title: 'Informes', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;'] },
     ]},
   ]},
   { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
