@@ -1,0 +1,64 @@
+html, body {
+    font-family: 'Outfit', sans-serif;
+    background-color: white!important;
+}
+
+        .inspection-mobile-wrap {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+
+        .inspection-card {
+            background: #fff;
+            padding: 8px;
+        }
+
+        .inspection-section-title {
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            padding: 8px;
+        }
+
+        .inspection-line-card {
+            border: 1px solid #eae9f7;
+            border-radius: 8px;
+            background: #fff;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .inspection-line-card:hover {
+            background: #f9fafb;
+        }
+
+        .inspection-line-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .inspection-line-subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .inspection-line-actions {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .inspection-mobile-wrap {
+                padding: 8px;
+            }
+
+            .inspection-line-card {
+                padding: 10px;
+            }
+        }

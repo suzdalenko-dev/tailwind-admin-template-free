@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-gray-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceso Inspección Calidad</title>
+    <script src="/assets/css/taiwling.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/dashboard/calidad-inspeccion/proceso-inspeccion/css/style.css"
+</head>
+<body>
+    <span class="to_back_button" onclick="goToBack('/dashboard/calidad-inspeccion/')">⬅️ Volver </span>
+    <div class="mobile-wrap">
+        <div class="mobile-header" id="page_title">Inspección de Calidad</div>
+        <div class="top-box">
+            <div class="progress-title">0 / 0</div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+        <div class="question-card" id="questionCard">
+            <div class="stair-block">
+                <div class="stair-row-title" id="first1"></div>
+                <div class="stair-row-value" id="zonaValue"></div>
+            </div>
+            <div class="stair-block">
+                <div class="stair-row-title" id="first2"></div>
+                <div class="stair-row-value" id="maquinaValue"></div>
+            </div>
+            <div class="stair-block">
+                <div class="stair-row-title" id="first3"></div>
+                <div class="stair-row-value" id="componenteValue"></div>
+            </div>
+            <div class="answer-block">
+                <div class="answer-title">Respuesta</div>
+                <div class="answer-buttons">
+                    <div class="answer-btn ok" id="btnOk" onclick="selectAnswer('OK')">OK</div>
+                    <div class="answer-btn nook" id="btnNoOk" onclick="selectAnswer('NOOK')">NOOK</div>
+                </div>
+                <div class="obs-wrap">
+                    <label class="obs-label" for="obsText">Observaciones</label>
+                    <textarea id="obsText" class="obs-textarea" placeholder="Escribe observaciones..."></textarea>
+                </div>
+                <div class="save-wrap">
+                    <div class="answer-btn save-btn" onclick="saveQuestion()">💾 Guardar</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-nav" style="display: none;">
+        <div class="bottom-nav-inner">
+            <div class="nav-btn" onclick="prevQuestion()">←</div>
+            <div class="nav-btn" onclick="nextQuestion()">→</div>
+        </div>
+    </div>
+    <script src="/assets/js/4.notifications.js"></script>
+    <script src="/assets/js/0.config.js"></script>
+    <script src="/assets/js/5.functions.js"></script>
+    <script src="/assets/js/8.loader.js"></script>
+    <script>
+        var CAB_RES   =  Number(new URLSearchParams(window.location.search).get('cab_res'));
+        var ID_LINE_R = 0;
+        var CURRENT_ANSWER = null;
+        var CURRENT_COMMENT = null;
+        initPage();
+        function initPage(){
+            document.getElementById('btnOk').classList.remove('active');
+            document.getElementById('btnNoOk').classList.remove('active');
+            document.getElementById('obsText').value = '';
+            ID_LINE_R       = 0;
+            CURRENT_ANSWER  = null;
+            CURRENT_COMMENT = null;
+            fetch(HTTP_HOST+'calidad/insp_online/0/0/inspecciones_calidad/?cab_res='+CAB_RES).then(r => r.json()).then(r => {
+                if(r && r.data && r.data.response_lines && r.data.response_lines.length > 0){
+                    ID_LINE_R                                       = 0;
+                    CURRENT_ANSWER                                  = null;
+                    CURRENT_COMMENT                                 = null;
+                    document.getElementById('page_title').innerHTML = r.data.title +'<br>'+r.data.user;
+                    document.getElementById('first1').innerHTML     = r.data.col1;
+                    document.getElementById('first2').innerHTML     = r.data.col2;
+                    document.getElementById('first3').innerHTML     = r.data.col3;
+                    paintingWhatsLeft(r.data.response_lines);
+                } else {
+                    showM('Error 897', 'warning');
+                }
+            }).catch(e => {
+                showM(e, 'error');
+            })
+        }
+
+        function paintingWhatsLeft(lines){
+            let questionsAnswered = 0;
+            let firstUnAnswered   = true;
+            lines.map(l => {
+                if(l.column_res){ questionsAnswered++; }
+            });
+            let porcentageIndex = questionsAnswered + 1;
+            if(porcentageIndex > lines.length) porcentageIndex = lines.length;
+            document.querySelector('.progress-title').textContent = `${porcentageIndex} / ${lines.length}`;
+            document.querySelector('.progress-bar').style.width = `${questionsAnswered / lines.length * 100}%`;
+            lines.map(line => {
+                if(firstUnAnswered){
+                    if(line.column_res){ 
+
+                    } else {
+                        firstUnAnswered = false;
+                        ID_LINE_R       = line.id;
+                        document.getElementById('zonaValue').innerHTML = line.column1;
+                        document.getElementById('maquinaValue').innerHTML = line.column2; 
+                        document.getElementById('componenteValue').innerHTML = line.column3; 
+                    }
+                }
+            });
+            if(questionsAnswered >= lines.length){
+                document.getElementById('questionCard').innerHTML = 'Inspección Terminada';
+            }
+        };
+
+        function selectAnswer(type) {
+            document.getElementById('btnOk').classList.remove('active');
+            document.getElementById('btnNoOk').classList.remove('active');
+            if (type == 'OK') { document.getElementById('btnOk').classList.add('active'); }
+            if (type == 'NOOK') { document.getElementById('btnNoOk').classList.add('active'); }
+            CURRENT_ANSWER = type;
+        }
+
+        function saveQuestion(){ 
+            if(CURRENT_ANSWER == 'OK' || CURRENT_ANSWER == 'NOOK'){
+                CURRENT_COMMENT = document.getElementById('obsText').value.trim();
+
+                if((CURRENT_ANSWER == 'NOOK' && !CURRENT_COMMENT)){
+                    showM('Escribe observaciones', 'warning');
+                } else {
+                    // guardar la respuesta en BD
+                    let formData = new FormData();
+                        formData.append('answer_id', ID_LINE_R);
+                        formData.append('response', CURRENT_ANSWER);
+                        formData.append('comment', CURRENT_COMMENT);
+                    fetch(HTTP_HOST+'calidad/insert_answer/0/0/inspecciones_calidad/', {method: 'POST', body: formData}).then(r => r.json()).then(r => {
+                        initPage();
+                    }).catch(e => {
+                        initPage();
+                        showM(e, 'error');
+                    });
+                }
+            } else {
+                window.location.reload();
+            }
+        }
+
+        function goToBack(x){
+          window.location.href = x;
+        }
+    </script>
+</body>
+</html>

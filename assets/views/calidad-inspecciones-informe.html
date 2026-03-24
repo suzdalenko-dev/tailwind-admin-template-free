@@ -1,0 +1,31 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span> </span>
+    <span>Desde <input type="date" id="ifFromDateCII" onchange="changeDateCII(event)"></span>
+    <h1 class="text-xl text-center">Informes Inspección Quebradizos</h1>
+    <span>Hasta <input type="date" id="idToDateCII" onchange="changeDateCII(event)"></span>
+    <span> </span>
+</div>
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table>
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft px-2">Id</th>
+                    <th>Fecha</th>
+                    <th>Inspección nombre</th>
+                    <th>Operario nombre</th>
+                    <th>Estado</th>
+                    <th>Descargar</th>
+                    <th class="topRight px-2">Borrar</th>
+                </tr>
+            </thead>
+            <tbody id="tableCII"></tbody>
+        </table>
+    </div>
+</div>
+<style>
+    th{
+        margin-left: 11px;
+        padding-right: 11px;
+    }
+</style>

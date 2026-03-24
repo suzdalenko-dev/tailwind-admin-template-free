@@ -84,14 +84,11 @@ function generateSubmenu(items, parentId = '', parentAccess = true) {
     if (hasSubmenu) {
       html += `
         <div>
-          <button onclick="toggleSubmenu('${submenuId}')"
-                  class="flex justify-between w-full items-center px-2 py-2 hover:bg-gray-100 rounded-md">
-            <span class="flex items-center gap-2">
+          <button onclick="toggleSubmenu('${submenuId}')" class="flex justify-between w-full items-center px-2 py-2 hover:bg-gray-100 rounded-md">
+            <span class="flex items-center gap-2"> 
+              <span class="text-gray-800 text-[14px]">${isOpen ? '▿' : '▹'}</span>
               <span class="text-indigo-500">${item.icon || ''}</span>
               <span class="text-black">${item.title}</span>
-            </span>
-            <span class="text-gray-400 text-[8px]" data-icon-for="${submenuId}">
-              ${isOpen ? '▲' : '▼'}
             </span>
           </button>
           <div id="${submenuId}" class="ml-4 mt-1 ${isOpen ? '' : 'hidden'} space-y-1">
