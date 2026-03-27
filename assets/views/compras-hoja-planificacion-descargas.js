@@ -42,6 +42,17 @@ function comprasHojaPlanificacionDescargasInit(){
     document.querySelectorAll('input[name="pedidos_situacion"]').forEach(radio => {
         radio.addEventListener('change', onPedidosSituacionChange);
     });
+
+    refreshData();
+}
+
+function refreshData(){
+     setTimeout(() => {
+        let url = `${HTTP_HOST}compras/get/0/0/refres_hoja_planificacion/?date_from=${fechaDesdeHPD}&date_to=${fechaHastaHPD}`;
+        fetch(url).then(r => r.json()).then(r => {
+            console.log(r);
+        })
+    }, 11000);
 }
 
 function chagedOrgHPD(event){

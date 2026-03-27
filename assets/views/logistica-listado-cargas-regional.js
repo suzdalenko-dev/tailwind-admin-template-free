@@ -7,7 +7,7 @@ function logisticaListadoCargasRegionalInit(){
     getLLCR();
     setTimeout(() => {
         fetch(HTTP_HOST+'logistica/get/0/0/refresh_gema_loading_sheet02/').then(r => r.json()).then(r => { console.log(r); });
-    }, 1100);
+    }, 2200);
 }
 
 function getLLCR(){

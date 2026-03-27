@@ -130,7 +130,7 @@ function show2TablesFEC() {
         <td class="fontssmall border px-2 py-1 text-left">${(y.D_PROVEEDOR_HOJA || '').slice(0, 22)}</td>
         <td class="fontssmall border px-2 py-1 text-left">${y.D_DESCRIPCION_EXPEDIENTE ?? ''}</td>
         <td class="fontssmall border px-2 py-1 text-center">${y.NUM_EXPEDIENTE}-${y.NUM_HOJA}</td>
-        <td class="fontssmall border px-2 py-1 text-center">${notNone(y.BUQUE)}</td>
+        <td class="fontssmall border px-2 py-1 text-left">${notNone(y.BUQUE)}</td>
       </tr>`;
     });
 

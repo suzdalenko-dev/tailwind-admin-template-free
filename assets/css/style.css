@@ -74,6 +74,18 @@ body {
     color: aliceblue;
     cursor: pointer;
 }
+.b-links{
+    background-color: #E5E5E5;
+    color: black;
+    font-size: 13px;
+    padding: 2px;
+    border-radius: 4px;
+}
+.b-links:hover{
+    background-color: #3336FF;
+    color: aliceblue;
+    cursor: pointer;
+}
 input:hover{
     cursor: pointer;
 }

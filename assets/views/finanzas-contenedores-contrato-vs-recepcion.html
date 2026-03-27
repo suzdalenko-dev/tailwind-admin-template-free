@@ -1,0 +1,38 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span>
+        <input
+            type="text"
+            value=""
+            class="input-ca input-ca-ba"
+            placeholder="Buscar.."
+            id="searchInpuFCCVR"
+            oninput="changeSearchedInputFCCVR(event)"
+        >
+        <span class="b-top-page" onclick="clickBroomFCCVR()"> 🧹 </span>
+    </span>
+
+    <span>Desde <input type="date" id="firstDataInputFCCVR" onchange="firstDateChangeFCCVR(event)"></span>
+    <h1 class="text-xl text-center">Contrato vs Almacén</h1>
+    <span>Hasta <input type="date" id="secondDataInputFCCVR" onchange="secondDateChangeFCCVR(event)"></span>
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table class="w-full styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">Expediente</th>
+                    <th>Fecha Prev. Llegada</th>
+                    <th>Kg Contrato</th>
+                    <th>Kg Entrada</th>
+                    <th>Dif. Kg</th>
+                    <th>Imp. Contrato</th>
+                    <th>Imp. Entrada</th>
+                    <th class="topRight">Dif. Importe</th>
+                </tr>
+            </thead>
+            <tbody id="tableFCCVR"></tbody>
+        </table>
+    </div>
+</div>

@@ -10,7 +10,7 @@ function logisticaListadoCargasInit(){
 
     setTimeout(() => {
         fetch(HTTP_HOST+'logistica/get/0/0/refresh_gema/').then(r => r.json()).then(r => { console.log(r); });
-    }, 1100);
+    }, 2200);
 }
 
 function geRefreshGemaRoutes(){

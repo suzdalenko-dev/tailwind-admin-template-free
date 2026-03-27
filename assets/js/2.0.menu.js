@@ -13,7 +13,18 @@ let menuData = [
   { title: 'Finanzas', icon: '💰', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'], submenu: [
     { title: 'Expedientes', icon: '💵', submenu: null, view: 'expedientes-albaranes-facturas', roles: ['finanzas'] },
     { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },
-    { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'] },
+    
+    { title: 'Expedientes de Importación', icon: '🚢', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'], submenu: [
+      { title: 'Llegadas Pendientes', icon: '', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'] },
+      { title: 'Contrato VS Recepción', icon: '', submenu: null , view: 'finanzas-contenedores-contrato-vs-recepcion', roles: ['finanzas;finanzas20;compras20;'] },
+      { title: 'Llegadas e Histórico', icon: '', submenu: null , view: 'finanzas-llegadas-contenedores-e-historico', roles: ['finanzas;finanzas20;compras20;'] },
+    ]},
+
+
+    { title: 'Cuadro de Mando Financiero', icon: '🖥️', roles: ['finanzas'], submenu: [
+      { title: 'Archivos', icon: '', submenu: null , view: 'finanzas-carga-archivos-excel', roles: ['finanzas'] },
+      { title: 'Informes', icon: '', submenu: null , view: 'power-bi?name=cuadro-de-mando-financiero', roles: ['finanzas'] },
+    ]},
   ]},
   { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;mantenimiento;'], submenu: [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion;produccion20;ventas;']},

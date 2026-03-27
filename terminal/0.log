@@ -1,0 +1,10 @@
+search PowerShell
+    dir - listado dictorios
+    wsl --install
+    wsl -l -v
+    wsl --list --verbose
+    wsl -l --all
+    wsl --status 
+    wsl --update
+    pwd
+    echo $SHELL
