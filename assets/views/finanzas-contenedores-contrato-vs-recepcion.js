@@ -23,8 +23,6 @@ function setInputDateFCCVR(){
     secondDataInput.value = date_to_FCCR;
 }
 
-
-
 function firstDateChangeFCCVR(event){
     date_from_FCCR = event.target.value;
     getAllContratoVsAlmacenFCCVR();
