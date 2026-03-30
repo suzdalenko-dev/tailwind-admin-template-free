@@ -15,7 +15,7 @@ let menuData = [
     { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },
     { title: 'Llegadas Pendientes', icon: '🚢', submenu: null , view: 'finanzas-llegadas-contenedores', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'] },
 
-    { title: 'Expedientes de Importación', icon: '📁', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'], submenu: [
+    { title: 'Expedientes de Importación', icon: '📁', roles: ['finanzas;finanzas20;compras20;'], submenu: [
       { title: 'Contrato VS Recepción', icon: '', submenu: null , view: 'finanzas-contenedores-contrato-vs-recepcion', roles: ['finanzas;finanzas20;compras20;'] },
       { title: 'Llegadas e Histórico', icon: '', submenu: null , view: 'finanzas-llegadas-contenedores-e-historico', roles: ['finanzas;finanzas20;compras20;'] },
     ]},
