@@ -1,0 +1,273 @@
+search PowerShell/CMD Administrador
+    dir - listado dictorios
+    wsl --install
+    wsl -l -v
+    wsl --list --verbose
+    wsl -l --all
+    wsl --status 
+    wsl --update
+    wsl --install -d Ubuntu # entrar en Ubuntu alexey changeme
+    pwd
+    echo $SHELL
+
+    whoami
+    ls -a
+    ls -l
+    ls -la
+    ls -al
+    Ctr. + l
+    echo "hello world"
+    ls --help
+    ls -lah
+    uname -a
+    date
+    
+5.
+    cd /home/alexey
+    cd ./alexey/        # buscar relativo al punto en el que estamos
+    pushd .             # puedo volver a directorio "pushed" cuando quiero con "popd"
+
+6. 
+    touch file.txt
+    mkdir folder
+    mkdir -p /pete/juan/jamon
+    mv ./pepe /home                 # muevo "pepe" a "/home"
+    mv 6 7                          # renombrar
+    mv file.txt new_file.txt
+    rm -r 7
+    echo "hello" > new_file.txt
+    cat new_file.txt
+    cp file.txt second.txt
+    cp -r folder_name
+    rm -rf second.file              # remove forced
+
+7.
+    less example.txt
+    head 11 example.txt             # first 11 lines
+    tail 11 example.txt             # latest 11 lines
+    nl example.txt                  # number lines
+    wc -w example.txt               # count the number of words, bytes, lines
+    ws -l example.txt               # count lines
+    awk '{print $1}' example.txt    # print first column from file
+
+8.
+    ls -la *.txt
+    ls -la file*
+    ls -la file?.txt
+    alexey@Samsung-11A3:~$ ls -la exampl?.txt
+        -rw-r--r-- 1 alexey alexey 529 Mar 28 00:10 example.txt
+    alexey@Samsung-11A3:~$ ls -la *[e].*
+        -rw-r--r-- 1 alexey alexey 529 Mar 28 00:10 example.txt
+        -rw-r--r-- 1 alexey alexey   0 Mar 28 00:31 fileLargeName.csv
+    alexey@Samsung-11A3:~$ ls -la *.{csv,txt}
+        -rw-r--r-- 1 alexey alexey 529 Mar 28 00:10 example.txt
+        -rw-r--r-- 1 alexey alexey   0 Mar 28 00:31 fileLargeName.csv
+
+9.
+    alexey@Samsung-11A3:~$ grep -i 's' example.txt
+        asdf
+        asdfasdf  vw ...
+    alexey@Samsung-11A3:~$ grep -ic 's' example.txt
+        25
+    alexey@Samsung-11A3:~$ grep -v 'pete' example.txt # everything that doesn't match
+        asdf
+        asdfasdf  vw ..
+    alexey@Samsung-11A3:~$ find . -type d -name "*"
+        .
+        ./.cache
+        ./.local
+        ./.local/share
+        ./.local/share/nano
+        ./texts
+    
+10.
+    what is a comand ?¿
+    alexey@Samsung-11A3:~$ type ls
+        ls is aliased to `ls --color=auto'
+    alexey@Samsung-11A3:~$ which ls
+        /usr/bin/ls
+    alexey@Samsung-11A3:~$ /usr/bin/ls
+        example.txt  fileLargeName.csv  texts
+    alexey@Samsung-11A3:~$ whereis ls
+        ls: /usr/bin/ls /usr/share/man/man1/ls.1.gz
+
+
+11.
+    redirections:
+        sudo apt install lolcat
+        sudo apt install cowsay
+    alexey@Samsung-11A3:~$ echo 'hello' > redirect.txt
+    alexey@Samsung-11A3:~$ ls
+        example.txt  fileLargeName.csv  redirect.txt  texts
+    alexey@Samsung-11A3:~$ echo 'hello person' >> redirect.txt
+    alexey@Samsung-11A3:~$ cat redirect.txt
+        hello
+        hello person
+    alexey@Samsung-11A3:~$ echo 'saludo colorido' | lolcat
+        saludo colorido
+    alexey@Samsung-11A3:~$ cat redirect.txt | lolcat
+        hello
+        hello person
+
+    alexey@Samsung-11A3:~$ cowsay "hello"
+     _______
+    < hello >
+     -------
+            \   ^__^
+             \  (oo)\_______
+                (__)\       )\/\
+                    ||----w |
+                    ||     || 
+
+    cowsay -f dragon 'je' | lolcat
+    alexey@Samsung-11A3:~$ cowsay -f dragon 'je' | lolcat
+         ____
+        < je >
+         ----
+              \                    / \  //\
+               \    |\___/|      /   \//  \\
+                    /0  0  \__  /    //  | \ \
+                   /     /  \/_/    //   |  \  \
+                   @_^_@'/   \/_   //    |   \   \
+                   //_^_/     \/_ //     |    \    \
+                ( //) |        \///      |     \     \
+              ( / /) _|_ /   )  //       |      \     _\
+            ( // /) '/,_ _ _/  ( ; -.    |    _ _\.-~        .-~~~^-.
+          (( / / )) ,-{        _      `-.|.-~-.           .~         `.
+         (( // / ))  '/\      /                 ~-. _ .-~      .-~^-.  \
+         (( /// ))      `.   {            }                   /      \  \
+          (( / ))     .----~-.\        \-'                 .~         \  `. \^-.
+                     ///.----..>        \             _ -~             `.  ^-`  ^-_
+                       ///-._ _ _ _ _ _ _}^ - - - - ~                     ~-- ,.-~
+                                                                          /.-~
+
+13.
+    Alias - apodos de comandos
+    alias
+    alias cls="clear"
+
+14.
+    permisos
+    alexey@Samsung-11A3:~$ ls -la
+        total 52
+        drwxr-x--- 6 alexey alexey 4096 Mar 28 23:24 .
+        drwxr-xr-x 3 root   root   4096 Mar 27 23:42 ..
+        -rw------- 1 alexey alexey   39 Mar 27 22:40 .bash_history
+        -rw-r--r-- 1 alexey alexey  220 Mar 27 22:37 .bash_logout
+        -rw-r--r-- 1 alexey alexey 3771 Mar 27 22:37 .bashrc
+        drwx------ 2 alexey alexey 4096 Mar 27 22:37 .cache
+
+            d - directorio
+            - - archivo
+            rwx (permisos de usuario)
+            rw  ...
+
+            r-x (permisos de grupo)
+
+            r-x (el mundo)
+            --- ...
+
+    # crear el script de SHELL
+    echo 'hello world' >> script.sh
+
+    alexey@Samsung-11A3:~$ ls -la
+        -rw-r--r-- 1 alexey alexey   19 Mar 28 23:16 redirect.txt
+        -rw-r--r-- 1 alexey alexey   12 Mar 29 13:50 script.sh
+    alexey@Samsung-11A3:~$ ./script.sh
+        -bash: ./script.sh: Permission denied
+    # para darle permisos de ejecucion
+    chmod +x ./script.sh (todos pueden ejecutarlo )
+    chmod 700 ./script.sh
+    alexey@Samsung-11A3:~$ ls -la
+        -rwx------ 1 alexey alexey   19 Mar 29 13:54 script.sh
+    alexey@Samsung-11A3:/home$ chmod -R 777 alexey/
+    alexey@Samsung-11A3:/home$ cd alexey
+    alexey@Samsung-11A3:~$ ls -la
+        total 56
+        drwxrwxrwx 6 alexey alexey 4096 Mar 29 13:54 .
+        drwxr-xr-x 3 root   root   4096 Mar 27 23:42 ..
+        -rwxrwxrwx 1 alexey alexey   39 Mar 27 22:40 .bash_history
+        -rwxrwxrwx 1 alexey alexey  220 Mar 27 22:37 .bash_logout
+        -rwxrwxrwx 1 alexey alexey 3771 Mar 27 22:37 .bashrc
+        drwxrwxrwx 2 alexey alexey 4096 Mar 27 22:37 .cache
+        drwxrwxrwx 2 alexey alexey 4096 Mar 28 23:24 .landscape
+        -rwxrwxrwx 1 alexey alexey   20 Mar 28 00:08 .lesshst
+        drwxrwxrwx 3 alexey alexey 4096 Mar 28 00:08 .local
+        -rwxrwxrwx 1 alexey alexey    0 Mar 28 23:24 .motd_shown
+        -rwxrwxrwx 1 alexey alexey  807 Mar 27 22:37 .profile
+        -rwxrwxrwx 1 alexey alexey    0 Mar 27 22:41 .sudo_as_admin_successful
+        -rwxrwxrwx 1 alexey alexey  529 Mar 28 00:10 example.txt
+        -rwxrwxrwx 1 alexey alexey    0 Mar 28 00:31 fileLargeName.csv
+        -rwxrwxrwx 1 alexey alexey   19 Mar 28 23:16 redirect.txt
+        -rwxrwxrwx 1 alexey alexey   19 Mar 29 13:54 script.sh
+        drwxrwxrwx 2 alexey alexey 4096 Mar 28 00:03 texts
+
+15. Variables de entorno
+    echo $SHELL # Variable de entorno
+    echo $PWD
+    echo $PATH
+    echo $LANG
+    env | less
+    alexey@Samsung-11A3:~$ MY_VAR=suzdalenko            # crear la Variable de entorno (contexto local terminal)
+    alexey@Samsung-11A3:~$ echo $MY_VAR
+        suzdalenko
+    alexey@Samsung-11A3:~$ echo 'export MY_VAR=suzdalenko' >> bashrc # crear Variable persistida
+    alexey@Samsung-11A3:~$ echo $MY_VAR
+        suzdalenko
+
+16.
+    Manejadores de paquetes:
+    sudo apt update
+    sudo apt upgrade -y
+    apt install neofech
+    sudo apt remove neofech
+    sudo apt purge neofetch         # eliminar y purgar
+
+17.
+    Procesos FOREGROUND & BACKGROUND
+    sleep 1000 && echo "base datos actualizada" &               <- con esto le mandamos a background
+    jobs                                                        <- ver procesos que estan corriendo en background
+    alexey@Samsung-11A3:~$ fg %1                                <- traer el comando que esta corriendo en B a F
+
+18.
+    ps
+    ps aux                     # listado de procesos
+    ps aux | grep -i sleep
+    top                                                         !!! ESTADO ACTUAL DE COMPUTADORA !!!
+    sudo apt install htop
+
+19.
+    tar, gzip                                                    <- Embaquetador y Compresor
+    alexey@Samsung-11A3:~$ ll -h ./alexey
+        drwxrwxrwx 7 alexey alexey 4.0K Mar 29 15:42 ./
+        drwxr-xr-x 3 root   root   4.0K Mar 27 23:42 ../
+        -rwxrwxrwx 1 alexey alexey 4.0K Mar 29 16:37 .bash_history*
+        -rwxrwxrwx 1 alexey alexey  220 Mar 27 22:37 .bash_logout*
+        -rwxrwxrwx 1 alexey alexey 3.7K Mar 27 22:37 .bashrc*
+        ...
+    alexey@Samsung-11A3:/home$ sudo tar -cvf textos.tar ./alexey/   <- empaquetar todo lo que hay en /alexey
+    alexey@Samsung-11A3:/home$ sudo gzip ./textos.tar               <- comprimier el archivo empaquetado
+    alexey@Samsung-11A3:/home$ sudo gunzip textos.tar.gz            <- descromprimir archivo comprimido
+    alexey@Samsung-11A3:/home$ sudo tar -xvf ./textos.tar           <- desempaquetar el archivo descomprimido
+
+20.
+    vim, nano
+
+21. multiterminales
+    sudo apt install tmux
+
+22.
+    ip a   <- interfaces de red y sus direccines
+    ip r
+    ping google.com
+    curl www.google.com > index.html
+    wget
+    nmap
+    traceroute
+
+24.
+    sudo apt install zsh
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    
+25.
+    

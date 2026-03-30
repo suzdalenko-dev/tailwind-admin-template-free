@@ -219,6 +219,20 @@ function addMonthsFunc(months) {
   return formatted;
 }
 
+function addMonthsSafe(months) {
+  const date = new Date();
+  const day = date.getDate();
+
+  date.setDate(1);
+  date.setMonth(date.getMonth() + months);
+
+  const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  date.setDate(Math.min(day, lastDayOfMonth));
+
+  return date.toISOString().slice(0, 10);
+}
+
+
 function notNone(x){
   if(x == 'None' || !x) return '';
   else return String(x).trim();

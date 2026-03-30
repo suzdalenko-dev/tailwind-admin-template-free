@@ -1,4 +1,6 @@
 var allLinesFCCVR = [];
+var date_from_FCCR = addMonthsSafe(-3);
+var date_to_FCCR   = addMonthsSafe(0);
 
 function finanzasContenedoresContratoVsRecepcionInit(){
     document.getElementById('slugTitle').innerHTML = `
@@ -14,33 +16,22 @@ function finanzasContenedoresContratoVsRecepcionInit(){
 
 /* 1. trabajo con fechas */
 function setInputDateFCCVR(){
-    let firstDataInput = document.getElementById('firstDataInputFCCVR');
+    let firstDataInput  = document.getElementById('firstDataInputFCCVR');
     let secondDataInput = document.getElementById('secondDataInputFCCVR');
 
-    if(window.localStorage.getItem('first_date_fccvr')){
-        firstDataInput.value = window.localStorage.getItem('first_date_fccvr');
-    } else {
-        firstDataInput.value = getTodayMinusOneMonth();
-        window.localStorage.setItem('first_date_fccvr', firstDataInput.value);
-    }
-
-    if(window.localStorage.getItem('second_date_fccvr')){
-        secondDataInput.value = window.localStorage.getItem('second_date_fccvr');
-    } else {
-        secondDataInput.value = addMonthsFunc(22);
-        window.localStorage.setItem('second_date_fccvr', secondDataInput.value);
-    }
+    firstDataInput.value  = date_from_FCCR;
+    secondDataInput.value = date_to_FCCR;
 }
 
+
+
 function firstDateChangeFCCVR(event){
-    let firstDate = event.target.value;
-    window.localStorage.setItem('first_date_fccvr', firstDate);
+    date_from_FCCR = event.target.value;
     getAllContratoVsAlmacenFCCVR();
 }
 
 function secondDateChangeFCCVR(event){
-    let secondDate = event.target.value;
-    window.localStorage.setItem('second_date_fccvr', secondDate);
+    date_to_FCCR = event.target.value;
     getAllContratoVsAlmacenFCCVR();
 }
 
@@ -69,12 +60,9 @@ function clickBroomFCCVR(){
 
 /* 3. traer datos */
 function getAllContratoVsAlmacenFCCVR(){
-    let first  = window.localStorage.getItem('first_date_fccvr');
-    let second = window.localStorage.getItem('second_date_fccvr');
-
     document.getElementById('tableFCCVR').innerHTML = '<tr><td colspan="9">Cargando..</td></tr>';
     
-    fetch(HTTP_HOST + `finanzas/get/0/0/finanzas_cont_vs_alm/?first=${first}&second=${second}`)
+    fetch(HTTP_HOST + `finanzas/get/0/0/finanzas_cont_vs_alm/?first=${date_from_FCCR}&second=${date_to_FCCR}`)
     .then(r => r.json())
     .then(r => {
         allLinesFCCVR = (r && r.data) ? r.data : [];
