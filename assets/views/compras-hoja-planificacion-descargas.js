@@ -52,7 +52,7 @@ function refreshData(){
         fetch(url).then(r => r.json()).then(r => {
             console.log(r);
         })
-    }, 11000);
+    }, 1100);
 }
 
 function chagedOrgHPD(event){
