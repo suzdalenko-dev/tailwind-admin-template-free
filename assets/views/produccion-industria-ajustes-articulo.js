@@ -79,7 +79,7 @@ function getListArticle(){
                     </td>
                     <td class="border px-2 py-1 text-center">
                         <select class="border rounded px-2 py-1" onchange="changeNumeroLinea('${x.article_erp}', this.value)">
-                            <option value="" ${selectedLineaNull}>Sin línea</option>
+                            <option value="" ${selectedLineaNull}>Sin revisar</option>
                             <option value="0" ${selectedLinea0}>FUERA DE LINEA</option>
                             <option value="1" ${selectedLinea1}>1</option>
                             <option value="2" ${selectedLinea2}>2</option>
