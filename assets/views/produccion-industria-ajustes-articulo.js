@@ -31,12 +31,15 @@ function getListArticle(){
                 }
 
                 let selectedLineaNull = '';
+                let selectedLinea0    = '';
                 let selectedLinea1    = '';
                 let selectedLinea2    = '';
                 let selectedLinea3    = '';
 
                 if(x.numero_linea === null || x.numero_linea === '' || x.numero_linea === undefined){
                     selectedLineaNull = 'selected';
+                } else if(Number(x.numero_linea) == 0){
+                    selectedLinea0 = 'selected';
                 } else if(Number(x.numero_linea) == 1){
                     selectedLinea1 = 'selected';
                 } else if(Number(x.numero_linea) == 2){
@@ -77,6 +80,7 @@ function getListArticle(){
                     <td class="border px-2 py-1 text-center">
                         <select class="border rounded px-2 py-1" onchange="changeNumeroLinea('${x.article_erp}', this.value)">
                             <option value="" ${selectedLineaNull}>Sin línea</option>
+                            <option value="0" ${selectedLinea0}>FUERA DE LINEA</option>
                             <option value="1" ${selectedLinea1}>1</option>
                             <option value="2" ${selectedLinea2}>2</option>
                             <option value="3" ${selectedLinea3}>3</option>
@@ -185,7 +189,11 @@ function createExcelPIAA(){
         }
 
         if(x.numero_linea !== null && x.numero_linea !== '' && x.numero_linea !== undefined){
-            numero_linea = x.numero_linea;
+            if(Number(x.numero_linea) == 0){
+                numero_linea = 'FUERA DE LINEA';
+            } else {
+                numero_linea = x.numero_linea;
+            }
         }
 
         if(x.kpi_familia !== null && x.kpi_familia !== '' && x.kpi_familia !== undefined){
