@@ -1,21 +1,43 @@
-let defaultFileName = 'Q1002';
-
 function finanzasCargaArchivosExcelInit(){
-    document.getElementById('slugTitle').innerHTML = `<span onclick="selectFileFCAE('Q1002')" class="b-links">Q1002</span>
-                                                      <span onclick="selectFileFCAE('Q1006')" class="b-links">Q1006</span>
-                                                      <span onclick="selectFileFCAE('Q1008')" class="b-links">Q1008</span>
-                                                      <span onclick="selectFileFCAE('Q1011')" class="b-links">Q1011</span>
-                                                      <span class="b-links" onclick="loadTemplateFCAE()">➕ Cargar Excel</span>
-                                                      <span class="b-links" onclick="procesarArchivosFCAE()">⚙️ Procesar</span>
-                                                      `;
+    document.getElementById('slugTitle').innerHTML = `<span class="b-links" onclick="loadTemplateFCAE()">➕ Cargar Excel</span>
+                                                      <span class="b-links" onclick="procesarArchivosFCAE()">⚙️ Procesar</span>`;
     document.title = 'Listado de archivos Excel para el dashboard financiero';
 
-
+    loadFCAE();
 }
 
-function selectFileFCAE(fileName){
+function loadFCAE(){
+    const tbody = document.getElementById('tableFCAE');
+    tbody.innerHTML = '<tr><td colspan="5" class="border px-2 py-2 text-center">Cargando..</td></tr>';
 
+    fetch(HTTP_HOST + 'finanzas/get/0/0/dashboard_ms/').then(r => r.json()).then(r => {
+            const lines = (((r || {}).data || {}).lines) || [];
+            if (!lines.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="border px-2 py-2 text-center">No hay datos</td></tr>';
+                return;
+            }
+            let html = '';
+            lines.forEach(line => {
+                const files = Array.isArray(line.files) ? line.files : [];
+                const q1002 = files.find(f => String(f || '').toLowerCase().startsWith('q1002 ')) || '-';
+                const q1006 = files.find(f => String(f || '').toLowerCase().startsWith('q1006 ')) || '-';
+                const q1008 = files.find(f => String(f || '').toLowerCase().startsWith('q1008 ')) || '-';
+                const q1011 = files.find(f => String(f || '').toLowerCase().startsWith('q1011 ')) || '-';
+                html += `<tr>
+                            <td class="border px-2 py-1 text-left">${line.fecha || ''}</td>
+                            <td class="border px-2 py-1 text-left">${q1002}</td>
+                            <td class="border px-2 py-1 text-left">${q1006}</td>
+                            <td class="border px-2 py-1 text-left">${q1008}</td>
+                            <td class="border px-2 py-1 text-left">${q1011}</td>
+                        </tr>`;
+            });
+            tbody.innerHTML = html;
+        }).catch(e => {
+            tbody.innerHTML = '<tr><td colspan="5" class="border px-2 py-2 text-center">Error cargando datos</td></tr>';
+            showM('Error ' + e);
+        });
 }
+
 
 function loadTemplateFCAE(){
     if(!document.getElementById('inputExcel')){

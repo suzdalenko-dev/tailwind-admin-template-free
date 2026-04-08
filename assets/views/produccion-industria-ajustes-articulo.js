@@ -25,8 +25,23 @@ function getListArticle(){
                     selectedNo = 'selected';
                 }
 
+                let selectedLineaNull = '';
+                let selectedLinea1    = '';
+                let selectedLinea2    = '';
+                let selectedLinea3    = '';
+
+                if(x.numero_linea === null || x.numero_linea === '' || x.numero_linea === undefined){
+                    selectedLineaNull = 'selected';
+                } else if(Number(x.numero_linea) == 1){
+                    selectedLinea1 = 'selected';
+                } else if(Number(x.numero_linea) == 2){
+                    selectedLinea2 = 'selected';
+                } else if(Number(x.numero_linea) == 3){
+                    selectedLinea3 = 'selected';
+                }
+
                 let bgRow = '';
-                if(x.estado_frito === null || x.estado_frito === '' || x.estado_frito === undefined){
+                if(x.estado_frito === null || x.estado_frito === '' || x.estado_frito === undefined || x.numero_linea === null || x.numero_linea === '' || x.numero_linea === undefined){
                     bgRow = 'style="background:#fff7cc;"';
                 }
 
@@ -37,6 +52,14 @@ function getListArticle(){
                             <option value="" ${selectedNull}>Sin revisar</option>
                             <option value="0" ${selectedNo}>No</option>
                             <option value="1" ${selectedSi}>Sí</option>
+                        </select>
+                    </td>
+                    <td class="border px-2 py-1 text-center">
+                        <select class="border rounded px-2 py-1" onchange="changeNumeroLinea('${x.article_erp}', this.value)">
+                            <option value="" ${selectedLineaNull}>Sin línea</option>
+                            <option value="1" ${selectedLinea1}>1</option>
+                            <option value="2" ${selectedLinea2}>2</option>
+                            <option value="3" ${selectedLinea3}>3</option>
                         </select>
                     </td>
                 </tr>`;
@@ -71,3 +94,29 @@ function changeEstadoFrito(article_erp, estado){
         showM(e, 'error');
     });
 }
+
+function changeNumeroLinea(article_erp, numero_linea){
+    fetch(
+        HTTP_HOST + 'zzircon/update/0/list_article_frito/?article_erp=' + 
+        encodeURIComponent(article_erp) + 
+        '&numero_linea=' + 
+        encodeURIComponent(numero_linea)
+    )
+    .then(r => r.json())
+    .then(r => {
+        getListArticle();
+        if(r && r.data && r.data.ok == 1){
+            showM('Guardado correctamente', 'success');
+        } else {
+            showM('No se pudo guardar', 'error');
+        }
+    }).catch(e => {
+        showM(e, 'error');
+    });
+}
+
+
+/*
+40008 No
+
+*/

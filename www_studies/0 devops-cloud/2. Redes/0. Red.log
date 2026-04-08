@@ -1,0 +1,14 @@
+TCP IP
+Que es una red computacional?
+Computadoras autonomas intercontectadas entre si, compartiendo recursos e informacion.
+
+Clasificacion de redes (Tecnologia de transmision):
+    Broadcast: Todos los host reciben la informacion.
+    Multicast: Solo un grupo de host reciben la informacion.
+    Unicast: Solo un host recibe la informacion.
+
+Clasificacion por escala (PAN, LAN, MAN, WAN):
+    PAN (Personal Area Network): Red de area personal, conecta dispositivos cercanos, como smartphones, tablets, etc.
+    LAN (Local Area Network): Red de area local, conecta dispositivos dentro de un area limitada, como una casa o una oficina.
+    MAN (Metropolitan Area Network): Red de area metropolitana, conecta dispositivos dentro de una ciudad o una region.
+    WAN (Wide Area Network): Red de area amplia, conecta dispositivos a larga distancia, como internet.
