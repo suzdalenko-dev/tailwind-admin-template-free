@@ -58,7 +58,6 @@ let menuData = [
     { title: 'Hoja Plan. Descargas', icon: '⬇️', submenu: null , view: 'compras-hoja-planificacion-descargas', roles: ['compras;compras20;produccion;produccion20;produccion30;logistica;'] },
     { title: 'Proyección Compras', icon: '📈', submenu: null , view: 'compras-proyeccion-listado-familias', roles: ['compras;'] },
     { title: 'Histórico Compras', icon: '🕰️', submenu: null , view: 'compras-historico-de-compras', roles: ['compras;compras20;calidad;produccion;produccion20;ventas;exportacion;'] },   
-
   ]},
   { title: 'Admin', icon: '🛠️', roles: ['admin;'], submenu: [
     { title: 'Usuarios', icon: '👤', submenu: null , view: 'admin-usuarios', roles: ['admin;'] },
@@ -66,7 +65,7 @@ let menuData = [
 
 
   
-  { title: 'Power Bi', icon: '🟡', roles: ['produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;regional00;'], submenu: [
+  { title: 'Power Bi', icon: '🟡', roles: ['compras-ale;produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;regional00;'], submenu: [
      { title: 'Compras', icon: '', roles: ['compras;compras20;'], submenu: [
         { title: 'Salidas Elaboración', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;compras20;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['compras;'] },
@@ -106,6 +105,9 @@ let menuData = [
      ]},
      { title: 'Regional', icon: '', roles: ['regional00;'], submenu: [
         { title: 'Tabla dinamica. regional', icon: '', submenu: null , view: 'power-bi?name=regional-tabla-dinamica', roles: ['regional00;'] },
+     ]},
+      { title: 'Compras', icon: '', roles: ['compras-ale;'], submenu: [
+        { title: 'Ventas Regional', icon: '', submenu: null , view: 'power-bi?name=ventas-regional-alejandra', roles: ['compras-ale;'] },
      ]},
   ]},
 ];
