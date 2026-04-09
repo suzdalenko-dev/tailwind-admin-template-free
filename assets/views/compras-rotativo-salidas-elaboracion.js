@@ -1,7 +1,7 @@
 let fechaActuaRSE = getTodayDate();
 let arrayRSE      = null;
 
-const RSE_KEYS = ["one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve"];
+const RSE_KEYS = ["one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen"];
 const RSE_SEARCH_KEY = "searched_rse";
 
 /* =====================================================
@@ -13,14 +13,10 @@ function comprasRotativoSalidasElaboracionInit(){
         `<span class="b-top-page" onclick="createExcelRSE()">📥 Excel </span>`;
     document.title = "Rotativo Salidas Elaboracion";
 
-    // set fecha en input
     const dateEl = document.getElementById('date_to_RSE');
     if (dateEl) dateEl.value = fechaActuaRSE;
 
-    // cargar buscador si había algo guardado
     setSearchedRSE();
-
-    // pedir datos
     getDataRSE();
 }
 
@@ -61,37 +57,35 @@ function clickBroomRSE(){
 ===================================================== */
 
 function getDataRSE(){
-    document.getElementById('tableRPE').innerHTML = `<tr><td colspan="14">Cargando...</td></tr>`;
+    document.getElementById('tableRPE').innerHTML = `<tr><td colspan="15">Cargando...</td></tr>`;
 
     fetch(HTTP_HOST + 'compras/get/0/0/rotativo_salida_elaboracion/?fechaFinRotativoElaboracion=' + fechaActuaRSE)
         .then(r => r.json())
         .then(r => {
             if (!r || !r.data) {
                 arrayRSE = null;
-                document.getElementById('tableRPE').innerHTML = `<tr><td colspan="14">Sin datos</td></tr>`;
+                document.getElementById('tableRPE').innerHTML = `<tr><td colspan="15">Sin datos</td></tr>`;
                 return;
             }
 
             arrayRSE = r.data;
 
-            // cabeceras meses
             pintarCabecerasRSE(arrayRSE.headers);
-
-            // pintar con filtro aplicado
             showRSETableFiltered();
         })
         .catch(e => {
             showM('RSE ERROR ' + e, 'error');
-            document.getElementById('tableRPE').innerHTML = `<tr><td colspan="14">Error</td></tr>`;
+            document.getElementById('tableRPE').innerHTML = `<tr><td colspan="15">Error</td></tr>`;
         });
 }
 
 /* =====================================================
-   CABECERAS (12 ÚLTIMOS MESES)
+   CABECERAS (13 MESES)
 ===================================================== */
 
 function pintarCabecerasRSE(headers){
-    const meses = (headers || []).slice(-12);
+    const meses = (headers || []).slice(-13);
+
     meses.forEach((txt, i) => {
         const th = document.getElementById('rpe' + (i + 1));
         if (th) th.innerHTML = txt || '';
@@ -119,7 +113,7 @@ function getFilteredRowsRSE(){
 
 function showRSETableFiltered(){
     if (!arrayRSE || !arrayRSE.rows) {
-        document.getElementById('tableRPE').innerHTML = `<tr><td colspan="14">Sin datos</td></tr>`;
+        document.getElementById('tableRPE').innerHTML = `<tr><td colspan="15">Sin datos</td></tr>`;
         return;
     }
 
@@ -145,7 +139,7 @@ function pintarTablaRSE(rows){
     });
 
     document.getElementById('tableRPE').innerHTML =
-        html || `<tr><td colspan="14">Sin datos</td></tr>`;
+        html || `<tr><td colspan="15">Sin datos</td></tr>`;
 }
 
 /* =====================================================
@@ -158,7 +152,6 @@ async function createExcelRSE(){
         return;
     }
 
-    // aplicar el MISMO filtro que la tabla
     const filteredRows = getFilteredRowsRSE();
 
     if (!filteredRows || filteredRows.length === 0) {
@@ -172,7 +165,7 @@ async function createExcelRSE(){
     const COLOR_HEADER = '00751b';
 
     // ===== TÍTULO =====
-    sheet.mergeCells("A1:N1");
+    sheet.mergeCells("A1:O1");
     const t = sheet.getCell("A1");
     const q = (localStorage.getItem(RSE_SEARCH_KEY) || '').trim();
     t.value = `Rotativo Salidas Elaboración — Hasta ${formatDateToEuropean(fechaActuaRSE)}${q ? ` — Filtro: ${q}` : ''}`;
@@ -184,7 +177,7 @@ async function createExcelRSE(){
     const headers = [
         "Erp",
         "Descripcion",
-        ...(arrayRSE.headers || []).slice(-12)
+        ...(arrayRSE.headers || []).slice(-13)
     ];
 
     sheet.addRow(headers);
@@ -195,7 +188,7 @@ async function createExcelRSE(){
         c.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
     });
 
-    // ===== DATOS (SOLO FILTRADOS) =====
+    // ===== DATOS =====
     filteredRows.forEach(r => {
         sheet.addRow([
             r.Erp,
