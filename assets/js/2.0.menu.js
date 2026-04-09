@@ -70,6 +70,7 @@ let menuData = [
         { title: 'Salidas Elaboración', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;compras20;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['compras;'] },
         { title: 'Proyección Coste', icon: '', submenu: null , view: 'power-bi?name=prevision-entradas', roles: ['compras;'] },
+        { title: 'Ventas Regional', icon: '', submenu: null , view: 'power-bi?name=ventas-regional-alejandra', roles: ['compras-ale;'] },
      ]},
      { title: 'Comercial nacional', icon: '', roles: ['ventas;ventas20;'], submenu: [
         { title: 'Global Libra', icon: '', submenu: null , view: 'power-bi?name=global-fuente-datos-libra-edisa', roles: ['ventas;ventas20;'] },
@@ -105,11 +106,8 @@ let menuData = [
      ]},
      { title: 'Regional', icon: '', roles: ['regional00;'], submenu: [
         { title: 'Tabla dinamica. regional', icon: '', submenu: null , view: 'power-bi?name=regional-tabla-dinamica', roles: ['regional00;'] },
-     ]},
-      { title: 'Compras', icon: '', roles: ['compras-ale;'], submenu: [
-        { title: 'Ventas Regional', icon: '', submenu: null , view: 'power-bi?name=ventas-regional-alejandra', roles: ['compras-ale;'] },
-     ]},
-  ]},
+     ]}
+  ]}
 ];
 
 // como hacer dinamico
