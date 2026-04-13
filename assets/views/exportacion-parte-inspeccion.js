@@ -278,8 +278,8 @@ function showInfoIAL(data){
                 <td class="border px-2 py-1 text-left">${x.D_VALOR_ALFA_3 || ''}</td>
                 <td class="border px-2 py-1 text-center">${x.PAIS_ORIGEN || ''}</td>
                 <td class="border px-2 py-1 text-left">${x.D_VALOR_ALFA_4 || ''}</td>
+                <td class="border px-2 py-1 text-left">${x.VALOR_ALFA_5  == 'None' ? '' : x.VALOR_ALFA_5 }</td>
                 <td class="border px-2 py-1 text-center">${x.CONTENEDOR  == 'None' ? '' : x.CONTENEDOR}</td>
-                <td class="border px-2 py-1 text-left">${x.D_VALOR_ALFA_6  == 'None' ? '' : x.D_VALOR_ALFA_6 }</td>
                 <td class="border px-2 py-1 text-center">${x.ESPECIE || ''}</td>
                 <td class="border px-2 py-1 text-left">${x.D_VALOR_ALFA_7 || ''}</td>
                 <td class="border px-2 py-1 text-center">${x.NOMBRE_IDENTIFICACION_BUQUE == 'None' ? '' : (x.NOMBRE_IDENTIFICACION_BUQUE || '')}</td>
@@ -355,8 +355,8 @@ function showInfoIAL(data){
                             <th>D. arte pesca</th>
                             <th>País origen</th>
                             <th>D. país</th>
+                            <th>RGSEAA EU</th>
                             <th>Contenedor</th>
-                            <th>D. contenedor</th>
                             <th>Especie</th>
                             <th>D. especie</th>
                             <th>Buque</th>
@@ -407,7 +407,6 @@ function showInfoIAL(data){
 }
 
 
-
 async function createExcelEPIA() {
     if (!informeArtLoteData) {
         showM('No hay datos para exportar', 'warning');
@@ -415,7 +414,7 @@ async function createExcelEPIA() {
     }
 
     const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet("Informe");
+    const sheet = workbook.addWorksheet("Informe artículo y lote");
     const COLOR_HEADER = '00751b';
 
     const article = (document.getElementById('searchArticleIAL')?.value || '').trim().toUpperCase();
@@ -445,12 +444,13 @@ async function createExcelEPIA() {
         const titleCell = sheet.getCell(currentRow, 1);
         titleCell.value = title.toUpperCase();
         titleCell.font = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
-        titleCell.alignment = { horizontal: "center" };
+        titleCell.alignment = { horizontal: "center", vertical: "middle" };
         titleCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: COLOR_HEADER } };
 
         currentRow++;
 
         sheet.insertRow(currentRow, headers);
+
         sheet.getRow(currentRow).eachCell(cell => {
             cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
             cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
@@ -507,8 +507,8 @@ async function createExcelEPIA() {
         "D. arte pesca": cleanExcelValue(item.D_VALOR_ALFA_3),
         "País origen": cleanExcelValue(item.PAIS_ORIGEN),
         "D. país": cleanExcelValue(item.D_VALOR_ALFA_4),
+        "RGSEAA EU": cleanExcelValue(item.VALOR_ALFA_5),
         "Contenedor": cleanExcelValue(item.CONTENEDOR),
-        "D. contenedor": cleanExcelValue(item.D_VALOR_ALFA_6),
         "Especie": cleanExcelValue(item.ESPECIE),
         "D. especie": cleanExcelValue(item.D_VALOR_ALFA_7),
         "Buque": cleanExcelValue(item.NOMBRE_IDENTIFICACION_BUQUE),
@@ -558,4 +558,6 @@ async function createExcelEPIA() {
     a.href = URL.createObjectURL(blob);
     a.download = `Informe_articulo_lote_${article || 'SIN_ARTICULO'}_${lot || 'SIN_LOTE'}.xlsx`;
     a.click();
+
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
