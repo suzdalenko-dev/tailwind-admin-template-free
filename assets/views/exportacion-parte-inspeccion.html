@@ -1,0 +1,67 @@
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span>
+        <input type="text"
+               value=""
+               class="input-ca input-ca-ba"
+               placeholder="Artículo.."
+               id="searchArticleIAL"
+               oninput="changeArticleIAL(event)">
+
+        <input type="text"
+               value=""
+               class="input-ca input-ca-ba ml-2"
+               placeholder="Lote.."
+               id="searchLotIAL"
+               oninput="changeLotIAL(event)">
+
+        <span class="b-top-page" onclick="searchIAL()"> 🔍 </span>
+        <span class="b-top-page" onclick="clickBroomIAL()"> 🧹 </span>
+    </span>
+
+    <h1 class="text-xl text-center">Informe artículo y lote</h1>
+
+    <span> </span>
+    <span> </span>
+    <span> </span>
+    <span> </span>
+    <span> </span>
+    <span> </span>
+</div>
+
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <h3 class="text-sm mb-2">Lotes con stock</h3>
+        <table class="w-full styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">Artículo</th>
+                    <th class="topRight">Lote</th>
+                </tr>
+            </thead>
+            <tbody id="tableLotsIAL"></tbody>
+        </table>
+    </div>
+</div>
+
+<br>
+
+<div id="htmlContentIAL" class="space-y-6">
+    <div class="bg-white p-2 border">Introduce un artículo para comenzar.</div>
+</div>
+
+<br><br><br>
+
+
+
+<!--
+
+se guarda artículo y lote en localStorage
+al recargar la página se rellenan los inputs y se cargan los datos
+empieza a buscar automáticamente al escribir
+solo busca si el artículo tiene 3 o más caracteres
+si el lote está vacío, busca solo por artículo
+si el lote tiene 1 o 2 caracteres, todavía no filtra por lote
+si el lote tiene 3 o más caracteres, ya busca por artículo + lote
+solo se limpia al pulsar la escoba
+
+-->

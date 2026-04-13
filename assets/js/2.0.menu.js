@@ -62,9 +62,9 @@ let menuData = [
   { title: 'Admin', icon: '🛠️', roles: ['admin;'], submenu: [
     { title: 'Usuarios', icon: '👤', submenu: null , view: 'admin-usuarios', roles: ['admin;'] },
   ]},
-
-
-  
+  { title: 'Exportación', icon: '🌍', roles: ['exportacion;produccion;produccion20;calidad;produccion30;'], submenu: [
+    { title: 'Informe Parte Inspección', icon: '🔬', submenu: null , view: 'exportacion-parte-inspeccion', roles: ['exportacion;produccion;produccion20;calidad;produccion30;'] },
+  ]},
   { title: 'Power Bi', icon: '🟡', roles: ['compras-ale;produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;regional00;'], submenu: [
      { title: 'Compras', icon: '', roles: ['compras;compras20;'], submenu: [
         { title: 'Salidas Elaboración', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;compras20;'] },
