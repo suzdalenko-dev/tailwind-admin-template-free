@@ -37,9 +37,9 @@ let menuData = [
       { title: 'Gestión de operarios', icon: '', submenu: null , view: 'produccion-de-operarios', roles: ['produccion;produccion20;'] },
       { title: 'Informe horas OF', icon: '', submenu: null , view: 'produccion-informe-horas-operarios', roles: ['produccion;produccion20;'] },
     ]},
-    { title: 'Industria 4.0', icon: '🖥️', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;'], submenu: [
+    { title: 'Industria 4.0', icon: '🖥️', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;zzircon;'], submenu: [
       { title: 'Ajustes', icon: '', submenu: null , view: 'produccion-industria-ajustes-articulo', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;'] },
-      { title: 'Informes', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;'] },
+      { title: 'Informes', icon: '', submenu: null , view: 'power-bi?name=industria-4.0.1', roles: ['mantenimiento;produccion;calidad;produccion30;produccion20;zzircon;'] },
     ]},
   ]},
   { title: 'Logística', icon: '🚚', roles: ['logistica;finanzas;'], submenu: [
