@@ -26,7 +26,7 @@ let menuData = [
       { title: 'Informes', icon: '', submenu: null , view: 'power-bi?name=cuadro-de-mando-financiero', roles: ['finanzas'] },
     ]},
   ]},
-  { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;mantenimiento;'], submenu: [
+  { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;mantenimiento;zzircon;'], submenu: [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion;produccion20;ventas;']},
     { title: 'Equiv. C/C',  icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor', roles: ['produccion;produccion20;']},
     { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion;produccion20;']},
