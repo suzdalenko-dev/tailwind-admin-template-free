@@ -25,7 +25,7 @@ async function FetchDataFromGPDGraf(){
 }
 
 async function dashboardInit(){
-    console.log(window.localStorage);
+    
 }
 
 

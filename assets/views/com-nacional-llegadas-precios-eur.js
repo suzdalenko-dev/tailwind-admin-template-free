@@ -1,0 +1,145 @@
+var allLinesCNLPE = [];
+
+function comNacionalLlegadasPreciosEurInit() {
+    document.getElementById('slugTitle').innerHTML = `
+        <span class="b-top-page" onclick="createExceCNLPE()">📥 Excel </span>
+        <span class="b-top-page" onclick="createPDFCNLPE()">📄 PDF </span>
+    `;
+    document.title = "Llegadas pendientes e histórico";
+
+    setInputDateCNLPE();
+    setSearchedInputCNLPE();
+    getAllContainerCNLPE();
+}
+
+/* 1. fechas */
+function setInputDateCNLPE() {
+    let firstInput = document.getElementById('firstDataInputCNLPE');
+    let secondInput = document.getElementById('secondDataInputCNLPE');
+
+    firstInput.value = window.localStorage.getItem('first_date_cnlpe') || getTodayMinusOneMonth();
+    secondInput.value = window.localStorage.getItem('second_date_cnlpe') || addMonthsFunc(22);
+
+    window.localStorage.setItem('first_date_cnlpe', firstInput.value);
+    window.localStorage.setItem('second_date_cnlpe', secondInput.value);
+}
+
+function firstDateChangeCNLPE(e) {
+    window.localStorage.setItem('first_date_cnlpe', e.target.value);
+    getAllContainerCNLPE();
+}
+
+function secondDateChangeCNLPE(e) {
+    window.localStorage.setItem('second_date_cnlpe', e.target.value);
+    getAllContainerCNLPE();
+}
+
+/* 2. búsqueda */
+function setSearchedInputCNLPE() {
+    document.getElementById('searchInputCNLPE').value = window.localStorage.getItem('searched_line_cnlpe') || '';
+}
+
+function changeSearchedInputCNLPE(e) {
+    window.localStorage.setItem('searched_line_cnlpe', e.target.value.trim());
+    renderTableCNLPE();
+}
+
+function clickBroomCNLPE() {
+    document.getElementById('searchInputCNLPE').value = '';
+    window.localStorage.setItem('searched_line_cnlpe', '');
+    renderTableCNLPE();
+}
+
+/* 3. traer datos desde backend */
+function getAllContainerCNLPE() {
+    const first = window.localStorage.getItem('first_date_cnlpe');
+    const second = window.localStorage.getItem('second_date_cnlpe');
+
+    document.getElementById('tableLLEI').innerHTML = '<tr><td colspan="17">Cargando...</td></tr>';
+
+    fetch(HTTP_HOST + `ventas/get/0/0/expedientes_euro_costs/?first=${first}&second=${second}`)
+    .then(r => r.json())
+    .then(r => {
+        allLinesCNLPE = r.data.result || [];
+        renderTableCNLPE();
+    })
+    .catch(e => {
+        console.error(e);
+        document.getElementById('tableLLEI').innerHTML = '<tr><td colspan="17">Error cargando datos</td></tr>';
+    });
+}
+
+/* 4. renderizar tabla */
+function renderTableCNLPE() {
+    const inputValue = (localStorage.getItem('searched_line_cnlpe') || '').toLowerCase();
+    let html = '';
+
+    const nn = (v) => (v === null || v === undefined || v === 'None') ? '' : String(v);
+
+    allLinesCNLPE.forEach(group => {
+        const filtered = (group.lines || []).filter(line => {
+            if (!inputValue) return true;
+
+            const text = (
+                nn(line.CODIGO_FAMILIA) +
+                nn(line.D_CODIGO_FAMILIA) +
+                nn(line.ARTICULO) +
+                nn(line.DESCRIP_COMERCIAL) +
+                nn(line.CONTENEDOR) +
+                nn(line.D_CLAVE_ARANCEL) +
+                nn(line.FECHA_PREV_LLEGADA) +
+                nn(line.D_PLANTILLA) +
+                nn(line.PROVEEDOR) +
+                nn(line.D_PROVEEDOR_HOJA) +
+                nn(line.NUM_EXPEDIENTE) + '-' + nn(line.NUM_HOJA) +
+                nn(line.BUQUE)
+            ).toLowerCase();
+
+            return text.includes(inputValue);
+        });
+
+        if (filtered.length === 0) return;
+
+        filtered.forEach(y => {
+            let rowStyle = '';
+
+            if (nn(y.BACK_COLOR).toUpperCase() === 'BLUE') {
+                rowStyle = ' style="background-color:#e0efff;"';
+            }
+
+            html += `<tr${rowStyle}>
+                <td class="fontssmall border px-2 py-1 text-left">${nn(y.D_CODIGO_FAMILIA)}</td>
+                <td class="fontssmall border px-2 py-1 text-left">${nn(y.ARTICULO)} ${nn(y.DESCRIP_COMERCIAL)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${nn(y.CONTENEDOR)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${fEurEntero(y.CANTIDAD1)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${fEur000(y.PRECIO)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${fEur0000(y.VALOR_CAMBIO)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${fEur000(y.PRECIO_CON_GASTOS)}</td>
+                <td class="fontssmall border px-2 py-1 text-left">${nn(y.LUGAR_EMBARQUE)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${fEur000(y._PRECIO_EUR_ACTUAL)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${fEur0000(y._VALOR_CAMBIO_ACTUAL)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${fEur000(y._GASTOS)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${fEur000(y._PRECIO_EUR_ACTUAL_CG) == '0,00' ? '' : fEur000(y._PRECIO_EUR_ACTUAL_CG)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${formatDate(y.FECHA_EMBARQUE)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${formatDate(y.FECHA_PREV_LLEGADA)}</td>
+                <td class="fontssmall border px-2 py-1 text-left">${nn(y.LUGAR_DESEMBARQUE)}</td>
+                <td class="fontssmall border px-2 py-1 text-left">${nn(y.D_PROVEEDOR_HOJA).slice(0, 22)}</td>
+                <td class="fontssmall border px-2 py-1 text-center">${nn(y.NUM_EXPEDIENTE)}-${nn(y.NUM_HOJA)}</td>
+            </tr>`;
+        });
+
+        html += `
+           <br>
+        `;
+    });
+
+    document.getElementById('tableLLEI').innerHTML = html || '<tr><td colspan="17">Sin resultados</td></tr>';
+}
+
+/* helpers */
+function formatDate(dt) {
+    if (!dt || dt === 'None') return '';
+    const d = new Date(dt);
+    if (isNaN(d.getTime())) return '';
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
