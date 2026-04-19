@@ -65,7 +65,7 @@ let menuData = [
   { title: 'Exportación', icon: '🌍', roles: ['exportacion;produccion;produccion20;calidad;produccion30;'], submenu: [
     { title: 'Informe Parte Inspección', icon: '🔬', submenu: null , view: 'exportacion-parte-inspeccion', roles: ['exportacion;produccion;produccion20;calidad;produccion30;'] },
   ]},
-  { title: 'Comercial Nacional', icon: '💰', roles: ['ventas;ventas20;'], submenu: [
+  { title: 'Comer Nacional', icon: '💰', roles: ['ventas;ventas20;'], submenu: [
     { title: 'Llegadas Pendientes', icon: '🧾', submenu: null , view: 'com-nacional-llegadas-precios-eur', roles: ['ventas;ventas20;'] },
   ]},
 
