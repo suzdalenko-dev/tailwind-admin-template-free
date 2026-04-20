@@ -257,11 +257,11 @@ function createExceCNLPE() {
         'Contenedor',
         'Cantidad',
         'Precio',
-        'Valor cambio',
+        'Cambio EXP',
         'Precio c/gastos',
         'Lugar embarque',
         'Precio eur actual',
-        'Valor cambio actual',
+        'Cambio MES',
         'Gastos',
         'Precio eur actual c/g',
         'Fecha embarque',
@@ -370,11 +370,11 @@ function createPDFCNLPE() {
         'Cont.',
         'Cant.',
         'Precio',
-        'V. Camb.',
+        'Cambio EXP',
         'P. c/g.',
         'Lugar emb.',
         'P. eur act.',
-        'V. camb. act.',
+        'Cambio MES',
         'Gastos',
         'P. eur act. c/g',
         'F. emb.',
@@ -384,9 +384,11 @@ function createPDFCNLPE() {
         'Exp.'
     ]];
 
+
     const body = [];
     const normalRowFlags = [];
 
+    
     rows.forEach(r => {
         if (r.isSeparator) {
             body.push([{
