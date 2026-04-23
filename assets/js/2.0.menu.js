@@ -68,6 +68,9 @@ let menuData = [
   { title: 'Comer Nacional', icon: '💰', roles: ['ventas;ventas20;'], submenu: [
     { title: 'Llegadas Pendientes', icon: '🧾', submenu: null , view: 'com-nacional-llegadas-precios-eur', roles: ['ventas;ventas20;'] },
   ]},
+  { title: 'RRHH', icon: '👥', roles: ['rrhh0;'], submenu: [
+    { title: 'Vacaciones de personal', icon: '📅', submenu: null , view: 'rrhh-personal-vacaciones', roles: ['rrhh0'] },
+  ]},
 
 
   { title: 'Power Bi', icon: '🟡', roles: ['compras-ale;produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;regional00;'], submenu: [
