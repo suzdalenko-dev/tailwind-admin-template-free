@@ -5,11 +5,14 @@ let menuData = [
     { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;produccion;produccion20;produccion30;'] },
     { title: 'Evaluación Proveedores', icon: '⭐', view: 'calidad-evaluacion-proveedor', roles: ['calidad;'] },
     { title: 'Productos MSC/ASC', icon: '🌱', view: 'calidad-productos-msc-asc', roles: ['calidad;'] },
-    { title: 'Insp. calidad', icon: '🖥️', roles: ['calidad;'], submenu: [
+    { title: 'Insp. Calidad', icon: '🖥️', roles: ['calidad;'], submenu: [
       { title: 'Plantillas', icon: '', submenu: null , view: 'calidad-inspecciones-plantillas-excel', roles: ['calidad;'] },
-      { title: 'Informes', icon: '', submenu: null , view: 'calidad-inspecciones-informe', roles: ['calidad;'] },
+      { title: 'Informe', icon: '', submenu: null , view: 'calidad-inspecciones-informe', roles: ['calidad;'] },
     ]},
-  ]},
+    { title: 'Informe Manto', icon: '📄', submenu: null , view: 'calidad-informe-manto', roles: ['calidad;'] },
+  ]}, 
+
+  
   { title: 'Finanzas', icon: '💰', roles: ['finanzas;finanzas20;compras20;ventas;ventas20;exportacion;logistica;'], submenu: [
     { title: 'Expedientes', icon: '💵', submenu: null, view: 'expedientes-albaranes-facturas', roles: ['finanzas'] },
     { title: 'Alb.98 Facturas', icon: '🆚', submenu: null , view: 'finanzas-albaran-vs-factura', roles: ['finanzas'] },

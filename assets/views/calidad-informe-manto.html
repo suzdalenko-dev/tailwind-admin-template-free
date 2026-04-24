@@ -1,0 +1,352 @@
+<style>
+    .cim-wrap-top{
+        margin-bottom: 10px;
+    }
+
+    .cim-filter-row{
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        align-items:end;
+        margin-bottom:10px;
+    }
+
+    .cim-inline-field{
+        display:flex;
+        flex-direction:column;
+        gap:3px;
+        font-size:12px;
+    }
+
+    .cim-inline-field label{
+        font-size:11px;
+        color:#374151;
+        font-weight:600;
+    }
+
+    .cim-inline-field select{
+        height:22px;
+        min-width:260px;
+        border:1px solid #d1d5db;
+        border-radius:6px;
+        padding:0 8px;
+        background:#fff;
+        color:#111827;
+        outline:none;
+    }
+
+    .cim-reset-btn{
+        height:22px;
+        width: 22px;
+        border:1px solid #d1d5db;
+        background:#fff;
+        border-radius:6px;
+
+        cursor:pointer;
+    }
+
+    .cim-kpi-grid{
+        display:grid;
+        grid-template-columns:repeat(4, 1fr);
+        gap:8px;
+        margin-bottom:10px;
+    }
+
+    .cim-card{
+        background:#fff;
+        border:1px solid #d1d5db;
+        border-radius:8px;
+        overflow:hidden;
+    }
+
+    .cim-card-head{
+        background:#4F46E5;
+        color: white;
+        border-bottom:1px solid #c7d2fe;
+        padding:0px 11px;
+        font-size:12px;
+        font-weight:700;
+    }
+
+    .cim-card-body{
+        padding:10px;
+    }
+
+    .cim-kpi-value{
+        font-size:28px;
+        line-height:1.05;
+        font-weight:700;
+        margin-bottom:4px;
+        color:#111827;
+    }
+
+    .cim-kpi-sub{
+        font-size:11px;
+        color:#6b7280;
+    }
+
+    .cim-note-box{
+        background:#fff;
+        border:1px solid #d1d5db;
+        border-radius:8px;
+        padding:8px 10px;
+        margin-bottom:10px;
+        font-size:12px;
+        color:#374151;
+    }
+
+    .cim-chart-grid{
+        display:grid;
+        grid-template-columns:1.35fr 1fr;
+        gap:8px;
+        margin-bottom:10px;
+    }
+
+    .cim-chart-grid-right{
+        display:grid;
+        grid-template-rows:auto auto;
+        gap:8px;
+    }
+
+    .cim-chart-wrap-bar{
+        position:relative;
+        height:390px;
+    }
+
+    .cim-chart-wrap-donut{
+        position:relative;
+        height:260px;
+    }
+
+    .cim-chart-wrap-line{
+        position:relative;
+        height:230px;
+    }
+
+    .cim-donut-layout{
+        display:grid;
+        grid-template-columns:1fr 230px;
+        gap:10px;
+        align-items:center;
+    }
+
+    .cim-legend{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        font-size:12px;
+    }
+
+    .cim-legend-row{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:10px;
+    }
+
+    .cim-legend-left{
+        display:flex;
+        align-items:center;
+        gap:7px;
+    }
+
+    .cim-legend-color{
+        width:11px;
+        height:11px;
+        border-radius:2px;
+        flex:0 0 11px;
+    }
+
+    .cim-legend-right{
+        white-space:nowrap;
+        color:#4b5563;
+    }
+
+    .cim-mini-note{
+        height: 22px;
+        display:inline-flex;
+        align-items:center;
+        padding:5px 8px;
+        border:1px solid #d1d5db;
+        border-radius:6px;
+        background:#fff;
+        color:#4b5563;
+        font-size:11px;
+    }
+
+    .cim-pill{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-width:22px;
+        height:22px;
+        border-radius:999px;
+        padding:0 7px;
+        font-size:11px;
+        font-weight:700;
+        color:#fff;
+    }
+
+    .cim-tx1{ background:#ff2d2d; }
+    .cim-tx2{ background:#ff8a1f; }
+    .cim-tx3{ background:#ffd54a; color:#111827; }
+    .cim-tx4{ background:#73d13d; color:#0f172a; }
+    .cim-tx5{ background:#00c853; }
+
+    @media (max-width: 1200px){
+        .cim-kpi-grid{
+            grid-template-columns:repeat(2, 1fr);
+        }
+
+        .cim-chart-grid{
+            grid-template-columns:1fr;
+        }
+    }
+
+    @media (max-width: 850px){
+        .cim-kpi-grid{
+            grid-template-columns:1fr;
+        }
+
+        .cim-donut-layout{
+            grid-template-columns:1fr;
+        }
+
+        .cim-filter-row{
+            display:grid;
+            grid-template-columns:1fr;
+        }
+
+        .cim-inline-field select{
+            min-width:unset;
+            width:100%;
+        }
+    }
+</style>
+
+<div class="w-full mx-auto mb-4 flex justify-between items-center">
+    <span></span>
+    <span>Desde <input type="date" id="date_fromCIM" onchange="changeDateCIM(event)"></span>
+    <h1 class="text-xl text-center">Informe Manto</h1>
+    <span>Hasta <input type="date" id="date_toCIM" onchange="changeDateCIM(event)"></span>
+    <span></span>
+</div>
+
+<div class="cim-wrap-top">
+    <div class="cim-filter-row">
+        <div class="cim-inline-field">
+            <label for="articleFilterCIM">Artículo</label>
+            <select id="articleFilterCIM" onchange="changeArticleCIM()">
+                <option value="">Todos los artículos</option>
+            </select>
+        </div>
+
+        <button class="cim-reset-btn b-top-page" onclick="resetArticleCIM()">🧹</button>
+        <span> </span>
+        <span class="cim-mini-note" id="cimMiniResume">
+            No pesa igual 10 kg valorados con 5 que 30 kg valorados con 1
+        </span>
+    </div>
+
+    <div class="cim-kpi-grid">
+        <div class="cim-card">
+            <div class="cim-card-head">Media textura ponderada</div>
+            <div class="cim-card-body">
+                <div class="cim-kpi-value" id="kpiAvgTextureCIM">-</div>
+                <div class="cim-kpi-sub">Escala 1–5 sobre kg válidos</div>
+            </div>
+        </div>
+
+        <div class="cim-card">
+            <div class="cim-card-head">Kg ponderados</div>
+            <div class="cim-card-body">
+                <div class="cim-kpi-value" id="kpiTotalKgCIM">-</div>
+                <div class="cim-kpi-sub" id="kpiTotalKgSubCIM">-</div>
+            </div>
+        </div>
+
+        <div class="cim-card">
+            <div class="cim-card-head">% ≥ 3</div>
+            <div class="cim-card-body">
+                <div class="cim-kpi-value" id="kpiGoodPctCIM" style="color:#16a34a;">-</div>
+                <div class="cim-kpi-sub">Característico o mejor</div>
+            </div>
+        </div>
+
+        <div class="cim-card">
+            <div class="cim-card-head">% ≤ 2</div>
+            <div class="cim-card-body">
+                <div class="cim-kpi-value" id="kpiBadPctCIM" style="color:#dc2626;">-</div>
+                <div class="cim-kpi-sub">Regular o mal</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cim-note-box" id="weightedInfoCIM">
+        Cargando métricas ponderadas...
+    </div>
+
+    <div class="cim-chart-grid">
+        <div class="cim-card">
+            <div class="cim-card-head">Distribución de textura por artículo (ponderada por kg)</div>
+            <div class="cim-card-body">
+                <div class="cim-chart-wrap-bar">
+                    <canvas id="chartTextureByArticleCIM"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="cim-chart-grid-right">
+            <div class="cim-card">
+                <div class="cim-card-head">Reparto global de textura (ponderado por kg)</div>
+                <div class="cim-card-body">
+                    <div class="cim-donut-layout">
+                        <div class="cim-chart-wrap-donut">
+                            <canvas id="chartGlobalTextureCIM"></canvas>
+                        </div>
+                        <div class="cim-legend" id="legendGlobalTextureCIM"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cim-card">
+                <div class="cim-card-head">Evolución mensual de textura media ponderada</div>
+                <div class="cim-card-body">
+                    <div class="cim-chart-wrap-line">
+                        <canvas id="chartTextureTrendCIM"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col gap-2 text-sm w-full">
+    <div>
+        <table class="w-ful styled-table-fh stycky-table">
+            <thead>
+                <tr class="twcolor">
+                    <th class="topLeft">F Entrada</th>
+                    <th>Artículo</th>
+                    <th>Lote (Int/Prov)</th>
+                    <th>Parte</th>
+                    <th>Peso (A2B)</th>
+                    <th>Merma % (A2AG)</th>
+                    <th>Med Talla (A2X)</th>
+                    <th>Min Talla (A2Y)</th>
+                    <th>Max Talla (A2Z)</th>
+                    <th>Med Gros (A2AA)</th>
+                    <th>Min Gros (A2AB)</th>
+                    <th>Max Gros (A2AC)</th>
+                    <th>Text (A13D)</th>
+                    <th class="topRight">Observ. (A13F)</th>
+                </tr>
+            </thead>
+            <tbody id="tableCIM">
+                <tr>
+                    <td colspan="14">Cargando..</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

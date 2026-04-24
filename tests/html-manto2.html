@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Manto Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root{
+            --bg: #f5f5f5;
+            --card: #ffffff;
+            --border: #d1d5db;
+            --text: #111827;
+            --muted: #6b7280;
+
+            --indigo: #4f46e5;
+            --indigo-dark: #4338ca;
+            --indigo-soft: #eef2ff;
+
+            --red-live: #ff2d2d;
+            --orange-strong: #ff8a1f;
+            --amber-mid: #ffd54a;
+            --green-soft: #73d13d;
+            --green-live: #00c853;
+
+            --ok: #00a63e;
+            --bad: #e11d48;
+        }
+
+        *{
+            box-sizing: border-box;
+        }
+
+        body{
+            margin: 0;
+            padding: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        .cim-wrap{
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .cim-top-title{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .cim-top-title h1{
+            margin: 0;
+            font-size: 22px;
+            line-height: 1.1;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .cim-top-sub{
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .cim-formula{
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 12px;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+        .cim-toolbar{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .cim-field{
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .cim-field label{
+            font-size: 11px;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .cim-field input,
+        .cim-field select{
+            height: 28px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #fff;
+            color: #111827;
+            padding: 0 8px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .cim-field input{
+            width: 128px;
+        }
+
+        .cim-field.select-wide select{
+            min-width: 240px;
+        }
+
+        .cim-btn{
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid var(--indigo);
+            background: var(--indigo);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 0 10px;
+            cursor: pointer;
+        }
+
+        .cim-btn:hover{
+            background: var(--indigo-dark);
+            border-color: var(--indigo-dark);
+        }
+
+        .cim-btn.secondary{
+            background: #fff;
+            color: #111827;
+            border: 1px solid var(--border);
+        }
+
+        .cim-btn.secondary:hover{
+            background: #f9fafb;
+        }
+
+        .cim-note-mini{
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 8px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: #4b5563;
+            font-size: 11px;
+        }
+
+        .cim-grid-kpi{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .cim-box{
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cim-box-head{
+            background: var(--indigo-soft);
+            color: var(--indigo-dark);
+            border-bottom: 1px solid #c7d2fe;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .cim-box-body{
+            padding: 10px;
+        }
+
+        .cim-kpi-value{
+            font-size: 24px;
+            line-height: 1.05;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .cim-kpi-value.good{
+            color: var(--ok);
+        }
+
+        .cim-kpi-value.bad{
+            color: var(--bad);
+        }
+
+        .cim-kpi-sub{
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .cim-note{
+            margin-bottom: 10px;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            color: #374151;
+            font-size: 12px;
+        }
+
+        .cim-grid-charts{
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .cim-grid-right{
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 8px;
+        }
+
+        .cim-chart-wrap-bar{
+            height: 390px;
+            position: relative;
+        }
+
+        .cim-chart-wrap-donut{
+            height: 240px;
+            position: relative;
+        }
+
+        .cim-chart-wrap-line{
+            height: 220px;
+            position: relative;
+        }
+
+        .cim-donut-layout{
+            display: grid;
+            grid-template-columns: 1fr 210px;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cim-legend{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .cim-legend-row{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cim-legend-left{
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .cim-legend-color{
+            width: 11px;
+            height: 11px;
+            border-radius: 2px;
+            flex: 0 0 11px;
+        }
+
+        .cim-legend-right{
+            color: #4b5563;
+            white-space: nowrap;
+        }
+
+        .cim-info-footer{
+            margin-bottom: 10px;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            color: #374151;
+            font-size: 12px;
+        }
+
+        .cim-table-wrap{
+            overflow: auto;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        thead th{
+            background: var(--indigo);
+            color: #fff;
+            border: 1px solid #6366f1;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 5px;
+            text-align: center;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        tbody td{
+            border: 1px solid #d1d5db;
+            background: #fff;
+            font-size: 12px;
+            padding: 5px 5px;
+            vertical-align: middle;
+        }
+
+        tbody tr:nth-child(even) td{
+            background: #fafafa;
+        }
+
+        .text-left{ text-align: left; }
+        .text-center{ text-align: center; }
+        .text-right{ text-align: right; }
+
+        .hovered{
+            cursor: help;
+        }
+
+        .cim-pill{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 999px;
+            padding: 0 7px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .tx1{ background: var(--red-live); }
+        .tx2{ background: var(--orange-strong); }
+        .tx3{ background: var(--amber-mid); color: #111827; }
+        .tx4{ background: var(--green-soft); color: #0f172a; }
+        .tx5{ background: var(--green-live); }
+
+        .cim-loading,
+        .cim-error{
+            padding: 16px;
+            text-align: center;
+        }
+
+        .cim-loading{ color: #6b7280; }
+        .cim-error{ color: #b91c1c; }
+
+        @media (max-width: 1200px){
+            .cim-grid-kpi{
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cim-grid-charts{
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 860px){
+            .cim-grid-kpi{
+                grid-template-columns: 1fr;
+            }
+
+            .cim-donut-layout{
+                grid-template-columns: 1fr;
+            }
+
+            .cim-top-title{
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cim-toolbar{
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .cim-field input,
+            .cim-field select,
+            .cim-field.select-wide select{
+                width: 100%;
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cim-wrap">
+        <div class="cim-top-title">
+            <div>
+                <h1>Informe Mantos</h1>
+                <div class="cim-top-sub">Análisis de textura ponderado por kilogramos recibidos</div>
+            </div>
+
+            <div class="cim-formula">
+                Σ(kg × valoración) / Σkg
+            </div>
+        </div>
+
+        <div class="cim-toolbar">
+            <div class="cim-field">
+                <label for="date_fromCIM">Desde</label>
+                <input type="date" id="date_fromCIM">
+            </div>
+
+            <div class="cim-field">
+                <label for="date_toCIM">Hasta</label>
+                <input type="date" id="date_toCIM">
+            </div>
+
+            <div class="cim-field select-wide">
+                <label for="article_filterCIM">Artículo</label>
+                <select id="article_filterCIM">
+                    <option value="">Todos los artículos</option>
+                </select>
+            </div>
+
+            <button class="cim-btn" id="btnFilterCIM">Filtrar</button>
+            <button class="cim-btn secondary" id="btnResetCIM">Reset</button>
+
+            <div class="cim-note-mini">
+                No pesa igual 10 kg valorados con 5 que 30 kg valorados con 1
+            </div>
+        </div>
+
+        <div class="cim-grid-kpi">
+            <div class="cim-box">
+                <div class="cim-box-head">Media textura ponderada</div>
+                <div class="cim-box-body">
+                    <div class="cim-kpi-value" id="kpi_avg_textureCIM">-</div>
+                    <div class="cim-kpi-sub">Escala 1–5 sobre kg válidos</div>
+                </div>
+            </div>
+
+            <div class="cim-box">
+                <div class="cim-box-head">Kg ponderados</div>
+                <div class="cim-box-body">
+                    <div class="cim-kpi-value" id="kpi_total_kgCIM">-</div>
+                    <div class="cim-kpi-sub" id="kpi_total_kg_subCIM">-</div>
+                </div>
+            </div>
+
+            <div class="cim-box">
+                <div class="cim-box-head">% ≥ 3</div>
+                <div class="cim-box-body">
+                    <div class="cim-kpi-value good" id="kpi_pct_goodCIM">-</div>
+                    <div class="cim-kpi-sub">Característico o mejor</div>
+                </div>
+            </div>
+
+            <div class="cim-box">
+                <div class="cim-box-head">% ≤ 2</div>
+                <div class="cim-box-body">
+                    <div class="cim-kpi-value bad" id="kpi_pct_badCIM">-</div>
+                    <div class="cim-kpi-sub">Regular o malo</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cim-note" id="weightedInfoCIM">
+            Cargando métricas ponderadas...
+        </div>
+
+        <div class="cim-grid-charts">
+            <div class="cim-box">
+                <div class="cim-box-head">Distribución de textura por artículo (ponderada por kg)</div>
+                <div class="cim-box-body">
+                    <div class="cim-chart-wrap-bar">
+                        <canvas id="chartTextureByArticleCIM"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cim-grid-right">
+                <div class="cim-box">
+                    <div class="cim-box-head">Reparto global de textura (ponderado por kg)</div>
+                    <div class="cim-box-body">
+                        <div class="cim-donut-layout">
+                            <div class="cim-chart-wrap-donut">
+                                <canvas id="chartGlobalTextureCIM"></canvas>
+                            </div>
+                            <div class="cim-legend" id="legendGlobalTextureCIM"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cim-box">
+                    <div class="cim-box-head">Evolución mensual de textura media ponderada</div>
+                    <div class="cim-box-body">
+                        <div class="cim-chart-wrap-line">
+                            <canvas id="chartTextureTrendCIM"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cim-info-footer">
+            <strong>Cálculo ponderado por kilogramos.</strong>
+            Se usan solo registros con <strong>A2B</strong> numérico mayor que 0 y <strong>A13D</strong> entre 1 y 5.
+        </div>
+
+        <div class="cim-box">
+            <div class="cim-box-head">Detalle de inspecciones</div>
+            <div class="cim-box-body cim-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>F Entrada</th>
+                            <th>Artículo</th>
+                            <th>Lote (Int/Prov)</th>
+                            <th>Part</th>
+                            <th>Peso (A2B)</th>
+                            <th>Merma % (A2AG)</th>
+                            <th>Med Talla (A2X)</th>
+                            <th>Min Talla (A2Y)</th>
+                            <th>Max Talla (A2Z)</th>
+                            <th>Med Gros (A2AA)</th>
+                            <th>Min Gros (A2AB)</th>
+                            <th>Max Gros (A2AC)</th>
+                            <th>Text (A13D)</th>
+                            <th>Observ. (A13F)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableCIM">
+                        <tr>
+                            <td colspan="14" class="cim-loading">Cargando..</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ENDPOINT_CIM =
+            new URLSearchParams(window.location.search).get('endpoint')
+            || 'http://127.0.0.1:8000/calidad/get/0/0/informe_manto/';
+
+        const TEXTURE_LABELS_CIM = {
+            1: '1 Muy mal',
+            2: '2 Regular',
+            3: '3 Característico',
+            4: '4 Bueno',
+            5: '5 Muy bien'
+        };
+
+        const TEXTURE_COLORS_CIM = {
+            1: '#ff2d2d',
+            2: '#ff8a1f',
+            3: '#ffd54a',
+            4: '#73d13d',
+            5: '#00c853'
+        };
+
+        const TEXTURE_LABEL_COLORS_CIM = {
+            1: '#ffffff',
+            2: '#ffffff',
+            3: '#111827',
+            4: '#0f172a',
+            5: '#ffffff'
+        };
+
+        let dateFromCIM = getTodayMinusYearsCIM(5);
+        let dateToCIM   = getTodayMinusYearsCIM(0);
+        let selectedArticleCIM = '';
+
+        let allLinesCIM = [];
+        let filteredLinesCIM = [];
+
+        let chartTextureByArticleCIM = null;
+        let chartGlobalTextureCIM = null;
+        let chartTextureTrendCIM = null;
+        let pluginsRegisteredCIM = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            ensureChartPluginsCIM();
+            initDateCIM();
+            bindEventsCIM();
+            getCIM();
+        });
+
+        function bindEventsCIM(){
+            document.getElementById('btnFilterCIM').addEventListener('click', applyFiltersCIM);
+            document.getElementById('btnResetCIM').addEventListener('click', resetFiltersCIM);
+            document.getElementById('article_filterCIM').addEventListener('change', changeArticleCIM);
+            document.getElementById('date_fromCIM').addEventListener('change', applyFiltersCIM);
+            document.getElementById('date_toCIM').addEventListener('change', applyFiltersCIM);
+        }
+
+        function initDateCIM(){
+            document.getElementById('date_fromCIM').value = dateFromCIM;
+            document.getElementById('date_toCIM').value = dateToCIM;
+            document.getElementById('article_filterCIM').value = '';
+        }
+
+        function applyFiltersCIM(){
+            dateFromCIM = document.getElementById('date_fromCIM').value || dateFromCIM;
+            dateToCIM   = document.getElementById('date_toCIM').value || dateToCIM;
+            getCIM();
+        }
+
+        function resetFiltersCIM(){
+            dateFromCIM = getTodayMinusYearsCIM(5);
+            dateToCIM   = getTodayMinusYearsCIM(0);
+            selectedArticleCIM = '';
+            initDateCIM();
+            getCIM();
+        }
+
+        function changeArticleCIM(){
+            selectedArticleCIM = document.getElementById('article_filterCIM').value || '';
+            renderCIM();
+        }
+
+        function getCIM(){
+            setLoadingStateCIM();
+
+            const url = `${ENDPOINT_CIM}?date_from=${encodeURIComponent(dateFromCIM)}&date_to=${encodeURIComponent(dateToCIM)}`;
+
+            fetch(url)
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                    return r.json();
+                })
+                .then(r => {
+                    allLinesCIM = Array.isArray(r?.data?.res_grouped) ? r.data.res_grouped : [];
+                    buildArticleFilterCIM(allLinesCIM);
+                    renderCIM();
+                })
+                .catch(e => {
+                    console.error(e);
+                    document.getElementById('tableCIM').innerHTML = `
+                        <tr>
+                            <td colspan="14" class="cim-error">
+                                Error al cargar datos. Revisa endpoint o CORS del iframe.
+                            </td>
+                        </tr>
+                    `;
+                    document.getElementById('weightedInfoCIM').innerHTML = 'Error al cargar datos del informe.';
+                });
+        }
+
+        function setLoadingStateCIM(){
+            document.getElementById('tableCIM').innerHTML = `
+                <tr>
+                    <td colspan="14" class="cim-loading">Cargando..</td>
+                </tr>
+            `;
+
+            setHtmlCIM('kpi_avg_textureCIM', '-');
+            setHtmlCIM('kpi_total_kgCIM', '-');
+            setHtmlCIM('kpi_total_kg_subCIM', 'Cargando..');
+            setHtmlCIM('kpi_pct_goodCIM', '-');
+            setHtmlCIM('kpi_pct_badCIM', '-');
+            setHtmlCIM('weightedInfoCIM', 'Cargando métricas ponderadas...');
+            setHtmlCIM('legendGlobalTextureCIM', '');
+        }
+
+        function renderCIM(){
+            filteredLinesCIM = filterLinesCIM(allLinesCIM, selectedArticleCIM);
+
+            renderKpisCIM(filteredLinesCIM);
+            renderChartsCIM(filteredLinesCIM);
+            renderTableCIM(filteredLinesCIM);
+        }
+
+        function filterLinesCIM(lines, articleCode){
+            let res = Array.isArray(lines) ? [...lines] : [];
+
+            if (articleCode) {
+                res = res.filter(l => String(l.CODIGO_ARTICULO || '').trim() === String(articleCode).trim());
+            }
+
+            res.sort((a, b) => {
+                const fa = String(a.FECHA_ENTRADA || '');
+                const fb = String(b.FECHA_ENTRADA || '');
+                const cmp = fb.localeCompare(fa);
+                if (cmp !== 0) return cmp;
+
+                return Number(b.NUMERO_PARTE || 0) - Number(a.NUMERO_PARTE || 0);
+            });
+
+            return res;
+        }
+
+        function buildArticleFilterCIM(lines){
+            const select = document.getElementById('article_filterCIM');
+            const currentValue = selectedArticleCIM;
+            const map = new Map();
+
+            (Array.isArray(lines) ? lines : []).forEach(l => {
+                const code = normalizeValueCIM(l.CODIGO_ARTICULO);
+                const desc = normalizeValueCIM(l.DESCRIP_COMERCIAL);
+
+                if (code && !map.has(code)) {
+                    map.set(code, { code, desc });
+                }
+            });
+
+            const items = Array.from(map.values()).sort((a, b) => {
+                const na = Number(a.code);
+                const nb = Number(b.code);
+                if (!Number.isNaN(na) && !Number.isNaN(nb)) return na - nb;
+                return a.code.localeCompare(b.code);
+            });
+
+            let html = `<option value="">Todos los artículos</option>`;
+            items.forEach(item => {
+                html += `<option value="${escapeHtml(item.code)}">${escapeHtml((item.code + ' ' + item.desc).trim())}</option>`;
+            });
+
+            select.innerHTML = html;
+
+            if (items.some(item => item.code === currentValue)) {
+                select.value = currentValue;
+                selectedArticleCIM = currentValue;
+            } else {
+                select.value = '';
+                selectedArticleCIM = '';
+            }
+        }
+
+        function renderKpisCIM(lines){
+            const weightedLines = getWeightedTextureLinesCIM(lines);
+
+            const totalFiltered = lines.length;
+            const totalWeighted = weightedLines.length;
+
+            let kgTotal = 0;
+            let weightedTextureTotal = 0;
+            let kgGood = 0;
+            let kgBad = 0;
+
+            weightedLines.forEach(item => {
+                kgTotal += item.kg;
+                weightedTextureTotal += (item.kg * item.texture);
+
+                if (item.texture >= 3) kgGood += item.kg;
+                if (item.texture <= 2) kgBad += item.kg;
+            });
+
+            const weightedAvg = kgTotal > 0 ? (weightedTextureTotal / kgTotal) : 0;
+            const pctGood = kgTotal > 0 ? ((kgGood / kgTotal) * 100) : 0;
+            const pctBad  = kgTotal > 0 ? ((kgBad / kgTotal) * 100) : 0;
+
+            setHtmlCIM('kpi_avg_textureCIM', formatNumberCIM(weightedAvg, 2));
+            setHtmlCIM('kpi_total_kgCIM', formatNumberCIM(kgTotal, 2));
+            setHtmlCIM('kpi_total_kg_subCIM', `${formatNumberCIM(totalWeighted, 0)} líneas válidas de ${formatNumberCIM(totalFiltered, 0)}`);
+            setHtmlCIM('kpi_pct_goodCIM', `${formatNumberCIM(pctGood, 1)}%`);
+            setHtmlCIM('kpi_pct_badCIM', `${formatNumberCIM(pctBad, 1)}%`);
+
+            let note = `Se han usado ${formatNumberCIM(totalWeighted, 0)} líneas con peso válido y textura válida de un total de ${formatNumberCIM(totalFiltered, 0)} líneas filtradas.`;
+
+            if (kgTotal <= 0) {
+                note = 'No hay líneas con A2B numérico > 0 y A13D entre 1 y 5 para construir la parte ponderada.';
+            }
+
+            setHtmlCIM('weightedInfoCIM', note);
+        }
+
+        function renderChartsCIM(lines){
+            const byArticle = aggregateByArticleWeightedCIM(lines);
+            const global = aggregateGlobalWeightedCIM(lines);
+            const monthly = aggregateMonthlyWeightedCIM(lines, dateFromCIM, dateToCIM);
+
+            renderTextureByArticleChartCIM(byArticle);
+            renderGlobalTextureChartCIM(global);
+            renderMonthlyTrendChartCIM(monthly);
+        }
+
+        function renderTextureByArticleChartCIM(rows){
+            const canvas = document.getElementById('chartTextureByArticleCIM');
+
+            if (chartTextureByArticleCIM) {
+                chartTextureByArticleCIM.destroy();
+                chartTextureByArticleCIM = null;
+            }
+
+            const wrap = canvas.closest('.cim-chart-wrap-bar');
+            wrap.style.height = Math.max(300, rows.length * 38 + 90) + 'px';
+
+            const labels = rows.map(r => r.label);
+
+            const datasets = [1, 2, 3, 4, 5].map(texture => ({
+                label: TEXTURE_LABELS_CIM[texture],
+                data: rows.map(r => r.totalKg > 0 ? Number(((r.totals[texture] / r.totalKg) * 100).toFixed(2)) : 0),
+                rawKg: rows.map(r => r.totals[texture]),
+                backgroundColor: TEXTURE_COLORS_CIM[texture],
+                borderColor: '#ffffff',
+                borderWidth: 1,
+                cimLabelColor: TEXTURE_LABEL_COLORS_CIM[texture],
+                borderRadius: 2
+            }));
+
+            chartTextureByArticleCIM = new Chart(canvas, {
+                type: 'bar',
+                data: { labels, datasets },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    layout: {
+                        padding: { top: 4, bottom: 4 }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            min: 0,
+                            max: 100,
+                            grid: { color: '#e5e7eb' },
+                            ticks: {
+                                callback: value => value + '%',
+                                font: { size: 11 }
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: {
+                                color: '#111827',
+                                font: { size: 11 }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 10,
+                                boxHeight: 10,
+                                padding: 16,
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context){
+                                    const kg = context.dataset.rawKg[context.dataIndex] || 0;
+                                    const pct = context.parsed.x || 0;
+                                    return `${context.dataset.label}: ${formatNumberCIM(kg, 2)} kg (${formatNumberCIM(pct, 1)}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderGlobalTextureChartCIM(global){
+            const canvas = document.getElementById('chartGlobalTextureCIM');
+
+            if (chartGlobalTextureCIM) {
+                chartGlobalTextureCIM.destroy();
+                chartGlobalTextureCIM = null;
+            }
+
+            const data = [1, 2, 3, 4, 5].map(t => global.totals[t] || 0);
+
+            chartGlobalTextureCIM = new Chart(canvas, {
+                type: 'doughnut',
+                data: {
+                    labels: [1, 2, 3, 4, 5].map(t => TEXTURE_LABELS_CIM[t]),
+                    datasets: [{
+                        data,
+                        backgroundColor: [1,2,3,4,5].map(t => TEXTURE_COLORS_CIM[t]),
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context){
+                                    const total = global.totalKg || 0;
+                                    const value = context.parsed || 0;
+                                    const pct = total > 0 ? ((value / total) * 100) : 0;
+                                    return `${context.label}: ${formatNumberCIM(value, 2)} kg (${formatNumberCIM(pct, 1)}%)`;
+                                }
+                            }
+                        },
+                        cimDoughnutCenterText: {
+                            text1: formatNumberCIM(global.totalKg, 2),
+                            text2: 'kg'
+                        }
+                    }
+                }
+            });
+
+            renderGlobalLegendCIM(global);
+        }
+
+        function renderGlobalLegendCIM(global){
+            let html = '';
+
+            [1,2,3,4,5].forEach(texture => {
+                const kg = global.totals[texture] || 0;
+                const pct = global.totalKg > 0 ? ((kg / global.totalKg) * 100) : 0;
+
+                html += `
+                    <div class="cim-legend-row">
+                        <div class="cim-legend-left">
+                            <span class="cim-legend-color" style="background:${TEXTURE_COLORS_CIM[texture]}"></span>
+                            <span>${TEXTURE_LABELS_CIM[texture]}</span>
+                        </div>
+                        <div class="cim-legend-right">${formatNumberCIM(pct, 1)}% · ${formatNumberCIM(kg, 2)} kg</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('legendGlobalTextureCIM').innerHTML = html;
+        }
+
+        function renderMonthlyTrendChartCIM(monthly){
+            const canvas = document.getElementById('chartTextureTrendCIM');
+
+            if (chartTextureTrendCIM) {
+                chartTextureTrendCIM.destroy();
+                chartTextureTrendCIM = null;
+            }
+
+            chartTextureTrendCIM = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: monthly.labels,
+                    datasets: [{
+                        label: 'Media ponderada',
+                        data: monthly.values,
+                        borderColor: '#4f46e5',
+                        backgroundColor: '#4f46e5',
+                        tension: 0.25,
+                        pointRadius: 3.5,
+                        pointHoverRadius: 4,
+                        pointBackgroundColor: '#4f46e5',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 1.5,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        y: {
+                            min: 1,
+                            max: 5,
+                            grid: { color: '#e5e7eb' },
+                            ticks: {
+                                stepSize: 1,
+                                font: { size: 11 }
+                            }
+                        },
+                        x: {
+                            grid: { display:false },
+                            ticks: { font: { size: 11 } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display:false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context){
+                                    if (context.parsed.y == null) return 'Sin datos';
+                                    return `Media ponderada: ${formatNumberCIM(context.parsed.y, 2)}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderTableCIM(lines){
+            const table = document.getElementById('tableCIM');
+
+            if (!Array.isArray(lines) || lines.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="14" class="cim-loading">No se han encontrado datos</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+
+            lines.forEach(l => {
+                const lote = buildLoteLabelCIM(l);
+                const obs = normalizeValueCIM(l.OBSERVACIONES);
+                const obsShort = shortenTextCIM(obs, 32);
+
+                html += `
+                    <tr>
+                        <td class="text-center">${escapeHtml(formatDateToEuropeanCIM(l.FECHA_ENTRADA))}</td>
+                        <td class="text-left">${escapeHtml(buildArticleLabelCIM(l))}</td>
+                        <td class="text-center">${escapeHtml(lote)}</td>
+                        <td class="text-center">${escapeHtml(normalizeValueCIM(l.NUMERO_PARTE))}</td>
+
+                        <td class="text-right">${escapeHtml(normalizeValueCIM(l.A2B))}</td>
+                        <td class="text-center">${escapeHtml(normalizeValueCIM(l.A2AG))}</td>
+                        <td class="text-center">${escapeHtml(normalizeValueCIM(l.A2X))}</td>
+                        <td class="text-center">${escapeHtml(normalizeValueCIM(l.A2Y))}</td>
+                        <td class="text-center">${escapeHtml(normalizeValueCIM(l.A2Z))}</td>
+
+                        <td class="text-center">${escapeHtml(normalizeValueCIM(l.A2AA))}</td>
+                        <td class="text-center">${escapeHtml(normalizeValueCIM(l.A2AB))}</td>
+                        <td class="text-center">${escapeHtml(normalizeValueCIM(l.A2AC))}</td>
+
+                        <td class="text-center">${renderTextureCellCIM(l.A13D)}</td>
+                        <td class="text-left hovered" title="${escapeHtml(obs)}">${escapeHtml(obsShort)}</td>
+                    </tr>
+                `;
+            });
+
+            table.innerHTML = html;
+        }
+
+        function aggregateByArticleWeightedCIM(lines){
+            const valid = getWeightedTextureLinesCIM(lines);
+            const map = {};
+
+            valid.forEach(item => {
+                const code = normalizeValueCIM(item.line.CODIGO_ARTICULO);
+                const desc = normalizeValueCIM(item.line.DESCRIP_COMERCIAL);
+                const key = code || 'SIN-CODIGO';
+
+                if (!map[key]) {
+                    map[key] = {
+                        key,
+                        label: (code + ' ' + desc).trim(),
+                        totals: {1:0, 2:0, 3:0, 4:0, 5:0},
+                        totalKg: 0
+                    };
+                }
+
+                map[key].totals[item.texture] += item.kg;
+                map[key].totalKg += item.kg;
+            });
+
+            return Object.values(map).sort((a, b) => b.totalKg - a.totalKg);
+        }
+
+        function aggregateGlobalWeightedCIM(lines){
+            const valid = getWeightedTextureLinesCIM(lines);
+
+            const res = {
+                totals: {1:0, 2:0, 3:0, 4:0, 5:0},
+                totalKg: 0
+            };
+
+            valid.forEach(item => {
+                res.totals[item.texture] += item.kg;
+                res.totalKg += item.kg;
+            });
+
+            return res;
+        }
+
+        function aggregateMonthlyWeightedCIM(lines, dateFrom, dateTo){
+            const valid = getWeightedTextureLinesCIM(lines);
+            const monthKeys = createMonthKeysBetweenCIM(dateFrom, dateTo);
+            const map = {};
+
+            monthKeys.forEach(key => {
+                map[key] = { weighted:0, kg:0 };
+            });
+
+            valid.forEach(item => {
+                const monthKey = String(item.line.FECHA_ENTRADA || '').slice(0, 7);
+
+                if (!map[monthKey]) {
+                    map[monthKey] = { weighted:0, kg:0 };
+                }
+
+                map[monthKey].weighted += (item.kg * item.texture);
+                map[monthKey].kg += item.kg;
+            });
+
+            const labels = [];
+            const values = [];
+
+            Object.keys(map).sort().forEach(key => {
+                labels.push(formatMonthLabelCIM(key));
+                values.push(map[key].kg > 0 ? Number((map[key].weighted / map[key].kg).toFixed(2)) : null);
+            });
+
+            return { labels, values };
+        }
+
+        function getWeightedTextureLinesCIM(lines){
+            const res = [];
+
+            (Array.isArray(lines) ? lines : []).forEach(line => {
+                const texture = parseTextureNumberCIM(line.A13D);
+                const kg = getWeightForChartsCIM(line);
+
+                if (texture && kg) {
+                    res.push({ line, texture, kg });
+                }
+            });
+
+            return res;
+        }
+
+        function getWeightForChartsCIM(line){
+            const kg = parseEsNumberCIM(line.A2B);
+            if (!Number.isFinite(kg) || kg <= 0) return null;
+            return kg;
+        }
+
+        function parseTextureNumberCIM(value){
+            const n = Number(normalizeValueCIM(value));
+            return [1,2,3,4,5].includes(n) ? n : null;
+        }
+
+        function parseEsNumberCIM(value){
+            const txt = normalizeValueCIM(value);
+            if (txt === '') return null;
+
+            const normalized = txt.replace(/\./g, '').replace(',', '.');
+            const n = Number(normalized);
+
+            return Number.isFinite(n) ? n : null;
+        }
+
+        function buildArticleLabelCIM(line){
+            return `${normalizeValueCIM(line.CODIGO_ARTICULO)} ${normalizeValueCIM(line.DESCRIP_COMERCIAL)}`.trim();
+        }
+
+        function buildLoteLabelCIM(line){
+            const loteInterno = normalizeValueCIM(line.LOTE_INTERNO);
+            const loteProveedor = normalizeValueCIM(line.LOTE_PROVEEDOR);
+
+            if (loteInterno && loteProveedor && loteInterno !== loteProveedor) {
+                return `${loteInterno} / ${loteProveedor}`;
+            }
+
+            if (loteInterno) return loteInterno;
+            if (loteProveedor) return loteProveedor;
+            return '';
+        }
+
+        function renderTextureCellCIM(value){
+            const n = parseTextureNumberCIM(value);
+            if (!n) return '';
+            return `<span class="cim-pill tx${n}" title="${escapeHtml(TEXTURE_LABELS_CIM[n])}">${n}</span>`;
+        }
+
+        function normalizeValueCIM(value){
+            if (value === null || value === undefined) return '';
+            const txt = String(value).trim();
+            if (txt === '' || txt === 'None' || txt === 'null') return '';
+            return txt;
+        }
+
+        function shortenTextCIM(txt, maxLen){
+            const value = String(txt || '');
+            if (value.length <= maxLen) return value;
+            return value.slice(0, maxLen) + '..';
+        }
+
+        function formatNumberCIM(value, decimals = 2){
+            const n = Number(value || 0);
+            return n.toLocaleString('es-ES', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+        }
+
+        function formatDateToEuropeanCIM(value){
+            const txt = String(value || '');
+            if (txt.length >= 10) {
+                return `${txt.slice(8,10)}/${txt.slice(5,7)}/${txt.slice(0,4)}`;
+            }
+            return txt;
+        }
+
+        function formatMonthLabelCIM(monthKey){
+            const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+            const parts = String(monthKey || '').split('-');
+            if (parts.length !== 2) return monthKey;
+
+            const year = parts[0].slice(2);
+            const monthIndex = Number(parts[1]) - 1;
+            const monthName = months[monthIndex] || parts[1];
+
+            return `${monthName} '${year}`;
+        }
+
+        function createMonthKeysBetweenCIM(dateFrom, dateTo){
+            const res = [];
+            const from = new Date(`${dateFrom}T00:00:00`);
+            const to   = new Date(`${dateTo}T00:00:00`);
+
+            if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime())) return res;
+
+            from.setDate(1);
+            to.setDate(1);
+
+            const current = new Date(from);
+
+            while (current <= to) {
+                const y = current.getFullYear();
+                const m = String(current.getMonth() + 1).padStart(2, '0');
+                res.push(`${y}-${m}`);
+                current.setMonth(current.getMonth() + 1);
+            }
+
+            return res;
+        }
+
+        function getTodayMinusYearsCIM(years){
+            const d = new Date();
+            d.setFullYear(d.getFullYear() - Number(years || 0));
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+
+        function setHtmlCIM(id, value){
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = value;
+        }
+
+        function escapeHtml(value){
+            return String(value ?? '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function ensureChartPluginsCIM(){
+            if (pluginsRegisteredCIM) return;
+
+            Chart.defaults.font.family = 'ui-sans-serif, system-ui, Arial';
+            Chart.defaults.color = '#4b5563';
+
+            Chart.register({
+                id: 'cimStackBarValueLabels',
+                afterDatasetsDraw(chart) {
+                    if (!chart.canvas || chart.canvas.id !== 'chartTextureByArticleCIM') return;
+
+                    const { ctx } = chart;
+
+                    chart.data.datasets.forEach((dataset, datasetIndex) => {
+                        const meta = chart.getDatasetMeta(datasetIndex);
+
+                        meta.data.forEach((bar, index) => {
+                            const value = Number(dataset.data[index] || 0);
+                            if (!Number.isFinite(value) || value < 7) return;
+
+                            const props = bar.getProps(['x', 'y', 'base'], true);
+                            if (Math.abs(props.x - props.base) < 26) return;
+
+                            ctx.save();
+                            ctx.fillStyle = dataset.cimLabelColor || '#ffffff';
+                            ctx.font = '600 11px Arial';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(`${Math.round(value)}%`, props.base + ((props.x - props.base) / 2), props.y);
+                            ctx.restore();
+                        });
+                    });
+                }
+            });
+
+            Chart.register({
+                id: 'cimLineValueLabels',
+                afterDatasetsDraw(chart) {
+                    if (!chart.canvas || chart.canvas.id !== 'chartTextureTrendCIM') return;
+                    if (!Array.isArray(chart.data.labels) || chart.data.labels.length > 18) return;
+
+                    const dataset = chart.data.datasets[0];
+                    const meta = chart.getDatasetMeta(0);
+                    const { ctx } = chart;
+
+                    meta.data.forEach((point, index) => {
+                        const value = dataset.data[index];
+                        if (value == null) return;
+
+                        const props = point.getProps(['x', 'y'], true);
+
+                        ctx.save();
+                        ctx.fillStyle = '#111827';
+                        ctx.font = '600 11px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(formatNumberCIM(value, 2), props.x, props.y - 7);
+                        ctx.restore();
+                    });
+                }
+            });
+
+            Chart.register({
+                id: 'cimDoughnutCenterText',
+                afterDraw(chart) {
+                    if (!chart.canvas || chart.canvas.id !== 'chartGlobalTextureCIM') return;
+
+                    const pluginCfg = chart.options?.plugins?.cimDoughnutCenterText || {};
+                    if (!pluginCfg.text1 && !pluginCfg.text2) return;
+
+                    const { ctx } = chart;
+                    const meta = chart.getDatasetMeta(0);
+                    if (!meta || !meta.data || !meta.data[0]) return;
+
+                    const x = meta.data[0].x;
+                    const y = meta.data[0].y;
+
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+
+                    ctx.fillStyle = '#111827';
+                    ctx.font = '700 17px Arial';
+                    ctx.fillText(String(pluginCfg.text1 || ''), x, y - 7);
+
+                    ctx.fillStyle = '#6b7280';
+                    ctx.font = '12px Arial';
+                    ctx.fillText(String(pluginCfg.text2 || ''), x, y + 14);
+
+                    ctx.restore();
+                }
+            });
+
+            pluginsRegisteredCIM = true;
+        }
+    </script>
+</body>
+</html>
