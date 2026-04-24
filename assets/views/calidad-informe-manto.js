@@ -11,7 +11,7 @@ let chartTextureTrendCIM = null;
 let cimPluginsRegistered = false;
 
 const TEXTURE_LABELS_CIM = {
-    1: '1 Muy mal',
+    1: '1 Mal',
     2: '2 Regular',
     3: '3 Característico',
     4: '4 Bueno',
