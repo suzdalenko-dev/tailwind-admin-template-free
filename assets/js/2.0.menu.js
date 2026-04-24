@@ -1,5 +1,5 @@
 let menuData = [
-  { title: 'Calidad', icon: '🧪', roles: ['calidad;fabrica;produccion;produccion20;produccion30;zzircon;'], submenu: [
+  { title: 'Calidad', icon: '🧪', roles: ['calidad;fabrica;produccion;produccion20;produccion30;zzircon;mantenimiento;'], submenu: [
     { title: 'Trazabilidad', icon: '🔗', view: 'trazabilidad-ordenes-fabricacion', roles: ['calidad;fabrica;produccion;produccion20;produccion30;'] },
     { title: 'Bloqueos', icon: '🔒', view: 'stock-bloqueado-situacion-calidad', roles: ['calidad;produccion;produccion20;produccion30;'] },
     { title: 'Consulta Pal.', icon: '🔎', view: 'consulta-caracteristicas-lote', roles: ['calidad;fabrica;produccion;produccion20;produccion30;'] },
@@ -9,7 +9,7 @@ let menuData = [
       { title: 'Plantillas', icon: '', submenu: null , view: 'calidad-inspecciones-plantillas-excel', roles: ['calidad;'] },
       { title: 'Informe', icon: '', submenu: null , view: 'calidad-inspecciones-informe', roles: ['calidad;'] },
     ]},
-    { title: 'Informe Manto', icon: '📄', submenu: null , view: 'calidad-informe-manto', roles: ['calidad;produccion;produccion20;zzircon;'] },
+    { title: 'Informe Manto', icon: '📄', submenu: null , view: 'calidad-informe-manto', roles: ['calidad;produccion;produccion20;zzircon;mantenimiento;'] },
   ]}, 
 
   
