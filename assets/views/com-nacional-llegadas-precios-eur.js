@@ -147,13 +147,13 @@ function renderTableCNLPE() {
 
 
 /* helpers */
+/* helpers */
 function formatDate(dt) {
     if (!dt || dt === 'None') return '';
     const d = new Date(dt);
     if (isNaN(d.getTime())) return '';
     return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 }
-
 
 function getFilteredLinesForExportCNLPE() {
     const inputValue = (localStorage.getItem('searched_line_cnlpe') || '').toLowerCase();
@@ -166,17 +166,17 @@ function getFilteredLinesForExportCNLPE() {
             if (!inputValue) return true;
 
             const text = (
-                nn(line.CODIGO_FAMILIA) + ' ' +
-                nn(line.D_CODIGO_FAMILIA) + ' ' +
-                nn(line.ARTICULO) + ' ' +
-                nn(line.DESCRIP_COMERCIAL) + ' ' +
-                nn(line.CONTENEDOR) + ' ' +
-                nn(line.D_CLAVE_ARANCEL) + ' ' +
-                nn(line.FECHA_PREV_LLEGADA) + ' ' +
-                nn(line.D_PLANTILLA) + ' ' +
-                nn(line.PROVEEDOR) + ' ' +
-                nn(line.D_PROVEEDOR_HOJA) + ' ' +
-                nn(line.NUM_EXPEDIENTE) + '-' + nn(line.NUM_HOJA) + ' ' +
+                nn(line.CODIGO_FAMILIA) +
+                nn(line.D_CODIGO_FAMILIA) +
+                nn(line.ARTICULO) +
+                nn(line.DESCRIP_COMERCIAL) +
+                nn(line.CONTENEDOR) +
+                nn(line.D_CLAVE_ARANCEL) +
+                nn(line.FECHA_PREV_LLEGADA) +
+                nn(line.D_PLANTILLA) +
+                nn(line.PROVEEDOR) +
+                nn(line.D_PROVEEDOR_HOJA) +
+                nn(line.NUM_EXPEDIENTE) + '-' + nn(line.NUM_HOJA) +
                 nn(line.BUQUE)
             ).toLowerCase();
 
@@ -187,18 +187,13 @@ function getFilteredLinesForExportCNLPE() {
             rows.push({
                 backColorBlue: nn(y.BACK_COLOR).toUpperCase() === 'BLUE',
                 data: [
-                    nn(y.D_CODIGO_FAMILIA),
                     `${nn(y.ARTICULO)} ${nn(y.DESCRIP_COMERCIAL)}`.trim(),
                     nn(y.CONTENEDOR),
                     fEurEntero(y.CANTIDAD1),
                     fEur000(y.PRECIO),
-                    fEur0000(y.VALOR_CAMBIO),
-                    fEur000(y.PRECIO_CON_GASTOS),
-                    nn(y.LUGAR_EMBARQUE),
                     fEur000(y._PRECIO_EUR_ACTUAL),
                     fEur0000(y._VALOR_CAMBIO_ACTUAL),
-                    fEur000(y._GASTOS),
-                    fEur000(y._PRECIO_EUR_ACTUAL_CG) == '0,00' ? '' : fEur000(y._PRECIO_EUR_ACTUAL_CG),
+                    fEur000(y._PRECIO_EUR_ACTUAL_CG) === '0,00' ? '' : fEur000(y._PRECIO_EUR_ACTUAL_CG),
                     formatDate(y.FECHA_EMBARQUE),
                     formatDate(y.FECHA_PREV_LLEGADA),
                     nn(y.LUGAR_DESEMBARQUE),
@@ -211,7 +206,7 @@ function getFilteredLinesForExportCNLPE() {
         if (filtered.length > 0) {
             rows.push({
                 isSeparator: true,
-                data: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+                data: ['', '', '', '', '', '', '', '', '', '', '', '']
             });
         }
     });
@@ -226,7 +221,7 @@ function getFilteredLinesForExportCNLPE() {
 function getExportFileNameCNLPE(ext) {
     const first = window.localStorage.getItem('first_date_cnlpe') || '';
     const second = window.localStorage.getItem('second_date_cnlpe') || '';
-    return `llegadas_${first || 'desde'}_${second || 'hasta'}.${ext}`;
+    return `llegadas_pendientes_${first || 'desde'}_${second || 'hasta'}.${ext}`;
 }
 
 function getNowStrCNLPE() {
@@ -253,46 +248,36 @@ function createExceCNLPE() {
     }
 
     const headers = [[
-        'Familia',
         'Artículo',
-        'Contenedor',
-        'Cantidad',
-        'Precio',
-        'Cambio EXP',
-        'Precio c/gastos',
-        'Lugar embarque',
-        'Precio eur actual',
+        'Cont.',
+        'Kg',
+        'Precio $',
+        'Prec €',
         'Cambio MES',
-        'Gastos',
-        'Precio eur actual c/g',
-        'Fecha embarque',
-        'Fecha prev. llegada',
-        'Lugar desembarque',
+        'Precio C/G',
+        'Embarque',
+        'Llegada',
+        'Puerto',
         'Proveedor',
-        'Expediente'
+        'Exp'
     ]];
 
     const data = headers.concat(
-        rows.map(r => r.isSeparator ? ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''] : r.data)
+        rows.map(r => r.isSeparator ? ['', '', '', '', '', '', '', '', '', '', '', ''] : r.data)
     );
 
     const ws = XLSX.utils.aoa_to_sheet(data);
 
     ws['!cols'] = [
-        { wch: 18 },
-        { wch: 38 },
+        { wch: 45 },
         { wch: 16 },
+        { wch: 12 },
         { wch: 12 },
         { wch: 12 },
         { wch: 14 },
-        { wch: 16 },
-        { wch: 22 },
-        { wch: 15 },
-        { wch: 18 },
-        { wch: 12 },
-        { wch: 18 },
         { wch: 14 },
-        { wch: 16 },
+        { wch: 14 },
+        { wch: 14 },
         { wch: 22 },
         { wch: 24 },
         { wch: 16 }
@@ -337,7 +322,7 @@ function createPDFCNLPE() {
 
     const pageW = doc.internal.pageSize.getWidth();
     const pageH = doc.internal.pageSize.getHeight();
-    const margin = 11;
+    const margin = 7;
 
     function drawHeader(pageNo = 1) {
         doc.setFillColor(248);
@@ -366,39 +351,32 @@ function createPDFCNLPE() {
     }
 
     const HEAD = [[
-        'Familia',
         'Artículo',
         'Cont.',
-        'Cant.',
-        'Precio',
-        'Cambio EXP',
-        'P. c/g.',
-        'Lugar emb.',
-        'P. eur act.',
+        'Kg',
+        'Precio $',
+        'Prec €',
         'Cambio MES',
-        'Gastos',
-        'P. eur act. c/g',
-        'F. emb.',
-        'F. prev.',
-        'Lugar des.',
+        'Precio C/G',
+        'Embarque',
+        'Llegada',
+        'Puerto',
         'Proveedor',
-        'Exp.'
+        'Exp'
     ]];
-
 
     const body = [];
     const normalRowFlags = [];
 
-    
     rows.forEach(r => {
         if (r.isSeparator) {
             body.push([{
                 content: '',
-                colSpan: 17,
+                colSpan: 12,
                 styles: {
                     lineWidth: { top: 1 },
                     lineColor: [0, 0, 0],
-                    minCellHeight: 0,
+                    minCellHeight: 2,
                     cellPadding: 0,
                     fillColor: [255, 255, 255]
                 }
@@ -417,9 +395,9 @@ function createPDFCNLPE() {
         theme: 'plain',
         showHead: 'everyPage',
         styles: {
-            fontSize: 6,
-            cellPadding: { top: 1, right: 0.1, bottom: 1, left: 0.1 },
-            minCellHeight: 10,
+            fontSize: 7,
+            cellPadding: { top: 2, right: 1, bottom: 2, left: 1 },
+            minCellHeight: 11,
             overflow: 'ellipsize',
             halign: 'center',
             valign: 'middle',
@@ -429,27 +407,21 @@ function createPDFCNLPE() {
             fillColor: [67, 56, 202],
             textColor: [255, 255, 255],
             fontStyle: 'bold',
-            halign: 'center',
-            cellPadding: { top: 1, right: 0.1, bottom: 1, left: 0.1 }
+            halign: 'center'
         },
         columnStyles: {
-            0:  { halign: 'left',   cellWidth: 45 },
-            1:  { halign: 'left',   cellWidth: 110, overflow: 'linebreak' },
-            2:  { halign: 'center', cellWidth: 35 },
-            3:  { halign: 'center', cellWidth: 28 },
-            4:  { halign: 'center', cellWidth: 32 },
-            5:  { halign: 'center', cellWidth: 36 },
-            6:  { halign: 'center', cellWidth: 38 },
-            7:  { halign: 'left',   cellWidth: 55 },
-            8:  { halign: 'center', cellWidth: 38 },
-            9:  { halign: 'center', cellWidth: 40 },
-            10: { halign: 'center', cellWidth: 32 },
-            11: { halign: 'center', cellWidth: 45 },
-            12: { halign: 'center', cellWidth: 36 },
-            13: { halign: 'center', cellWidth: 36 },
-            14: { halign: 'left',   cellWidth: 50 },
-            15: { halign: 'left',   cellWidth: 58, overflow: 'linebreak' },
-            16: { halign: 'center', cellWidth: 38 }
+            0:  { halign: 'left',   cellWidth: 180, overflow: 'linebreak' },
+            1:  { halign: 'center', cellWidth: 55 },
+            2:  { halign: 'center', cellWidth: 50 },
+            3:  { halign: 'center', cellWidth: 50 },
+            4:  { halign: 'center', cellWidth: 50 },
+            5:  { halign: 'center', cellWidth: 60 },
+            6:  { halign: 'center', cellWidth: 60 },
+            7:  { halign: 'center', cellWidth: 55 },
+            8:  { halign: 'center', cellWidth: 55 },
+            9:  { halign: 'left',   cellWidth: 85 },
+            10: { halign: 'left',   cellWidth: 95, overflow: 'linebreak' },
+            11: { halign: 'center', cellWidth: 55 }
         },
         didParseCell: function (data) {
             if (data.section !== 'body') return;
