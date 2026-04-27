@@ -108,17 +108,12 @@ function renderTableCNLPE() {
             }
 
             html += `<tr${rowStyle}>
-                <td class="fontssmall border px-2 py-1 text-left">${nn(y.D_CODIGO_FAMILIA)}</td>
                 <td class="fontssmall border px-2 py-1 text-left">${nn(y.ARTICULO)} ${nn(y.DESCRIP_COMERCIAL)}</td>
                 <td class="fontssmall border px-2 py-1 text-center">${nn(y.CONTENEDOR)}</td>
                 <td class="fontssmall border px-2 py-1 text-center">${fEurEntero(y.CANTIDAD1)}</td>
                 <td class="fontssmall border px-2 py-1 text-center">${fEur000(y.PRECIO)}</td>
-                <td class="fontssmall border px-2 py-1 text-center">${fEur0000(y.VALOR_CAMBIO)}</td>
-                <td class="fontssmall border px-2 py-1 text-center">${fEur000(y.PRECIO_CON_GASTOS)}</td>
-                <td class="fontssmall border px-2 py-1 text-left">${nn(y.LUGAR_EMBARQUE)}</td>
                 <td class="fontssmall border px-2 py-1 text-center">${fEur000(y._PRECIO_EUR_ACTUAL)}</td>
                 <td class="fontssmall border px-2 py-1 text-center">${fEur0000(y._VALOR_CAMBIO_ACTUAL)}</td>
-                <td class="fontssmall border px-2 py-1 text-center">${fEur000(y._GASTOS)}</td>
                 <td class="fontssmall border px-2 py-1 text-center">${fEur000(y._PRECIO_EUR_ACTUAL_CG) == '0,00' ? '' : fEur000(y._PRECIO_EUR_ACTUAL_CG)}</td>
                 <td class="fontssmall border px-2 py-1 text-center">${formatDate(y.FECHA_EMBARQUE)}</td>
                 <td class="fontssmall border px-2 py-1 text-center">${formatDate(y.FECHA_PREV_LLEGADA)}</td>
@@ -136,6 +131,21 @@ function renderTableCNLPE() {
     document.getElementById('tableLLEI').innerHTML = html || '<tr><td colspan="17">Sin resultados</td></tr>';
 }
 
+/*
+<td class="fontssmall border px-2 py-1 text-left">${nn(y.D_CODIGO_FAMILIA)}</td>
+<td class="fontssmall border px-2 py-1 text-center">${fEur0000(y.VALOR_CAMBIO)}</td>
+<td class="fontssmall border px-2 py-1 text-center">${fEur000(y.PRECIO_CON_GASTOS)}</td>
+<td class="fontssmall border px-2 py-1 text-left">${nn(y.LUGAR_EMBARQUE)}</td>
+<td class="fontssmall border px-2 py-1 text-center">${fEur000(y._GASTOS)}</td>
+*/
+
+
+
+
+
+
+
+
 /* helpers */
 function formatDate(dt) {
     if (!dt || dt === 'None') return '';
@@ -143,15 +153,6 @@ function formatDate(dt) {
     if (isNaN(d.getTime())) return '';
     return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 }
-
-
-
-
-
-
-
-
-
 
 
 function getFilteredLinesForExportCNLPE() {
