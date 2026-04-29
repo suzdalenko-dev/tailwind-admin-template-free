@@ -10,28 +10,30 @@ let chartGlobalTextureCIM = null;
 let chartTextureTrendCIM = null;
 let cimPluginsRegistered = false;
 
+const TEXTURE_VALUES_CIM = [0, 1, 2, 3, 4];
+
 const TEXTURE_LABELS_CIM = {
-    1: '1 Mal',
-    2: '2 Regular',
-    3: '3 Característico',
-    4: '4 Bueno',
-    5: '5 Muy bien'
+    0: '0 Malo',
+    1: '1 Regular',
+    2: '2 Característico',
+    3: '3 Bueno',
+    4: '4 Muy bueno'
 };
 
 const TEXTURE_COLORS_CIM = {
-    1: '#ff2d2d',
-    2: '#ff8a1f',
-    3: '#ffd54a',
-    4: '#73d13d',
-    5: '#00c853'
+    0: '#ff2d2d',
+    1: '#ff8a1f',
+    2: '#ffd54a',
+    3: '#73d13d',
+    4: '#00c853'
 };
 
 const TEXTURE_LABEL_COLORS_CIM = {
+    0: '#ffffff',
     1: '#ffffff',
-    2: '#ffffff',
-    3: '#111827',
-    4: '#0f172a',
-    5: '#ffffff'
+    2: '#111827',
+    3: '#0f172a',
+    4: '#ffffff'
 };
 
 function calidadInformeMantoInit(){
@@ -176,15 +178,15 @@ function paintKPIsCIM(lines){
 
     weightedLines.forEach(item => {
         kgTotal += item.kg;
-        weightedTextureTotal += (item.kg * item.texture);
+        weightedTextureTotal += item.kg * item.texture;
 
-        if (item.texture >= 3) kgGood += item.kg;
-        if (item.texture <= 2) kgBad += item.kg;
+        if (item.texture >= 2) kgGood += item.kg;
+        if (item.texture <= 1) kgBad += item.kg;
     });
 
-    const weightedAvg = kgTotal > 0 ? (weightedTextureTotal / kgTotal) : 0;
-    const pctGood = kgTotal > 0 ? ((kgGood / kgTotal) * 100) : 0;
-    const pctBad = kgTotal > 0 ? ((kgBad / kgTotal) * 100) : 0;
+    const weightedAvg = kgTotal > 0 ? weightedTextureTotal / kgTotal : 0;
+    const pctGood = kgTotal > 0 ? kgGood / kgTotal * 100 : 0;
+    const pctBad = kgTotal > 0 ? kgBad / kgTotal * 100 : 0;
 
     const avgEl = document.getElementById('kpiAvgTextureCIM');
     if (avgEl) {
@@ -205,7 +207,7 @@ function paintKPIsCIM(lines){
     } else {
         setHtmlCIM(
             'weightedInfoCIM',
-            'No hay líneas con A2B numérico > 0 y A13D entre 1 y 5 para construir la parte ponderada.'
+            'No hay líneas con A2B numérico > 0 y A13D entre 0 y 4 para construir la parte ponderada.'
         );
     }
 
@@ -249,6 +251,7 @@ function buildArticleFilterOptionsCIM(lines){
     });
 
     let html = `<option value="">Todos los artículos</option>`;
+
     items.forEach(item => {
         html += `<option value="${escapeHtmlCIM(item.code)}">${escapeHtmlCIM((item.code + ' ' + item.desc).trim())}</option>`;
     });
@@ -297,7 +300,7 @@ function renderTextureByArticleChartCIM(rows){
 
     const labels = rows.map(r => r.label);
 
-    const datasets = [1,2,3,4,5].map(texture => ({
+    const datasets = TEXTURE_VALUES_CIM.map(texture => ({
         label: TEXTURE_LABELS_CIM[texture],
         data: rows.map(r => r.totalKg > 0 ? Number(((r.totals[texture] / r.totalKg) * 100).toFixed(2)) : 0),
         rawKg: rows.map(r => r.totals[texture]),
@@ -369,15 +372,15 @@ function renderGlobalTextureChartCIM(global){
         chartGlobalTextureCIM = null;
     }
 
-    const data = [1,2,3,4,5].map(t => global.totals[t] || 0);
+    const data = TEXTURE_VALUES_CIM.map(t => global.totals[t] || 0);
 
     chartGlobalTextureCIM = new Chart(canvas, {
         type: 'doughnut',
         data: {
-            labels: [1,2,3,4,5].map(t => TEXTURE_LABELS_CIM[t]),
+            labels: TEXTURE_VALUES_CIM.map(t => TEXTURE_LABELS_CIM[t]),
             datasets: [{
                 data,
-                backgroundColor: [1,2,3,4,5].map(t => TEXTURE_COLORS_CIM[t]),
+                backgroundColor: TEXTURE_VALUES_CIM.map(t => TEXTURE_COLORS_CIM[t]),
                 borderColor: '#ffffff',
                 borderWidth: 2
             }]
@@ -394,7 +397,7 @@ function renderGlobalTextureChartCIM(global){
                         label: function(context){
                             const total = global.totalKg || 0;
                             const value = context.parsed || 0;
-                            const pct = total > 0 ? ((value / total) * 100) : 0;
+                            const pct = total > 0 ? value / total * 100 : 0;
                             return `${context.label}: ${fmtCIM(value, 2)} kg (${fmtCIM(pct, 1)}%)`;
                         }
                     }
@@ -413,9 +416,9 @@ function renderGlobalTextureChartCIM(global){
 function renderGlobalLegendCIM(global){
     let html = '';
 
-    [1,2,3,4,5].forEach(texture => {
+    TEXTURE_VALUES_CIM.forEach(texture => {
         const kg = global.totals[texture] || 0;
-        const pct = global.totalKg > 0 ? ((kg / global.totalKg) * 100) : 0;
+        const pct = global.totalKg > 0 ? kg / global.totalKg * 100 : 0;
 
         html += `
             <div class="cim-legend-row">
@@ -464,8 +467,8 @@ function renderMonthlyTrendChartCIM(monthly){
             animation: false,
             scales: {
                 y: {
-                    min: 1,
-                    max: 5,
+                    min: 0,
+                    max: 4,
                     grid: { color: '#e5e7eb' },
                     ticks: {
                         stepSize: 1,
@@ -505,7 +508,7 @@ function aggregateByArticleWeightedCIM(lines){
             map[key] = {
                 key,
                 label: (code + ' ' + desc).trim(),
-                totals: {1:0,2:0,3:0,4:0,5:0},
+                totals: {0:0, 1:0, 2:0, 3:0, 4:0},
                 totalKg: 0
             };
         }
@@ -521,7 +524,7 @@ function aggregateGlobalWeightedCIM(lines){
     const valid = getWeightedTextureLinesCIM(lines);
 
     const res = {
-        totals: {1:0,2:0,3:0,4:0,5:0},
+        totals: {0:0, 1:0, 2:0, 3:0, 4:0},
         totalKg: 0
     };
 
@@ -549,7 +552,7 @@ function aggregateMonthlyWeightedCIM(lines, dateFrom, dateTo){
             map[monthKey] = { weighted:0, kg:0 };
         }
 
-        map[monthKey].weighted += (item.kg * item.texture);
+        map[monthKey].weighted += item.kg * item.texture;
         map[monthKey].kg += item.kg;
     });
 
@@ -571,7 +574,7 @@ function getWeightedTextureLinesCIM(lines){
         const texture = parseTextureNumberCIM(line.A13D);
         const kg = getWeightForChartsCIM(line);
 
-        if (texture && kg) {
+        if (texture !== null && kg) {
             res.push({ line, texture, kg });
         }
     });
@@ -586,8 +589,11 @@ function getWeightForChartsCIM(line){
 }
 
 function parseTextureNumberCIM(value){
-    const n = Number(normalizeValueCIM(value));
-    return [1,2,3,4,5].includes(n) ? n : null;
+    const txt = normalizeValueCIM(value);
+    if (txt === '') return null;
+
+    const n = Number(txt);
+    return TEXTURE_VALUES_CIM.includes(n) ? n : null;
 }
 
 function parseEsNumberCIM(value){
@@ -605,7 +611,7 @@ function buildLoteLabelCIM(line){
     const loteProveedor = String(line.LOTE_PROVEEDOR || '').trim();
 
     if (loteInterno && loteProveedor && loteInterno !== loteProveedor) {
-        return `${loteInterno == 'None' ? '' : loteInterno} / ${loteProveedor == 'None' ? '' : loteProveedor}`;
+        return `${loteInterno === 'None' ? '' : loteInterno} / ${loteProveedor === 'None' ? '' : loteProveedor}`;
     }
 
     if (loteInterno && loteInterno !== 'None') return loteInterno;
@@ -637,7 +643,8 @@ function fmtCIM(value, decimals = 2){
 
 function renderTextureCellCIM(value){
     const n = parseTextureNumberCIM(value);
-    if (!n) return '';
+    if (n === null) return '';
+
     return `<span class="cim-pill cim-tx${n}" title="${escapeHtmlCIM(TEXTURE_LABELS_CIM[n])}">${n}</span>`;
 }
 
@@ -678,10 +685,10 @@ function createMonthKeysBetweenCIM(dateFrom, dateTo){
 function getTextureColorByValueCIM(value){
     const v = Number(value || 0);
 
-    if (v < 1.5) return '#ff2d2d';
-    if (v < 2.5) return '#ff8a1f';
-    if (v < 3.5) return '#d4a900';
-    if (v < 4.5) return '#4fbf2f';
+    if (v < 0.5) return '#ff2d2d';
+    if (v < 1.5) return '#ff8a1f';
+    if (v < 2.5) return '#d4a900';
+    if (v < 3.5) return '#4fbf2f';
     return '#00c853';
 }
 
