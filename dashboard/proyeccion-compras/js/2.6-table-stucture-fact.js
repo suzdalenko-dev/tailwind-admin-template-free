@@ -206,8 +206,9 @@ function getFactTable(
                                         <br>
                                     </td>
                                 </tr>
+                                <!--
                                 <tr>
-                                    <td class="border px-2 py-1 text-center color_grey">Entr. R</td>
+                                    <td class="border px-2 py-1 text-center color_grey">Entr. R TOP</td>
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[0].entra_real_tramo) }</td>
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[1].entra_real_tramo) }</td>
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[2].entra_real_tramo) }</td>
@@ -236,7 +237,7 @@ function getFactTable(
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[25].entra_real_tramo ) }</td>
                                 </tr>
                                 <tr>
-                                    <td class="border px-2 py-1 text-center color_grey">Stock R</td>
+                                    <td class="border px-2 py-1 text-center color_grey">Stock R TOP</td>
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[0].stock_real_tramo) }</td>
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[1].stock_real_tramo) }</td>
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[2].stock_real_tramo) }</td>
@@ -264,6 +265,7 @@ function getFactTable(
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[24].stock_real_tramo ) }</td>
                                     <td class="border px-2 py-1 text-center color_grey">${ fENN0(m[25].stock_real_tramo ) }</td>
                                 </tr>
+                                -->
                             </tbody>
                  
                     </table>

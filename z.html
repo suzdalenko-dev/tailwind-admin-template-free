@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Stock real y proyectado</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f4f7fb;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #111827;
+            padding: 28px;
+        }
+
+        .page {
+            max-width: 1250px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 22px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+            padding: 22px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle {
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .badge {
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+            color: #374151;
+            border-radius: 999px;
+            padding: 7px 11px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .kpi {
+            background: #f9fafb;
+            border: 1px solid #edf0f3;
+            border-radius: 16px;
+            padding: 13px 15px;
+        }
+
+        .kpi-label {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .kpi-value {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .chart-wrap {
+            height: 520px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        @media (max-width: 800px) {
+            body {
+                padding: 14px;
+            }
+
+            .header {
+                flex-direction: column;
+            }
+
+            .badges {
+                justify-content: flex-start;
+            }
+
+            .kpis {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-wrap {
+                height: 420px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+    <div class="card">
+
+        <div class="header">
+            <div>
+                <h1>Stock real y proyectado</h1>
+                <div class="subtitle">
+                    Evolución de stock: 24 tramos anteriores + 24 tramos posteriores a la fecha de corte.
+                </div>
+            </div>
+
+            <div class="badges">
+                <div class="badge" id="badgeFechaCorte">Fecha corte: -</div>
+                <div class="badge">48 tramos</div>
+                <div class="badge">Real + proyectado</div>
+            </div>
+        </div>
+
+        <div class="kpis">
+            <div class="kpi">
+                <div class="kpi-label">Stock en fecha corte</div>
+                <div class="kpi-value" id="kpiStockCorte">-</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">Stock mínimo proyectado</div>
+                <div class="kpi-value" id="kpiStockMinimo">-</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">Stock final proyectado</div>
+                <div class="kpi-value" id="kpiStockFinal">-</div>
+            </div>
+        </div>
+
+        <div class="chart-wrap">
+            <canvas id="stockChart"></canvas>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const FECHA_CORTE = new Date();
+
+    const TRAMOS_ATRAS = 24;
+    const TRAMOS_ADELANTE = 24;
+    const TOTAL_TRAMOS = TRAMOS_ATRAS + TRAMOS_ADELANTE;
+
+    // El índice donde está la fecha de corte.
+    const CORTE_INDEX = TRAMOS_ATRAS;
+
+    const MESES = [
+        "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+    ];
+
+    function formatKg(value) {
+        return new Intl.NumberFormat("es-ES", {
+            maximumFractionDigits: 0
+        }).format(value) + " kg";
+    }
+
+    function formatDate(date) {
+        return new Intl.DateTimeFormat("es-ES", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }).format(date);
+    }
+
+    function currentSemiMonthIndex(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const half = date.getDate() <= 15 ? 0 : 1;
+
+        return year * 24 + month * 2 + half;
+    }
+
+    function semiMonthRangeFromIndex(index) {
+        const year = Math.floor(index / 24);
+        const rest = index - year * 24;
+        const month = Math.floor(rest / 2);
+        const half = rest % 2;
+
+        const desde = half === 0
+            ? new Date(year, month, 1)
+            : new Date(year, month, 16);
+
+        const hasta = half === 0
+            ? new Date(year, month, 15)
+            : new Date(year, month + 1, 0);
+
+        return { desde, hasta, year, month, half };
+    }
+
+    function labelTramo(range) {
+        const d1 = String(range.desde.getDate()).padStart(2, "0");
+        const d2 = String(range.hasta.getDate()).padStart(2, "0");
+        const mes = MESES[range.month];
+        const year = String(range.year).slice(2);
+
+        return `${d1}-${d2} ${mes} ${year}`;
+    }
+
+    function pseudoRandom(index, min, max) {
+        const x = Math.sin(index * 937.77) * 10000;
+        const r = x - Math.floor(x);
+        return Math.round(min + r * (max - min));
+    }
+
+    function buildDemoData() {
+        const labels = [];
+        const rangos = [];
+
+        const stockReal = [];
+        const stockProyectado = [];
+
+        const stockCompleto = [];
+
+        let stock = 24000;
+
+        const startIndex = currentSemiMonthIndex(FECHA_CORTE) - TRAMOS_ATRAS;
+
+        for (let i = 0; i < TOTAL_TRAMOS; i++) {
+            const globalIndex = startIndex + i;
+            const range = semiMonthRangeFromIndex(globalIndex);
+
+            labels.push(labelTramo(range));
+            rangos.push(range);
+
+            let entrada = 0;
+            let consumo = 0;
+
+            if (i < CORTE_INDEX) {
+                // Histórico: simula movimientos ya reales.
+                entrada = pseudoRandom(globalIndex + 10, 0, 5200);
+                consumo = pseudoRandom(globalIndex + 30, 2500, 6500);
+
+                if (i % 5 === 0) entrada = 0;
+            } else {
+                // Futuro: simula movimientos previstos.
+                entrada = pseudoRandom(globalIndex + 50, 0, 8000);
+                consumo = pseudoRandom(globalIndex + 70, 3000, 7000);
+
+                if (i % 4 === 0) entrada += 4000;
+                if (i % 7 === 0) entrada = 0;
+            }
+
+            stock = stock + entrada - consumo;
+
+            if (stock < 0) {
+                stock = 0;
+            }
+
+            stockCompleto.push(stock);
+
+            // Línea real hasta la fecha de corte.
+            if (i <= CORTE_INDEX) {
+                stockReal.push(stock);
+            } else {
+                stockReal.push(null);
+            }
+
+            // Línea proyectada desde la fecha de corte.
+            // Se incluye el punto de corte para que la línea futura empiece conectada.
+            if (i >= CORTE_INDEX) {
+                stockProyectado.push(stock);
+            } else {
+                stockProyectado.push(null);
+            }
+        }
+
+        return {
+            labels,
+            rangos,
+            stockReal,
+            stockProyectado,
+            stockCompleto
+        };
+    }
+
+    const data = buildDemoData();
+
+    document.getElementById("badgeFechaCorte").textContent = "Fecha corte: " + formatDate(FECHA_CORTE);
+
+    const stockCorte = data.stockCompleto[CORTE_INDEX];
+    const stockFinal = data.stockCompleto[data.stockCompleto.length - 1];
+
+    const stockFuturo = data.stockCompleto.slice(CORTE_INDEX);
+    const stockMinimo = Math.min(...stockFuturo);
+
+    document.getElementById("kpiStockCorte").textContent = formatKg(stockCorte);
+    document.getElementById("kpiStockMinimo").textContent = formatKg(stockMinimo);
+    document.getElementById("kpiStockFinal").textContent = formatKg(stockFinal);
+
+    const zonasPlugin = {
+        id: "zonasPlugin",
+        beforeDraw(chart) {
+            const { ctx, chartArea, scales } = chart;
+
+            if (!chartArea) return;
+
+            const x = scales.x;
+            const cortePixel = x.getPixelForValue(CORTE_INDEX);
+
+            ctx.save();
+
+            // Zona real
+            ctx.fillStyle = "rgba(17, 24, 39, 0.025)";
+            ctx.fillRect(
+                chartArea.left,
+                chartArea.top,
+                cortePixel - chartArea.left,
+                chartArea.bottom - chartArea.top
+            );
+
+            // Zona proyectada
+            ctx.fillStyle = "rgba(37, 99, 235, 0.045)";
+            ctx.fillRect(
+                cortePixel,
+                chartArea.top,
+                chartArea.right - cortePixel,
+                chartArea.bottom - chartArea.top
+            );
+
+            ctx.restore();
+        }
+    };
+
+    const fechaCortePlugin = {
+        id: "fechaCortePlugin",
+        afterDraw(chart) {
+            const { ctx, chartArea, scales } = chart;
+
+            if (!chartArea) return;
+
+            const x = scales.x;
+            const xPos = x.getPixelForValue(CORTE_INDEX);
+
+            ctx.save();
+
+            ctx.beginPath();
+            ctx.moveTo(xPos, chartArea.top);
+            ctx.lineTo(xPos, chartArea.bottom);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "rgba(37, 99, 235, 0.8)";
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+
+            const label = "FECHA CORTE";
+            ctx.font = "700 11px system-ui, sans-serif";
+            const textWidth = ctx.measureText(label).width;
+
+            const boxWidth = textWidth + 18;
+            const boxHeight = 24;
+            const boxX = Math.min(
+                Math.max(xPos - boxWidth / 2, chartArea.left + 4),
+                chartArea.right - boxWidth - 4
+            );
+            const boxY = chartArea.top + 10;
+
+            ctx.fillStyle = "rgba(37, 99, 235, 0.95)";
+            roundedRect(ctx, boxX, boxY, boxWidth, boxHeight, 12);
+            ctx.fill();
+
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(label, boxX + boxWidth / 2, boxY + boxHeight / 2);
+
+            ctx.restore();
+        }
+    };
+
+    function roundedRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + width, y, x + width, y + height, radius);
+        ctx.arcTo(x + width, y + height, x, y + height, radius);
+        ctx.arcTo(x, y + height, x, y, radius);
+        ctx.arcTo(x, y, x + width, y, radius);
+        ctx.closePath();
+    }
+
+    Chart.register(zonasPlugin, fechaCortePlugin);
+
+    const ctx = document.getElementById("stockChart");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: data.labels,
+            datasets: [
+                {
+                    label: "Stock real",
+                    data: data.stockReal,
+                    borderColor: "rgba(37, 99, 235, 1)",
+                    backgroundColor: "rgba(37, 99, 235, 0.10)",
+                    borderWidth: 3,
+                    pointRadius: 2,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: "rgba(37, 99, 235, 1)",
+                    tension: 0.35,
+                    fill: true,
+                    spanGaps: false
+                },
+                {
+                    label: "Stock proyectado",
+                    data: data.stockProyectado,
+                    borderColor: "rgba(37, 99, 235, 0.72)",
+                    backgroundColor: "rgba(37, 99, 235, 0.05)",
+                    borderWidth: 3,
+                    borderDash: [8, 6],
+                    pointRadius: 2,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: "rgba(37, 99, 235, 0.72)",
+                    tension: 0.35,
+                    fill: true,
+                    spanGaps: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: "index",
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: "top",
+                    align: "end",
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        boxHeight: 8,
+                        color: "#374151",
+                        font: {
+                            size: 12,
+                            weight: "600"
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: "rgba(17, 24, 39, 0.94)",
+                    titleColor: "#ffffff",
+                    bodyColor: "#e5e7eb",
+                    borderColor: "rgba(255, 255, 255, 0.12)",
+                    borderWidth: 1,
+                    padding: 12,
+                    cornerRadius: 12,
+                    callbacks: {
+                        title(items) {
+                            const index = items[0].dataIndex;
+                            const range = data.rangos[index];
+
+                            return `${data.labels[index]} · ${formatDate(range.desde)} - ${formatDate(range.hasta)}`;
+                        },
+                        label(context) {
+                            if (context.raw === null) return null;
+
+                            return `${context.dataset.label}: ${formatKg(context.raw)}`;
+                        },
+                        afterBody(items) {
+                            const index = items[0].dataIndex;
+
+                            if (index < CORTE_INDEX) {
+                                return ["", "Tipo: stock real histórico"];
+                            }
+
+                            if (index === CORTE_INDEX) {
+                                return ["", "Tipo: fecha de corte"];
+                            }
+
+                            return ["", "Tipo: stock proyectado"];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: "#6b7280",
+                        maxRotation: 0,
+                        autoSkip: false,
+                        callback(value, index) {
+                            if (index === CORTE_INDEX) return "HOY";
+
+                            // Para que no salgan las 48 etiquetas completas.
+                            if (index % 2 === 0) {
+                                return data.labels[index];
+                            }
+
+                            return "";
+                        },
+                        font: {
+                            size: 11
+                        }
+                    },
+                    border: {
+                        display: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: "#6b7280",
+                        callback(value) {
+                            return formatKg(value);
+                        }
+                    },
+                    grid: {
+                        color: "rgba(148, 163, 184, 0.18)"
+                    },
+                    border: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
