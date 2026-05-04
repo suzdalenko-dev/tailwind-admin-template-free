@@ -11,8 +11,18 @@
 </head>
 <body>
     <nav id="nav_fam"></nav>
+    <div class="title">
+        <h1>Proyección de stock y necesidades futuras de compra</h1>
+    </div>
     <main id="tables_content"></main>
-
+    <div class="title">
+        <p><strong>Observaciones:</strong></p>
+        <p><strong>Previsto:</strong> consumo previsto modificable.</p>
+        <p><strong>Real:</strong> consumo real registrado: ventas + producción.</p>
+        <p><strong>LY:</strong> consumo del año anterior: ventas + producción.</p>
+        <p><strong>Entrada:</strong> entradas previstas desde pedidos o contenedores. Fondo blanco: entrada con contenedor. Fondo amarillo: entrada sin contenedor. Borde azul: entrada modificada manualmente.</p>
+        <p><strong>Stock:</strong> STOCK = STOCK - (previsto - consumo real)</p>
+    </div>
     
 
     <script src="/dashboard/proyeccion-compras/js/0.1-functions.js"></script>
