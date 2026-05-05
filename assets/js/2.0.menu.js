@@ -71,8 +71,8 @@ let menuData = [
   { title: 'Comer Nacional', icon: '💰', roles: ['ventas;ventas20;'], submenu: [
     { title: 'Llegadas Pendientes', icon: '🧾', submenu: null , view: 'com-nacional-llegadas-precios-eur', roles: ['ventas;ventas20;'] },
   ]},
-  { title: 'RRHH', icon: '👥', roles: ['rrhh0;'], submenu: [
-    { title: 'Vacaciones de personal', icon: '📅', submenu: null , view: 'rrhh-personal-vacaciones', roles: ['rrhh0'] },
+  { title: 'RRHH', icon: '👥', roles: ['rrhh0;finanzas;adminlogistica;adminproduccion;'], submenu: [
+    { title: 'Vacaciones de personal', icon: '📅', submenu: null , view: 'rrhh-personal-vacaciones', roles: ['rrhh0;finanzas;adminlogistica;adminproduccion;'] },
   ]},
 
 

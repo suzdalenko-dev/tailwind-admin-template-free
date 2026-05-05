@@ -1,39 +1,39 @@
 function rrhhPersonalVacacionesInit(){
     document.title = 'Dias de vacaciones';
-
     let slugTitle = document.getElementById('slugTitle');
-    if(slugTitle){
-        slugTitle.innerHTML = '';
-    }
-
+    if(slugTitle){ slugTitle.innerHTML = ''; }
     getTableRRHH0();
 }
 
 function getTableRRHH0(){
     let tableRRHH0 = document.getElementById('tableRRHH0');
     if(tableRRHH0){
-        tableRRHH0.innerHTML = `<tr><td colspan="2" class="px-2 py-2 text-center">Cargando..</td></tr>`;
+        tableRRHH0.innerHTML = `<br>Cargando..`;
     }
 
-    fetch(HTTP_HOST + 'automatic/get/0/get_holidays/')
+    let user_id = window.localStorage.getItem('user_id') || 0;
+
+    fetch(HTTP_HOST + 'automatic/get/0/get_holidays/?user_id='+user_id)
         .then(r => r.json())
         .then(r => {
             let html = '';
 
             if(r && r.data && r.data.holidays && r.data.holidays.length > 0){
                 r.data.holidays.map(x => {
+                    let productor = x.productor ? x.productor : '';
                     let nombre = x.nombre ? x.nombre : '';
+                    let disfrutados = x.disfrutados ? x.disfrutados: '';
                     let pendientes = x.pendientes ? x.pendientes : '';
 
                     html += `<tr>
+                                <td class="border px-1 py-1 text-center">${productor}</td>
                                 <td class="border px-1 py-1">${nombre}</td>
+                                <td class="border px-1 py-1 text-center">${disfrutados}</td>
                                 <td class="border px-1 py-1 text-center">${pendientes}</td>
                              </tr>`;
                 });
             }else{
-                html = `<tr>
-                            <td colspan="2" class="border px-1 py-1 text-center">No hay datos</td>
-                        </tr>`;
+                html = `<br> No hay datos`;
             }
 
             if(tableRRHH0){
@@ -42,9 +42,7 @@ function getTableRRHH0(){
         })
         .catch(e => {
             if(tableRRHH0){
-                tableRRHH0.innerHTML = `<tr>
-                                            <td colspan="2" class="border px-1 py-1 text-center">Error al cargar</td>
-                                        </tr>`;
+                tableRRHH0.innerHTML = `<br>Error al cargar`;
             }
             showM('eB ' + e, 'error');
         });
