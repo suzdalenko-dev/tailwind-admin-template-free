@@ -97,6 +97,7 @@ function fENN(numero) {
 }
 
 function fEur0(numero) {
+  if (numero == 'None') return " ";
   const partes = numero.toString().split(".");
   const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   const decimal = partes[1] || "0";

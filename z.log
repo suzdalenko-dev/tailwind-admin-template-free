@@ -1,0 +1,56 @@
+Medidas dinámicas = {
+    --Importes ajustados
+    ("Importe Ajustado Actual", NAMEOF('Medidas'[MTD - Importe Neto ajustado]), 0),
+    ("Importe Ajustado N-1", NAMEOF('Medidas'[LMTD - Importe Neto ajustado]), 1),
+    
+    --Kilos
+    ("Kilos actual", NAMEOF('Medidas'[MTD - Kilos]), 2),
+    ("Kilos N-1", NAMEOF('Medidas'[LMTD - Kilos]), 3),
+    ("Dif Kilos", NAMEOF([DIF - Kilos]), 4),
+
+    --("Margen neto actual", NAMEOF('Medidas'[MTD - Margen neto]), 2),
+
+    --Precios
+    ("Precio €/Kg actual", NAMEOF('Medidas'[MTD - Precio medio €/Kg]), 5),
+    ("Precio €/Kg N-1", NAMEOF('Medidas'[LMTD - Precio medio €/Kg]), 6),
+    
+    --Masa de margen ajus
+    ("Masa de Mg Ajus (€)", NAMEOF([MTD - Masa de Margen ventas ajus]), 7),
+    ("Masa Mg Ajus N-1", NAMEOF([LMTD - Masa de Margen ventas]), 8),
+    ("Dif Masa Mg Ajus", NAMEOF([DIF - Masa de Margen ventas]), 9),
+    
+    --Margen
+    ("Mg €/Kg actual", NAMEOF([MTD - Margen €/KG ventas ajus]), 10),
+    ("Mg €/Kg N-1", NAMEOF([LMTD - Margen €/KG ventas]), 11),
+
+    --Margen bruto
+    ("PMV Bruto actual", NAMEOF('Medidas'[MTD - PMV Bruto]), 12),
+
+    --Precio medio venta
+    ("PMV Neto Ajus actual", NAMEOF('Medidas'[MTD - PMV Ajus]), 13), 
+    ("PMV Neto Ajus N-1", NAMEOF('Medidas'[LMTD - PMV]), 14),
+    
+    --Importe Presupuesto
+    ("Importe Presupuesto", NAMEOF('Medidas'[MTD - Importe Presupuesto]), 15),
+
+    --KG Presupuesto
+    ("Kilos Presupuesto", NAMEOF('Medidas'[MTD - Kilos Presupuesto]), 16),
+
+    --Margen Presupuesto
+    ("Margen €/KG Presupuesto", NAMEOF('Medidas'[MTD - Margen €/KG Presupuesto]), 17),
+
+    --Masa de Mg Presupuesto
+    ("Masa de Mg Presupuesto", NAMEOF([MTD - Masa de Margen Presupuesto]), 18),
+
+    --Importes
+    ("Importe Actual", NAMEOF([MTD - Importe Neto]), 19),
+
+     --Masa de margen
+    ("Masa de Mg (€)", NAMEOF([MTD - Margen]), 20)
+    
+
+    
+}
+
+tengo MTD - Importe Neto ajustado = SUM(V_BI_VENTAS[IMPORTE_NETO_LIN_AJUS_FF])
+PALETS_PEDIDO_UNA_LINEA = SUM(V_BI_VENTAS[PALETS_PEDIDO_UNA_LINEA])

@@ -23,10 +23,9 @@ let menuData = [
       { title: 'Llegadas e Histórico', icon: '', submenu: null , view: 'finanzas-llegadas-contenedores-e-historico', roles: ['finanzas;finanzas20;compras20;'] },
     ]},
 
-
     { title: 'Cuadro de Mando Financiero', icon: '🖥️', roles: ['finanzas'], submenu: [
       { title: 'Archivos', icon: '', submenu: null , view: 'finanzas-carga-archivos-excel', roles: ['finanzas'] },
-      { title: 'Informes', icon: '', submenu: null , view: 'power-bi?name=cuadro-de-mando-financiero', roles: ['finanzas'] },
+      { title: 'Informe', icon: '', submenu: null , view: 'power-bi?name=cuadro-de-mando-financiero', roles: ['finanzas'] },
     ]},
   ]},
   { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;mantenimiento;zzircon;'], submenu: [
@@ -76,7 +75,7 @@ let menuData = [
   ]},
 
 
-  { title: 'Power Bi', icon: '🟡', roles: ['compras-ale;produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;regional00;'], submenu: [
+  { title: 'Power Bi', icon: '🟡', roles: ['compras-ale;produccion;compras;ventas;ventas20;calidad;produccion20;finanzas;propietario;powerbi0;exportacion;produccion30;mantenimiento;compras20;regional00;abellogistica;'], submenu: [
      { title: 'Compras', icon: '', roles: ['compras;compras20;'], submenu: [
         { title: 'Salidas Elaboración', icon: '', submenu: null , view: 'power-bi?name=rotativo-salida-elaboracion', roles: ['compras;compras20;'] },
         { title: 'Inventario', icon: '', submenu: null , view: 'power-bi?name=inventario', roles: ['compras;'] },
@@ -117,8 +116,12 @@ let menuData = [
      ]},
      { title: 'Regional', icon: '', roles: ['regional00;'], submenu: [
         { title: 'Tabla dinamica. regional', icon: '', submenu: null , view: 'power-bi?name=regional-tabla-dinamica', roles: ['regional00;'] },
-     ]}
+     ]},
+     { title: 'Logística', icon: '', roles: ['abellogistica;'], submenu: [
+      { title: 'Informe Ventas', icon: '', submenu: null , view: 'power-bi?name=logistica-informe-ventas-general', roles: ['abellogistica;'] },
+    ]},
   ]}
 ];
 
 // como hacer dinamico
+// { title: 'Listado pedidos', icon: '🧾', submenu: null , view: 'logistica-listado-pedidos-total', roles: ['abellogistica;'] },
