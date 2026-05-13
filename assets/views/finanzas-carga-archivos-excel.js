@@ -86,8 +86,9 @@ function uploadExcelFile(file){
         } else {
             showM('Error desconocido', 'error');
         }
+        loadFCAE();
     }).catch(e => {
-
+        loadFCAE();
         showM(e, 'error');
     });
 }
@@ -96,6 +97,7 @@ function uploadExcelFile(file){
 function procesarArchivosFCAE(){
    fetch(HTTP_HOST + 'finanzas/x/0/0/update_excels_data/').then(r => r.json()).then(r => {
     showM('Archivos procesados '+ r.data.total_files);
+    loadFCAE();
    }).catch(e => {
     showM(e, 'error');
    })

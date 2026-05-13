@@ -22,11 +22,7 @@ let menuData = [
       { title: 'Contrato VS Recepción', icon: '', submenu: null , view: 'finanzas-contenedores-contrato-vs-recepcion', roles: ['finanzas;finanzas20;compras20;'] },
       { title: 'Llegadas e Histórico', icon: '', submenu: null , view: 'finanzas-llegadas-contenedores-e-historico', roles: ['finanzas;finanzas20;compras20;'] },
     ]},
-
-    { title: 'Cuadro de Mando Financiero', icon: '🖥️', roles: ['finanzas'], submenu: [
-      { title: 'Archivos', icon: '', submenu: null , view: 'finanzas-carga-archivos-excel', roles: ['finanzas'] },
-      { title: 'Informe', icon: '', submenu: null , view: 'power-bi?name=cuadro-de-mando-financiero', roles: ['finanzas'] },
-    ]},
+    { title: 'F. Archivos', icon: '🖥️', submenu: null , view: 'finanzas-carga-archivos-excel', roles: ['finanzas'] },
   ]},
   { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;mantenimiento;zzircon;'], submenu: [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion;produccion20;ventas;']},
@@ -119,6 +115,10 @@ let menuData = [
      ]},
      { title: 'Logística', icon: '', roles: ['abellogistica;'], submenu: [
       { title: 'Informe Ventas', icon: '', submenu: null , view: 'power-bi?name=logistica-informe-ventas-general', roles: ['abellogistica;'] },
+    ]},
+
+    { title: 'Administración', icon: '', roles: ['finanzas;'], submenu: [
+      { title: 'Cuadro de Mando', icon: '', submenu: null , view: 'power-bi?name=cuadro-de-mando-financiero', roles: ['finanzas'] },
     ]},
   ]}
 ];
