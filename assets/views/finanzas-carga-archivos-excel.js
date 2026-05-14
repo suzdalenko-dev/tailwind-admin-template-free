@@ -6,6 +6,7 @@ function finanzasCargaArchivosExcelInit(){
     loadFCAE();
 }
 
+
 function loadFCAE(){
     const tbody = document.getElementById('tableFCAE');
     tbody.innerHTML = '<tr><td colspan="5" class="border px-2 py-2 text-center">Cargando..</td></tr>';
@@ -45,33 +46,42 @@ function loadTemplateFCAE(){
         input.type = 'file';
         input.id = 'inputExcel';
         input.accept = '.xlsx';
+        input.multiple = true;
         input.style.display = 'none';
         input.addEventListener('change', onPlantillaExcelFile);
         document.body.appendChild(input);
     }
 
     const input = document.getElementById('inputExcel');
-    if(!input) return;
     input.value = '';
     input.click();
 }
 
 
 function onPlantillaExcelFile(e){
-    const file = e.target.files[0];
-    if(!file) return;
-    const fileName = (file.name || '').toLowerCase().trim();
-    if(!fileName.endsWith('.xlsx')){ // && !fileName.endsWith('.xls')
-        alert('El archivo seleccionado no es un Excel válido .xlsx');
-        e.target.value = '';
-        return;
+    const files = Array.from(e.target.files || []);
+
+    if(!files.length) return;
+
+    for(const file of files){
+        const fileName = (file.name || '').toLowerCase().trim();
+
+        if(!fileName.endsWith('.xlsx')){
+            alert('El archivo seleccionado no es un Excel válido .xlsx: ' + file.name);
+            e.target.value = '';
+            return;
+        }
     }
-    uploadExcelFile(file);
+
+    uploadExcelFiles(files);
 }
 
-function uploadExcelFile(file){
+function uploadExcelFiles(files){
     let formData = new FormData();
-    formData.append('file', file);
+
+    files.forEach(file => {
+        formData.append('files', file);
+    });
 
     fetch(HTTP_HOST + 'finanzas/x/0/0/upload_excel_file/', {
         method: 'POST',
@@ -80,14 +90,14 @@ function uploadExcelFile(file){
     .then(r => r.json())
     .then(r => {
         if(r && r.data.error){ 
-            showM(r.data.error || 'Error subiendo el Excel', 'error');
-        } else if (r && r.data.res) {
-            showM('Archivo Cargado');
+            showM(r.data.error, 'error');
         } else {
-            showM('Error desconocido', 'error');
+            showM('Archivos cargados: ' + (r.data.total_ok || 0));
         }
+
         loadFCAE();
-    }).catch(e => {
+    })
+    .catch(e => {
         loadFCAE();
         showM(e, 'error');
     });
