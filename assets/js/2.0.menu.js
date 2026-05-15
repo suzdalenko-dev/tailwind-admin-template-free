@@ -117,7 +117,7 @@ let menuData = [
       { title: 'Informe Ventas', icon: '', submenu: null , view: 'power-bi?name=logistica-informe-ventas-general', roles: ['abellogistica;'] },
     ]},
 
-    { title: 'Administración', icon: '', roles: ['finanzas;'], submenu: [
+    { title: 'Finanzas', icon: '', roles: ['finanzas;'], submenu: [
       { title: 'Cuadro de Mando', icon: '', submenu: null , view: 'power-bi?name=cuadro-de-mando-financiero', roles: ['finanzas'] },
     ]},
   ]}
