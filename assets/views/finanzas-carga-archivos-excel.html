@@ -4,8 +4,27 @@
     <span></span>
 </div>
 
-<div class="flex flex-col gap-2 text-sm w-full">
-    <div>
+
+<!-- CONTENEDOR PRINCIPAL EN 2 COLUMNAS -->
+<div class="w-full flex gap-8 items-start text-sm">
+    <!-- COLUMNA 2: DESCRIPCIÓN -->
+    <div class="w-[420px] border rounded p-3 bg-gray-50">
+        <div class="font-bold mb-2">
+            Ejemplo de nombres de archivos para la subida manual:
+        </div>
+
+        <div class="font-mono leading-6">
+            Q1002 26-01.xlsx<br>
+            Q1002 26-02.xlsx<br>
+            Q1006 26-01.xlsx<br>
+            Q1008 26-01.xlsx<br>
+            Q1011 26-01.xlsx<br>
+            Q1011 26-02.xlsx
+        </div>
+    </div>
+
+    <!-- COLUMNA 1: TABLA -->
+    <div class="w-auto">
         <table>
             <thead>
                 <tr class="twcolor">
@@ -16,15 +35,20 @@
                     <th class="topRight px-2">Q1011</th>
                 </tr>
             </thead>
+
             <tbody id="tableFCAE">
                 <tr>
                     <td class="border px-2 py-1 text-left">2026-03-24 09:02:21</td>
                     <td class="border px-2 py-1 text-left">Plantilla de ejemplo BORRAR</td>
-                    <td class="border px-2 py-1 text-center hovered"><span onclick="clickDownloadCIPE(38)">⬇️</span> </td>
-                    <td class="border px-2 py-1 text-center hovered"><span onclick="clickLineTemplate(38, 'delete', 'Plantilla de ejemplo BORRAR')">🗑️</span></td>
+                    <td class="border px-2 py-1 text-center hovered">
+                        <span onclick="clickDownloadCIPE(38)">⬇️</span>
+                    </td>
+                    <td class="border px-2 py-1 text-center hovered">
+                        <span onclick="clickLineTemplate(38, 'delete', 'Plantilla de ejemplo BORRAR')">🗑️</span>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
-</div>
 
+</div>
