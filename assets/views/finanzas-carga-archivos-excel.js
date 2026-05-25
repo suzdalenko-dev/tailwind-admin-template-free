@@ -1,11 +1,19 @@
 function finanzasCargaArchivosExcelInit(){
     document.getElementById('slugTitle').innerHTML = `<span class="b-links" onclick="loadTemplateFCAE()">➕ Cargar Excel</span>
-                                                      <span class="b-links" onclick="procesarArchivosFCAE()">⚙️ Procesar</span>`;
+                                                      <span class="b-links" onclick="procesarArchivosFCAE()">⚙️ Procesar</span>
+                                                      <span class="b-links" onclick="executarExtraccionExcel()">⚡ Ejecutar extracción hoy</span>`
+                                                      ;
     document.title = 'Listado de archivos Excel para el dashboard financiero';
 
     loadFCAE();
 }
 
+function executarExtraccionExcel(){
+    fetch(HTTP_HOST + 'finanzas/get/0/0/config_excel_extraction/').then(r => r.json()).then(r => {});
+    setTimeout(() => {
+        showM('Hoy se ejecutara el proceso de extraccion de archivos Excel de Libra');
+    }, 1100)
+}
 
 function loadFCAE(){
     const tbody = document.getElementById('tableFCAE');

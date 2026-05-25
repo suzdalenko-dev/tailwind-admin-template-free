@@ -54,3 +54,15 @@ Medidas dinámicas = {
 
 tengo MTD - Importe Neto ajustado = SUM(V_BI_VENTAS[IMPORTE_NETO_LIN_AJUS_FF])
 PALETS_PEDIDO_UNA_LINEA = SUM(V_BI_VENTAS[PALETS_PEDIDO_UNA_LINEA])
+
+
+
+familia     016 verdura 
+subfamilia  043 verdura
+
+#   nombre común la palabra romanesco
+#   415 AJETES
+#   430 ROMANESCO
+
+1. comparo desde Q1006 desde enero hasta enero
+   el segungo no selecciono desde solo hasta enero
