@@ -24,7 +24,7 @@ let menuData = [
     ]},
     { title: 'F. Archivos', icon: '🖥️', submenu: null , view: 'finanzas-carga-archivos-excel', roles: ['finanzas'] },
   ]},
-  { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;mantenimiento;zzircon;'], submenu: [
+  { title: 'Producción', icon: '🏭', roles: ['produccion;finanzas;produccion20;compras;compras20;calidad;produccion30;ventas;mantenimiento;zzircon;sawatco;'], submenu: [
     { title: 'Costes Art.', icon: '🧮', submenu: null , view: 'proyeccion-costes-con-contenedor', roles: ['produccion;produccion20;ventas;']},
     { title: 'Equiv. C/C',  icon: '♻️', submenu: null , view: 'equivalentes-con-contenedor', roles: ['produccion;produccion20;']},
     { title: 'Entradas',    icon: '🚢', submenu: null , view: 'entradas-con-sin-contenedor-calculo-precio-stock', roles: ['produccion;produccion20;']},
