@@ -12,9 +12,11 @@ function suzdalenkoGet(url, callback) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json();
-  }).then(callback)
-  .catch(error => {
-    showM('Error POST REQUEST API '+ error, 'error');
+  }).then(callback).catch(error => {
+    if (typeof window.hideLoader === 'function') {
+      window.hideLoader();
+    }
+    showM('Error GET en el proceso '+ error, 'error');
   });
 }
 
@@ -27,9 +29,11 @@ function suzdalenkoPost(url, objectValues = {}, callback) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json();
-  }).then(callback)
-    .catch(error => {
-      alert('Error GET REQUEST API ' + error);
+  }).then(callback).catch(error => {
+      if (typeof window.hideLoader === 'function') {
+        window.hideLoader();
+      }
+      alert('Error POST en el proceso ' + error);
   });
 }
 

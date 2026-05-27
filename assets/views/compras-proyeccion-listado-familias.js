@@ -10,15 +10,21 @@ function comprasProyeccionListadoFamiliasInit(){
 function addFamiliaCPLF(){
     let familyName = prompt('Añadir Familia \n Indique el nombre de la familia');
     if(familyName){
-        suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'crear-familia', 'entity':'familia', 'name': familyName.toUpperCase(), 'familia_id': 0, 'id': 0}, (res) => { getFamiliasArticulosCPLF(); });
+        showLoader('Creando Familia '+ familyName);
+        suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'crear-familia', 'entity':'familia', 'name': familyName.toUpperCase(), 'familia_id': 0, 'id': 0}, (res) => { 
+            getFamiliasArticulosCPLF(); 
+            hideLoader();
+        });
     }
 }
 
 function openFormNewArtCPLF(famId, famName){
     let artCode = prompt(`Añadir artículo a la familia ${famName} [${famId}] \n Inserte código artículo Libra`);
     if(artCode){
+        showLoader('Creando proyección para artículo '+ artCode);
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'familia-add-articulo', 'entity':'articulo', 'name': '', 'familia_id': famId, 'id': artCode}, (res) => { 
-            getFamiliasArticulosCPLF(); 
+            getFamiliasArticulosCPLF();
+            hideLoader();
         });
     }
 }
@@ -37,7 +43,6 @@ function getFamiliasArticulosCPLF(){
             let htmlFam = '';
             r.data.familias.map(fam => {
                 htmlFam += `<tr>
-
                                 <td class="border px-2 py-1 text-left hovered" onclick="openTableViewCPLF(${fam.id})">🔗 ${fam.descripcion}</td>
                                 <td class="border px-2 py-1 text-center hovered" onclick="famCPLFPress(${fam.id}, '${fam.descripcion}')">✏️ </td>
                                 <td class="border px-2 py-1 text-center hovered" onclick="openFormNewArtCPLF(${fam.id}, '${fam.descripcion}')">➕ </td>
@@ -84,8 +89,10 @@ function getFamiliasArticulosCPLF(){
 function deleteEquivCPLF(lineId, eqDescr, eqCode, codigo){
     let deleteThis = confirm(`Eliminar equivalente \n ${eqDescr} [${eqCode}]`);
     if(deleteThis){
+        showLoader('Borrando equivalente');
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'delete-equivalente', 'entity':'articulo', 'name': '', 'familia_id': 0, 'id': lineId}, (res) => { 
             getFamiliasArticulosCPLF();
+            hideLoader();
         });
     }
 }
@@ -93,8 +100,10 @@ function deleteEquivCPLF(lineId, eqDescr, eqCode, codigo){
 function addEquivalenteCPLF(familia_descripcion, familia_id, articulo_id, codigo){
     let equivalentCode = prompt(`Añadir artículo equivalente para familia ${familia_descripcion} \n [${codigo}] \n Inserte código artículo Libra`);
     if(equivalentCode){
+        showLoader('Añadir artículo equivalente '+equivalentCode);
         suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'creacion-equivalente', 'entity':'articulo', 'name': equivalentCode, 'familia_id': familia_id, 'id': articulo_id}, (res) => { 
             getFamiliasArticulosCPLF();
+            hideLoader();
         });
     }
 }
@@ -102,13 +111,21 @@ function addEquivalenteCPLF(familia_descripcion, familia_id, articulo_id, codigo
 function famCPLFPress(famId, famDesc){
     let name = prompt('Editar nombre familia '+famDesc, famDesc);
     if(!name) return;
-    suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'update', 'entity':'familia', 'name': name.toUpperCase(), 'familia_id': famId, 'id': 0}, (res) => { getFamiliasArticulosCPLF(); });
+    showLoader('Modificando nombre de la familia');
+    suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'update', 'entity':'familia', 'name': name.toUpperCase(), 'familia_id': famId, 'id': 0}, (res) => { 
+        getFamiliasArticulosCPLF(); 
+        hideLoader();
+    });
 }
 
 function deleteArtCPLF(fam_id, art_id, art_code){
-    let confirm_delete = confirm(`Eliminar Artículo del cálculo de stock \n [${art_code}]`);
+    let confirm_delete = confirm(`Eliminar proyección para Artículo \n [${art_code}]`);
     if(confirm_delete){
-        suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'borrar_articulo', 'entity':'articulo', 'name': '', 'familia_id': fam_id, 'id': art_id}, (res) => { getFamiliasArticulosCPLF(); });
+        showLoader('Eliminando proyección para el artículo '+art_code);
+        suzdalenkoPost('compras/put/0/0/save_entity_proyeccion/', {'action': 'borrar_articulo', 'entity':'articulo', 'name': '', 'familia_id': fam_id, 'id': art_id}, (res) => { 
+            getFamiliasArticulosCPLF(); 
+            hideLoader();
+        });
     }
 }
 

@@ -52,7 +52,7 @@ function labelDesdeUnoHastaHoy(fecha = new Date()) {
   if (dia <= 1) return "1";
   return `1-${dia - 1}`;
 }
-
+ 
 function labelDesdeHoyHastaFinMes(fecha = new Date()) {
   const d = (fecha instanceof Date) ? fecha : new Date(fecha);
   const dia = d.getDate();
