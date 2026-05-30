@@ -1,3 +1,7 @@
+/* 
+  Esto es la crecion y inseccion de la tabla de historicos
+  La cambiare por la creacion de EXCEL
+*/
 function buildHistoricosTable(payload) {
   const d = payload?.data;
   if (!d) return `<div class="p-2 border">No hay datos</div>`;
@@ -65,7 +69,7 @@ function buildHistoricosTable(payload) {
     { name: "Entrada",   key: "entrada",           cls: "input-ca" },
     { name: "Stock",     key: "stock",             cls: "" },
     { separator: true },
-    { name: "Entr. R",   key: "entra_real_tramo",  cls: "color_grey" },
+    { name: "Entr. Pend",   key: "entrada_pendiente",  cls: "color_grey" },
     { name: "Stock R",   key: "stock_real_tramo",  cls: "color_grey" },
   ];
 

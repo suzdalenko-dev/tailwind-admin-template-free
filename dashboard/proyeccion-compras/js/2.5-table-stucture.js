@@ -26,14 +26,18 @@ let topBottomTable = `</tbody>
 
 
 function restablecerButton(famId, artId){
-    return `<div class="boton_restablecer">
-                <span class="btn-reset hovered" onclick="restablecerTablaCA(${famId}, ${artId})">↩️ Restablecer</span>
+    return `<div>
+                <span class="btn-reset hovered" onclick="ActualizarTablaCA(${famId}, ${artId})">🔃</span
                 <br><br>
-                <span>
-                    <span class="btn-reset hovered" onclick="historicoTablaCA(${famId}, ${artId})">📜 Histórico desde año</span>
-                    <span><input type="date" id="input_historico_${famId}_${artId}" onchange="cambioInputHistoricoDesde(event, ${famId}, ${artId})" value="${primerDiaDelAnioEnCurso()}" /></span>
-                </span>
             </div>`;
+    /* 
+        <span class="btn-reset hovered" onclick="restablecerTablaCA(${famId}, ${artId})">↩️ Restablecer</span>
+        <span>
+            <span class="btn-reset hovered" onclick="historicoTablaCA(${famId}, ${artId})">📜 Histórico desde año</span>
+            <span><input type="date" id="input_historico_${famId}_${artId}" onchange="cambioInputHistoricoDesde(event, ${famId}, ${artId})" value="${primerDiaDelAnioEnCurso()}" /></span>
+        </span>
+
+    */
 }
 
 
@@ -67,9 +71,3 @@ function prepareAcumulado(artId){
                             </table>
             </div>`;
 }
-
-
-/*
-{"id": 21, "items": ["40158"], "stock_actual": [{"CODIGO_ARTICULO": "40158", "DESCRIP_COMERCIAL": "FILETE PANGA 170/220 INTERF. 0% 1x5", "STOCK": 9975.0}], "stock_bloque_total": 9975.0}
-
-*/

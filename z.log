@@ -1,7 +1,7 @@
-Q1011 D13
-
-
-Q1011 C13
-
-
-Q1011 I13
+que tablas estan en uso:
+    Proyeccion_Familia              compras_proyeccion_familia
+    Proyeccion_Articulo             compras_proyeccion_articulo
+    Proyeccion_Articulo_Equival     compras_proyeccion_articulo_equival
+    
+    Proyeccion_Periodo              compras_proyeccion_periodo
+    Proyeccion_Metrica              compras_proyeccion_metrica

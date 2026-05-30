@@ -12,9 +12,11 @@
 <body>
     <nav id="nav_fam"></nav>
     <div class="title">
-        <h1>Proyección de stock y necesidades futuras de compra</h1>
+        Proyección de stock y necesidades futuras de compra
+        <span class=" hovered" onclick="ActualizarTablaCAFAM()">🔃</span>
     </div>
     <main id="tables_content"></main>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <div class="title">
         <p><strong>Observaciones:</strong></p>
         <p><strong>Previsto:</strong> consumo previsto modificable.</p>
@@ -23,8 +25,9 @@
         <p><strong>Entrada:</strong> entradas previstas desde pedidos o contenedores. Fondo blanco: entrada con contenedor. Fondo amarillo: entrada sin contenedor. Borde azul: entrada modificada manualmente.</p>
         <p><strong>Stock:</strong> STOCK = STOCK - (previsto - consumo real)</p>
     </div>
+    <br><br><br>
     
-
+    <script src="/assets/js/8.loader.js"></script>
     <script src="/dashboard/proyeccion-compras/js/0.1-functions.js"></script>
     <script src="/assets/js/0.config.js"></script>
     <script src="/assets/js/5.functions.js"></script>
@@ -35,7 +38,7 @@
     <script src="/dashboard/proyeccion-compras/js/2.5-table-stucture.js"></script>
     <script src="/dashboard/proyeccion-compras/js/2.6-table-stucture-fact.js"></script>
     <script src="/dashboard/proyeccion-compras/js/3.0-tabla-top.js"></script>
-    <script src="/assets/js/8.loader.js"></script>
+    
 
 </body>
 </html>

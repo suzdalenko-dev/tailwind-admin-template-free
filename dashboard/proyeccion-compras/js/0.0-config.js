@@ -45,6 +45,19 @@ function pressInputEdit(event, id, tipo, familia_id, article_code){
     }
 }
 
+function entradaManualClickDerecho(event, lineId){
+    event.preventDefault();
+    let cambios = new FormData();
+        cambios.append('tipo', 'line-change-red-color');
+        cambios.append('id', lineId);
+    fetch(HTTP_HOST + 'compras/put/0/0/editar_tabla_jj/', {method: 'POST', body: cambios}).then(res => res.json()).then(r => {
+                pintarMenuGlobal();
+                setTablesGlobal();
+    }).catch(err => {
+                showM(err, 'error');
+    });
+}
+
 
 function labelDesdeUnoHastaHoy(fecha = new Date()) {
   const d = (fecha instanceof Date) ? fecha : new Date(fecha);
@@ -74,13 +87,32 @@ function restablecerTablaCA(familia_id, id){
     });
 }
 
-function colorBlueFun(x){
-    if (x == 1) return 'blue_col';
-    else return '';
+
+function ActualizarTablaCA(familia_id, id){
+    let data = {familia_id, id, 'tipo': 'actualizar-stock-venta-entrada'};
+    showLoader('Actualizar cantidad de venta/entrada');
+    suzdalenkoPost('compras/put/0/0/editar_tabla_jj/',  data, r => {
+        pintarMenuGlobal();
+        setTablesGlobal();
+        hideLoader();
+    });
 }
 
-function colorYellow(x){
-    if(x == 2)return 'yellow_kat';
+function ActualizarTablaCAFAM(){
+    let familia_id = FAMILIA_ID;
+    let id         = '';
+    let data = {familia_id, id, 'tipo': 'actualizar-global-familia'};
+    showLoader('Actualizar cantidad de venta/entrada');
+    suzdalenkoPost('compras/put/0/0/editar_tabla_jj/',  data, r => {
+        pintarMenuGlobal();
+        setTablesGlobal();
+        hideLoader();
+    });
+}
+
+function colorBlackBlueRedFun(x){
+    if (x == 1) return 'blue_col';
+    if (x == 3) return 'red_col';
     else return '';
 }
 
@@ -125,6 +157,7 @@ async function pushAcumuladosContent(familia_id, article_id){
 
 
 
+
 function disabledSegundaQuincena(fechaStr = null) {
     return '';
     const d = fechaStr ? new Date(fechaStr + 'T00:00:00') : new Date();
@@ -153,7 +186,6 @@ function fetchHistoricoDatos(fecha_desde, familia_id, article_id){
         let id = `historico_table_${familia_id}_${article_id}`;
         let divElement = document.getElementById(id);
 
-        
 
     suzdalenkoGet(`compras/put/0/0/fetch_datos_historicos/?fecha_desde=${fecha_desde}&familia_id=${familia_id}&article_id=${article_id}`, (res) => {
         if(res && res.data && res.data.metricas && res.data.metricas.length > 0){
